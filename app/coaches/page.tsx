@@ -1,64 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
-
-const coaches = [
-  {
-    id: 1,
-    name: "Coach Roberto Tan",
-    specialty: "Sprint Coach",
-    club: "Manila Speed Club",
-    experience: "25 years",
-    location: "Manila",
-    badges: ["National Team Coach"],
-    href: "/coaches/1",
-  },
-  {
-    id: 2,
-    name: "Coach Maria Gonzales",
-    specialty: "Distance Running Specialist",
-    club: "Cebu Distance Runners",
-    experience: "18 years",
-    location: "Cebu City",
-    href: "/coaches/2",
-  },
-  {
-    id: 3,
-    name: "Coach Antonio Reyes",
-    specialty: "Field Events Coach",
-    club: "Davao Athletics",
-    experience: "15 years",
-    location: "Davao City",
-    href: "/coaches/3",
-  },
-  {
-    id: 4,
-    name: "Coach Emmanuel Cruz",
-    specialty: "Sprint Specialist",
-    club: "Quezon City Sprinters",
-    experience: "22 years",
-    location: "Quezon City",
-    href: "/coaches/4",
-  },
-  {
-    id: 5,
-    name: "Coach Lisa Santos",
-    specialty: "Jumps & Throws Coach",
-    club: "Iloilo Track Club",
-    experience: "12 years",
-    location: "Iloilo City",
-    href: "/coaches/5",
-  },
-  {
-    id: 6,
-    name: "Coach Pedro Villalobos",
-    specialty: "Head Coach",
-    club: "Philippine National Team",
-    experience: "30 years",
-    location: "Pasig",
-    badges: ["National Team Coach"],
-    href: "/coaches/6",
-  },
-]
+import { coaches } from "@/lib/data/coaches"
 
 export default function CoachesPage() {
   return (
@@ -80,7 +22,7 @@ export default function CoachesPage() {
               location={coach.location}
               details={[`Club: ${coach.club}`, `Experience: ${coach.experience}`]}
               badges={coach.badges}
-              href={coach.href}
+              href={`/coaches/${coach.slug ?? coach.id}`}
               type="coach"
             />
           ))}

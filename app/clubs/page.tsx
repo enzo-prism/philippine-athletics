@@ -1,62 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
-
-const clubs = [
-  {
-    id: 1,
-    name: "Manila Speed Club",
-    focus: "Sprint Training",
-    location: "Manila",
-    founded: "2008",
-    spots: "6 spots open",
-    href: "/clubs/1",
-  },
-  {
-    id: 2,
-    name: "Cebu Distance Runners",
-    focus: "Long Distance Running",
-    location: "Cebu City",
-    founded: "2010",
-    spots: "4 spots open",
-    href: "/clubs/2",
-  },
-  {
-    id: 3,
-    name: "Davao Athletics",
-    focus: "Field Events",
-    location: "Davao City",
-    founded: "2012",
-    spots: "8 spots open",
-    href: "/clubs/3",
-  },
-  {
-    id: 4,
-    name: "Quezon City Sprinters",
-    focus: "Sprint & Relay",
-    location: "Quezon City",
-    founded: "2015",
-    spots: "5 spots open",
-    href: "/clubs/4",
-  },
-  {
-    id: 5,
-    name: "Iloilo Track Club",
-    focus: "Multi-Event Training",
-    location: "Iloilo City",
-    founded: "2011",
-    spots: "3 spots open",
-    href: "/clubs/5",
-  },
-  {
-    id: 6,
-    name: "Laguna Athletics Academy",
-    focus: "Youth Development",
-    location: "Laguna (Sta. Rosa)",
-    founded: "2013",
-    spots: "10 spots open",
-    href: "/clubs/6",
-  },
-]
+import { clubs } from "@/lib/data/clubs"
 
 export default function ClubsPage() {
   return (
@@ -74,10 +18,10 @@ export default function ClubsPage() {
             <ProfileCard
               key={club.id}
               name={club.name}
-              subtitle={club.focus}
+              subtitle=""
               location={club.location}
-              details={[`Founded: ${club.founded}`, `Athlete Spots: ${club.spots}`]}
-              href={club.href}
+              details={[`Athlete Spots: ${club.spots}`]}
+              href={`/clubs/${club.slug ?? club.id}`}
               type="club"
             />
           ))}

@@ -1,8 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from "react"
+import { CheckCircle2, MapPin, Medal, ShieldCheck, User } from "lucide-react"
 import { Navigation } from "@/components/navigation"
-import { CalendarRange, CheckCircle2, MapPin, Medal, PencilLine, ShieldCheck, User } from "lucide-react"
 
 type ProfileType = "athlete" | "coach" | "club-owner" | "viewer" | "sponsor" | "admin"
 
@@ -26,8 +26,8 @@ const profileByType: Record<ProfileType, Profile> = {
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Quezon City",
-    headline: "400m / 200m sprinter, Manila Speed Club",
-    tags: ["Athlete", "Relay Pool", "Club: Manila Speed Club"],
+    headline: "",
+    tags: ["Athlete", "Club: Manila Speed Club"],
     stats: [
       { label: "Personal Best", value: "52.60s (400m)" },
       { label: "Season Best", value: "52.90s (400m)" },
@@ -41,14 +41,14 @@ const profileByType: Record<ProfileType, Profile> = {
       "National Champion 2024 (400m)",
       "Indoor 400m National Record Holder",
     ],
-    preferences: ["Relay camps", "Indoor meets", "Strength & conditioning support"],
+    preferences: [],
   },
   coach: {
     roleLabel: "Coach",
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Manila",
-    headline: "Sprint coach — acceleration mechanics and relay chemistry",
+    headline: "",
     tags: ["Coach", "Sprint", "National Team Pool"],
     stats: [
       { label: "Experience", value: "12 years" },
@@ -63,14 +63,14 @@ const profileByType: Record<ProfileType, Profile> = {
       "SEA Games relay finalist coach",
       "Sprint development program lead",
     ],
-    preferences: ["Relay projects", "Block starts", "Video analysis"],
+    preferences: [],
   },
   "club-owner": {
     roleLabel: "Club Owner",
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Taguig (BGC)",
-    headline: "Owner — BGC Track Collective",
+    headline: "",
     tags: ["Club Owner", "Admin", "Sprint & Relay"],
     stats: [
       { label: "Members", value: "42 athletes" },
@@ -80,14 +80,14 @@ const profileByType: Record<ProfileType, Profile> = {
     ],
     availability: "Reviewing new athlete applications; priority to 200/400m and relays.",
     achievements: ["4×400m relay national qualifier", "Hosted 6 club meets", "Partnered with local S&C facility"],
-    preferences: ["Sprint squads", "Relay depth", "Youth pipeline"],
+    preferences: [],
   },
   viewer: {
     roleLabel: "Viewer",
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Quezon City",
-    headline: "Following athletes, coaches, and clubs across PH",
+    headline: "",
     tags: ["Viewer", "Fan"],
     stats: [
       { label: "Following", value: "24 profiles" },
@@ -95,14 +95,14 @@ const profileByType: Record<ProfileType, Profile> = {
     ],
     availability: "Notifications enabled; ready to bookmark upcoming meets.",
     achievements: ["Saved favorite athletes", "Subscribed to meet alerts"],
-    preferences: ["Meet updates", "Highlights", "New PB alerts"],
+    preferences: [],
   },
   sponsor: {
     roleLabel: "Sponsor",
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Makati",
-    headline: "Brand partnerships for elite athletes and clubs",
+    headline: "",
     tags: ["Sponsor", "Partnerships", "Brand"],
     stats: [
       { label: "Active deals", value: "6" },
@@ -111,14 +111,14 @@ const profileByType: Record<ProfileType, Profile> = {
     ],
     availability: "Evaluating sponsorships for national-level athletes and relay pools.",
     achievements: ["Backed SEA Games medalists", "Funded 3 training camps", "Gear sponsorships delivered on time"],
-    preferences: ["Media-ready athletes", "Relays", "Youth pipeline visibility"],
+    preferences: [],
   },
   admin: {
     roleLabel: "Admin",
     name: "Alex Navarro",
     email: "alex.navarro@example.com",
     location: "Manila",
-    headline: "Platform admin — manage profiles, content, and approvals",
+    headline: "",
     tags: ["Admin", "Moderation", "Analytics"],
     stats: [
       { label: "Profiles managed", value: "640" },
@@ -127,7 +127,7 @@ const profileByType: Record<ProfileType, Profile> = {
     ],
     availability: "Monitoring verifications and content approvals.",
     achievements: ["Launched profile verification flow", "Reduced approval time by 30%"],
-    preferences: ["Clean data", "Verified profiles", "Fast approvals"],
+    preferences: [],
   },
 }
 
@@ -140,6 +140,13 @@ const roleOptions: { value: ProfileType; label: string }[] = [
   { value: "admin", label: "Admin" },
 ]
 
+const settingTabs = [
+  { value: "overview", label: "Overview" },
+  { value: "account", label: "Account Settings" },
+  { value: "notifications", label: "Notifications" },
+  { value: "privacy", label: "Privacy" },
+]
+
 const StatCard = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
   <div className="p-4 rounded-lg border border-border bg-card">
     <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">{label}</p>
@@ -150,185 +157,509 @@ const StatCard = ({ label, value, hint }: { label: string; value: string; hint?:
 
 export default function ProfilePage() {
   const [selectedRole, setSelectedRole] = useState<ProfileType>("athlete")
+  const [selectedTab, setSelectedTab] = useState<string>("overview")
   const profile = useMemo(() => profileByType[selectedRole], [selectedRole])
+
+  // Account form state
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [location, setLocation] = useState("")
+  const [club, setClub] = useState("")
+  const [eventsForm, setEventsForm] = useState<{ event: string; pb: string; national: string; asian: string; global: string }[]>([])
+  const [pastComps, setPastComps] = useState<string[]>([])
+  const [upcomingComps, setUpcomingComps] = useState<string[]>([])
+  const [sponsors, setSponsors] = useState<string[]>([])
+  const [coaches, setCoaches] = useState<string[]>([])
+  const [messaging, setMessaging] = useState<{ channel: string; value: string }[]>([
+    { channel: "Email", value: "" },
+    { channel: "Text", value: "" },
+    { channel: "WhatsApp", value: "" },
+    { channel: "Instagram", value: "" },
+    { channel: "Facebook", value: "" },
+    { channel: "LinkedIn", value: "" },
+  ])
+
+  // Reset form when role/profile changes
+  useEffect(() => {
+    const [fn = "", ...restName] = profile.name.split(" ")
+    setFirstName(fn)
+    setLastName(restName.join(" "))
+    setLocation(profile.location || "")
+    setClub(selectedRole === "athlete" ? "Manila Speed Club" : selectedRole === "coach" ? "Cebu Distance Runners" : "")
+    setEventsForm(
+      (profile.events || [""]).map((evt) => ({
+        event: evt,
+        pb: "",
+        national: "",
+        asian: "",
+        global: "",
+      })),
+    )
+    setPastComps(profile.achievements || [])
+    setUpcomingComps(profile.preferences || [])
+    setSponsors(["SprintLab", "HydraFuel", "StridePT"].slice(0, 2))
+    setCoaches(selectedRole === "athlete" ? ["Coach Roberto Tan"] : [])
+    setMessaging([
+      { channel: "Email", value: profile.email || "" },
+      { channel: "Text", value: "Text: +63..." },
+      { channel: "WhatsApp", value: "WhatsApp: +63..." },
+      { channel: "Instagram", value: "IG: @handle" },
+      { channel: "Facebook", value: "FB: facebook.com/..." },
+      { channel: "LinkedIn", value: "LinkedIn: your-url" },
+    ])
+  }, [profile, selectedRole])
+
+  const addRow = <T,>(setter: Dispatch<SetStateAction<T[]>>, empty: T) => () => setter((prev) => [...prev, empty])
+
+  const renderSettingsContent = () => {
+    switch (selectedTab) {
+      case "account":
+        return (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-foreground">Account Settings</h2>
+            <p className="text-sm text-muted-foreground">Sample edit form for key profile data (not connected to a backend).</p>
+            <form className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground uppercase">First Name</label>
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground uppercase">Last Name</label>
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground uppercase">Location</label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground uppercase">Club</label>
+                  <input
+                    type="text"
+                    value={club}
+                    onChange={(e) => setClub(e.target.value)}
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Events & Performance</label>
+                <div className="space-y-2">
+                  {eventsForm.map((row, idx) => (
+                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-5 gap-2">
+                      <input
+                        placeholder="Event"
+                        value={row.event}
+                        onChange={(e) =>
+                          setEventsForm((prev) => {
+                            const next = [...prev]
+                            next[idx] = { ...next[idx], event: e.target.value }
+                            return next
+                          })
+                        }
+                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                      <input
+                        placeholder="PB"
+                        value={row.pb}
+                        onChange={(e) =>
+                          setEventsForm((prev) => {
+                            const next = [...prev]
+                            next[idx] = { ...next[idx], pb: e.target.value }
+                            return next
+                          })
+                        }
+                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                      <input
+                        placeholder="National"
+                        value={row.national}
+                        onChange={(e) =>
+                          setEventsForm((prev) => {
+                            const next = [...prev]
+                            next[idx] = { ...next[idx], national: e.target.value }
+                            return next
+                          })
+                        }
+                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                      <input
+                        placeholder="Asian"
+                        value={row.asian}
+                        onChange={(e) =>
+                          setEventsForm((prev) => {
+                            const next = [...prev]
+                            next[idx] = { ...next[idx], asian: e.target.value }
+                            return next
+                          })
+                        }
+                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                      <input
+                        placeholder="Global"
+                        value={row.global}
+                        onChange={(e) =>
+                          setEventsForm((prev) => {
+                            const next = [...prev]
+                            next[idx] = { ...next[idx], global: e.target.value }
+                            return next
+                          })
+                        }
+                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addRow(setEventsForm, { event: "", pb: "", national: "", asian: "", global: "" })}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    Add event
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Past competitions</label>
+                <div className="space-y-2">
+                  {pastComps.map((item, idx) => (
+                    <input
+                      key={idx}
+                      value={item}
+                      onChange={(e) =>
+                        setPastComps((prev) => {
+                          const next = [...prev]
+                          next[idx] = e.target.value
+                          return next
+                        })
+                      }
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Meet — event — result"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addRow(setPastComps, "")}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    Add competition
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Upcoming competitions</label>
+                <div className="space-y-2">
+                  {upcomingComps.map((item, idx) => (
+                    <input
+                      key={idx}
+                      value={item}
+                      onChange={(e) =>
+                        setUpcomingComps((prev) => {
+                          const next = [...prev]
+                          next[idx] = e.target.value
+                          return next
+                        })
+                      }
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Meet — events — date"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addRow(setUpcomingComps, "")}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    Add upcoming
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Messaging channels</label>
+                <div className="space-y-2">
+                  {messaging.map((item, idx) => (
+                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <input
+                        value={item.channel}
+                        readOnly
+                        className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground"
+                      />
+                      <div className="sm:col-span-2">
+                        <input
+                          value={item.value}
+                          onChange={(e) =>
+                            setMessaging((prev) => {
+                              const next = [...prev]
+                              next[idx] = { ...next[idx], value: e.target.value }
+                              return next
+                            })
+                          }
+                          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                          placeholder={`${item.channel} handle/contact (optional)`}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Sponsors</label>
+                <div className="space-y-2">
+                  {sponsors.map((item, idx) => (
+                    <input
+                      key={idx}
+                      value={item}
+                      onChange={(e) =>
+                        setSponsors((prev) => {
+                          const next = [...prev]
+                          next[idx] = e.target.value
+                          return next
+                        })
+                      }
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Sponsor — category"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addRow(setSponsors, "")}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    Add sponsor
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-foreground uppercase">Coaches</label>
+                <div className="space-y-2">
+                  {coaches.map((item, idx) => (
+                    <input
+                      key={idx}
+                      value={item}
+                      onChange={(e) =>
+                        setCoaches((prev) => {
+                          const next = [...prev]
+                          next[idx] = e.target.value
+                          return next
+                        })
+                      }
+                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Coach name"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addRow(setCoaches, "")}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    Add coach
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
+              >
+                Save (sample)
+              </button>
+            </form>
+          </div>
+        )
+      case "notifications":
+        return (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-foreground">Notifications</h2>
+            <p className="text-sm text-muted-foreground">
+              Sample preferences: meet alerts, ranking updates, messages from coaches/clubs.
+            </p>
+            <ul className="list-disc list-inside text-sm text-foreground space-y-1">
+              <li>New PB / ranking alerts</li>
+              <li>Competition invites and registrations</li>
+              <li>Messages from verified coaches/clubs</li>
+            </ul>
+          </div>
+        )
+      case "privacy":
+        return (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-foreground">Privacy</h2>
+            <p className="text-sm text-muted-foreground">
+              Sample privacy controls: profile visibility, contact channels, sponsor visibility.
+            </p>
+            <ul className="list-disc list-inside text-sm text-foreground space-y-1">
+              <li>Profile visibility (public / followers / private)</li>
+              <li>Show contact channels to verified users only</li>
+              <li>Hide sponsorships or media until approved</li>
+            </ul>
+          </div>
+        )
+      case "overview":
+      default:
+        return null
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        {/* Developer toggle */}
-        <div className="p-4 border border-dashed border-border rounded-lg bg-muted/40 flex flex-wrap gap-2 items-center">
-          <p className="text-sm font-semibold text-foreground">Profile preview mode:</p>
-          <div className="flex flex-wrap gap-2">
-            {roleOptions.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setSelectedRole(opt.value)}
-                className={`px-3 py-1.5 rounded-md text-sm font-semibold transition-colors border ${
-                  selectedRole === opt.value
-                    ? "bg-accent text-accent-foreground border-accent"
-                    : "bg-card text-foreground border-border hover:bg-muted"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10 relative">
 
-        <header className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
-              <User className="w-6 h-6 text-accent" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <p className="text-xs font-semibold text-accent uppercase tracking-widest">{profile.roleLabel}</p>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                  <PencilLine className="w-3.5 h-3.5 text-accent" />
-                  Editable
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{profile.name}</h1>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                  <PencilLine className="w-3.5 h-3.5 text-accent" />
-                  Edit name
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <p>{profile.email}</p>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                  <PencilLine className="w-3.5 h-3.5 text-accent" />
-                  Edit email
-                </span>
-              </div>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground">{profile.headline}</p>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <MapPin className="w-3.5 h-3.5 text-accent" />
-              {profile.location}
-            </span>
-            {profile.tags?.map((tag) => (
-              <span key={tag} className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-                {tag}
-              </span>
-            ))}
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <PencilLine className="w-3.5 h-3.5 text-accent" />
-              Edit tags & location
-            </span>
-          </div>
-          {profile.stats && profile.stats.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {profile.stats.map((stat) => (
-                <StatCard key={stat.label} label={stat.label} value={stat.value} hint={stat.hint} />
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+          <aside className="p-4 rounded-lg border border-border bg-card h-fit space-y-3">
+            <p className="text-xs text-muted-foreground font-semibold uppercase">Settings</p>
+            <div className="space-y-2">
+              {settingTabs.map((tab) => (
+                <button
+                  key={tab.value}
+                  onClick={() => setSelectedTab(tab.value)}
+                  className={`w-full text-left px-3 py-2 rounded-md border text-sm font-semibold transition-colors ${
+                    selectedTab === tab.value
+                      ? "bg-accent text-accent-foreground border-accent"
+                      : "bg-card text-foreground border-border hover:bg-muted"
+                  }`}
+                >
+                  {tab.label}
+                </button>
               ))}
             </div>
-          ) : null}
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            {profile.events && profile.events.length ? (
-              <section className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Medal className="w-4 h-4 text-accent" />
-                  <h2 className="text-xl font-semibold text-foreground">Events / Focus</h2>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                    <PencilLine className="w-3.5 h-3.5 text-accent" />
-                    Edit events
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {profile.events.map((evt) => (
-                    <span key={evt} className="text-xs font-semibold px-2 py-1 rounded-md bg-accent/10 text-accent border border-accent/30">
-                      {evt}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            ) : null}
-
-            {profile.availability ? (
-              <section className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <CalendarRange className="w-4 h-4 text-accent" />
-                  <h2 className="text-xl font-semibold text-foreground">Availability</h2>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                    <PencilLine className="w-3.5 h-3.5 text-accent" />
-                    Edit availability
-                  </span>
-                </div>
-                <p className="p-4 rounded-lg border border-border bg-card text-sm text-foreground leading-relaxed">
-                  {profile.availability}
-                </p>
-              </section>
-            ) : null}
-
-            {profile.achievements && profile.achievements.length ? (
-              <section className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-accent" />
-                  <h2 className="text-xl font-semibold text-foreground">Highlights</h2>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full">
-                    <PencilLine className="w-3.5 h-3.5 text-accent" />
-                    Edit highlights
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  {profile.achievements.map((achievement) => (
-                    <div key={achievement} className="flex gap-3 p-3 rounded-lg border border-accent/20 bg-accent/5">
-                      <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                      <p className="text-foreground text-sm">{achievement}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ) : null}
-          </div>
-
-          <aside className="space-y-6">
-            {profile.preferences && profile.preferences.length ? (
-              <div className="p-6 rounded-lg border border-border bg-card space-y-3">
-                <p className="text-xs text-muted-foreground font-semibold uppercase">Preferences</p>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full w-fit">
-                  <PencilLine className="w-3.5 h-3.5 text-accent" />
-                  Edit preferences
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {profile.preferences.map((pref) => (
-                    <span key={pref} className="text-xs font-semibold px-2 py-1 rounded-md bg-white text-accent border border-accent/30">
-                      {pref}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-2">
-              <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
-              <p className="text-sm text-foreground">{profile.email}</p>
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-2 py-1 rounded-full w-fit">
-                <PencilLine className="w-3.5 h-3.5 text-accent" />
-                Edit contact
-              </span>
-            </div>
-
-            {selectedRole === "admin" ? (
-              <div className="p-6 rounded-lg border border-accent/30 bg-accent/5 space-y-2">
-                <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                  <ShieldCheck className="w-4 h-4 text-accent" />
-                  Admin Controls (concept)
-                </div>
-                <p className="text-xs text-muted-foreground">View approvals, flagged content, and role management.</p>
-              </div>
-            ) : null}
           </aside>
+
+          <div className="space-y-6">
+            <header className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
+                  <User className="w-6 h-6 text-accent" />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <p className="text-xs font-semibold text-accent uppercase tracking-widest">{profile.roleLabel}</p>
+                  <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{profile.name}</h1>
+                  <p className="text-sm text-muted-foreground">{profile.email}</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">{profile.headline}</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+                  <MapPin className="w-3.5 h-3.5 text-accent" />
+                  {profile.location}
+                </span>
+                {profile.tags?.map((tag) => (
+                  <span key={tag} className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {profile.stats && profile.stats.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {profile.stats.map((stat) => (
+                    <StatCard key={stat.label} label={stat.label} value={stat.value} hint={stat.hint} />
+                  ))}
+                </div>
+              ) : null}
+            </header>
+
+            {selectedTab === "overview" ? (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 space-y-8">
+                  {profile.events && profile.events.length ? (
+                    <section className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Medal className="w-4 h-4 text-accent" />
+                        <h2 className="text-xl font-semibold text-foreground">Events</h2>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {profile.events.map((evt) => (
+                          <span key={evt} className="text-xs font-semibold px-2 py-1 rounded-md bg-accent/10 text-accent border border-accent/30">
+                            {evt}
+                          </span>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {profile.achievements && profile.achievements.length ? (
+                    <section className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-accent" />
+                        <h2 className="text-xl font-semibold text-foreground">Highlights</h2>
+                      </div>
+                      <div className="space-y-2">
+                        {profile.achievements.map((achievement) => (
+                          <div key={achievement} className="flex gap-3 p-3 rounded-lg border border-accent/20 bg-accent/5">
+                            <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
+                            <p className="text-foreground text-sm">{achievement}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+                </div>
+
+                <aside className="space-y-6">
+                  <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-2">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
+                    <p className="text-sm text-foreground">{profile.email}</p>
+                  </div>
+
+                  {selectedRole === "admin" ? (
+                    <div className="p-6 rounded-lg border border-accent/30 bg-accent/5 space-y-2">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                        <ShieldCheck className="w-4 h-4 text-accent" />
+                        Admin Controls (concept)
+                      </div>
+                      <p className="text-xs text-muted-foreground">View approvals, flagged content, and role management.</p>
+                    </div>
+                  ) : null}
+                </aside>
+              </div>
+            ) : (
+              <div className="p-6 rounded-lg border border-border bg-card">{renderSettingsContent()}</div>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Subtle preview mode toggle, anchored low and out of the flow */}
+      <div className="fixed right-4 bottom-4 flex flex-wrap gap-2 text-xs text-muted-foreground z-30">
+        <span className="px-2 py-1 rounded-md border border-dashed border-border bg-muted/60 backdrop-blur">
+          Preview mode
+        </span>
+        {roleOptions.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => setSelectedRole(opt.value)}
+            className={`px-2 py-1 rounded-md border text-xs font-semibold transition-colors shadow-sm ${
+              selectedRole === opt.value
+                ? "bg-accent text-accent-foreground border-accent"
+                : "bg-card text-foreground border-border hover:bg-muted"
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
       </div>
 
       <div className="border-t border-border mt-16">

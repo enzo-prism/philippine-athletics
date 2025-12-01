@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { User } from "lucide-react"
+import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export function Navigation() {
   return (
@@ -33,12 +33,15 @@ export function Navigation() {
             <Link href="/rankings" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
               Rankings
             </Link>
+            <Link href="/sponsors" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
+              Sponsors
+            </Link>
           </div>
           <Link
             href="/profile"
             className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
           >
-            <User className="w-4 h-4 text-accent" />
+            <Emoji symbol={emojiIcons.profile} className="text-base" label="Profile" />
             Profile
           </Link>
         </div>

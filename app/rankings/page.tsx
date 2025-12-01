@@ -1,50 +1,75 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { Suspense, useEffect, useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
-import { Trophy, MapPin, Medal, SlidersHorizontal } from "lucide-react"
+import { athleteProfiles } from "@/lib/data/athletes"
+import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { useSearchParams } from "next/navigation"
 
-const rankingData = [
-  { name: "Maria Santos", event: "400m", level: "National", club: "Manila Speed Club", location: "Taguig (BGC)", rank: "#1 PH", pb: "52.34s" },
-  { name: "Rafael Gomez", event: "100m", level: "National", club: "Quezon City Sprinters", location: "Quezon City", rank: "#3 PH", pb: "10.42s" },
-  { name: "Ana Reyes", event: "Long Jump", level: "National", club: "Davao Athletics", location: "Davao City", rank: "#1 PH", pb: "6.42m" },
-  { name: "Juan Dela Cruz", event: "5000m", level: "National", club: "Cebu Distance Runners", location: "Cebu City", rank: "#2 PH", pb: "14:28.5" },
-  { name: "Linda Villegas", event: "High Jump", level: "National", club: "Iloilo Track Club", location: "Iloilo City", rank: "#2 PH", pb: "1.84m" },
-  { name: "Carlos Mendoza", event: "1500m", level: "National", club: "Manila Distance Runners", location: "Manila", rank: "#2 PH", pb: "3:54.2" },
+type RankingEntry = {
+  name: string
+  event: string
+  level: string
+  club: string
+  location: string
+  rank: string
+  pb: string
+}
+
+const athleteRankingData: RankingEntry[] = athleteProfiles.flatMap((athlete) =>
+  athlete.events.map((evt) => ({
+    name: `${athlete.firstName} ${athlete.lastName}`,
+    event: evt.name,
+    level: "National",
+    club: athlete.club,
+    location: athlete.location,
+    rank: evt.nationalRank || "—",
+    pb: evt.personalBest,
+  })),
+)
+
+const extraRankingData: RankingEntry[] = [
   { name: "Mia Gutierrez", event: "200m", level: "College", club: "UP Track", location: "Quezon City", rank: "#1 COL", pb: "23.15s" },
   { name: "Leo Dominguez", event: "100m", level: "Highschool", club: "Parañaque Speedworks", location: "Parañaque", rank: "#1 HS", pb: "10.80s" },
 ]
 
-const eventOptions = [
-  "Select an event",
-  "100m",
-  "200m",
-  "400m",
-  "800m",
-  "1500m",
-  "5000m",
-  "10,000m",
-  "110m hurdles (men)",
-  "100m hurdles (women)",
-  "400m hurdles",
-  "3000m steeplechase",
-  "4×100m relay",
-  "4×400m relay",
-  "Long Jump",
-  "Triple Jump",
-  "High Jump",
-  "Pole Vault",
-  "Shot Put",
-  "Discus Throw",
-  "Hammer Throw",
-  "Javelin Throw",
-]
+const rankingData: RankingEntry[] = [...athleteRankingData, ...extraRankingData]
+
+const eventOptions = ["Select an event", "Sprints", "100m", "200m", "400m", "Middle Distance", "800m", "1500m", "Long Distance", "5000m", "10,000m", "Hurdles", "110m hurdles (men)", "100m hurdles (women)", "400m hurdles", "Steeplechase", "3000m steeplechase", "Relays", "4×100m relay", "4×400m relay", "Jumps", "High jump", "Pole vault", "Long jump", "Triple jump", "Throws", "Shot put", "Discus throw", "Hammer throw", "Javelin throw", "Combined Events", "Decathlon (men)", "Heptathlon (women)", "Road Events", "Marathon"]
 
 const levelOptions = ["Highschool", "College", "National"]
 
-export default function RankingsPage() {
-  const [selectedEvent, setSelectedEvent] = useState("Select an event")
-  const [selectedLevel, setSelectedLevel] = useState("National")
+const normalizeEvent = (eventParam: string | null) => {
+  if (!eventParam) return "Select an event"
+  return eventOptions.includes(eventParam) && eventParam !== "Select an event" ? eventParam : "Select an event"
+}
+
+const normalizeLevel = (levelParam: string | null) => {
+  if (!levelParam) return "National"
+  const normalized = levelParam.charAt(0).toUpperCase() + levelParam.slice(1).toLowerCase()
+  return levelOptions.includes(normalized) ? normalized : "National"
+}
+
+const normalizeHighlight = (highlightParam: string | null) => highlightParam?.trim() || ""
+
+function RankingsContent() {
+  const searchParams = useSearchParams()
+
+  const [selectedEvent, setSelectedEvent] = useState(() => normalizeEvent(searchParams.get("event")))
+  const [selectedLevel, setSelectedLevel] = useState(() => normalizeLevel(searchParams.get("level")))
+  const [highlightId, setHighlightId] = useState(() => normalizeHighlight(searchParams.get("highlight")))
+
+  useEffect(() => {
+    setSelectedEvent(normalizeEvent(searchParams.get("event")))
+    setSelectedLevel(normalizeLevel(searchParams.get("level")))
+    setHighlightId(normalizeHighlight(searchParams.get("highlight")))
+  }, [searchParams])
+
+  useEffect(() => {
+    if (!highlightId) return
+    const timer = setTimeout(() => setHighlightId(""), 2000)
+    return () => clearTimeout(timer)
+  }, [highlightId])
 
   const filtered = useMemo(() => {
     if (selectedEvent === "Select an event") return []
@@ -60,7 +85,7 @@ export default function RankingsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <header className="space-y-2">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-accent" />
+            <Emoji symbol={emojiIcons.trophy} className="text-base" aria-hidden />
             Rankings
           </p>
           <h1 className="text-4xl font-bold text-foreground">Philippine Athletics Rankings</h1>
@@ -72,7 +97,7 @@ export default function RankingsPage() {
 
         <div className="p-4 border border-border rounded-lg bg-card space-y-4">
           <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <SlidersHorizontal className="w-4 h-4 text-accent" />
+            <Emoji symbol={emojiIcons.filter} className="text-base" aria-hidden />
             Filters
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -118,28 +143,37 @@ export default function RankingsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((athlete) => (
-              <div key={athlete.name} className="p-4 rounded-lg border border-border bg-card space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
-                    <p className="text-xs text-muted-foreground">{athlete.event}</p>
+            {filtered.map((athlete) => {
+              const isHighlighted = highlightId && athlete.name.toLowerCase() === highlightId.toLowerCase()
+
+              return (
+                <div
+                  key={`${athlete.name}-${athlete.event}`}
+                  className={`p-4 rounded-lg border bg-card space-y-3 transition-colors ${
+                    isHighlighted ? "border-accent ring-2 ring-accent/30" : "border-border"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
+                      <p className="text-xs text-muted-foreground">{athlete.event}</p>
+                    </div>
+                    <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-full">
+                      {athlete.rank}
+                    </span>
                   </div>
-                  <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-full">
-                    {athlete.rank}
-                  </span>
+                  <div className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
+                    {athlete.location}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Club: {athlete.club}</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Emoji symbol={emojiIcons.medal} className="text-base" aria-hidden />
+                    <span className="font-semibold text-foreground">PB: {athlete.pb}</span>
+                  </div>
                 </div>
-                <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
-                  {athlete.location}
-                </div>
-                <p className="text-xs text-muted-foreground">Club: {athlete.club}</p>
-                <div className="flex items-center gap-2 text-sm">
-                  <Medal className="w-4 h-4 text-accent" />
-                  <span className="font-semibold text-foreground">PB: {athlete.pb}</span>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
@@ -150,5 +184,22 @@ export default function RankingsPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RankingsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background">
+          <Navigation />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-sm text-muted-foreground">
+            Loading rankings...
+          </div>
+        </div>
+      }
+    >
+      <RankingsContent />
+    </Suspense>
   )
 }

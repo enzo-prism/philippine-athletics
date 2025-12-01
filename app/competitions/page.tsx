@@ -1,93 +1,10 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import Link from "next/link"
 import { Navigation } from "@/components/navigation"
-import { ProfileCard } from "@/components/profile-card"
-import { SlidersHorizontal } from "lucide-react"
-
-const competitions = [
-  {
-    id: 1,
-    name: "2025 Southeast Asian Games",
-    type: "Regional",
-    location: "Bangkok / Chonburi / Songkhla, Thailand",
-    date: "Dec 11, 2025",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 2,
-    name: "2025 Asian Athletics Championships",
-    type: "Continental",
-    location: "Gumi, South Korea",
-    date: "May 31, 2025",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 3,
-    name: "Philippine National Championships / Selection Meets",
-    type: "National",
-    location: "Philippines (annual, e.g., ICTSI Philippine Athletics Championships 2025)",
-    date: "Mar 15, 2025",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 4,
-    name: "World Athletics Continental Tour / Invitationals",
-    type: "International",
-    location: "Various global venues",
-    date: "Apr 10, 2025",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 5,
-    name: "2026 Asian Games",
-    type: "Continental",
-    location: "Aichi-Nagoya, Japan",
-    date: "Sep 19, 2026",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 6,
-    name: "2026 World Athletics Cross Country Championships",
-    type: "World",
-    location: "Tallahassee, Florida, USA",
-    date: "Jan 10, 2026",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 7,
-    name: "2026 World Athletics Road Running Championships",
-    type: "World",
-    location: "Copenhagen, Denmark",
-    date: "Sep 19, 2026",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 8,
-    name: "2026 World Athletics Ultimate Championship (Inaugural)",
-    type: "World",
-    location: "Budapest, Hungary",
-    date: "Sep 11, 2026",
-    href: "#",
-    status: "Upcoming",
-  },
-  {
-    id: 9,
-    name: "Philippine Nationals / Domestic Circuit 2026",
-    type: "National",
-    location: "Philippines (annual season)",
-    date: "Mar 15, 2026",
-    href: "#",
-    status: "Upcoming",
-  },
-]
+import { competitions } from "@/lib/data/competitions"
+import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export default function CompetitionsPage() {
   const [statusFilter, setStatusFilter] = useState<"All" | "Upcoming" | "Past">("Upcoming")
@@ -109,7 +26,7 @@ export default function CompetitionsPage() {
 
         <div className="p-4 border border-border rounded-lg bg-card mb-6 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <SlidersHorizontal className="w-4 h-4 text-accent" />
+            <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
             Filters
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
@@ -131,11 +48,15 @@ export default function CompetitionsPage() {
 
         <div className="space-y-3">
           {filtered.map((comp) => (
-            <div key={comp.id} className="p-4 rounded-lg border border-border bg-card">
+            <Link
+              key={comp.id}
+              href={`/competitions/${comp.slug}`}
+              className="block p-4 rounded-lg border border-border bg-card hover:border-accent hover:bg-accent/5 transition-colors"
+            >
               <p className="text-sm font-semibold text-foreground">{comp.name}</p>
               <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>
-              <p className="text-xs text-muted-foreground">{comp.date}</p>
-            </div>
+              <p className="text-xs text-muted-foreground">{comp.dateLabel}</p>
+            </Link>
           ))}
         </div>
       </div>
