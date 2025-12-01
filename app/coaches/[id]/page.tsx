@@ -1,58 +1,89 @@
-import { Navigation } from "@/components/navigation"
 import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
+import { Navigation } from "@/components/navigation"
+import { CalendarRange, ChevronLeft, MapPin, Medal, Star } from "lucide-react"
 
-const coachData: Record<string, any> = {
+type CoachProfile = {
+  name: string
+  specialty: string
+  location: string
+  club: string
+  badges?: string[]
+  experience: string
+  certification: string
+  specialization: string
+  birthDate: string
+  hometown: string
+  education: string
+  language: string
+  achievements: string[]
+  athletesCoached: string[]
+  philosophy: string
+  bio: string
+  availability: string
+}
+
+const coachData: Record<string, CoachProfile> = {
   "1": {
     name: "Coach Roberto Tan",
     specialty: "Sprint Coach",
+    location: "Manila",
     club: "Manila Speed Club",
+    badges: ["National Team Coach"],
+    experience: "25 years",
+    certification: "World Athletics Level 3",
+    specialization: "Speed & technical sprint mechanics",
     birthDate: "June 10, 1965",
     hometown: "Manila",
     education: "BS Sports Science, University of the Philippines",
-    experience: "25 years",
-    certification: "IAAF Level 3 Certified Coach",
-    specialization: "Sprint Training & Technique",
+    language: "Filipino, English",
     achievements: [
       "Trained 15+ National Champions",
       "Produced 5 Olympic Athletes",
       "SEA Games Gold Medal Coach 2023",
-      "IAAF Coaching Excellence Award 2022",
+      "World Athletics Coaching Excellence Award 2022",
     ],
     athletesCoached: ["Maria Santos", "Rafael Gomez", "Carlos Mendoza"],
-    philosophy: "Focus on proper technique, strength training, and mental preparation for optimal sprint performance.",
-    language: "Filipino, English",
+    philosophy: "Sprint success requires technical precision, smart load management, and confident race execution.",
+    bio: "Head sprint coach with a focus on acceleration mechanics and repeatability. Leads sprint relays for national pool camps.",
+    availability: "Open for relay camps, private consults, and seasonal program design.",
   },
   "2": {
     name: "Coach Maria Gonzales",
     specialty: "Distance Running Specialist",
+    location: "Cebu City",
     club: "Cebu Distance Runners",
+    badges: [],
+    experience: "18 years",
+    certification: "World Athletics Level 3",
+    specialization: "Middle & long distance periodization",
     birthDate: "August 22, 1967",
     hometown: "Cebu",
     education: "BS Physical Education, Cebu Normal University",
-    experience: "18 years",
-    certification: "IAAF Level 3 Certified Coach",
-    specialization: "Middle & Long Distance Training",
+    language: "Cebuano, Filipino, English",
     achievements: [
       "Coached 2 Philippine Record Holders",
       "SEA Games Gold Medal 2023 (5000m)",
       "Asian Athletics Championships Medal Coach",
-      "Published Coach of the Year 2021",
+      "Coach of the Year 2021",
     ],
     athletesCoached: ["Juan Dela Cruz", "Carlos Mendoza"],
-    philosophy: "Believe in periodized training, altitude work, and holistic athlete development for distance success.",
-    language: "Cebuano, Filipino, English",
+    philosophy: "Holistic development: aerobic strength, race economy, nutrition, and mindset.",
+    bio: "Distance coach balancing altitude blocks with sea-level sharpening; prioritizes healthy, sustainable volume builds.",
+    availability: "Available for distance camps and virtual consults.",
   },
   "3": {
     name: "Coach Antonio Reyes",
     specialty: "Field Events Coach",
+    location: "Davao City",
     club: "Davao Athletics",
+    badges: [],
+    experience: "15 years",
+    certification: "World Athletics Level 2",
+    specialization: "Jumps & throws technique",
     birthDate: "March 5, 1970",
     hometown: "Davao",
     education: "MS Sports Coaching, De La Salle University",
-    experience: "15 years",
-    certification: "IAAF Level 2 Certified Coach",
-    specialization: "Jumps & Throws Technique",
+    language: "Bisaya, Filipino, English",
     achievements: [
       "Trained 8 National Champions in Field Events",
       "Specialized in Long Jump Development",
@@ -60,19 +91,23 @@ const coachData: Record<string, any> = {
       "Regional Coach of Excellence 2023",
     ],
     athletesCoached: ["Ana Reyes", "Linda Villegas"],
-    philosophy: "Emphasis on biomechanics, explosive power, and technical excellence in field events.",
-    language: "Bisaya, Filipino, English",
+    philosophy: "Biomechanics first: consistent approach speed, clean takeoff angles, and safe landing mechanics.",
+    bio: "Field events coach with strong focus on video analysis and progressive plyometric loading.",
+    availability: "Open for technical clinics and competition prep camps.",
   },
   "4": {
     name: "Coach Emmanuel Cruz",
     specialty: "Sprint Specialist",
+    location: "Quezon City",
     club: "Quezon City Sprinters",
+    badges: [],
+    experience: "22 years",
+    certification: "World Athletics Level 3",
+    specialization: "100m & 200m speed development",
     birthDate: "November 18, 1963",
     hometown: "Quezon City",
     education: "BS Kinesiology, Ateneo de Manila University",
-    experience: "22 years",
-    certification: "IAAF Level 3 Certified Coach",
-    specialization: "100m & 200m Sprinting",
+    language: "Filipino, English",
     achievements: [
       "Trained Philippines Fastest 100m Runner",
       "Olympic Trials Coaching 2024",
@@ -80,19 +115,23 @@ const coachData: Record<string, any> = {
       "Sprint Development Program Lead",
     ],
     athletesCoached: ["Rafael Gomez"],
-    philosophy: "Sprint success requires perfect balance of speed, power, and technical execution.",
-    language: "Filipino, English",
+    philosophy: "Speed comes from timing and rhythm; every rep should feel the same at race tempo.",
+    bio: "Sprint technician focusing on block set-up, max-velocity posture, and controlled taper plans.",
+    availability: "Open for short-term blocks and relay pool work.",
   },
   "5": {
     name: "Coach Lisa Santos",
     specialty: "Jumps & Throws Coach",
+    location: "Iloilo City",
     club: "Iloilo Track Club",
+    badges: [],
+    experience: "12 years",
+    certification: "World Athletics Level 2",
+    specialization: "High jump & technical development",
     birthDate: "February 14, 1972",
     hometown: "Iloilo",
     education: "BS Physical Education, University of San Agustin",
-    experience: "12 years",
-    certification: "IAAF Level 2 Certified Coach",
-    specialization: "High Jump & Technical Development",
+    language: "Ilocano, Filipino, English",
     achievements: [
       "Developed 5 National Junior Champions",
       "Youth Olympics Coaching Staff 2023",
@@ -100,19 +139,23 @@ const coachData: Record<string, any> = {
       "Technical Innovation in Field Events",
     ],
     athletesCoached: ["Linda Villegas"],
-    philosophy: "Young athletes need strong fundamentals and confidence building for long-term success.",
-    language: "Ilocano, Filipino, English",
+    philosophy: "Strong fundamentals, consistent cues, and confident athletes lead to long-term success.",
+    bio: "Coach focused on foundational strength and individualized technical corrections for developing jumpers.",
+    availability: "Available for youth development camps and seasonal coaching.",
   },
   "6": {
     name: "Coach Pedro Villalobos",
     specialty: "Head Coach",
+    location: "Pasig",
     club: "Philippine National Team",
+    badges: ["National Team Coach"],
+    experience: "30 years",
+    certification: "World Athletics Elite Coach",
+    specialization: "Program management & elite performance",
     birthDate: "September 8, 1960",
     hometown: "Manila",
     education: "MS Sports Management, Ateneo de Manila University",
-    experience: "30 years",
-    certification: "IAAF Elite Coach Certified",
-    specialization: "Program Management & Elite Athletics",
+    language: "Filipino, English, Spanish",
     achievements: [
       "Former Olympic Athlete (1984, 1988)",
       "National Team Head Coach since 2015",
@@ -120,10 +163,19 @@ const coachData: Record<string, any> = {
       "Asian Games Team Manager 2022",
     ],
     athletesCoached: ["Multiple National Team Athletes"],
-    philosophy: "Build a strong athletic culture through systematic training, nutrition, and mental strength.",
-    language: "Filipino, English, Spanish",
+    philosophy: "Build culture through clear systems, honest feedback, and sustainable training loads.",
+    bio: "Veteran coach overseeing national program alignment, talent ID, and staff development.",
+    availability: "Selective consults; focused on national program delivery.",
   },
 }
+
+const StatCard = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
+  <div className="p-4 rounded-lg border border-border bg-card">
+    <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">{label}</p>
+    <p className="text-xl font-bold text-foreground">{value}</p>
+    {hint ? <p className="text-xs text-muted-foreground mt-1">{hint}</p> : null}
+  </div>
+)
 
 export default function CoachProfilePage({ params }: { params: { id: string } }) {
   const coach = coachData[params.id]
@@ -143,129 +195,141 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Back Link */}
-        <Link href="/coaches" className="flex items-center gap-2 text-accent hover:text-accent/80 mb-8 w-fit">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <Link href="/coaches" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <ChevronLeft className="w-4 h-4" />
           Back to Coaches
         </Link>
 
-        {/* Profile Header */}
-        <div className="mb-12 pb-8 border-b border-border">
-          <div className="flex items-start justify-between mb-4">
+        <header className="space-y-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+              Coach
+            </span>
+            <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+              <MapPin className="w-3.5 h-3.5 text-accent" />
+              {coach.location}
+            </span>
+            {coach.badges?.map((badge) => (
+              <span key={badge} className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+                {badge}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-2">Coach Profile</p>
-              <h1 className="text-5xl font-bold text-foreground">{coach.name}</h1>
-              <p className="text-lg text-muted-foreground mt-2">{coach.specialty}</p>
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground">{coach.name}</h1>
+              <p className="text-base text-muted-foreground mt-2">{coach.specialty}</p>
+              <p className="text-sm text-muted-foreground mt-1">Club: {coach.club}</p>
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href="mailto:coaches@philippineathletics.ph"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
+              >
+                Contact
+              </Link>
+              <Link
+                href="/signup"
+                className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
+              >
+                Book Consult
+              </Link>
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Experience</p>
-              <p className="text-2xl font-bold text-accent">{coach.experience}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Specialization</p>
-              <p className="text-lg font-bold text-foreground">{coach.specialization}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Club</p>
-              <p className="text-lg font-bold text-foreground">{coach.club}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Certification</p>
-              <p className="text-sm font-bold text-foreground">{coach.certification}</p>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard label="Experience" value={coach.experience} />
+            <StatCard label="Certification" value={coach.certification} />
+            <StatCard label="Specialization" value={coach.specialization} />
+            <StatCard label="Athletes Coached" value={`${coach.athletesCoached.length}+`} />
           </div>
-        </div>
+        </header>
 
-        {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Info */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Basic Info */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Background</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Date of Birth</p>
-                  <p className="text-foreground">{coach.birthDate}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Hometown</p>
-                  <p className="text-foreground">{coach.hometown}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Education</p>
-                  <p className="text-foreground text-sm">{coach.education}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Languages</p>
-                  <p className="text-foreground text-sm">{coach.language}</p>
-                </div>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Star className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">About & Philosophy</h2>
               </div>
-            </div>
+              <div className="space-y-3">
+                <p className="p-4 rounded-lg border border-border bg-card leading-relaxed text-sm text-foreground">{coach.bio}</p>
+                <p className="p-4 rounded-lg border border-accent/30 bg-accent/5 leading-relaxed text-sm text-foreground">
+                  {coach.philosophy}
+                </p>
+              </div>
+            </section>
 
-            {/* Coaching Philosophy */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Coaching Philosophy</h2>
-              <p className="p-6 rounded-lg border border-accent/20 bg-accent/5 text-foreground leading-relaxed">
-                {coach.philosophy}
-              </p>
-            </div>
-
-            {/* Achievements */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Achievements</h2>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Medal className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">Achievements</h2>
+              </div>
               <div className="space-y-2">
-                {coach.achievements.map((achievement: string, i: number) => (
+                {coach.achievements.map((achievement, i) => (
                   <div key={i} className="flex gap-3 p-3 rounded-lg border border-accent/20 bg-accent/5">
                     <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
                     <p className="text-foreground text-sm">{achievement}</p>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
 
-          {/* Right Column - Stats */}
-          <div className="space-y-6">
-            <div className="p-6 rounded-lg border border-border">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-4">Quick Info</p>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Status</p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
-                    <span className="text-sm font-medium text-foreground">Active</span>
-                  </div>
-                </div>
-                <div className="h-px bg-border" />
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Coaching Since</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {new Date().getFullYear() - Number.parseInt(coach.experience)} years ago
-                  </p>
-                </div>
-                <div className="h-px bg-border" />
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Athletes Coached</p>
-                  <p className="text-sm font-medium text-foreground">{coach.athletesCoached.length}+</p>
-                </div>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <CalendarRange className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">Athletes Coached</h2>
               </div>
-            </div>
-
-            <div className="p-6 rounded-lg border border-accent/30 bg-accent/5">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Current Athletes</p>
-              <div className="space-y-2">
-                {coach.athletesCoached.map((athlete: string, i: number) => (
-                  <p key={i} className="text-sm text-foreground">
-                    {athlete}
-                  </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {coach.athletesCoached.map((athlete, i) => (
+                  <div key={i} className="p-3 rounded-lg border border-border bg-card">
+                    <p className="text-foreground text-sm font-medium">{athlete}</p>
+                  </div>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
+
+          <aside className="space-y-6">
+            <div className="p-6 rounded-lg border border-border bg-card space-y-4">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Profile</p>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Birth date</p>
+                  <p className="text-foreground font-medium">{coach.birthDate}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Hometown</p>
+                  <p className="text-foreground font-medium">{coach.hometown}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Education</p>
+                  <p className="text-foreground font-medium">{coach.education}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Languages</p>
+                  <p className="text-foreground font-medium">{coach.language}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-lg border border-accent/30 bg-accent/5 space-y-3">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Focus areas</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs font-semibold px-2 py-1 rounded-md bg-white text-accent border border-accent/30">
+                  {coach.specialization}
+                </span>
+                <span className="text-xs font-semibold px-2 py-1 rounded-md bg-white text-accent border border-accent/30">
+                  Program design
+                </span>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-2">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Availability</p>
+              <p className="text-sm text-foreground">{coach.availability}</p>
+            </div>
+          </aside>
         </div>
       </div>
 

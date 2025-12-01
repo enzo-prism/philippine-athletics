@@ -8,22 +8,25 @@ const clubs = [
     focus: "Sprint Training",
     location: "Manila",
     founded: "2008",
+    spots: "6 spots open",
     href: "/clubs/1",
   },
   {
     id: 2,
     name: "Cebu Distance Runners",
     focus: "Long Distance Running",
-    location: "Cebu",
+    location: "Cebu City",
     founded: "2010",
+    spots: "4 spots open",
     href: "/clubs/2",
   },
   {
     id: 3,
     name: "Davao Athletics",
     focus: "Field Events",
-    location: "Davao",
+    location: "Davao City",
     founded: "2012",
+    spots: "8 spots open",
     href: "/clubs/3",
   },
   {
@@ -32,22 +35,25 @@ const clubs = [
     focus: "Sprint & Relay",
     location: "Quezon City",
     founded: "2015",
+    spots: "5 spots open",
     href: "/clubs/4",
   },
   {
     id: 5,
     name: "Iloilo Track Club",
     focus: "Multi-Event Training",
-    location: "Iloilo",
+    location: "Iloilo City",
     founded: "2011",
+    spots: "3 spots open",
     href: "/clubs/5",
   },
   {
     id: 6,
     name: "Laguna Athletics Academy",
     focus: "Youth Development",
-    location: "Laguna",
+    location: "Laguna (Sta. Rosa)",
     founded: "2013",
+    spots: "10 spots open",
     href: "/clubs/6",
   },
 ]
@@ -69,7 +75,8 @@ export default function ClubsPage() {
               key={club.id}
               name={club.name}
               subtitle={club.focus}
-              details={[`Location: ${club.location}`, `Founded: ${club.founded}`]}
+              location={club.location}
+              details={[`Founded: ${club.founded}`, `Athlete Spots: ${club.spots}`]}
               href={club.href}
               type="club"
             />

@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build output
+.next/
+out/
+
+# Env and config
+.env*
+!.env.example
+.vercel/
+
+# Logs and cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.turbo/
+
+# Editor
+.DS_Store

@@ -8,6 +8,8 @@ const coaches = [
     specialty: "Sprint Coach",
     club: "Manila Speed Club",
     experience: "25 years",
+    location: "Manila",
+    badges: ["National Team Coach"],
     href: "/coaches/1",
   },
   {
@@ -16,6 +18,7 @@ const coaches = [
     specialty: "Distance Running Specialist",
     club: "Cebu Distance Runners",
     experience: "18 years",
+    location: "Cebu City",
     href: "/coaches/2",
   },
   {
@@ -24,6 +27,7 @@ const coaches = [
     specialty: "Field Events Coach",
     club: "Davao Athletics",
     experience: "15 years",
+    location: "Davao City",
     href: "/coaches/3",
   },
   {
@@ -32,6 +36,7 @@ const coaches = [
     specialty: "Sprint Specialist",
     club: "Quezon City Sprinters",
     experience: "22 years",
+    location: "Quezon City",
     href: "/coaches/4",
   },
   {
@@ -40,6 +45,7 @@ const coaches = [
     specialty: "Jumps & Throws Coach",
     club: "Iloilo Track Club",
     experience: "12 years",
+    location: "Iloilo City",
     href: "/coaches/5",
   },
   {
@@ -48,6 +54,8 @@ const coaches = [
     specialty: "Head Coach",
     club: "Philippine National Team",
     experience: "30 years",
+    location: "Pasig",
+    badges: ["National Team Coach"],
     href: "/coaches/6",
   },
 ]
@@ -69,7 +77,9 @@ export default function CoachesPage() {
               key={coach.id}
               name={coach.name}
               subtitle={coach.specialty}
+              location={coach.location}
               details={[`Club: ${coach.club}`, `Experience: ${coach.experience}`]}
+              badges={coach.badges}
               href={coach.href}
               type="coach"
             />

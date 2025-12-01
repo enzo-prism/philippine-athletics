@@ -1,58 +1,102 @@
+"use client"
+
+import { useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { SlidersHorizontal } from "lucide-react"
 
 const competitions = [
   {
     id: 1,
-    name: "Philippine National Championships 2024",
-    type: "Track & Field",
-    location: "Rizal Memorial Stadium, Manila",
-    date: "April 15-21, 2024",
-    href: "/competitions/1",
+    name: "2025 Southeast Asian Games",
+    type: "Regional",
+    location: "Bangkok / Chonburi / Songkhla, Thailand",
+    date: "Dec 11, 2025",
+    href: "#",
+    status: "Upcoming",
   },
   {
     id: 2,
-    name: "SEA Games 2023",
-    type: "Regional",
-    location: "Multiple Venues",
-    date: "May 5-15, 2023",
-    href: "/competitions/2",
+    name: "2025 Asian Athletics Championships",
+    type: "Continental",
+    location: "Gumi, South Korea",
+    date: "May 31, 2025",
+    href: "#",
+    status: "Upcoming",
   },
   {
     id: 3,
-    name: "Asian Athletics Championships 2023",
-    type: "Continental",
-    location: "Bangkok, Thailand",
-    date: "June 20-25, 2023",
-    href: "/competitions/3",
+    name: "Philippine National Championships / Selection Meets",
+    type: "National",
+    location: "Philippines (annual, e.g., ICTSI Philippine Athletics Championships 2025)",
+    date: "Mar 15, 2025",
+    href: "#",
+    status: "Upcoming",
   },
   {
     id: 4,
-    name: "IAAF Regional Meet 2024",
+    name: "World Athletics Continental Tour / Invitationals",
     type: "International",
-    location: "Various Cities",
-    date: "August 2024",
-    href: "/competitions/4",
+    location: "Various global venues",
+    date: "Apr 10, 2025",
+    href: "#",
+    status: "Upcoming",
   },
   {
     id: 5,
-    name: "Visayas Track & Field Open",
-    type: "Regional",
-    location: "Iloilo City",
-    date: "March 10-12, 2024",
-    href: "/competitions/5",
+    name: "2026 Asian Games",
+    type: "Continental",
+    location: "Aichi-Nagoya, Japan",
+    date: "Sep 19, 2026",
+    href: "#",
+    status: "Upcoming",
   },
   {
     id: 6,
-    name: "Mindanao Athletics Championship",
-    type: "Regional",
-    location: "Davao City",
-    date: "February 24-26, 2024",
-    href: "/competitions/6",
+    name: "2026 World Athletics Cross Country Championships",
+    type: "World",
+    location: "Tallahassee, Florida, USA",
+    date: "Jan 10, 2026",
+    href: "#",
+    status: "Upcoming",
+  },
+  {
+    id: 7,
+    name: "2026 World Athletics Road Running Championships",
+    type: "World",
+    location: "Copenhagen, Denmark",
+    date: "Sep 19, 2026",
+    href: "#",
+    status: "Upcoming",
+  },
+  {
+    id: 8,
+    name: "2026 World Athletics Ultimate Championship (Inaugural)",
+    type: "World",
+    location: "Budapest, Hungary",
+    date: "Sep 11, 2026",
+    href: "#",
+    status: "Upcoming",
+  },
+  {
+    id: 9,
+    name: "Philippine Nationals / Domestic Circuit 2026",
+    type: "National",
+    location: "Philippines (annual season)",
+    date: "Mar 15, 2026",
+    href: "#",
+    status: "Upcoming",
   },
 ]
 
 export default function CompetitionsPage() {
+  const [statusFilter, setStatusFilter] = useState<"All" | "Upcoming" | "Past">("Upcoming")
+
+  const filtered = useMemo(() => {
+    if (statusFilter === "All") return competitions
+    return competitions.filter((c) => c.status === statusFilter)
+  }, [statusFilter])
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -63,16 +107,35 @@ export default function CompetitionsPage() {
           <p className="text-muted-foreground">Track and field competitions across the Philippines and beyond</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {competitions.map((comp) => (
-            <ProfileCard
-              key={comp.id}
-              name={comp.name}
-              subtitle={comp.type}
-              details={[`Location: ${comp.location}`, `Date: ${comp.date}`]}
-              href={comp.href}
-              type="competition"
-            />
+        <div className="p-4 border border-border rounded-lg bg-card mb-6 space-y-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+            <SlidersHorizontal className="w-4 h-4 text-accent" />
+            Filters
+          </div>
+          <div className="flex flex-wrap gap-3 text-sm">
+            {(["Upcoming", "Past", "All"] as const).map((status) => (
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status)}
+                className={`px-3 py-1.5 rounded-md border text-sm font-semibold transition-colors ${
+                  statusFilter === status
+                    ? "bg-accent text-accent-foreground border-accent"
+                    : "bg-card text-foreground border-border hover:bg-muted"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {filtered.map((comp) => (
+            <div key={comp.id} className="p-4 rounded-lg border border-border bg-card">
+              <p className="text-sm font-semibold text-foreground">{comp.name}</p>
+              <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>
+              <p className="text-xs text-muted-foreground">{comp.date}</p>
+            </div>
           ))}
         </div>
       </div>

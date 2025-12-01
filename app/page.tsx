@@ -18,35 +18,17 @@ export default function Home() {
           </p>
           <div className="flex gap-4 pt-4">
             <Link
-              href="/athletes"
+              href="/signup"
               className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
             >
-              Explore Athletes
+              Sign Up
             </Link>
             <Link
-              href="/competitions"
+              href="/how-it-works"
               className="px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted transition-colors"
             >
-              View Competitions
+              How it Works
             </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-3 gap-6">
-          <div className="p-6 border border-border rounded-lg">
-            <p className="text-3xl font-bold text-accent">240+</p>
-            <p className="text-sm text-muted-foreground mt-1">Registered Athletes</p>
-          </div>
-          <div className="p-6 border border-border rounded-lg">
-            <p className="text-3xl font-bold text-accent">45+</p>
-            <p className="text-sm text-muted-foreground mt-1">Coaches</p>
-          </div>
-          <div className="p-6 border border-border rounded-lg">
-            <p className="text-3xl font-bold text-accent">32+</p>
-            <p className="text-sm text-muted-foreground mt-1">Clubs & Competitions</p>
           </div>
         </div>
       </div>

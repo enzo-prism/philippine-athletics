@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, MapPin } from "lucide-react"
 
 interface ProfileCardProps {
   name: string
@@ -7,9 +7,11 @@ interface ProfileCardProps {
   details: string[]
   href: string
   type: "athlete" | "coach" | "club" | "competition"
+  location?: string
+  badges?: string[]
 }
 
-export function ProfileCard({ name, subtitle, details, href, type }: ProfileCardProps) {
+export function ProfileCard({ name, subtitle, details, href, type, location, badges }: ProfileCardProps) {
   return (
     <Link href={href}>
       <div className="group p-6 rounded-lg border border-border bg-card hover:bg-muted transition-all duration-200 cursor-pointer">
@@ -19,6 +21,24 @@ export function ProfileCard({ name, subtitle, details, href, type }: ProfileCard
             <h3 className="text-lg font-bold text-foreground mt-1 group-hover:text-accent transition-colors">{name}</h3>
             <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
           </div>
+          {(badges?.length || location) && (
+            <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
+              {badges?.map((badge) => (
+                <span
+                  key={badge}
+                  className="rounded-md bg-accent/10 text-accent px-2 py-1 border border-accent/30 uppercase tracking-wide"
+                >
+                  {badge}
+                </span>
+              ))}
+              {location && (
+                <span className="p-1.5 rounded-md bg-muted/80 border border-border flex items-center gap-1 text-foreground">
+                  <MapPin className="w-3.5 h-3.5 text-accent" />
+                  <span>{location}</span>
+                </span>
+              )}
+            </div>
+          )}
           <div className="space-y-1">
             {details.map((detail, i) => (
               <p key={i} className="text-xs text-muted-foreground">

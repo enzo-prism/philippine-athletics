@@ -1,120 +1,141 @@
-import { Navigation } from "@/components/navigation"
 import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
+import { Navigation } from "@/components/navigation"
+import { CalendarRange, ChevronLeft, Mail, MapPin, Medal, MessageSquare, Phone, Star } from "lucide-react"
 
-const athleteData: Record<string, any> = {
-  "1": {
-    name: "Maria Santos",
-    specialty: "400m Sprinter",
+export const dynamic = "force-dynamic"
+export const dynamicParams = true
+
+type EventPerformance = {
+  name: string
+  personalBest: string
+  seasonBest?: string
+  nationalRank?: string
+  asianRank?: string
+  globalRank?: string
+}
+
+type CompetitionResult = {
+  meet: string
+  date: string
+  location: string
+  event: string
+  result: string
+  place: string
+}
+
+type UpcomingCompetition = {
+  meet: string
+  date: string
+  location: string
+  events: string[]
+}
+
+type Contact = {
+  sms?: string
+  whatsapp?: string
+  email?: string
+  instagram?: string
+  facebook?: string
+}
+
+type Sponsor = {
+  name: string
+  category: string
+  note?: string
+}
+
+type AthleteProfile = {
+  id: string
+  firstName: string
+  lastName: string
+  specialty: string
+  location: string
+  club: string
+  coach: string
+  events: EventPerformance[]
+  birthDate: string
+  hometown: string
+  joinedYear: number
+  achievements: string[]
+  competitions: CompetitionResult[]
+  upcoming: UpcomingCompetition[]
+  bio: string
+  contact: Contact
+  sponsors: Sponsor[]
+}
+
+const athleteData: AthleteProfile[] = [
+  {
+    id: "1",
+    firstName: "Maria",
+    lastName: "Santos",
+    specialty: "400m / 200m Sprinter",
+    location: "Taguig (Bonifacio Global City)",
     club: "Manila Speed Club",
+    coach: "Coach Roberto Tan",
+    events: [
+      { name: "400m", personalBest: "52.34s", seasonBest: "52.89s", nationalRank: "#1 PH", asianRank: "#4 Asia", globalRank: "#32 World" },
+      { name: "200m", personalBest: "23.12s", seasonBest: "23.35s", nationalRank: "#2 PH", asianRank: "#12 Asia", globalRank: "#80 World" },
+      { name: "4×400m relay", personalBest: "3:32.10 (split 52.1s)", nationalRank: "#1 PH", asianRank: "#5 Asia", globalRank: "#40 World" },
+    ],
     birthDate: "March 15, 1999",
     hometown: "Manila",
-    personalBest: "52.34s",
-    seasonBest: "52.89s",
+    joinedYear: 2015,
     achievements: [
       "Philippine National Champion 2024 (400m)",
-      "SEA Games Silver Medalist 2023 (4x400m Relay)",
+      "SEA Games Silver Medalist 2023 (4×400m Relay)",
       "National Record Holder (Indoor 400m)",
       "Commonwealth Games Qualifier 2022",
     ],
-    coach: "Coach Roberto Tan",
-    joinedYear: 2015,
-    competitions: ["National Championships", "SEA Games 2023", "IAAF Regional Meet"],
-  },
-  "2": {
-    name: "Juan Dela Cruz",
-    specialty: "5000m Runner",
-    club: "Cebu Distance Runners",
-    birthDate: "July 22, 2000",
-    hometown: "Cebu",
-    personalBest: "14:28.5",
-    seasonBest: "14:35.2",
-    achievements: [
-      "Philippine National Record (5000m)",
-      "SEA Games Gold Medalist 2023 (5000m)",
-      "IAAF World Championships Participant 2023",
-      "Asian Games Silver Medalist 2022",
+    competitions: [
+      { meet: "Philippine National Championships", date: "Apr 2024", location: "Manila", event: "400m", result: "52.34s", place: "1st" },
+      { meet: "SEA Games", date: "May 2023", location: "Cambodia", event: "4×400m relay", result: "3:32.10 (split 52.1s)", place: "2nd" },
+      { meet: "Asian Championships", date: "Jul 2023", location: "Bangkok", event: "400m", result: "52.90s", place: "5th" },
     ],
-    coach: "Coach Maria Gonzales",
-    joinedYear: 2016,
-    competitions: ["SEA Games 2023", "Asian Games 2022", "IAAF World Championships"],
-  },
-  "3": {
-    name: "Ana Reyes",
-    specialty: "Long Jump",
-    club: "Davao Athletics",
-    birthDate: "November 8, 2001",
-    hometown: "Davao",
-    personalBest: "6.42m",
-    seasonBest: "6.38m",
-    achievements: [
-      "Philippine National Champion 2024 (Long Jump)",
-      "SEA Games Participant 2023",
-      "National Junior Record Holder",
-      "Emerging Talent Award 2023",
+    upcoming: [
+      { meet: "Asian Grand Prix", date: "Aug 12, 2025", location: "Bangkok", events: ["400m", "4×400m relay"] },
+      { meet: "World Relays Qualifier", date: "Sep 3, 2025", location: "Singapore", events: ["4×400m relay"] },
     ],
-    coach: "Coach Antonio Reyes",
-    joinedYear: 2018,
-    competitions: ["National Championships", "SEA Games 2023", "Junior National Meet"],
-  },
-  "4": {
-    name: "Rafael Gomez",
-    specialty: "100m Sprinter",
-    club: "Quezon City Sprinters",
-    birthDate: "May 30, 1998",
-    hometown: "Quezon City",
-    personalBest: "10.42s",
-    seasonBest: "10.51s",
-    achievements: [
-      "Philippine National Champion 2024 (100m)",
-      "SEA Games Silver Medalist 2023 (100m)",
-      "Philippines Fastest 100m Runner",
-      "Olympic Trials Qualifier 2024",
+    bio: "Quarter-miler known for aggressive backstretch pacing and strong finishes. Focused on qualifying for world relays and continental finals.",
+    contact: {
+      sms: "+63 917 555 1234",
+      whatsapp: "+63 917 555 1234",
+      email: "maria.santos@samplemail.ph",
+      instagram: "@maria400",
+      facebook: "facebook.com/maria400",
+    },
+    sponsors: [
+      { name: "SprintLab", category: "Apparel", note: "Race kit" },
+      { name: "HydraFuel", category: "Nutrition", note: "Hydration & gels" },
+      { name: "StridePT", category: "Recovery", note: "Physio support" },
     ],
-    coach: "Coach Emmanuel Cruz",
-    joinedYear: 2014,
-    competitions: ["National Championships", "SEA Games 2023", "Olympic Trials 2024"],
   },
-  "5": {
-    name: "Linda Villegas",
-    specialty: "High Jump",
-    club: "Iloilo Track Club",
-    birthDate: "September 12, 2002",
-    hometown: "Iloilo",
-    personalBest: "1.84m",
-    seasonBest: "1.81m",
-    achievements: [
-      "Philippine National Champion 2024 (High Jump)",
-      "National Junior Record Holder",
-      "SEA Games Participant 2023",
-      "Rising Star Award 2024",
-    ],
-    coach: "Coach Lisa Santos",
-    joinedYear: 2019,
-    competitions: ["National Championships", "Junior National Meet", "Regional Qualifying Meet"],
-  },
-  "6": {
-    name: "Carlos Mendoza",
-    specialty: "1500m Middle Distance",
-    club: "Manila Distance Runners",
-    birthDate: "January 25, 1997",
-    hometown: "Manila",
-    personalBest: "3:54.2",
-    seasonBest: "3:56.8",
-    achievements: [
-      "Philippine National Champion 2024 (1500m)",
-      "Sub-4 Minute Miler",
-      "SEA Games Gold Medalist 2023 (1500m)",
-      "Asian Athletics Championships Participant 2023",
-    ],
-    coach: "Coach Roberto Tan",
-    joinedYear: 2013,
-    competitions: ["National Championships", "SEA Games 2023", "Asian Athletics Championships"],
-  },
+]
+
+const StatCard = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
+  <div className="p-4 rounded-lg border border-border bg-card">
+    <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">{label}</p>
+    <p className="text-xl font-bold text-foreground">{value}</p>
+    {hint ? <p className="text-xs text-muted-foreground mt-1">{hint}</p> : null}
+  </div>
+)
+
+const ContactItem = ({ icon: Icon, label, value }: { icon: any; label: string; value: string }) => (
+  <div className="flex items-center gap-2 text-sm text-foreground">
+    <Icon className="w-4 h-4 text-accent" />
+    <span className="font-medium">{label}:</span>
+    <span className="text-muted-foreground">{value}</span>
+  </div>
+)
+
+function getAthleteById(id: string): AthleteProfile | undefined {
+  return athleteData.find((a) => a.id === id)
 }
 
 export default function AthleteProfilePage({ params }: { params: { id: string } }) {
-  const athlete = athleteData[params.id]
+  const rawId = params?.id ?? ""
+  const id = decodeURIComponent(rawId).trim().replace(/\/+$/, "")
+  const athlete = getAthleteById(id) ?? getAthleteById("1")
 
   if (!athlete) {
     return (
@@ -127,134 +148,226 @@ export default function AthleteProfilePage({ params }: { params: { id: string } 
     )
   }
 
+  const primaryEvent = athlete.events[0]
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Back Link */}
-        <Link href="/athletes" className="flex items-center gap-2 text-accent hover:text-accent/80 mb-8 w-fit">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <Link href="/athletes" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <ChevronLeft className="w-4 h-4" />
           Back to Athletes
         </Link>
 
-        {/* Profile Header */}
-        <div className="mb-12 pb-8 border-b border-border">
-          <div className="flex items-start justify-between mb-4">
+        <header className="space-y-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+              Athlete
+            </span>
+            <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+              <MapPin className="w-3.5 h-3.5 text-accent" />
+              {athlete.location}
+            </span>
+            <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+              Club: {athlete.club}
+            </span>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-2">Athlete Profile</p>
-              <h1 className="text-5xl font-bold text-foreground">{athlete.name}</h1>
-              <p className="text-lg text-muted-foreground mt-2">{athlete.specialty}</p>
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground">
+                {athlete.firstName} {athlete.lastName}
+              </h1>
+              <p className="text-base text-muted-foreground mt-2">{athlete.specialty}</p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {athlete.events.map((evt) => (
+                  <span key={evt.name} className="text-xs font-medium px-2 py-1 rounded-md bg-accent/10 text-accent border border-accent/30">
+                    {evt.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              {athlete.contact.whatsapp ? (
+                <Link
+                  href={`https://wa.me/${athlete.contact.whatsapp.replace(/\D/g, "")}`}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
+                >
+                  Message (WhatsApp)
+                </Link>
+              ) : athlete.contact.sms ? (
+                <Link
+                  href={`sms:${athlete.contact.sms}`}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
+                >
+                  Message
+                </Link>
+              ) : null}
+              {athlete.contact.email ? (
+                <Link
+                  href={`mailto:${athlete.contact.email}`}
+                  className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
+                >
+                  Email
+                </Link>
+              ) : null}
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Personal Best</p>
-              <p className="text-2xl font-bold text-accent">{athlete.personalBest}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Season Best</p>
-              <p className="text-2xl font-bold text-accent">{athlete.seasonBest}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Club</p>
-              <p className="text-lg font-bold text-foreground">{athlete.club}</p>
-            </div>
-            <div className="p-4 rounded-lg bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Active Since</p>
-              <p className="text-lg font-bold text-foreground">{athlete.joinedYear}</p>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard label="Primary Event" value={primaryEvent?.name || "—"} />
+            <StatCard label="Personal Best" value={primaryEvent?.personalBest || "—"} />
+            <StatCard label="National Rank" value={primaryEvent?.nationalRank || "—"} />
+            <StatCard label="Global Rank" value={primaryEvent?.globalRank || "—"} />
           </div>
-        </div>
+        </header>
 
-        {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Info */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Basic Info */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Basic Information</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Date of Birth</p>
-                  <p className="text-foreground">{athlete.birthDate}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Hometown</p>
-                  <p className="text-foreground">{athlete.hometown}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Coach</p>
-                  <p className="text-foreground">{athlete.coach}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-border">
-                  <p className="text-xs text-muted-foreground font-semibold uppercase mb-2">Club</p>
-                  <p className="text-foreground">{athlete.club}</p>
-                </div>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Star className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">About</h2>
               </div>
-            </div>
+              <p className="p-6 rounded-lg border border-border bg-card leading-relaxed text-sm text-foreground">
+                {athlete.bio}
+              </p>
+            </section>
 
-            {/* Achievements */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Achievements</h2>
-              <div className="space-y-2">
-                {athlete.achievements.map((achievement: string, i: number) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-lg border border-accent/20 bg-accent/5">
-                    <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                    <p className="text-foreground text-sm">{achievement}</p>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Medal className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">Event Performances</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {athlete.events.map((evt) => (
+                  <div key={evt.name} className="p-4 rounded-lg border border-border bg-card space-y-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold text-foreground">{evt.name}</p>
+                      <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-full">
+                        PB: {evt.personalBest}
+                      </span>
+                    </div>
+                    <div className="text-xs text-muted-foreground space-y-1">
+                      <p>National: {evt.nationalRank || "—"}</p>
+                      <p>Asian: {evt.asianRank || "—"}</p>
+                      <p>Global: {evt.globalRank || "—"}</p>
+                      {evt.seasonBest ? <p>Season: {evt.seasonBest}</p> : null}
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* Recent Competitions */}
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Recent Competitions</h2>
-              <div className="space-y-2">
-                {athlete.competitions.map((comp: string, i: number) => (
-                  <div key={i} className="p-3 rounded-lg border border-border hover:bg-muted transition-colors">
-                    <p className="text-foreground text-sm font-medium">{comp}</p>
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <CalendarRange className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">Recent Competitions</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {athlete.competitions.map((comp, i) => (
+                  <div key={`${comp.meet}-${i}`} className="p-4 rounded-lg border border-border bg-card space-y-1">
+                    <p className="text-sm font-semibold text-foreground">{comp.meet}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {comp.date} • {comp.location}
+                    </p>
+                    <p className="text-xs text-foreground">
+                      {comp.event} — {comp.result} ({comp.place})
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
+
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <CalendarRange className="w-4 h-4 text-accent" />
+                <h2 className="text-xl font-semibold text-foreground">Upcoming Competitions</h2>
+              </div>
+              {athlete.upcoming.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No upcoming competitions listed.</p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {athlete.upcoming.map((up, i) => (
+                    <div key={`${up.meet}-${i}`} className="p-4 rounded-lg border border-border bg-card space-y-1">
+                      <p className="text-sm font-semibold text-foreground">{up.meet}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {up.date} • {up.location}
+                      </p>
+                      <p className="text-xs text-foreground">Events: {up.events.join(", ")}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
           </div>
 
-          {/* Right Column - Stats */}
-          <div className="space-y-6">
-            <div className="p-6 rounded-lg border border-border">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-4">Quick Stats</p>
-              <div className="space-y-4">
+          <aside className="space-y-6">
+            <div className="p-6 rounded-lg border border-border bg-card space-y-4">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Profile</p>
+              <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Profile Status</p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
-                    <span className="text-sm font-medium text-foreground">Active</span>
-                  </div>
+                  <p className="text-muted-foreground">Birth date</p>
+                  <p className="text-foreground font-medium">{athlete.birthDate}</p>
                 </div>
-                <div className="h-px bg-border" />
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Career Start</p>
-                  <p className="text-sm font-medium text-foreground">{athlete.joinedYear}</p>
+                  <p className="text-muted-foreground">Hometown</p>
+                  <p className="text-foreground font-medium">{athlete.hometown}</p>
                 </div>
-                <div className="h-px bg-border" />
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Years Active</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {new Date().getFullYear() - athlete.joinedYear} years
-                  </p>
+                  <p className="text-muted-foreground">Club</p>
+                  <p className="text-foreground font-medium">{athlete.club}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Coach</p>
+                  <p className="text-foreground font-medium">{athlete.coach}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Joined</p>
+                  <p className="text-foreground font-medium">{athlete.joinedYear}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Years Active</p>
+                  <p className="text-foreground font-medium">{new Date().getFullYear() - athlete.joinedYear} years</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-6 rounded-lg border border-accent/30 bg-accent/5">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Specialty Events</p>
+            <div className="p-6 rounded-lg border border-border bg-card space-y-3">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
               <div className="space-y-2">
-                <p className="text-sm font-medium text-foreground">{athlete.specialty}</p>
-                <p className="text-xs text-muted-foreground mt-2">Member of {athlete.club}</p>
+                {athlete.contact.sms ? <ContactItem icon={Phone} label="Text" value={athlete.contact.sms} /> : null}
+                {athlete.contact.whatsapp ? (
+                  <ContactItem icon={MessageSquare} label="WhatsApp" value={athlete.contact.whatsapp} />
+                ) : null}
+                {athlete.contact.email ? <ContactItem icon={Mail} label="Email" value={athlete.contact.email} /> : null}
+                {athlete.contact.instagram ? (
+                  <ContactItem icon={MessageSquare} label="Instagram" value={athlete.contact.instagram} />
+                ) : null}
+                {athlete.contact.facebook ? (
+                  <ContactItem icon={MessageSquare} label="Facebook" value={athlete.contact.facebook} />
+                ) : null}
               </div>
             </div>
-          </div>
+
+            <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-3">
+              <p className="text-xs text-muted-foreground font-semibold uppercase">Sponsors</p>
+              {athlete.sponsors.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No sponsors listed.</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {athlete.sponsors.map((sponsor) => (
+                    <span
+                      key={sponsor.name}
+                      className="text-xs font-semibold px-2 py-1 rounded-md bg-white text-accent border border-accent/30"
+                      title={sponsor.note}
+                    >
+                      {sponsor.name} • {sponsor.category}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </aside>
         </div>
       </div>
 
