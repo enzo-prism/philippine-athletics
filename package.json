@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "data:check": "tsx lib/data/validate.ts",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start",
-    "data:check": "tsx lib/data/validate.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -68,8 +68,8 @@
     "@types/react-dom": "^19",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
+    "tsx": "^4.19.2",
     "tw-animate-css": "1.3.3",
-    "typescript": "^5",
-    "tsx": "^4.19.2"
+    "typescript": "^5"
   }
 }
