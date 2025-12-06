@@ -97,7 +97,6 @@ export function Navigation() {
               href="/profile"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
             >
-              <Emoji symbol={emojiIcons.profile} className="text-base" aria-hidden />
               Profile
             </Link>
           </div>
