@@ -58,15 +58,29 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
           </div>
         </div>
 
-        {isStub ? (
+        {!isStub && coach.bio ? (
+          <div className="p-4 rounded-lg border border-border bg-card space-y-2">
+            <p className="text-sm text-foreground leading-relaxed">{coach.bio}</p>
+            {coach.contact ? (
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                {coach.contact.email ? (
+                  <Link href={`mailto:${coach.contact.email}`} className="inline-flex items-center gap-1 text-accent hover:text-accent/80">
+                    <Emoji symbol={emojiIcons.mail} className="text-sm" aria-hidden />
+                    {coach.contact.email}
+                  </Link>
+                ) : null}
+                {coach.contact.phone ? (
+                  <Link href={`tel:${coach.contact.phone.replace(/[^\\d+]/g, "")}`} className="inline-flex items-center gap-1 text-foreground hover:text-accent">
+                    <Emoji symbol={emojiIcons.phone} className="text-sm" aria-hidden />
+                    {coach.contact.phone}
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        ) : isStub ? (
           <div className="p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
             Coach details are coming soon. Basic placeholder shown to avoid broken links.
-          </div>
-        ) : null}
-
-        {coach.bio ? (
-          <div className="p-4 rounded-lg border border-border bg-card">
-            <p className="text-sm text-foreground leading-relaxed">{coach.bio}</p>
           </div>
         ) : null}
 
@@ -87,22 +101,25 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
           <div className="space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Athletes coached</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {coachedAthletes.map((athlete) => (
-                <Link
-                  key={athlete.id}
-                  href={`/athletes/${athlete.id}`}
-                  className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors"
-                >
-                  {athlete.name} — {athlete.specialty}
-                </Link>
-              ))}
+              {coachedAthletes.map((athlete) => {
+                const href = athlete.slug ? `/athletes/${athlete.slug}` : `/athletes/${athlete.id}`
+                return (
+                  <Link
+                    key={athlete.id}
+                    href={href}
+                    className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors"
+                  >
+                    {athlete.name} — {athlete.specialty}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         ) : null}
 
         <div className="flex gap-3">
           <Link
-            href="mailto:coaches@philippineathletics.ph"
+            href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
           >
             Contact
