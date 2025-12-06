@@ -1,3 +1,6 @@
+ "use client"
+
+import { useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
 import { clubs } from "@/lib/data/clubs"
