@@ -25,7 +25,7 @@ export default function Home() {
                 Building the Next Generation of Philippine Track &amp; Field
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch]">
-                The Official Grassroots Program empowering athletes nationwide
+                Grassroots Program empowering athletes nationwide
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch]">
                 Find a coach or join a club to start training with verified professionals and grow into world-class talent.
