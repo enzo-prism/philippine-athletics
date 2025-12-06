@@ -1,4 +1,3 @@
-import { legacyAthleteRecords } from "./legacy-athlete-records"
 import { matchesIdOrSlug, slugify } from "./utils"
 
 // Shared athlete data and helpers
@@ -470,33 +469,7 @@ export const athleteProfiles: AthleteProfile[] = [
 
 const baseSummaries: AthleteSummary[] = athleteProfiles.map(toSummary)
 
-const legacySummaries: AthleteSummary[] = legacyAthleteRecords.map((athlete) => ({
-  id: String(athlete.id),
-  slug: slugify(athlete.name),
-  name: athlete.name,
-  specialty: athlete.specialty,
-  club: athlete.club,
-  coach: athlete.coach,
-  clubId: undefined,
-  coachId: undefined,
-  pb: athlete.pb,
-  location: athlete.location || "Philippines",
-  nationalRank: athlete.nationalRank,
-  asianRank: athlete.asianRank,
-  globalRank: athlete.globalRank,
-  events: athlete.events,
-  href: `/athletes/${slugify(athlete.name)}`,
-  isStub: true,
-}))
-
-const mergeSummaries = (primary: AthleteSummary[], legacy: AthleteSummary[]) => {
-  const map = new Map<string, AthleteSummary>()
-  legacy.forEach((athlete) => map.set(athlete.id, athlete))
-  primary.forEach((athlete) => map.set(athlete.id, athlete))
-  return Array.from(map.values())
-}
-
-export const athleteSummaries: AthleteSummary[] = mergeSummaries(baseSummaries, legacySummaries)
+export const athleteSummaries: AthleteSummary[] = baseSummaries
 
 export const getAthleteProfile = (idOrSlug: string): AthleteProfile | undefined =>
   athleteProfiles.find((athlete) => matchesIdOrSlug(athlete, idOrSlug))
