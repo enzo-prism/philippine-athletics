@@ -30,12 +30,10 @@ const primaryLinks: NavLink[] = [
 ]
 
 const bottomLinks = [
-  { href: "/athletes", label: "Athletes", symbol: "🏃🏽‍♂️" },
+  { href: "/", label: "Home", symbol: "🏠" },
   { href: "/clubs", label: "Clubs", symbol: "👥" },
   { href: "/coaches", label: "Coaches", symbol: "💪" },
-  { href: "/competitions", label: "Competitions", symbol: "🏟️" },
-  { href: "/rankings", label: "Rankings", symbol: "🥇" },
-  { href: "/sponsors", label: "Sponsors", symbol: "🤝" },
+  { href: "/athletes", label: "Athletes", symbol: "🏃🏽‍♂️" },
 ]
 
 const isActive = (pathname: string, href: string) => {
