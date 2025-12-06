@@ -60,9 +60,12 @@ export function Navigation() {
     <>
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="page-shell py-3 flex items-center justify-between gap-3">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-accent rounded-md flex items-center justify-center">
-              <span className="text-accent-foreground font-bold text-sm">PA</span>
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
+          >
+            <div className="w-9 h-9 rounded-md flex items-center justify-center bg-card border border-accent transition-colors group-hover:bg-accent/10">
+              <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
             </div>
             <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
           </Link>

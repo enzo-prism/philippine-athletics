@@ -309,162 +309,185 @@ export default function AthletesPage() {
           </p>
         </div>
 
-        <div className="sticky top-16 z-30 md:static md:z-auto space-y-3">
-          <div className="card-surface shadow-soft p-4 space-y-4">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-2">
-                <Emoji symbol="🔍" className="text-sm" aria-hidden />
-                Search athletes
-              </label>
-              <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 focus-within:ring-2 focus-within:ring-accent">
-                <Emoji symbol="🔎" className="text-base" aria-hidden />
-                <input
-                  type="text"
-                  placeholder="Name, event, club..."
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
+        <div className="sticky top-14 z-30 space-y-2">
+          <div className="card-surface shadow-soft p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-background px-3 py-2 w-full sm:w-auto focus-within:ring-2 focus-within:ring-accent">
+              <Emoji symbol="🔎" className="text-base" aria-hidden />
+              <input
+                type="text"
+                placeholder="Search name, club, event..."
+                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-semibold text-muted-foreground uppercase">Events</p>
-                <button
-                  type="button"
-                  className="md:hidden inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
-                  onClick={() => setFiltersOpen((v) => !v)}
-                  aria-expanded={filtersOpen}
-                >
-                  <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
-                  Filters & Sort
-                </button>
-              </div>
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {quickEventFilters.map((evt) => {
-                  const active = eventFilter === evt
-                  return (
-                    <button
-                      key={evt}
-                      type="button"
-                      onClick={() => setEventFilter(evt)}
-                      className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
-                        active
-                          ? "bg-accent text-accent-foreground border-accent"
-                          : "bg-muted/60 text-foreground border-border hover:bg-muted"
-                      }`}
-                    >
-                      {evt}
-                    </button>
-                  )
-                })}
-              </div>
+            <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1">
+              {["All", "Metro Manila", "Luzon", "Visayas", "Mindanao"].map((region) => {
+                const active = regionFilter === region
+                return (
+                  <button
+                    key={region}
+                    type="button"
+                    onClick={() => setRegionFilter(region)}
+                    className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      active ? "bg-accent text-accent-foreground border-accent" : "bg-card text-foreground border-border hover:bg-muted"
+                    }`}
+                  >
+                    {region}
+                  </button>
+                )
+              })}
             </div>
 
-            <div className="hidden md:grid md:grid-cols-3 gap-3">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={regionFilter}
-                  onChange={(e) => setRegionFilter(e.target.value)}
-                >
-                  {regionOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              {quickEventFilters.map((evt) => {
+                const active = eventFilter === evt
+                return (
+                  <button
+                    key={evt}
+                    type="button"
+                    onClick={() => setEventFilter(evt)}
+                    className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      active ? "bg-accent text-accent-foreground border-accent" : "bg-card text-foreground border-border hover:bg-muted"
+                    }`}
+                  >
+                    {evt}
+                  </button>
+                )
+              })}
+            </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={eventFilter}
-                  onChange={(e) => setEventFilter(e.target.value)}
-                >
-                  {eventOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="national_rank">National Rank</option>
-                  <option value="asian_rank">Asian Rank</option>
-                  <option value="global_rank">Global Rank</option>
-                  <option value="personal_best">Personal Best</option>
-                  <option value="name">Name (A-Z)</option>
-                </select>
-              </div>
+            <div className="flex items-center gap-2">
+              <select
+                className="rounded-full border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="relevance">Sort: Relevance</option>
+                <option value="national_rank">National Rank</option>
+                <option value="asian_rank">Asian Rank</option>
+                <option value="global_rank">Global Rank</option>
+                <option value="personal_best">Personal Best</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                onClick={() => setFiltersOpen((v) => !v)}
+                aria-expanded={filtersOpen}
+              >
+                <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
+                Filters
+              </button>
             </div>
           </div>
 
-          {filtersOpen ? (
-            <div className="md:hidden card-surface shadow-soft p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={regionFilter}
-                  onChange={(e) => setRegionFilter(e.target.value)}
-                >
-                  {regionOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={eventFilter}
-                  onChange={(e) => setEventFilter(e.target.value)}
-                >
-                  {eventOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
-                <select
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="national_rank">National Rank</option>
-                  <option value="asian_rank">Asian Rank</option>
-                  <option value="global_rank">Global Rank</option>
-                  <option value="personal_best">Personal Best</option>
-                  <option value="name">Name (A-Z)</option>
-                </select>
-              </div>
-            </div>
-          ) : null}
-
-          <div className="text-xs text-muted-foreground">
-            Showing {filteredAthletes.length} of {athletes.length} athletes
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>
+              Showing {filteredAthletes.length} of {athletes.length} athletes
+            </span>
+            <button
+              type="button"
+              className="text-accent font-semibold hover:text-accent/80"
+              onClick={() => {
+                setRegionFilter("All")
+                setEventFilter("All")
+                setSortOption("relevance")
+                setSearchTerm("")
+              }}
+            >
+              Reset
+            </button>
           </div>
         </div>
+
+        {filtersOpen ? (
+          <div className="fixed inset-0 z-40 md:static md:z-auto bg-black/40 md:bg-transparent backdrop-blur-sm md:backdrop-blur-0">
+            <div className="absolute bottom-0 left-0 right-0 md:static md:w-full md:bg-transparent">
+              <div className="card-surface shadow-soft p-4 space-y-4 md:max-w-lg md:ml-auto md:mr-0 bg-card">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase">Filters</p>
+                  <button
+                    type="button"
+                    className="text-xs font-semibold text-foreground hover:text-accent"
+                    onClick={() => setFiltersOpen(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
+                  <select
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                    value={regionFilter}
+                    onChange={(e) => setRegionFilter(e.target.value)}
+                  >
+                    {regionOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
+                  <select
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                    value={eventFilter}
+                    onChange={(e) => setEventFilter(e.target.value)}
+                  >
+                    {eventOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
+                  <select
+                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                  >
+                    <option value="relevance">Relevance</option>
+                    <option value="national_rank">National Rank</option>
+                    <option value="asian_rank">Asian Rank</option>
+                    <option value="global_rank">Global Rank</option>
+                    <option value="personal_best">Personal Best</option>
+                    <option value="name">Name (A-Z)</option>
+                  </select>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="flex-1 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition-opacity"
+                    onClick={() => setFiltersOpen(false)}
+                  >
+                    Apply
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 rounded-md border border-border bg-card text-foreground px-4 py-2 text-sm font-semibold hover:bg-muted transition-colors"
+                    onClick={() => {
+                      setRegionFilter("All")
+                      setEventFilter("All")
+                      setSortOption("relevance")
+                      setFiltersOpen(false)
+                    }}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         {filteredAthletes.length === 0 ? (
           <div className="card-surface shadow-soft p-6 text-sm text-muted-foreground">
@@ -477,7 +500,7 @@ export default function AthletesPage() {
               const rankLabel = [athlete.nationalRank, athlete.asianRank, athlete.globalRank].filter(Boolean).join(" · ")
               const details = [
                 `Club: ${athlete.club}`,
-                `PB: ${athlete.pb ?? "—"}`,
+                athlete.pb ? `PB: ${athlete.pb}` : undefined,
                 rankLabel ? `Ranks: ${rankLabel}` : undefined,
               ].filter(Boolean) as string[]
 
