@@ -121,13 +121,68 @@ export default function ClubProfilePage({ params }: { params: { id: string } }) 
           </div>
         ) : null}
 
-        <div className="flex gap-3">
-          <Link
-            href="mailto:clubs@philippineathletics.ph"
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
-          >
-            Contact
-          </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-4 rounded-lg border border-border bg-card space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol={emojiIcons.mail} className="text-base" aria-hidden />
+              <h2 className="text-sm font-semibold text-foreground">Contact</h2>
+            </div>
+            <div className="space-y-2 text-sm text-foreground">
+              <div className="flex items-center gap-2">
+                <Emoji symbol={emojiIcons.mail} className="text-base" aria-hidden />
+                <Link href={`mailto:${club.contact?.email ?? "clubs@philippineathletics.ph"}`} className="text-accent hover:text-accent/80">
+                  {club.contact?.email ?? "clubs@philippineathletics.ph"}
+                </Link>
+              </div>
+              <div className="flex items-center gap-2">
+                <Emoji symbol={emojiIcons.phone} className="text-base" aria-hidden />
+                <Link
+                  href={`tel:${(club.contact?.phone ?? "+639170000000").replace(/[^\\d+]/g, "")}`}
+                  className="text-foreground hover:text-accent"
+                >
+                  {club.contact?.phone ?? "+63 917 000 0000"}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-lg border border-border bg-card space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol={emojiIcons.users} className="text-base" aria-hidden />
+              <h2 className="text-sm font-semibold text-foreground">Team Contacts</h2>
+            </div>
+            <div className="space-y-2 text-sm text-foreground">
+              {(club.contact?.people ?? []).map((person) => (
+                <div key={`${person.name}-${person.role}`} className="p-2 rounded-md bg-muted/60 border border-border">
+                  <p className="font-semibold text-foreground">{person.name}</p>
+                  <p className="text-xs text-muted-foreground">{person.role}</p>
+                  <div className="flex flex-wrap items-center gap-3 text-xs mt-1">
+                    {person.email ? (
+                      <Link href={`mailto:${person.email}`} className="text-accent hover:text-accent/80 inline-flex items-center gap-1">
+                        <Emoji symbol={emojiIcons.mail} className="text-sm" aria-hidden />
+                        {person.email}
+                      </Link>
+                    ) : null}
+                    {person.phone ? (
+                      <Link
+                        href={`tel:${person.phone.replace(/[^\\d+]/g, "")}`}
+                        className="text-foreground hover:text-accent inline-flex items-center gap-1"
+                      >
+                        <Emoji symbol={emojiIcons.phone} className="text-sm" aria-hidden />
+                        {person.phone}
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+              {(!club.contact?.people || club.contact.people.length === 0) && (
+                <p className="text-xs text-muted-foreground">Contact details coming soon.</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-3">
           <Link
             href="/signup?role=athlete"
             className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
