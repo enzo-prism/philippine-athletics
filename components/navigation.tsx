@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, UsersRound, UserRound, X, Home } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 type NavLink = { href: string; label: string }
