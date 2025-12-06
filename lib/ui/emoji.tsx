@@ -20,6 +20,7 @@ export function Emoji({ symbol, label, className = "", title }: EmojiProps) {
 }
 
 export const emojiIcons = {
+  home: "🏠",
   back: "⬅️",
   profile: "👤",
   location: "📍",
@@ -27,6 +28,8 @@ export const emojiIcons = {
   coach: "🧑‍🏫",
   athlete: "🏃‍♂️",
   sponsor: "🤝",
+  competitions: "🎽",
+  rankings: "📊",
   filter: "🎚️",
   trophy: "🏆",
   medal: "🏅",

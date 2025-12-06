@@ -8,6 +8,18 @@ import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 type NavLink = { href: string; label: string }
 
+const emojiByPath: Record<string, string> = {
+  "/": emojiIcons.home,
+  "/athletes": emojiIcons.athlete,
+  "/coaches": emojiIcons.coach,
+  "/clubs": emojiIcons.club,
+  "/competitions": emojiIcons.competitions,
+  "/rankings": emojiIcons.rankings,
+  "/sponsors": emojiIcons.sponsor,
+  "/profile": emojiIcons.profile,
+  "/signup": emojiIcons.sparkles,
+}
+
 const primaryLinks: NavLink[] = [
   { href: "/athletes", label: "Athletes" },
   { href: "/coaches", label: "Coaches" },
@@ -116,8 +128,10 @@ export function Navigation() {
                         : "border-border bg-card text-foreground hover:bg-muted"
                     }`}
                   >
-                    <span>{link.label}</span>
-                    <Emoji symbol="➡️" className="text-base" aria-hidden />
+                    <span className="flex items-center gap-2">
+                      <Emoji symbol={emojiByPath[link.href] ?? "•"} className="text-base" aria-hidden />
+                      {link.label}
+                    </span>
                   </Link>
                 ))}
               </div>
