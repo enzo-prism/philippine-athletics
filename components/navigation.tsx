@@ -33,7 +33,6 @@ const bottomLinks = [
   { href: "/", label: "Home", symbol: "🏠" },
   { href: "/clubs", label: "Clubs", symbol: "👥" },
   { href: "/coaches", label: "Coaches", symbol: "💪" },
-  { href: "/athletes", label: "Athletes", symbol: "🏃🏽‍♂️" },
 ]
 
 const isActive = (pathname: string, href: string) => {
