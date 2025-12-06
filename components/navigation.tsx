@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, Search, Trophy, UserRound, X, Home } from "lucide-react"
+import { Menu, UsersRound, UserRound, X, Home } from "lucide-react"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 type NavLink = { href: string; label: string }
@@ -31,9 +31,9 @@ const primaryLinks: NavLink[] = [
 
 const bottomLinks = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/athletes", label: "Search", icon: Search },
-  { href: "/rankings", label: "Rankings", icon: Trophy },
-  { href: "/profile", label: "Profile", icon: UserRound },
+  { href: "/clubs", label: "Clubs", icon: UsersRound },
+  { href: "/coaches", label: "Coaches", icon: UserRound },
+  { href: "/athletes", label: "Athletes", icon: UsersRound },
 ]
 
 const isActive = (pathname: string, href: string) => {
