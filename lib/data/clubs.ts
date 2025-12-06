@@ -18,6 +18,14 @@ export type Club = {
     phone?: string
     people?: { name: string; role: string; email?: string; phone?: string }[]
   }
+  locationDetail?: {
+    name?: string
+    address: string
+    lat?: number
+    lng?: number
+    mapUrl?: string
+    notes?: string
+  }
 }
 
 export const clubs: Club[] = [
@@ -39,6 +47,12 @@ export const clubs: Club[] = [
         { name: "Liza Mendoza", role: "Club Manager", email: "liza.mendoza@manilaspeedclub.ph" },
       ],
     },
+    locationDetail: {
+      name: "PhilSports Complex Track",
+      address: "PhilSports Complex, Capt. Henry Javier, Pasig, Metro Manila",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.774453905747!2d121.0645807!3d14.6104336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c82c1923114f%3A0x5acdd226a7871004!2sPhilSports%20Track%20Oval!5e0!3m2!1sen!2sph!4v1700000000000",
+      notes: "Entrance via Gate 3; track access near the west stands.",
+    },
   },
   {
     id: "2",
@@ -57,6 +71,12 @@ export const clubs: Club[] = [
         { name: "Coach Maria Gonzales", role: "Head Coach", email: "maria.gonzales@cebudistance.ph", phone: "+63 917 222 2222" },
         { name: "Ramon Cruz", role: "Club Admin", email: "ramon.cruz@cebudistance.ph" },
       ],
+    },
+    locationDetail: {
+      name: "Cebu City Sports Center",
+      address: "Cebu City Sports Complex, Osmeña Blvd, Cebu City",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.2625366190157!2d123.8929876!3d10.3049236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9993608a68f27%3A0xd7e9f6f9d21db8f5!2sCebu%20City%20Sports%20Center!5e0!3m2!1sen!2sph!4v1700000000001",
+      notes: "Meet at the south bleachers; morning sessions start 6:00 AM.",
     },
   },
   {
@@ -77,6 +97,12 @@ export const clubs: Club[] = [
         { name: "Miguel Santos", role: "Club Manager", email: "miguel.santos@davaoathletics.ph", phone: "+63 917 333 3333" },
       ],
     },
+    locationDetail: {
+      name: "Davao City Recreation Center",
+      address: "Quimpo Blvd, Davao City",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63821.48342197436!2d125.5871997!3d7.0735781999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d2d0e4419a3%3A0x4d6b79a24f2b0fc8!2sDavao%20City%20Recreation%20Center!5e0!3m2!1sen!2sph!4v1700000000002",
+      notes: "Field event area on the east side; ask security for throws sector access.",
+    },
   },
   {
     id: "4",
@@ -93,6 +119,12 @@ export const clubs: Club[] = [
         { name: "Coach Emmanuel Cruz", role: "Head Coach", email: "emmanuel.cruz@qcsprinters.ph" },
         { name: "Anna Lim", role: "Admin", email: "anna.lim@qcsprinters.ph" },
       ],
+    },
+    locationDetail: {
+      name: "Amoranto Sports Complex",
+      address: "Amoranto Stadium, Roces Ave, Quezon City",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.290657959675!2d121.019266!3d14.647843999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7a92f899cd1%3A0x8e0b1c1d7f66a701!2sAmoranto%20Sports%20Complex!5e0!3m2!1sen!2sph!4v1700000000003",
+      notes: "Warm-up area near the north gate; parking on Roces Ave.",
     },
   },
   {
@@ -111,6 +143,12 @@ export const clubs: Club[] = [
         { name: "Jared Ramos", role: "Club Manager", email: "jared.ramos@iloilotrack.ph" },
       ],
     },
+    locationDetail: {
+      name: "Iloilo Sports Complex",
+      address: "Iloilo Sports Complex, Magsaysay Village, Iloilo City",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.018134614353!2d122.557686!3d10.7096747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33aee54660ad8b0f%3A0x3e27f2b9dbb391d3!2sIloilo%20Sports%20Complex!5e0!3m2!1sen!2sph!4v1700000000004",
+      notes: "Meet at the main gate by the grandstand; afternoon sessions after 4 PM.",
+    },
   },
   {
     id: "6",
@@ -127,6 +165,12 @@ export const clubs: Club[] = [
         { name: "Coach Paula Dizon", role: "Head Coach", email: "paula.dizon@lagunaathletics.ph" },
         { name: "Marco Tan", role: "Program Director", email: "marco.tan@lagunaathletics.ph" },
       ],
+    },
+    locationDetail: {
+      name: "Nuvali Track Oval",
+      address: "Nuvali, Sta. Rosa, Laguna",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.754335624001!2d121.0654665!3d14.6610325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd6215155c5a3f%3A0xf28ac1e64fdf75b9!2sNuvali!5e0!3m2!1sen!2sph!4v1700000000005",
+      notes: "Track access via the south gate; bring ID for security.",
     },
   },
 ]

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { MapEmbed } from "@/components/map-embed"
 
 export default function ClubProfilePage({ params }: { params: { id: string } }) {
   const id = decodeURIComponent(params?.id || "").trim().replace(/\/+$/, "")
@@ -53,6 +54,21 @@ export default function ClubProfilePage({ params }: { params: { id: string } }) 
         {club.bio ? (
           <div className="p-4 rounded-lg border border-border bg-card">
             <p className="text-sm text-foreground leading-relaxed">{club.bio}</p>
+          </div>
+        ) : null}
+
+        {club.locationDetail ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol={emojiIcons.location} className="text-base" aria-hidden />
+              <h2 className="text-lg font-semibold text-foreground">Practice Location</h2>
+            </div>
+            <MapEmbed
+              mapUrl={club.locationDetail.mapUrl}
+              address={club.locationDetail.address}
+              name={club.locationDetail.name}
+              notes={club.locationDetail.notes}
+            />
           </div>
         ) : null}
 
