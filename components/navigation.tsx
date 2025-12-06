@@ -30,10 +30,12 @@ const primaryLinks: NavLink[] = [
 ]
 
 const bottomLinks = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/clubs", label: "Clubs", icon: UsersRound },
-  { href: "/coaches", label: "Coaches", icon: UserRound },
-  { href: "/athletes", label: "Athletes", icon: UsersRound },
+  { href: "/athletes", label: "Athletes", symbol: "🏃🏽‍♂️" },
+  { href: "/clubs", label: "Clubs", symbol: "👥" },
+  { href: "/coaches", label: "Coaches", symbol: "💪" },
+  { href: "/competitions", label: "Competitions", symbol: "🏟️" },
+  { href: "/rankings", label: "Rankings", symbol: "🥇" },
+  { href: "/sponsors", label: "Sponsors", symbol: "🤝" },
 ]
 
 const isActive = (pathname: string, href: string) => {
@@ -158,10 +160,9 @@ export function Navigation() {
       </nav>
 
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90 shadow-soft">
-        <div className="grid grid-cols-4 gap-1 px-2 py-2 pb-safe text-xs font-semibold text-muted-foreground">
+        <div className="grid grid-cols-3 gap-1 px-2 py-2 pb-safe text-[11px] font-semibold text-muted-foreground">
           {bottomLinks.map((link) => {
             const active = isActive(pathname, link.href)
-            const Icon = link.icon
             return (
               <Link
                 key={link.href}
@@ -170,8 +171,8 @@ export function Navigation() {
                   active ? "bg-accent/10 text-accent" : "hover:bg-muted text-foreground"
                 }`}
               >
-                <Icon className="h-5 w-5" />
-                <span>{link.label}</span>
+                <Emoji symbol={link.symbol} className="text-base" aria-hidden />
+                <span className="text-center leading-tight">{link.label}</span>
               </Link>
             )
           })}
