@@ -21,7 +21,9 @@ export default function Home() {
 
           <div className="hero-panel p-6 sm:p-8 space-y-6 max-w-xl">
             <div className="space-y-3">
-              <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em]">Philippine Athletics</p>
+              <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em]">
+                Building the Next Generation of Philippine Track &amp; Field
+              </p>
               <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch]">
                 Building the Next Generation of Philippine Track &amp; Field
               </h1>
