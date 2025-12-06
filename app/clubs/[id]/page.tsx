@@ -86,25 +86,25 @@ export default function ClubProfilePage({ params }: { params: { id: string } }) 
         ) : null}
 
         {roster && roster.length ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <h2 className="text-lg font-semibold text-foreground">Roster</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {roster.map((athlete) => {
                 const href = athlete.id ? `/athletes/${athlete.id}` : undefined
-                const content = href ? (
-                  <Link href={href} className="inline-flex">
-                    <span className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors">
-                      {athlete.name}
-                    </span>
-                  </Link>
-                ) : (
-                  <span className="p-3 rounded-lg border border-border bg-card text-sm text-foreground">{athlete.name}</span>
+                const primaryEvent = athlete.events?.[0] || athlete.specialty
+                const content = (
+                  <div className="p-3 rounded-lg border border-border bg-card space-y-1 hover:border-accent transition-colors">
+                    <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
+                    <p className="text-xs text-muted-foreground">{primaryEvent}</p>
+                  </div>
                 )
 
-                return (
-                  <div key={athlete.name} className="flex">
+                return href ? (
+                  <Link key={athlete.name} href={href} className="block">
                     {content}
-                  </div>
+                  </Link>
+                ) : (
+                  <div key={athlete.name}>{content}</div>
                 )
               })}
             </div>
