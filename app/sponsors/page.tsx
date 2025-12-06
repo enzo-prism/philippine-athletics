@@ -16,7 +16,7 @@ export default function SponsorsPage() {
             <Emoji symbol={emojiIcons.sparkles} className="text-base" aria-hidden />
             Sponsors
           </p>
-          <h1 className="text-4xl font-bold text-foreground">Sponsorship Partners</h1>
+          <h1 className="text-4xl font-bold text-foreground">Search Sponsors</h1>
           <p className="text-muted-foreground max-w-2xl text-sm">
             Brands actively sponsoring athletes, coaches, and clubs. Tap any sponsor to see their roster and focus areas.
           </p>

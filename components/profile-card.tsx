@@ -14,7 +14,7 @@ interface ProfileCardProps {
 export function ProfileCard({ name, subtitle, details, href, type, location, badges }: ProfileCardProps) {
   return (
     <Link href={href}>
-      <div className="group p-6 rounded-lg border border-border bg-card hover:bg-muted transition-all duration-200 cursor-pointer">
+      <div className="group p-5 md:p-6 rounded-xl border border-border bg-card hover:bg-muted transition-all duration-200 cursor-pointer">
         <div className="space-y-3">
           <div>
             <h3 className="text-lg font-bold text-foreground mt-1 group-hover:text-accent transition-colors">{name}</h3>
@@ -45,7 +45,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
               </p>
             ))}
           </div>
-          <div className="flex items-center gap-1 text-accent text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity pt-2">
+          <div className="flex items-center gap-1 text-accent text-sm font-medium opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity pt-2">
             {type === "club" ? "View club details" : "View Profile"}
             <Emoji symbol="➡️" className="text-base" aria-hidden />
           </div>

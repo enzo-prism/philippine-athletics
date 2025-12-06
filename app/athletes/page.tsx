@@ -44,6 +44,16 @@ const eventOptions = [
   { label: "Marathon", value: "Marathon" },
 ]
 
+const quickEventFilters = ["All", "Sprints", "Middle Distance", "Long Distance", "Jumps", "Throws", "Relays", "Road Events"]
+
+const regionOptions = [
+  { label: "All locations", value: "All" },
+  { label: "Metro Manila", value: "Metro Manila" },
+  { label: "Luzon", value: "Luzon" },
+  { label: "Visayas", value: "Visayas" },
+  { label: "Mindanao", value: "Mindanao" },
+]
+
 const categoryByEvent: Record<string, string> = {
   Sprints: "Sprints",
   "100m": "Sprints",
@@ -151,6 +161,7 @@ export default function AthletesPage() {
   const [regionFilter, setRegionFilter] = useState("All")
   const [eventFilter, setEventFilter] = useState("All")
   const [sortOption, setSortOption] = useState("relevance")
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const classifyRegion = (location: string) => {
     const metroManila = [
@@ -288,120 +299,207 @@ export default function AthletesPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Athletes</h1>
-          <p className="text-muted-foreground">Explore profiles of track and field athletes across the Philippines</p>
+      <div className="page-shell py-10 space-y-8">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-accent uppercase tracking-widest">Discover</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search Athletes</h1>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
+            Explore profiles of track and field athletes across the Philippines. Search by name, club, event, or region and tap into the
+            national roster.
+          </p>
         </div>
 
-        <div className="space-y-6 mb-10">
-          <div className="p-4 border border-border rounded-lg bg-card">
-            <div className="flex flex-col gap-4">
-              <label className="text-sm font-medium text-foreground flex items-center gap-2">
+        <div className="sticky top-16 z-30 md:static md:z-auto space-y-3">
+          <div className="card-surface shadow-soft p-4 space-y-4">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-2">
                 <Emoji symbol="🔍" className="text-sm" aria-hidden />
                 Search athletes
               </label>
-              <input
-                type="text"
-                placeholder="Search by name, event, or club..."
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 focus-within:ring-2 focus-within:ring-accent">
+                <Emoji symbol="🔎" className="text-base" aria-hidden />
+                <input
+                  type="text"
+                  placeholder="Name, event, club..."
+                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase">Events</p>
+                <button
+                  type="button"
+                  className="md:hidden inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  onClick={() => setFiltersOpen((v) => !v)}
+                  aria-expanded={filtersOpen}
+                >
+                  <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
+                  Filters & Sort
+                </button>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {quickEventFilters.map((evt) => {
+                  const active = eventFilter === evt
+                  return (
+                    <button
+                      key={evt}
+                      type="button"
+                      onClick={() => setEventFilter(evt)}
+                      className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                        active
+                          ? "bg-accent text-accent-foreground border-accent"
+                          : "bg-muted/60 text-foreground border-border hover:bg-muted"
+                      }`}
+                    >
+                      {evt}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="hidden md:grid md:grid-cols-3 gap-3">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={regionFilter}
+                  onChange={(e) => setRegionFilter(e.target.value)}
+                >
+                  {regionOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={eventFilter}
+                  onChange={(e) => setEventFilter(e.target.value)}
+                >
+                  {eventOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
+                  <option value="relevance">Relevance</option>
+                  <option value="national_rank">National Rank</option>
+                  <option value="asian_rank">Asian Rank</option>
+                  <option value="global_rank">Global Rank</option>
+                  <option value="personal_best">Personal Best</option>
+                  <option value="name">Name (A-Z)</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 border border-border rounded-lg bg-card">
-              <div className="flex items-center gap-2 mb-3">
-                <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
-                <p className="text-sm font-semibold text-foreground">Filter by Region</p>
+          {filtersOpen ? (
+            <div className="md:hidden card-surface shadow-soft p-4 space-y-4">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={regionFilter}
+                  onChange={(e) => setRegionFilter(e.target.value)}
+                >
+                  {regionOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={regionFilter}
-                onChange={(e) => setRegionFilter(e.target.value)}
-              >
-                <option value="All">All locations</option>
-                <option value="Metro Manila">Metro Manila</option>
-                <option value="Luzon">Luzon</option>
-                <option value="Visayas">Visayas</option>
-                <option value="Mindanao">Mindanao</option>
-              </select>
-            </div>
 
-            <div className="p-4 border border-border rounded-lg bg-card">
-              <div className="flex items-center gap-2 mb-3">
-                <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
-                <p className="text-sm font-semibold text-foreground">Filter by Event</p>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={eventFilter}
+                  onChange={(e) => setEventFilter(e.target.value)}
+                >
+                  {eventOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={eventFilter}
-                onChange={(e) => setEventFilter(e.target.value)}
-              >
-                {eventOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
 
-            <div className="p-4 border border-border rounded-lg bg-card">
-              <div className="flex items-center gap-2 mb-3">
-                <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
-                <p className="text-sm font-semibold text-foreground">Sort results</p>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
+                <select
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
+                  <option value="relevance">Relevance</option>
+                  <option value="national_rank">National Rank</option>
+                  <option value="asian_rank">Asian Rank</option>
+                  <option value="global_rank">Global Rank</option>
+                  <option value="personal_best">Personal Best</option>
+                  <option value="name">Name (A-Z)</option>
+                </select>
               </div>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-              >
-                <option value="relevance">Relevance</option>
-                <option value="national_rank">National Rank</option>
-                <option value="asian_rank">Asian Rank</option>
-                <option value="global_rank">Global Rank</option>
-                <option value="personal_best">Personal Best</option>
-                <option value="name">Name (A-Z)</option>
-              </select>
             </div>
-          </div>
-          <div className="text-sm text-muted-foreground">
+          ) : null}
+
+          <div className="text-xs text-muted-foreground">
             Showing {filteredAthletes.length} of {athletes.length} athletes
           </div>
         </div>
 
         {filteredAthletes.length === 0 ? (
-          <div className="p-6 border border-border rounded-lg bg-card text-sm text-muted-foreground">
+          <div className="card-surface shadow-soft p-6 text-sm text-muted-foreground">
             No athletes match your filters. Try adjusting search, region, or event.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredAthletes.map((athlete) => (
-              <ProfileCard
-                key={athlete.id}
-                name={athlete.name}
-                subtitle={athlete.specialty}
-                location={athlete.location}
-                badges={getDisplayEvents(athlete).slice(0, 4)}
-                details={[
-                  `Club: ${athlete.club}`,
-                  `Personal Best: ${athlete.pb ?? "—"}`,
-                  `National Rank: ${athlete.nationalRank ?? "—"}`,
-                  `Asian Rank: ${athlete.asianRank ?? "—"}`,
-                  `Global Rank: ${athlete.globalRank ?? "—"}`,
-                ]}
-                href={athlete.href}
-                type="athlete"
-              />
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+            {filteredAthletes.map((athlete) => {
+              const badges = getEventTags(athlete).slice(0, 3)
+              const rankLabel = [athlete.nationalRank, athlete.asianRank, athlete.globalRank].filter(Boolean).join(" · ")
+              const details = [
+                `Club: ${athlete.club}`,
+                `PB: ${athlete.pb ?? "—"}`,
+                rankLabel ? `Ranks: ${rankLabel}` : undefined,
+              ].filter(Boolean) as string[]
+
+              return (
+                <ProfileCard
+                  key={athlete.id}
+                  name={athlete.name}
+                  subtitle={athlete.specialty}
+                  location={athlete.location}
+                  badges={badges}
+                  details={details}
+                  href={athlete.href}
+                  type="athlete"
+                />
+              )
+            })}
           </div>
         )}
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

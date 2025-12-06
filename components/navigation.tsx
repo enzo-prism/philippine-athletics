@@ -1,51 +1,167 @@
+"use client"
+
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Menu, Search, Trophy, UserRound, X, Home } from "lucide-react"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
+type NavLink = { href: string; label: string }
+
+const primaryLinks: NavLink[] = [
+  { href: "/athletes", label: "Athletes" },
+  { href: "/coaches", label: "Coaches" },
+  { href: "/clubs", label: "Clubs" },
+  { href: "/competitions", label: "Competitions" },
+  { href: "/rankings", label: "Rankings" },
+  { href: "/sponsors", label: "Sponsors" },
+]
+
+const bottomLinks = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/athletes", label: "Search", icon: Search },
+  { href: "/rankings", label: "Rankings", icon: Trophy },
+  { href: "/profile", label: "Profile", icon: UserRound },
+]
+
+const isActive = (pathname: string, href: string) => {
+  if (href === "/") return pathname === "/"
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export function Navigation() {
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+
+  const activeLabel = useMemo(() => {
+    const match = primaryLinks.find((link) => isActive(pathname, link.href))
+    if (match) return match.label
+    const bottomMatch = bottomLinks.find((link) => isActive(pathname, link.href))
+    return bottomMatch?.label ?? "Home"
+  }, [pathname])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
   return (
-    <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-accent rounded-sm flex items-center justify-center">
-            <span className="text-accent-foreground font-bold text-sm">PA</span>
+    <>
+      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="page-shell py-3 flex items-center justify-between gap-3">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-9 h-9 bg-accent rounded-md flex items-center justify-center">
+              <span className="text-accent-foreground font-bold text-sm">PA</span>
+            </div>
+            <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-6">
+            {primaryLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors ${
+                  isActive(pathname, link.href)
+                    ? "text-accent"
+                    : "text-foreground hover:text-accent"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-        </Link>
-        <div className="flex items-center gap-6">
-          <div className="flex gap-6">
-            <Link href="/" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Home
-            </Link>
-            <Link href="/athletes" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Athletes
-            </Link>
-            <Link href="/coaches" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Coaches
-            </Link>
-            <Link href="/clubs" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Clubs
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+            >
+              <Emoji symbol={emojiIcons.sparkles} className="text-base" aria-hidden />
+              Sign Up
             </Link>
             <Link
-              href="/competitions"
-              className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+              href="/profile"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
             >
-              Competitions
-            </Link>
-            <Link href="/rankings" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Rankings
-            </Link>
-            <Link href="/sponsors" className="text-sm font-medium text-foreground hover:text-accent transition-colors">
-              Sponsors
+              <Emoji symbol={emojiIcons.profile} className="text-base" aria-hidden />
+              Profile
             </Link>
           </div>
-          <Link
-            href="/profile"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
-          >
-            <Emoji symbol={emojiIcons.profile} className="text-base" label="Profile" />
-            Profile
-          </Link>
+
+          <div className="md:hidden flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground">{activeLabel}</span>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card text-foreground hover:bg-muted transition-colors"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
+            >
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {open ? (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+            <div className="page-shell py-4 space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                {primaryLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
+                      isActive(pathname, link.href)
+                        ? "border-accent text-foreground bg-accent/10"
+                        : "border-border bg-card text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <Emoji symbol="➡️" className="text-base" aria-hidden />
+                  </Link>
+                ))}
+              </div>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+                >
+                  <Emoji symbol={emojiIcons.sparkles} className="text-base" aria-hidden />
+                  Sign Up
+                </Link>
+                <Link
+                  href="/profile"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+                >
+                  <Emoji symbol={emojiIcons.profile} className="text-base" aria-hidden />
+                  Profile
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </nav>
+
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90 shadow-soft">
+        <div className="grid grid-cols-4 gap-1 px-2 py-2 pb-safe text-xs font-semibold text-muted-foreground">
+          {bottomLinks.map((link) => {
+            const active = isActive(pathname, link.href)
+            const Icon = link.icon
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`flex flex-col items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors ${
+                  active ? "bg-accent/10 text-accent" : "hover:bg-muted text-foreground"
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                <span>{link.label}</span>
+              </Link>
+            )
+          })}
         </div>
       </div>
-    </nav>
+    </>
   )
 }
