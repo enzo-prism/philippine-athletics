@@ -14,6 +14,10 @@ export type Coach = {
   bio?: string
   achievements?: string[]
   isStub?: boolean
+  contact?: {
+    email?: string
+    phone?: string
+  }
 }
 
 export const coaches: Coach[] = [
@@ -29,6 +33,7 @@ export const coaches: Coach[] = [
     experience: "25 years",
     bio: "Sprint coach focused on acceleration mechanics, relay chemistry, and repeatable speed. Works with national pool athletes and club sprinters.",
     achievements: ["Trained 15+ national champions", "Produced 5 Olympic athletes", "SEA Games Gold Medal Coach 2023"],
+    contact: { email: "roberto.tan@manilaspeedclub.ph", phone: "+63 917 111 1111" },
   },
   {
     id: "2",
@@ -41,6 +46,7 @@ export const coaches: Coach[] = [
     experience: "18 years",
     bio: "Distance coach focusing on periodization, altitude blocks, and healthy volume for long-term success.",
     achievements: ["Guided multiple SEA Games finalists", "Built Cebu endurance pipeline"],
+    contact: { email: "maria.gonzales@cebudistance.ph", phone: "+63 917 222 2222" },
   },
   {
     id: "3",
@@ -53,6 +59,7 @@ export const coaches: Coach[] = [
     experience: "15 years",
     bio: "Field coach specializing in jump technique, approach rhythm, and strength balance for horizontal jumpers.",
     achievements: ["Developed national long jump champion", "Davao regional coach of the year"],
+    contact: { email: "antonio.reyes@davaoathletics.ph", phone: "+63 917 333 3333" },
   },
   {
     id: "4",
@@ -65,6 +72,7 @@ export const coaches: Coach[] = [
     experience: "22 years",
     bio: "Sprint and relay coach emphasizing maximal velocity development and baton work for urban programs.",
     achievements: ["Built consistent sub-41 relay teams", "Longtime national relay consultant"],
+    contact: { email: "emmanuel.cruz@qcsprinters.ph", phone: "+63 917 444 4444" },
   },
   {
     id: "5",
@@ -76,18 +84,36 @@ export const coaches: Coach[] = [
     clubId: "5",
     experience: "12 years",
     bio: "Technical jumps and throws coach focusing on posture, timing, and injury-free development.",
+    achievements: ["Mentored junior national triple jump champion", "Led throws clinics across Western Visayas"],
+    contact: { email: "lisa.santos@iloilotrack.ph", phone: "+63 917 555 5555" },
   },
   {
     id: "6",
-    slug: slugify("Coach Pedro Villalobos"),
-    name: "Coach Pedro Villalobos",
-    specialty: "Head Coach",
-    location: "Pasig",
-    club: "Philippine National Team",
+    slug: slugify("Coach Paula Dizon"),
+    name: "Coach Paula Dizon",
+    specialty: "Youth Development",
+    location: "Laguna",
+    club: "Laguna Athletics Academy",
     clubId: "6",
-    badges: ["National Team Coach"],
-    experience: "30 years",
-    bio: "Oversees national team preparation blocks, competition scheduling, and staff coordination.",
+    badges: ["Youth Dev", "SafeSport"],
+    experience: "14 years",
+    bio: "Youth coach building foundational movement, speed, and durability for multi-event athletes.",
+    achievements: ["Built U16 relay champions", "Launched province-wide grassroots program"],
+    contact: { email: "paula.dizon@lagunaathletics.ph", phone: "+63 917 666 6666" },
+  },
+  {
+    id: "7",
+    slug: slugify("Coach Rafael Cruz"),
+    name: "Coach Rafael Cruz",
+    specialty: "Road & Marathon",
+    location: "Taguig",
+    club: "Manila Speed Club",
+    clubId: "1",
+    badges: ["Road", "Marathon"],
+    experience: "16 years",
+    bio: "Endurance coach focused on marathon builds, nutrition timing, and heat adaptation for road athletes.",
+    achievements: ["Coached national marathon champion", "Designed heat-adapted training blocks"],
+    contact: { email: "rafael.cruz@manilaspeedclub.ph", phone: "+63 917 777 7777" },
   },
 ]
 
