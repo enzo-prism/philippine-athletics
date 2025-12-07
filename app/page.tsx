@@ -23,7 +23,7 @@ export default function Home() {
           </div>
 
           <div className="hero-panel p-6 sm:p-8 space-y-6 max-w-xl">
-            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/60 px-5 py-4 w-fit">
+            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/60 px-5 py-4 w-fit transition duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:shadow-soft hover:shadow-accent/30">
               <img
                 src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
                 alt="Philippine Olympic Committee"
