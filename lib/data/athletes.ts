@@ -83,6 +83,28 @@ export type AthleteSummary = {
   isStub?: boolean
 }
 
+function toSummary(profile: AthleteProfile): AthleteSummary {
+  const primaryEvent = profile.events[0]
+  return {
+    id: profile.id,
+    slug: profile.slug,
+    name: `${profile.firstName} ${profile.lastName}`,
+    specialty: profile.specialty,
+    club: profile.club,
+    coach: profile.coach,
+    clubId: profile.clubId,
+    coachId: profile.coachId,
+    pb: primaryEvent?.personalBest,
+    location: profile.location,
+    nationalRank: primaryEvent?.nationalRank,
+    asianRank: primaryEvent?.asianRank,
+    globalRank: primaryEvent?.globalRank,
+    events: profile.events.map((evt) => evt.name),
+    href: `/athletes/${profile.slug}`,
+    isStub: profile.isStub,
+  }
+}
+
 export const athleteProfiles: AthleteProfile[] = [
   {
     id: "athlete-jc-dela-cruz",
@@ -389,7 +411,7 @@ export const athleteProfiles: AthleteProfile[] = [
     contact: {
       sms: "+63 917 555 8008",
       whatsapp: "+63 917 555 8008",
-      email: "rico.navarro@samplemail.ph",
+      email: "rico.navarro@example.com",
       instagram: "@ricojumpsph",
     },
     sponsors: [{ name: "South Mindanao Sports Hub", category: "Local Sponsor", note: "Travel assistance for national meets" }],
@@ -422,7 +444,7 @@ export const athleteProfiles: AthleteProfile[] = [
     bio: "Former volleyball player who transitioned to javelin, Leah is working on refining her technique to compete for national records.",
     contact: {
       sms: "+63 917 555 9009",
-      email: "leah.dominguez@samplemail.ph",
+      email: "leah.dominguez@example.com",
       instagram: "@leah.throws",
     },
     sponsors: [],
@@ -465,9 +487,7 @@ export const athleteProfiles: AthleteProfile[] = [
   },
 ]
 
-const baseSummaries: AthleteSummary[] = athleteProfiles.map(toSummary)
-
-export const athleteSummaries: AthleteSummary[] = baseSummaries
+export const athleteSummaries: AthleteSummary[] = athleteProfiles.map(toSummary)
 
 export const getAthleteProfile = (idOrSlug: string): AthleteProfile | undefined =>
   athleteProfiles.find((athlete) => matchesIdOrSlug(athlete, idOrSlug))
