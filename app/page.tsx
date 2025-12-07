@@ -23,14 +23,13 @@ export default function Home() {
           </div>
 
           <div className="hero-panel p-6 sm:p-8 space-y-6 max-w-xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/60 px-3 py-2 w-fit">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/60 px-4 py-3 w-fit">
               <img
                 src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
                 alt="Philippine Olympic Committee"
-                className="h-7 w-auto opacity-80"
+                className="h-9 w-auto opacity-85"
                 loading="lazy"
               />
-              <span className="text-xs font-semibold text-muted-foreground">In partnership</span>
             </div>
             <div className="space-y-3">
               <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em]">
