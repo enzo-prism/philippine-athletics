@@ -1,6 +1,9 @@
 import Link from "next/link"
 import { BackgroundVideo } from "@/components/background-video"
 import { Navigation } from "@/components/navigation"
+import { athleteSummaries } from "@/lib/data/athletes"
+import { coaches } from "@/lib/data/coaches"
+import { clubs } from "@/lib/data/clubs"
 
 export default function Home() {
   return (
@@ -59,21 +62,21 @@ export default function Home() {
               className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
             >
               <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
-              <p className="text-2xl font-bold text-foreground mt-2">240+</p>
+              <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
             </Link>
             <Link
               href="/coaches"
               className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
             >
               <p className="text-sm font-semibold text-accent uppercase">Coaches</p>
-              <p className="text-2xl font-bold text-foreground mt-2">45+</p>
+              <p className="text-2xl font-bold text-foreground mt-2">{coaches.length}</p>
             </Link>
             <Link
               href="/clubs"
               className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
             >
               <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
-              <p className="text-2xl font-bold text-foreground mt-2">28+</p>
+              <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
             </Link>
           </div>
         </div>
