@@ -97,7 +97,7 @@ export default function Home() {
               { title: "Search nearby", body: "Browse verified coaches or clubs in your area by specialty." },
               { title: "Contact to start", body: "Message the coach or club admin to begin your training plan." },
             ].map((step, idx) => (
-              <div key={step.title} className="p-4 rounded-lg border border-border bg-muted/40">
+              <div key={step.title} className="p-4 rounded-lg border border-border bg-muted/40 space-y-2">
                 <div className="flex items-center gap-2 text-accent font-semibold">
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
                     {idx + 1}
@@ -105,6 +105,14 @@ export default function Home() {
                   <span>{step.title}</span>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+                {step.title === "Sign up" ? (
+                  <Link
+                    href="/signup"
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-accent hover:text-accent/80"
+                  >
+                    Go to signup →
+                  </Link>
+                ) : null}
               </div>
             ))}
           </div>
