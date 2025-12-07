@@ -42,7 +42,7 @@ export default function Home() {
                 href="/coaches"
                 className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-full border border-border bg-card text-foreground text-sm sm:text-base font-semibold hover:bg-muted transition-colors"
               >
-                Find a Coach
+                Search Coaches
               </Link>
               <Link
                 href="/how-it-works"

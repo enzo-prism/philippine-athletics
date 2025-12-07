@@ -21,6 +21,7 @@ const emojiByPath: Record<string, string> = {
 }
 
 const primaryLinks: NavLink[] = [
+  { href: "/", label: "Home" },
   { href: "/athletes", label: "Athletes" },
   { href: "/coaches", label: "Coaches" },
   { href: "/clubs", label: "Clubs" },
