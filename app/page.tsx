@@ -83,6 +83,35 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
+        <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4 shadow-soft">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 border border-accent/30 text-lg font-bold text-accent">
+              ?
+            </span>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent/80">How it works</p>
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">Start training in three simple steps</h3>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { title: "Sign up", body: "Create your profile so coaches and clubs know who you are." },
+              { title: "Search nearby", body: "Browse verified coaches or clubs in your area by specialty." },
+              { title: "Contact to start", body: "Message the coach or club admin to begin your training plan." },
+            ].map((step, idx) => (
+              <div key={step.title} className="p-4 rounded-lg border border-border bg-muted/40">
+                <div className="flex items-center gap-2 text-accent font-semibold">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
+                    {idx + 1}
+                  </span>
+                  <span>{step.title}</span>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Footer */}
