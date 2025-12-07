@@ -105,6 +105,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <Link
+            href="/how-it-works"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+          >
+            Learn more
+          </Link>
         </div>
       </div>
 
