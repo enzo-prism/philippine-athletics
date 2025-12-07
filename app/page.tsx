@@ -44,12 +44,6 @@ export default function Home() {
               >
                 Search Coaches
               </Link>
-              <Link
-                href="/how-it-works"
-                className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-full border border-white/20 text-foreground text-sm sm:text-base font-semibold hover:bg-muted/70 transition-colors"
-              >
-                How it Works
-              </Link>
             </div>
           </div>
         </div>
