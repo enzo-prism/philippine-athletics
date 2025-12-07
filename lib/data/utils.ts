@@ -12,3 +12,5 @@ export const matchesIdOrSlug = (entity: { id: string; slug?: string }, query: st
   const normalized = normalizeKey(query)
   return normalizeKey(entity.id) === normalized || (!!entity.slug && normalizeKey(entity.slug) === normalized)
 }
+
+export const decodeIdParam = (value?: string) => decodeURIComponent(value ?? "").trim().replace(/\/+$/, "")

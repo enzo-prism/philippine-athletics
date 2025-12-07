@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
+import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-export default function CoachProfilePage({ params }: { params: { id: string } }) {
-  const id = decodeURIComponent(params?.id || "").trim().replace(/\/+$/, "")
+export default async function CoachProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params
+  const id = decodeIdParam(rawId)
   const coach = getCoachOrStub(id)
   const coachedAthletes = getAthletesByCoach(coach.name || coach.id)
   const isStub = coach.isStub

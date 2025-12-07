@@ -24,9 +24,6 @@ const primaryLinks: NavLink[] = [
   { href: "/athletes", label: "Athletes" },
   { href: "/coaches", label: "Coaches" },
   { href: "/clubs", label: "Clubs" },
-  { href: "/competitions", label: "Competitions" },
-  { href: "/rankings", label: "Rankings" },
-  { href: "/sponsors", label: "Sponsors" },
 ]
 
 const bottomLinks = [

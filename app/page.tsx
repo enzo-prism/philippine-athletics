@@ -59,7 +59,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-6">Browse by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link
               href="/athletes"
               className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
@@ -80,13 +80,6 @@ export default function Home() {
             >
               <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
               <p className="text-2xl font-bold text-foreground mt-2">28+</p>
-            </Link>
-            <Link
-              href="/competitions"
-              className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
-            >
-              <p className="text-sm font-semibold text-accent uppercase">Competitions</p>
-              <p className="text-2xl font-bold text-foreground mt-2">18+</p>
             </Link>
           </div>
         </div>

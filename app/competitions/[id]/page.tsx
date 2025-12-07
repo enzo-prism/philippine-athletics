@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
+import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-export default function CompetitionProfilePage({ params }: { params: { id: string } }) {
-  const param = params.id?.trim() || ""
+export default async function CompetitionProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params
+  const param = decodeIdParam(rawId)
   const competition = getCompetitionByIdOrStub(param)
   const isStub = competition.isStub
 

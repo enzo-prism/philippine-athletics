@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getSponsorByIdOrStub, resolveRoster } from "@/lib/data/sponsors"
+import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-export default function SponsorPage({ params }: { params: { id: string } }) {
-  const id = decodeURIComponent(params?.id || "").trim().replace(/\/+$/, "")
+export default async function SponsorPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params
+  const id = decodeIdParam(rawId)
   const sponsor = getSponsorByIdOrStub(id)
   const isStub = sponsor.isStub
   const roster = resolveRoster(sponsor.roster)

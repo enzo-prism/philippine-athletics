@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
+import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 import { MapEmbed } from "@/components/map-embed"
 
-export default function ClubProfilePage({ params }: { params: { id: string } }) {
-  const id = decodeURIComponent(params?.id || "").trim().replace(/\/+$/, "")
+export default async function ClubProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params
+  const id = decodeIdParam(rawId)
   const club = getClubByIdOrStub(id)
   const roster = getClubAthletes(club.name || club.id)
   const staff = getClubCoaches(club.name || club.id)

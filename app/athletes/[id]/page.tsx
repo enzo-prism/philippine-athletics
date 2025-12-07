@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
+import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export const dynamic = "force-dynamic"
@@ -14,9 +15,9 @@ const ContactItem = ({ emoji, label, value }: { emoji: string; label: string; va
   </div>
 )
 
-export default function AthleteProfilePage({ params }: { params: { id: string } }) {
-  const rawId = params?.id ?? ""
-  const id = decodeURIComponent(rawId).trim().replace(/\/+$/, "")
+export default async function AthleteProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params
+  const id = decodeIdParam(rawId)
   const athlete = getAthleteProfileOrStub(id)
   const isStub = athlete.isStub
 
