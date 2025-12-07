@@ -112,6 +112,21 @@ export default function Home() {
                   >
                     Go to signup →
                   </Link>
+                ) : step.title === "Search nearby" ? (
+                  <div className="flex flex-wrap gap-2">
+                    <Link
+                      href="/coaches"
+                      className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    >
+                      Search Coaches
+                    </Link>
+                    <Link
+                      href="/clubs"
+                      className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    >
+                      Search Clubs
+                    </Link>
+                  </div>
                 ) : null}
               </div>
             ))}
