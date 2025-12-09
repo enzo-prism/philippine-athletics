@@ -31,8 +31,9 @@ Continue building your app on:
 
 ## Developer notes (for Codex & contributors)
 
-- **Data sources:** Canonical entity data lives in `lib/data/*.ts`. Athletes merge detailed profiles with `lib/data/legacy-athlete-records.ts` to keep legacy IDs working. All links use slugs; detail resolvers accept either slug or ID.
-- **Stubs instead of 404s:** Detail pages use `get*OrStub` helpers to render placeholder content when a record is missing. If you add new IDs/slugs, prefer updating the shared data modules to avoid stub banners.
-- **Validation:** Run `pnpm data:check` to verify referential links (clubs/coaches/rosters). Warnings are non-fatal; missing references fail the check.
-- **Scripts:** Standard Next scripts plus the validation above. Install deps first (`pnpm install`) to get `tsx` for the data check.
-- **UI conventions:** Tailwind-first, App Router, and `@/` imports. Use slugs for hrefs (`/athletes/{slug}` etc.) to keep navigation consistent.
+- **Data sources:** Canonical sample data lives in `lib/data/athletes.ts`, `lib/data/coaches.ts`, and `lib/data/clubs.ts`. Each record is keyed by `id` and `slug`; detail pages accept either. `lib/data/legacy-athlete-records.ts` is a stub kept only for import stability.
+- **Cross-links:** Use `clubId`/`coachId` (preferred) or `club`/`coach` names for relationships. Helpers `getClubAthletes`, `getClubCoaches`, and `getAthletesByCoach` resolve rosters using these keys.
+- **Contact & map blocks:** Clubs include `contact.people` and `locationDetail` (name, address, lat/lng, mapUrl, notes). Coaches/athletes expose `contact` fields directly; keep emails/phones populated to avoid placeholder UI.
+- **Stubs instead of 404s:** `get*OrStub` helpers fall back to placeholder content if a record is missing. When adding new IDs/slugs, update the shared data modules so stubs are rarely used.
+- **Validation & build:** Run `pnpm data:check` for referential sanity (IDs/slugs) and `pnpm build` for Next.js compilation. Install deps via `pnpm install` first to ensure `tsx` is available.
+- **UI conventions:** Tailwind-first, App Router, `@/` imports, and slugs in hrefs (`/athletes/{slug}` etc.) for consistent routing.

@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { Avatar } from "@/components/avatar"
+import { WeeklySchedule } from "@/components/weekly-schedule"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
@@ -74,6 +76,16 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           </div>
         ) : null}
 
+        {club.schedule && club.schedule.length > 0 ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol="📅" className="text-base" aria-hidden />
+              <h2 className="text-lg font-semibold text-foreground">Practice Schedule</h2>
+            </div>
+            <WeeklySchedule sessions={club.schedule} />
+          </div>
+        ) : null}
+
         {club.achievements && club.achievements.length ? (
           <div className="space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
@@ -95,9 +107,12 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                 const href = athlete.id ? `/athletes/${athlete.id}` : undefined
                 const primaryEvent = athlete.events?.[0] || athlete.specialty
                 const content = (
-                  <div className="p-3 rounded-lg border border-border bg-card space-y-1 hover:border-accent transition-colors">
-                    <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
-                    <p className="text-xs text-muted-foreground">{primaryEvent}</p>
+                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors">
+                    <Avatar name={athlete.name} size="md" />
+                    <div className="space-y-0.5">
+                      <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
+                      <p className="text-xs text-muted-foreground">{primaryEvent}</p>
+                    </div>
                   </div>
                 )
 
@@ -119,20 +134,19 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {staff.map((coach) => {
                 const href = coach.id ? `/coaches/${coach.id}` : undefined
-                const content = href ? (
-                  <Link href={href} className="inline-flex">
-                    <span className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors">
-                      {coach.name}
-                    </span>
-                  </Link>
-                ) : (
-                  <span className="p-3 rounded-lg border border-border bg-card text-sm text-foreground">{coach.name}</span>
+                const inner = (
+                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors">
+                    <Avatar name={coach.name} size="sm" />
+                    <span className="text-sm text-foreground">{coach.name}</span>
+                  </div>
                 )
 
-                return (
-                  <div key={coach.name} className="flex">
-                    {content}
-                  </div>
+                return href ? (
+                  <Link key={coach.name} href={href} className="block">
+                    {inner}
+                  </Link>
+                ) : (
+                  <div key={coach.name}>{inner}</div>
                 )
               })}
             </div>

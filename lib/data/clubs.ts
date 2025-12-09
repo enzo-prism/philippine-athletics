@@ -2,6 +2,15 @@ import { athleteSummaries } from "./athletes"
 import { coaches } from "./coaches"
 import { matchesIdOrSlug, slugify } from "./utils"
 
+export type ScheduleSession = {
+  day: "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun"
+  startTime: string
+  endTime: string
+  title: string
+  type?: "track" | "strength" | "recovery" | "competition" | "other"
+  notes?: string
+}
+
 export type Club = {
   id: string
   slug: string
@@ -26,6 +35,7 @@ export type Club = {
     mapUrl?: string
     notes?: string
   }
+  schedule?: ScheduleSession[]
 }
 
 export const clubs: Club[] = [
@@ -59,6 +69,14 @@ export const clubs: Club[] = [
       mapUrl: "https://maps.google.com/?q=PhilSports+Track+Oval",
       notes: "Evening sessions on weekdays (17:30–20:00) and Saturday morning time trials twice a month.",
     },
+    schedule: [
+      { day: "Mon", startTime: "17:30", endTime: "20:00", title: "Track Practice", type: "track", notes: "Sprints & hurdles" },
+      { day: "Tue", startTime: "06:00", endTime: "07:30", title: "Morning Drills", type: "track" },
+      { day: "Wed", startTime: "17:30", endTime: "20:00", title: "Track Practice", type: "track", notes: "Relay work" },
+      { day: "Thu", startTime: "06:00", endTime: "07:30", title: "Morning Drills", type: "track" },
+      { day: "Fri", startTime: "17:30", endTime: "20:00", title: "Track Practice", type: "track" },
+      { day: "Sat", startTime: "07:00", endTime: "10:00", title: "Time Trials", type: "competition", notes: "Twice a month" },
+    ],
     isStub: false,
   },
   {
@@ -91,6 +109,15 @@ export const clubs: Club[] = [
       mapUrl: "https://maps.google.com/?q=Cebu+City+Sports+Center",
       notes: "Track sessions every Tuesday, Thursday, and Saturday; long runs on the SRP coastal road every Sunday.",
     },
+    schedule: [
+      { day: "Mon", startTime: "05:30", endTime: "07:00", title: "Easy Runs", type: "other", notes: "Recovery pace" },
+      { day: "Tue", startTime: "05:30", endTime: "07:30", title: "Track Session", type: "track", notes: "Intervals" },
+      { day: "Wed", startTime: "05:30", endTime: "07:00", title: "Easy Runs", type: "other" },
+      { day: "Thu", startTime: "05:30", endTime: "07:30", title: "Track Session", type: "track", notes: "Tempo work" },
+      { day: "Fri", startTime: "05:30", endTime: "07:00", title: "Easy Runs", type: "other" },
+      { day: "Sat", startTime: "05:30", endTime: "07:30", title: "Track Session", type: "track" },
+      { day: "Sun", startTime: "05:00", endTime: "08:00", title: "Long Run", type: "other", notes: "SRP coastal road" },
+    ],
     isStub: false,
   },
   {
@@ -120,6 +147,14 @@ export const clubs: Club[] = [
       mapUrl: "https://maps.google.com/?q=Davao+City+Recreation+Center",
       notes: "Jumps and throws sessions in the late afternoon; sand pit and throwing sectors shared with local schools.",
     },
+    schedule: [
+      { day: "Mon", startTime: "16:00", endTime: "18:30", title: "Jumps & Throws", type: "track", notes: "Technical focus" },
+      { day: "Tue", startTime: "15:30", endTime: "17:00", title: "Strength Training", type: "strength" },
+      { day: "Wed", startTime: "16:00", endTime: "18:30", title: "Jumps & Throws", type: "track" },
+      { day: "Thu", startTime: "15:30", endTime: "17:00", title: "Strength Training", type: "strength" },
+      { day: "Fri", startTime: "16:00", endTime: "18:30", title: "Jumps & Throws", type: "track" },
+      { day: "Sat", startTime: "08:00", endTime: "11:00", title: "Technical Session", type: "track", notes: "Video analysis" },
+    ],
     isStub: false,
   },
 ]
