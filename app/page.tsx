@@ -148,6 +148,18 @@ export default function Home() {
         </div>
       </div>
 
+      {/* New Image Section */}
+      <section className="page-shell py-12 sm:py-16 lg:py-20">
+        <div className="rounded-2xl overflow-hidden border border-border shadow-soft">
+          <img
+            src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765248717/Gemini_Generated_Image_a605oba605oba605_echhee.webp"
+            alt="Gemini Generated Image"
+            className="w-full h-auto object-cover"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
       {/* Footer */}
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
