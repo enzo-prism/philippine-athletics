@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { Badge } from "@/components/badge"
 
 interface ProfileCardProps {
   name: string
@@ -23,12 +24,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
           {(badges?.length || location) && (
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
               {badges?.map((badge) => (
-                <span
-                  key={badge}
-                  className="rounded-md bg-accent/10 text-accent px-2 py-1 border border-accent/30 uppercase tracking-wide"
-                >
-                  {badge}
-                </span>
+                <Badge key={badge} text={badge} variant="accent" className="uppercase tracking-wide rounded-md" />
               ))}
               {location && (
                 <span className="p-1.5 rounded-md bg-muted/80 border border-border flex items-center gap-1 text-foreground">

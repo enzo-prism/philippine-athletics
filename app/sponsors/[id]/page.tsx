@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { getSponsorByIdOrStub, resolveRoster } from "@/lib/data/sponsors"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { Badge } from "@/components/badge"
 
 export default async function SponsorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: rawId } = await params
@@ -27,13 +28,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
               Sponsor
             </span>
             {sponsor.badges?.map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-3 py-1 rounded-full"
-              >
-                <Emoji symbol={emojiIcons.shield} className="text-sm" aria-hidden />
-                {badge}
-              </span>
+              <Badge key={badge} text={badge} variant="accent" />
             ))}
           </div>
           <div className="space-y-2">

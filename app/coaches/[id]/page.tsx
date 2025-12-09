@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { Badge } from "@/components/badge"
 
 export default async function CoachProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id: rawId } = await params
@@ -27,10 +28,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
               Coach
             </span>
             {coach.badges?.map((badge) => (
-              <span key={badge} className="inline-flex items-center gap-1 text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
-                <Emoji symbol={emojiIcons.shield} className="text-sm" aria-hidden />
-                {badge}
-              </span>
+              <Badge key={badge} text={badge} variant="accent" />
             ))}
           </div>
 
