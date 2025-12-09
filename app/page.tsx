@@ -13,7 +13,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="page-shell py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-12 items-center">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft aspect-[4/5] sm:aspect-[3/4] lg:aspect-[5/4] min-h-[260px]">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft aspect-[4/5] sm:aspect-[3/4] lg:aspect-[5/4] min-h-[260px] animate-fade-in-up opacity-0 [animation-fill-mode:forwards]">
             <div className="absolute inset-0 bg-gradient-to-tr from-accent/16 via-background/30 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-tr from-black/45 via-black/25 to-transparent pointer-events-none" />
             <BackgroundVideo
@@ -23,7 +23,7 @@ export default function Home() {
           </div>
 
           <div className="hero-panel p-6 sm:p-8 space-y-6 max-w-xl">
-            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/60 px-5 py-4 w-fit transition duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:shadow-soft hover:shadow-accent/30">
+            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/60 px-5 py-4 w-fit transition duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:shadow-soft hover:shadow-accent/30 animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
               <img
                 src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
                 alt="Philippine Olympic Committee"
@@ -32,17 +32,17 @@ export default function Home() {
               />
             </div>
             <div className="space-y-3">
-              <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em]">
+              <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em] animate-fade-in opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
                 Building the Next Generation of Philippine Track &amp; Field
               </p>
-              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch]">
+              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
                 Grassroots Program empowering athletes nationwide
               </h1>
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch]">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
                 Find a coach or join a club to start training with verified professionals and grow into world-class talent.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:700ms] [animation-fill-mode:forwards]">
               <Link
                 href="/clubs"
                 className="w-full sm:w-auto px-5 py-3 min-h-[48px] bg-primary text-primary-foreground rounded-full text-sm sm:text-base font-semibold hover:opacity-90 transition-opacity shadow-soft"
