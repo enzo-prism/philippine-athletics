@@ -1,5 +1,19 @@
 import { cn } from "@/lib/utils"
-import { Emoji } from "@/lib/ui/emoji"
+import { 
+  Globe, 
+  Award, 
+  ShieldCheck, 
+  Users, 
+  Dumbbell, 
+  Timer, 
+  Mountain, 
+  Target, 
+  Flag, 
+  Zap, 
+  HeartPulse, 
+  Medal,
+  LucideIcon
+} from "lucide-react"
 
 interface BadgeProps {
   text: string
@@ -7,28 +21,28 @@ interface BadgeProps {
   variant?: "default" | "outline" | "secondary" | "accent"
 }
 
-// Map specific badge text to emojis
-const badgeIcons: Record<string, string> = {
+// Map specific badge text to Lucide icons
+const badgeIcons: Record<string, LucideIcon> = {
   // Coach badges
-  "World Athletics CE Level 1": "🌐",
-  "Philippine Athletics Certified Coach": "🇵🇭",
-  "SafeSport Trained": "🛡️",
-  "Philippine Athletics Relay Clinic Facilitator": "🤝",
-  "Strength & Conditioning for Endurance Runners": "🏋️",
-  "Marathon Training Specialist": "⏱️",
-  "Philippine Athletics Endurance Coach": "🏔️",
-  "Certified Throws Coach": "☄️",
+  "World Athletics CE Level 1": Globe,
+  "Philippine Athletics Certified Coach": Award,
+  "SafeSport Trained": ShieldCheck,
+  "Philippine Athletics Relay Clinic Facilitator": Users,
+  "Strength & Conditioning for Endurance Runners": Dumbbell,
+  "Marathon Training Specialist": Timer,
+  "Philippine Athletics Endurance Coach": Mountain,
+  "Certified Throws Coach": Target,
   
   // Sponsor badges
-  "National Partner": "🇵🇭",
-  "Performance Nutrition": "🍎",
-  "Recovery Partner": "🔋",
+  "National Partner": Flag,
+  "Performance Nutrition": Zap,
+  "Recovery Partner": HeartPulse,
 }
 
-const defaultIcon = "🏅"
+const DefaultIcon = Medal
 
 export function Badge({ text, className, variant = "accent" }: BadgeProps) {
-  const icon = badgeIcons[text] || defaultIcon
+  const Icon = badgeIcons[text] || DefaultIcon
   
   const variants = {
     default: "bg-primary/10 text-primary border-primary/20",
@@ -45,7 +59,7 @@ export function Badge({ text, className, variant = "accent" }: BadgeProps) {
         className
       )}
     >
-      <Emoji symbol={icon} className="text-sm" aria-hidden />
+      <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       {text}
     </span>
   )
