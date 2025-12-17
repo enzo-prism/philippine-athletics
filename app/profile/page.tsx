@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from "react"
+import { useEffect, useMemo, useState, type ComponentProps, type Dispatch, type SetStateAction } from "react"
 import { CheckCircle2, MapPin, Medal, ShieldCheck, User } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { Navigation } from "@/components/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -144,6 +145,38 @@ const roleOptions: { value: ProfileType; label: string }[] = [
   { value: "sponsor", label: "Sponsor" },
   { value: "admin", label: "Admin" },
 ]
+
+const PreviewRoleButtons = ({
+  buttonClassName,
+  buttonSize = "sm",
+  onSelectRole,
+  selectedRole,
+}: {
+  buttonClassName?: string
+  buttonSize?: ComponentProps<typeof Button>["size"]
+  onSelectRole: (role: ProfileType) => void
+  selectedRole: ProfileType
+}) => (
+  <>
+    {roleOptions.map((opt) => (
+      <Button
+        key={opt.value}
+        type="button"
+        variant="outline"
+        size={buttonSize}
+        onClick={() => onSelectRole(opt.value)}
+        className={cn(
+          "font-semibold hover:bg-muted hover:text-foreground",
+          buttonClassName,
+          selectedRole === opt.value &&
+            "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground",
+        )}
+      >
+        {opt.label}
+      </Button>
+    ))}
+  </>
+)
 
 const settingTabs = [
   { value: "overview", label: "Overview" },
@@ -528,11 +561,33 @@ export default function ProfilePage() {
   }
 
   return (
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10 relative">
+      <div className="md:hidden sticky top-14 z-30 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 space-y-2">
+          <div className="flex items-center justify-between gap-3">
+            <Badge variant="outline" className="border-dashed bg-muted/60 backdrop-blur">
+              Preview role
+            </Badge>
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              {profile.roleLabel}
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <div className="flex flex-nowrap gap-2 pb-1">
+              <PreviewRoleButtons
+                buttonClassName="rounded-full text-xs"
+                buttonSize="sm"
+                onSelectRole={setSelectedRole}
+                selectedRole={selectedRole}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 sm:py-12 space-y-10 relative">
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
           <aside className="h-fit">
             <Card className="py-0 gap-0">
@@ -665,26 +720,16 @@ export default function ProfilePage() {
       </div>
 
       {/* Subtle preview mode toggle, anchored low and out of the flow */}
-      <div className="fixed right-4 bottom-4 flex flex-wrap gap-2 text-xs text-muted-foreground z-30">
+      <div className="hidden md:flex fixed right-4 bottom-4 flex-wrap gap-2 text-xs text-muted-foreground z-30">
         <Badge variant="outline" className="border-dashed bg-muted/60 backdrop-blur">
           Preview mode
         </Badge>
-        {roleOptions.map((opt) => (
-          <Button
-            key={opt.value}
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setSelectedRole(opt.value)}
-            className={`h-auto py-1 text-xs font-semibold hover:bg-muted hover:text-foreground ${
-              selectedRole === opt.value
-                ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground"
-                : ""
-            }`}
-          >
-            {opt.label}
-          </Button>
-        ))}
+        <PreviewRoleButtons
+          buttonClassName="h-auto py-1 text-xs"
+          buttonSize="sm"
+          onSelectRole={setSelectedRole}
+          selectedRole={selectedRole}
+        />
       </div>
 
       <div className="border-t border-border mt-16">
