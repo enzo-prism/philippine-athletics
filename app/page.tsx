@@ -61,11 +61,11 @@ export default function Home() {
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-6">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Link href="/athletes" className="block">
+            <Link href="/clubs" className="block">
               <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
                 <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
-                  <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
+                  <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
                 </CardContent>
               </Card>
             </Link>
@@ -77,11 +77,11 @@ export default function Home() {
                 </CardContent>
               </Card>
             </Link>
-            <Link href="/clubs" className="block">
+            <Link href="/athletes" className="block">
               <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
                 <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
-                  <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
+                  <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
                 </CardContent>
               </Card>
             </Link>
