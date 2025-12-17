@@ -299,14 +299,9 @@ export default function AthletesPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-10 space-y-8">
+        <div className="page-shell py-10 space-y-8">
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest">Discover</p>
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search Athletes</h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
-            Explore profiles of track and field athletes across the Philippines. Search by name, club, event, or region and tap into the
-            national roster.
-          </p>
         </div>
 
         <div className="sticky top-14 z-30 space-y-2">

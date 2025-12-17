@@ -95,8 +95,7 @@ export default function Home() {
               ?
             </span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent/80">How it works</p>
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">Start training in three simple steps</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">How to get started</h3>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
@@ -147,18 +146,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
-      {/* New Image Section */}
-      <section className="page-shell py-12 sm:py-16 lg:py-20">
-        <div className="rounded-2xl overflow-hidden border border-border shadow-soft">
-          <img
-            src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765248717/Gemini_Generated_Image_a605oba605oba605_echhee.webp"
-            alt="Gemini Generated Image"
-            className="w-full h-auto object-cover"
-            loading="lazy"
-          />
-        </div>
-      </section>
 
       {/* Footer */}
       <div className="border-t border-border mt-16">

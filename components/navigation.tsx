@@ -22,9 +22,9 @@ const emojiByPath: Record<string, string> = {
 
 const primaryLinks: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/athletes", label: "Athletes" },
-  { href: "/coaches", label: "Coaches" },
   { href: "/clubs", label: "Clubs" },
+  { href: "/coaches", label: "Coaches" },
+  { href: "/athletes", label: "Athletes" },
 ]
 
 const bottomLinks = [
