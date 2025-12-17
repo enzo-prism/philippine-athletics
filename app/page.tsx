@@ -100,35 +100,39 @@ export default function Home() {
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                { title: "Sign up", body: "Create your profile so coaches and clubs know who you are." },
-                { title: "Search nearby", body: "Browse verified coaches or clubs in your area by specialty." },
-                { title: "Contact to start", body: "Message the coach or club admin to begin your training plan." },
+                {
+                  title: "Sign up",
+                  body: "Create your profile so coaches and clubs know who you are.",
+                  href: "/signup",
+                  cta: "Go to signup",
+                },
+                {
+                  title: "Search nearby",
+                  body: "Browse verified coaches or clubs in your area by specialty.",
+                  href: "/clubs",
+                  cta: "Browse clubs",
+                },
+                {
+                  title: "Contact to start",
+                  body: "Message the coach or club admin to begin your training plan.",
+                  href: "/coaches",
+                  cta: "Find a coach",
+                },
               ].map((step, idx) => (
-                <Card key={step.title} className="py-0 gap-0 shadow-none bg-muted/40">
-                  <CardContent className="p-4 space-y-2">
-                    <div className="flex items-center gap-2 text-accent font-semibold">
-                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
-                        {idx + 1}
-                      </span>
-                      <span>{step.title}</span>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
-                    {step.title === "Sign up" ? (
-                      <Button asChild size="sm" variant="outline" className="rounded-full">
-                        <Link href="/signup">Go to signup</Link>
-                      </Button>
-                    ) : step.title === "Search nearby" ? (
-                      <div className="flex flex-wrap gap-2">
-                        <Button asChild size="sm" variant="outline" className="rounded-full">
-                          <Link href="/coaches">Search Coaches</Link>
-                        </Button>
-                        <Button asChild size="sm" variant="outline" className="rounded-full">
-                          <Link href="/clubs">Search Clubs</Link>
-                        </Button>
+                <Link key={step.title} href={step.href} className="block">
+                  <Card className="py-0 gap-0 shadow-none bg-muted/40 hover:bg-accent/10 transition-colors">
+                    <CardContent className="p-4 space-y-2">
+                      <div className="flex items-center gap-2 text-accent font-semibold">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
+                          {idx + 1}
+                        </span>
+                        <span>{step.title}</span>
                       </div>
-                    ) : null}
-                  </CardContent>
-                </Card>
+                      <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+                      <p className="text-xs font-semibold text-accent">{step.cta} →</p>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
             <Button asChild className="w-full sm:w-auto rounded-full">
