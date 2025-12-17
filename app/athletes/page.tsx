@@ -1,15 +1,17 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { Search, SlidersHorizontal } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { AthleteSummary, athleteSummaries } from "@/lib/data/athletes"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 const eventOptions = [
   { label: "All events", value: "All" },
@@ -48,8 +50,6 @@ const eventOptions = [
   { label: "Road Events", value: "Road Events" },
   { label: "Marathon", value: "Marathon" },
 ]
-
-const quickEventFilters = ["All", "Sprints", "Middle Distance", "Long Distance", "Jumps", "Throws", "Relays", "Road Events"]
 
 const regionOptions = [
   { label: "All locations", value: "All" },
@@ -300,6 +300,21 @@ export default function AthletesPage() {
     return sortOption === "relevance" ? result : [...result].sort(sorter)
   }, [searchTerm, regionFilter, eventFilter, sortOption])
 
+  const hasActiveFilters =
+    Boolean(searchTerm.trim()) || regionFilter !== "All" || eventFilter !== "All" || sortOption !== "relevance"
+
+  const activeFilterLabels = [
+    regionFilter !== "All" ? `Region: ${regionFilter}` : null,
+    eventFilter !== "All" ? `Event: ${eventFilter}` : null,
+  ].filter(Boolean) as string[]
+
+  const resetAll = () => {
+    setSearchTerm("")
+    setRegionFilter("All")
+    setEventFilter("All")
+    setSortOption("relevance")
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -311,12 +326,9 @@ export default function AthletesPage() {
 
         <div className="sticky top-14 z-30 space-y-2">
           <Card className="py-0 gap-0 shadow-soft">
-            <CardContent className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-              <div className="relative w-full sm:w-64">
-                <Emoji
-                  symbol="🔎"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-base text-muted-foreground"
-                />
+            <CardContent className="p-3 sm:p-4 space-y-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
                 <Input
                   type="text"
                   placeholder="Search name, club, event..."
@@ -326,49 +338,9 @@ export default function AthletesPage() {
                 />
               </div>
 
-              <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1">
-                {["All", "Metro Manila", "Luzon", "Visayas", "Mindanao"].map((region) => {
-                  const active = regionFilter === region
-                  return (
-                    <Button
-                      key={region}
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setRegionFilter(region)}
-                      className={`rounded-full whitespace-nowrap hover:bg-muted hover:text-foreground ${
-                        active ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground" : ""
-                      }`}
-                    >
-                      {region}
-                    </Button>
-                  )
-                })}
-              </div>
-
-              <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                {quickEventFilters.map((evt) => {
-                  const active = eventFilter === evt
-                  return (
-                    <Button
-                      key={evt}
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEventFilter(evt)}
-                      className={`rounded-full whitespace-nowrap hover:bg-muted hover:text-foreground ${
-                        active ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground" : ""
-                      }`}
-                    >
-                      {evt}
-                    </Button>
-                  )
-                })}
-              </div>
-
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Select value={sortOption} onValueChange={setSortOption}>
-                  <SelectTrigger className="rounded-full w-[175px]">
+                  <SelectTrigger className="rounded-full w-full sm:w-[220px]">
                     <SelectValue placeholder="Sort" />
                   </SelectTrigger>
                   <SelectContent align="end">
@@ -381,18 +353,81 @@ export default function AthletesPage() {
                   </SelectContent>
                 </Select>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full"
-                  onClick={() => setFiltersOpen((v) => !v)}
-                  aria-expanded={filtersOpen}
-                >
-                  <Emoji symbol={emojiIcons.filter} className="text-sm" />
-                  Filters
-                </Button>
+                <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
+                  <SheetTrigger asChild>
+                    <Button type="button" variant="outline" className="rounded-full sm:w-auto w-full justify-center gap-2">
+                      <SlidersHorizontal className="size-4" aria-hidden="true" />
+                      Filters
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="gap-0 rounded-t-xl max-h-[85vh] overflow-hidden">
+                    <SheetHeader className="border-b border-border">
+                      <SheetTitle>Filters</SheetTitle>
+                    </SheetHeader>
+
+                    <div className="p-4 space-y-4 overflow-auto">
+                      <div className="space-y-2">
+                        <Label className="text-xs font-semibold text-muted-foreground uppercase">Region</Label>
+                        <Select value={regionFilter} onValueChange={setRegionFilter}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {regionOptions.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="text-xs font-semibold text-muted-foreground uppercase">Event</Label>
+                        <Select value={eventFilter} onValueChange={setEventFilter}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {eventOptions.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <SheetFooter className="border-t border-border">
+                      <Button type="button" onClick={() => setFiltersOpen(false)}>
+                        Apply
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          setRegionFilter("All")
+                          setEventFilter("All")
+                          setFiltersOpen(false)
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    </SheetFooter>
+                  </SheetContent>
+                </Sheet>
               </div>
+
+              {activeFilterLabels.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {activeFilterLabels.map((label) => (
+                    <Badge key={label} variant="outline" className="bg-muted text-foreground">
+                      {label}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
             </CardContent>
           </Card>
 
@@ -400,106 +435,13 @@ export default function AthletesPage() {
             <span>
               Showing {filteredAthletes.length} of {athletes.length} athletes
             </span>
-            <Button
-              type="button"
-              variant="link"
-              className="h-auto p-0 text-accent"
-              onClick={() => {
-                setRegionFilter("All")
-                setEventFilter("All")
-                setSortOption("relevance")
-                setSearchTerm("")
-              }}
-            >
-              Reset
-            </Button>
+            {hasActiveFilters ? (
+              <Button type="button" variant="link" className="h-auto p-0 text-accent" onClick={resetAll}>
+                Reset
+              </Button>
+            ) : null}
           </div>
         </div>
-
-        {filtersOpen ? (
-          <div className="fixed inset-0 z-40 md:static md:z-auto bg-black/40 md:bg-transparent backdrop-blur-sm md:backdrop-blur-0">
-            <div className="absolute bottom-0 left-0 right-0 md:static md:w-full md:bg-transparent">
-              <Card className="shadow-soft py-0 gap-0 md:max-w-lg md:ml-auto md:mr-0">
-                <CardContent className="p-4 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase">Filters</p>
-                    <Button type="button" variant="ghost" size="sm" onClick={() => setFiltersOpen(false)}>
-                      Close
-                    </Button>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-muted-foreground uppercase">Region</Label>
-                    <Select value={regionFilter} onValueChange={setRegionFilter}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {regionOptions.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-muted-foreground uppercase">Event</Label>
-                    <Select value={eventFilter} onValueChange={setEventFilter}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {eventOptions.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-muted-foreground uppercase">Sort</Label>
-                    <Select value={sortOption} onValueChange={setSortOption}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="relevance">Relevance</SelectItem>
-                        <SelectItem value="national_rank">National Rank</SelectItem>
-                        <SelectItem value="asian_rank">Asian Rank</SelectItem>
-                        <SelectItem value="global_rank">Global Rank</SelectItem>
-                        <SelectItem value="personal_best">Personal Best</SelectItem>
-                        <SelectItem value="name">Name (A-Z)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button type="button" className="flex-1" onClick={() => setFiltersOpen(false)}>
-                      Apply
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => {
-                        setRegionFilter("All")
-                        setEventFilter("All")
-                        setSortOption("relevance")
-                        setFiltersOpen(false)
-                      }}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        ) : null}
 
         {filteredAthletes.length === 0 ? (
           <Card className="shadow-soft py-0 gap-0">
