@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
@@ -45,10 +46,13 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
             </span>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground">
-                {athlete.firstName} {athlete.lastName}
-              </h1>
+            <div className="flex items-center gap-4">
+              <ProfileAvatar name={`${athlete.firstName} ${athlete.lastName}`} />
+              <div>
+                <h1 className="text-4xl sm:text-5xl font-bold text-foreground">
+                  {athlete.firstName} {athlete.lastName}
+                </h1>
+              </div>
             </div>
           </div>
 

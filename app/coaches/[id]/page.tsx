@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
 import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
@@ -33,10 +34,13 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
             ))}
           </div>
 
-          <div className="space-y-1">
-            <h1 className="text-4xl font-bold text-foreground">{coach.name}</h1>
-            <p className="text-base text-muted-foreground">{coach.specialty}</p>
-            <p className="text-sm text-muted-foreground">Experience: {coach.experience}</p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+            <ProfileAvatar name={coach.name} />
+            <div className="space-y-1">
+              <h1 className="text-4xl font-bold text-foreground">{coach.name}</h1>
+              <p className="text-base text-muted-foreground">{coach.specialty}</p>
+              <p className="text-sm text-muted-foreground">Experience: {coach.experience}</p>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
