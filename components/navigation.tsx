@@ -3,23 +3,22 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useMemo, useState } from "react"
-import { Menu } from "lucide-react"
+import { Building2, Dumbbell, Footprints, Menu, type LucideIcon, UserPlus, UserRound } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-type NavLink = { href: string; label: string; symbol: string }
+type NavLink = { href: string; label: string; icon: LucideIcon }
 
 const primaryLinks: NavLink[] = [
-  { href: "/clubs", label: "Clubs", symbol: emojiIcons.club },
-  { href: "/coaches", label: "Coaches", symbol: emojiIcons.coach },
-  { href: "/athletes", label: "Athletes", symbol: emojiIcons.athlete },
+  { href: "/clubs", label: "Clubs", icon: Building2 },
+  { href: "/coaches", label: "Coaches", icon: Dumbbell },
+  { href: "/athletes", label: "Athletes", icon: Footprints },
 ]
 
 const actionLinks: NavLink[] = [
-  { href: "/signup", label: "Sign Up", symbol: emojiIcons.sparkles },
-  { href: "/profile", label: "Profile", symbol: emojiIcons.profile },
+  { href: "/signup", label: "Sign Up", icon: UserPlus },
+  { href: "/profile", label: "Profile", icon: UserRound },
 ]
 
 const isActive = (pathname: string, href: string) => {
@@ -96,6 +95,7 @@ export function Navigation() {
                   <div className="grid gap-2">
                     {primaryLinks.map((link) => {
                       const active = isActive(pathname, link.href)
+                      const Icon = link.icon
                       return (
                         <Button
                           key={link.href}
@@ -109,7 +109,7 @@ export function Navigation() {
                             aria-current={active ? "page" : undefined}
                             className="flex items-center gap-2"
                           >
-                            <Emoji symbol={link.symbol} className="text-base" />
+                            <Icon className="size-4 shrink-0" aria-hidden="true" />
                             {link.label}
                           </Link>
                         </Button>
@@ -122,6 +122,7 @@ export function Navigation() {
                   <div className="grid gap-2">
                     {actionLinks.map((link) => {
                       const active = isActive(pathname, link.href)
+                      const Icon = link.icon
                       const variant =
                         link.href === "/profile" ? "default" : active ? "secondary" : "outline"
                       return (
@@ -137,7 +138,7 @@ export function Navigation() {
                             aria-current={active ? "page" : undefined}
                             className="flex items-center gap-2"
                           >
-                            <Emoji symbol={link.symbol} className="text-base" />
+                            <Icon className="size-4 shrink-0" aria-hidden="true" />
                             {link.label}
                           </Link>
                         </Button>
@@ -155,6 +156,7 @@ export function Navigation() {
         <div className="grid grid-cols-3 gap-1 px-2 py-2 pb-safe text-[11px] font-semibold text-muted-foreground">
           {primaryLinks.map((link) => {
             const active = isActive(pathname, link.href)
+            const Icon = link.icon
             return (
               <Link
                 key={link.href}
@@ -163,7 +165,7 @@ export function Navigation() {
                   active ? "bg-accent/10 text-accent" : "hover:bg-muted text-foreground"
                 }`}
               >
-                <Emoji symbol={link.symbol} className="text-base" />
+                <Icon className="size-5" aria-hidden="true" />
                 <span className="text-center leading-tight">{link.label}</span>
               </Link>
             )
