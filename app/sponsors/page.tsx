@@ -13,7 +13,7 @@ export default function SponsorsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <header className="space-y-2">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
-            <Emoji symbol={emojiIcons.sparkles} className="text-base" aria-hidden />
+            <Emoji symbol={emojiIcons.sparkles} className="text-base" />
             Sponsors
           </p>
           <h1 className="text-4xl font-bold text-foreground">Search Sponsors</h1>
@@ -38,7 +38,7 @@ export default function SponsorsPage() {
         </div>
       </div>
 
-      <div className="border-top border-border mt-16">
+      <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>

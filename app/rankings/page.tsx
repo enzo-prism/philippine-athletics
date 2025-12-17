@@ -2,6 +2,10 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { athleteProfiles } from "@/lib/data/athletes"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 import { useSearchParams } from "next/navigation"
@@ -85,7 +89,7 @@ function RankingsContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <header className="space-y-2">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
-            <Emoji symbol={emojiIcons.trophy} className="text-base" aria-hidden />
+            <Emoji symbol={emojiIcons.trophy} className="text-base" />
             Rankings
           </p>
           <h1 className="text-4xl font-bold text-foreground">Philippine Athletics Rankings</h1>
@@ -95,83 +99,89 @@ function RankingsContent() {
           </p>
         </header>
 
-        <div className="p-4 border border-border rounded-lg bg-card space-y-4">
-          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Emoji symbol={emojiIcons.filter} className="text-base" aria-hidden />
-            Filters
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-foreground uppercase">Event</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={selectedEvent}
-                onChange={(e) => setSelectedEvent(e.target.value)}
-              >
-                {eventOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
+        <Card className="py-0 gap-0">
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Emoji symbol={emojiIcons.filter} className="text-base" />
+              Filters
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground uppercase">Event</Label>
+                <Select value={selectedEvent} onValueChange={setSelectedEvent}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {eventOptions.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-foreground uppercase">Level</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-              >
-                {levelOptions.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground uppercase">Level</Label>
+                <Select value={selectedLevel} onValueChange={setSelectedLevel}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {levelOptions.map((level) => (
+                      <SelectItem key={level} value={level}>
+                        {level}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {selectedEvent === "Select an event" ? (
-          <div className="p-6 rounded-lg border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
-            Choose an event to load rankings.
-          </div>
+          <Card className="py-0 gap-0 border-dashed bg-muted/40">
+            <CardContent className="p-6 text-sm text-muted-foreground">Choose an event to load rankings.</CardContent>
+          </Card>
         ) : filtered.length === 0 ? (
-          <div className="p-6 rounded-lg border border-border bg-card text-sm text-muted-foreground">
-            No rankings found for {selectedEvent} at {selectedLevel} level.
-          </div>
+          <Card className="py-0 gap-0">
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              No rankings found for {selectedEvent} at {selectedLevel} level.
+            </CardContent>
+          </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((athlete) => {
               const isHighlighted = highlightId && athlete.name.toLowerCase() === highlightId.toLowerCase()
 
               return (
-                <div
+                <Card
                   key={`${athlete.name}-${athlete.event}`}
-                  className={`p-4 rounded-lg border bg-card space-y-3 transition-colors ${
-                    isHighlighted ? "border-accent ring-2 ring-accent/30" : "border-border"
-                  }`}
+                  className={`py-0 gap-0 transition-colors ${isHighlighted ? "border-accent ring-2 ring-accent/30" : ""}`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
-                      <p className="text-xs text-muted-foreground">{athlete.event}</p>
+                  <CardContent className="p-4 space-y-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-foreground truncate">{athlete.name}</p>
+                        <p className="text-xs text-muted-foreground">{athlete.event}</p>
+                      </div>
+                      <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
+                        {athlete.rank}
+                      </Badge>
                     </div>
-                    <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-full">
-                      {athlete.rank}
-                    </span>
-                  </div>
-                  <div className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
-                    {athlete.location}
-                  </div>
-                  <p className="text-xs text-muted-foreground">Club: {athlete.club}</p>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Emoji symbol={emojiIcons.medal} className="text-base" aria-hidden />
-                    <span className="font-semibold text-foreground">PB: {athlete.pb}</span>
-                  </div>
-                </div>
+                    <div className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Emoji symbol={emojiIcons.location} className="text-sm" />
+                      {athlete.location}
+                    </div>
+                    <p className="text-xs text-muted-foreground">Club: {athlete.club}</p>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Emoji symbol={emojiIcons.medal} className="text-base" />
+                      <span className="font-semibold text-foreground">PB: {athlete.pb}</span>
+                    </div>
+                  </CardContent>
+                </Card>
               )
             })}
           </div>

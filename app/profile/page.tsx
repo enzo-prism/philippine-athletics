@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from "react"
 import { CheckCircle2, MapPin, Medal, ShieldCheck, User } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 type ProfileType = "athlete" | "coach" | "club-owner" | "viewer" | "sponsor" | "admin"
 
@@ -148,11 +153,13 @@ const settingTabs = [
 ]
 
 const StatCard = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
-  <div className="p-4 rounded-lg border border-border bg-card">
-    <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">{label}</p>
-    <p className="text-xl font-bold text-foreground">{value}</p>
-    {hint ? <p className="text-xs text-muted-foreground mt-1">{hint}</p> : null}
-  </div>
+  <Card className="py-0 gap-0">
+    <CardContent className="p-4">
+      <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">{label}</p>
+      <p className="text-xl font-bold text-foreground">{value}</p>
+      {hint ? <p className="text-xs text-muted-foreground mt-1">{hint}</p> : null}
+    </CardContent>
+  </Card>
 )
 
 export default function ProfilePage() {
@@ -221,52 +228,48 @@ export default function ProfilePage() {
             <form className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground uppercase">First Name</label>
-                  <input
+                  <Label className="text-xs font-semibold text-foreground uppercase">First Name</Label>
+                  <Input
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground uppercase">Last Name</label>
-                  <input
+                  <Label className="text-xs font-semibold text-foreground uppercase">Last Name</Label>
+                  <Input
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground uppercase">Location</label>
-                  <input
+                  <Label className="text-xs font-semibold text-foreground uppercase">Location</Label>
+                  <Input
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground uppercase">Club</label>
-                  <input
+                  <Label className="text-xs font-semibold text-foreground uppercase">Club</Label>
+                  <Input
                     type="text"
                     value={club}
                     onChange={(e) => setClub(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Events & Performance</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Events &amp; Performance</Label>
                 <div className="space-y-2">
                   {eventsForm.map((row, idx) => (
                     <div key={idx} className="grid grid-cols-1 sm:grid-cols-5 gap-2">
-                      <input
+                      <Input
                         placeholder="Event"
                         value={row.event}
                         onChange={(e) =>
@@ -276,9 +279,9 @@ export default function ProfilePage() {
                             return next
                           })
                         }
-                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="h-8 px-2 text-xs"
                       />
-                      <input
+                      <Input
                         placeholder="PB"
                         value={row.pb}
                         onChange={(e) =>
@@ -288,9 +291,9 @@ export default function ProfilePage() {
                             return next
                           })
                         }
-                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="h-8 px-2 text-xs"
                       />
-                      <input
+                      <Input
                         placeholder="National"
                         value={row.national}
                         onChange={(e) =>
@@ -300,9 +303,9 @@ export default function ProfilePage() {
                             return next
                           })
                         }
-                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="h-8 px-2 text-xs"
                       />
-                      <input
+                      <Input
                         placeholder="Asian"
                         value={row.asian}
                         onChange={(e) =>
@@ -312,9 +315,9 @@ export default function ProfilePage() {
                             return next
                           })
                         }
-                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="h-8 px-2 text-xs"
                       />
-                      <input
+                      <Input
                         placeholder="Global"
                         value={row.global}
                         onChange={(e) =>
@@ -324,25 +327,27 @@ export default function ProfilePage() {
                             return next
                           })
                         }
-                        className="rounded-md border border-border bg-background px-2 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="h-8 px-2 text-xs"
                       />
                     </div>
                   ))}
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={addRow(setEventsForm, { event: "", pb: "", national: "", asian: "", global: "" })}
-                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="w-fit"
                   >
                     Add event
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Past competitions</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Past competitions</Label>
                 <div className="space-y-2">
                   {pastComps.map((item, idx) => (
-                    <input
+                    <Input
                       key={idx}
                       value={item}
                       onChange={(e) =>
@@ -352,25 +357,26 @@ export default function ProfilePage() {
                           return next
                         })
                       }
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                       placeholder="Meet — event — result"
                     />
                   ))}
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={addRow(setPastComps, "")}
-                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="w-fit"
                   >
                     Add competition
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Upcoming competitions</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Upcoming competitions</Label>
                 <div className="space-y-2">
                   {upcomingComps.map((item, idx) => (
-                    <input
+                    <Input
                       key={idx}
                       value={item}
                       onChange={(e) =>
@@ -380,32 +386,33 @@ export default function ProfilePage() {
                           return next
                         })
                       }
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                       placeholder="Meet — events — date"
                     />
                   ))}
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={addRow(setUpcomingComps, "")}
-                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="w-fit"
                   >
                     Add upcoming
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Messaging channels</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Messaging channels</Label>
                 <div className="space-y-2">
                   {messaging.map((item, idx) => (
                     <div key={idx} className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      <input
+                      <Input
                         value={item.channel}
                         readOnly
-                        className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground"
+                        className="bg-muted text-muted-foreground"
                       />
                       <div className="sm:col-span-2">
-                        <input
+                        <Input
                           value={item.value}
                           onChange={(e) =>
                             setMessaging((prev) => {
@@ -414,7 +421,6 @@ export default function ProfilePage() {
                               return next
                             })
                           }
-                          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                           placeholder={`${item.channel} handle/contact (optional)`}
                         />
                       </div>
@@ -424,10 +430,10 @@ export default function ProfilePage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Sponsors</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Sponsors</Label>
                 <div className="space-y-2">
                   {sponsors.map((item, idx) => (
-                    <input
+                    <Input
                       key={idx}
                       value={item}
                       onChange={(e) =>
@@ -437,25 +443,26 @@ export default function ProfilePage() {
                           return next
                         })
                       }
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                       placeholder="Sponsor — category"
                     />
                   ))}
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={addRow(setSponsors, "")}
-                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="w-fit"
                   >
                     Add sponsor
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Coaches</label>
+                <Label className="text-xs font-semibold text-foreground uppercase">Coaches</Label>
                 <div className="space-y-2">
                   {coaches.map((item, idx) => (
-                    <input
+                    <Input
                       key={idx}
                       value={item}
                       onChange={(e) =>
@@ -465,26 +472,24 @@ export default function ProfilePage() {
                           return next
                         })
                       }
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                       placeholder="Coach name"
                     />
                   ))}
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
+                    size="sm"
                     onClick={addRow(setCoaches, "")}
-                    className="px-3 py-1.5 rounded-md border border-border text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="w-fit"
                   >
                     Add coach
-                  </button>
+                  </Button>
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
-              >
+              <Button type="button" className="w-fit">
                 Save (sample)
-              </button>
+              </Button>
             </form>
           </div>
         )
@@ -523,29 +528,38 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10 relative">
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
-          <aside className="p-4 rounded-lg border border-border bg-card h-fit space-y-3">
-            <p className="text-xs text-muted-foreground font-semibold uppercase">Settings</p>
-            <div className="space-y-2">
-              {settingTabs.map((tab) => (
-                <button
-                  key={tab.value}
-                  onClick={() => setSelectedTab(tab.value)}
-                  className={`w-full text-left px-3 py-2 rounded-md border text-sm font-semibold transition-colors ${
-                    selectedTab === tab.value
-                      ? "bg-accent text-accent-foreground border-accent"
-                      : "bg-card text-foreground border-border hover:bg-muted"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+          <aside className="h-fit">
+            <Card className="py-0 gap-0">
+              <CardContent className="p-4 space-y-3">
+                <p className="text-xs text-muted-foreground font-semibold uppercase">Settings</p>
+                <div className="space-y-2">
+                  {settingTabs.map((tab) => {
+                    const active = selectedTab === tab.value
+                    return (
+                      <Button
+                        key={tab.value}
+                        type="button"
+                        variant="outline"
+                        onClick={() => setSelectedTab(tab.value)}
+                        className={`w-full justify-start hover:bg-muted hover:text-foreground ${
+                          active
+                            ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground"
+                            : ""
+                        }`}
+                      >
+                        {tab.label}
+                      </Button>
+                    )
+                  })}
+                </div>
+              </CardContent>
+            </Card>
           </aside>
 
           <div className="space-y-6">
@@ -562,14 +576,14 @@ export default function ProfilePage() {
               </div>
               <p className="text-sm text-muted-foreground">{profile.headline}</p>
               <div className="flex flex-wrap items-center gap-3">
-                <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
+                <Badge variant="outline" className="gap-1 bg-muted text-foreground">
+                  <MapPin className="size-3.5 text-accent" />
                   {profile.location}
-                </span>
+                </Badge>
                 {profile.tags?.map((tag) => (
-                  <span key={tag} className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+                  <Badge key={tag} variant="outline" className="bg-muted text-foreground">
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
               </div>
               {profile.stats && profile.stats.length > 0 ? (
@@ -592,9 +606,9 @@ export default function ProfilePage() {
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {profile.events.map((evt) => (
-                          <span key={evt} className="text-xs font-semibold px-2 py-1 rounded-md bg-accent/10 text-accent border border-accent/30">
+                          <Badge key={evt} variant="outline" className="rounded-md bg-accent/10 text-accent border-accent/30">
                             {evt}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </section>
@@ -619,24 +633,32 @@ export default function ProfilePage() {
                 </div>
 
                 <aside className="space-y-6">
-                  <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-2">
-                    <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
-                    <p className="text-sm text-foreground">{profile.email}</p>
-                  </div>
+                  <Card className="py-0 gap-0 bg-muted/40">
+                    <CardContent className="p-6 space-y-2">
+                      <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
+                      <p className="text-sm text-foreground">{profile.email}</p>
+                    </CardContent>
+                  </Card>
 
                   {selectedRole === "admin" ? (
-                    <div className="p-6 rounded-lg border border-accent/30 bg-accent/5 space-y-2">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                        <ShieldCheck className="w-4 h-4 text-accent" />
-                        Admin Controls (concept)
-                      </div>
-                      <p className="text-xs text-muted-foreground">View approvals, flagged content, and role management.</p>
-                    </div>
+                    <Card className="py-0 gap-0 border-accent/30 bg-accent/5">
+                      <CardContent className="p-6 space-y-2">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                          <ShieldCheck className="w-4 h-4 text-accent" />
+                          Admin Controls (concept)
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          View approvals, flagged content, and role management.
+                        </p>
+                      </CardContent>
+                    </Card>
                   ) : null}
                 </aside>
               </div>
             ) : (
-              <div className="p-6 rounded-lg border border-border bg-card">{renderSettingsContent()}</div>
+              <Card className="py-0 gap-0">
+                <CardContent className="p-6">{renderSettingsContent()}</CardContent>
+              </Card>
             )}
           </div>
         </div>
@@ -644,21 +666,24 @@ export default function ProfilePage() {
 
       {/* Subtle preview mode toggle, anchored low and out of the flow */}
       <div className="fixed right-4 bottom-4 flex flex-wrap gap-2 text-xs text-muted-foreground z-30">
-        <span className="px-2 py-1 rounded-md border border-dashed border-border bg-muted/60 backdrop-blur">
+        <Badge variant="outline" className="border-dashed bg-muted/60 backdrop-blur">
           Preview mode
-        </span>
+        </Badge>
         {roleOptions.map((opt) => (
-          <button
+          <Button
             key={opt.value}
+            type="button"
+            variant="outline"
+            size="sm"
             onClick={() => setSelectedRole(opt.value)}
-            className={`px-2 py-1 rounded-md border text-xs font-semibold transition-colors shadow-sm ${
+            className={`h-auto py-1 text-xs font-semibold hover:bg-muted hover:text-foreground ${
               selectedRole === opt.value
-                ? "bg-accent text-accent-foreground border-accent"
-                : "bg-card text-foreground border-border hover:bg-muted"
+                ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground"
+                : ""
             }`}
           >
             {opt.label}
-          </button>
+          </Button>
         ))}
       </div>
 

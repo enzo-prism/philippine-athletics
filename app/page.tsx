@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { BackgroundVideo } from "@/components/background-video"
 import { Navigation } from "@/components/navigation"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { athleteSummaries } from "@/lib/data/athletes"
 import { coaches } from "@/lib/data/coaches"
 import { clubs } from "@/lib/data/clubs"
@@ -43,18 +45,12 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:700ms] [animation-fill-mode:forwards]">
-              <Link
-                href="/clubs"
-                className="w-full sm:w-auto px-5 py-3 min-h-[48px] bg-primary text-primary-foreground rounded-full text-sm sm:text-base font-semibold hover:opacity-90 transition-opacity shadow-soft"
-              >
-                Join a Club
-              </Link>
-              <Link
-                href="/coaches"
-                className="w-full sm:w-auto px-5 py-3 min-h-[48px] rounded-full border border-border bg-card text-foreground text-sm sm:text-base font-semibold hover:bg-muted transition-colors"
-              >
-                Search Coaches
-              </Link>
+              <Button asChild size="lg" className="w-full sm:w-auto rounded-full shadow-soft">
+                <Link href="/clubs">Join a Club</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto rounded-full">
+                <Link href="/coaches">Search Coaches</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -65,86 +61,81 @@ export default function Home() {
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-6">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Link
-              href="/athletes"
-              className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
-            >
-              <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
-              <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
+            <Link href="/athletes" className="block">
+              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
+                <CardContent className="p-6">
+                  <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
+                </CardContent>
+              </Card>
             </Link>
-            <Link
-              href="/coaches"
-              className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
-            >
-              <p className="text-sm font-semibold text-accent uppercase">Coaches</p>
-              <p className="text-2xl font-bold text-foreground mt-2">{coaches.length}</p>
+            <Link href="/coaches" className="block">
+              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
+                <CardContent className="p-6">
+                  <p className="text-sm font-semibold text-accent uppercase">Coaches</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{coaches.length}</p>
+                </CardContent>
+              </Card>
             </Link>
-            <Link
-              href="/clubs"
-              className="p-6 rounded-lg border border-border bg-card hover:bg-accent/10 transition-colors text-center"
-            >
-              <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
-              <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
+            <Link href="/clubs" className="block">
+              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
+                <CardContent className="p-6">
+                  <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
+                </CardContent>
+              </Card>
             </Link>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4 shadow-soft">
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 border border-accent/30 text-lg font-bold text-accent">
-              ?
-            </span>
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">How to get started</h3>
-            </div>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              { title: "Sign up", body: "Create your profile so coaches and clubs know who you are." },
-              { title: "Search nearby", body: "Browse verified coaches or clubs in your area by specialty." },
-              { title: "Contact to start", body: "Message the coach or club admin to begin your training plan." },
-            ].map((step, idx) => (
-              <div key={step.title} className="p-4 rounded-lg border border-border bg-muted/40 space-y-2">
-                <div className="flex items-center gap-2 text-accent font-semibold">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
-                    {idx + 1}
-                  </span>
-                  <span>{step.title}</span>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
-                {step.title === "Sign up" ? (
-                  <Link
-                    href="/signup"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
-                  >
-                    Go to signup
-                  </Link>
-                ) : step.title === "Search nearby" ? (
-                  <div className="flex flex-wrap gap-2">
-                    <Link
-                      href="/coaches"
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
-                    >
-                      Search Coaches
-                    </Link>
-                    <Link
-                      href="/clubs"
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
-                    >
-                      Search Clubs
-                    </Link>
-                  </div>
-                ) : null}
+        <Card className="rounded-2xl shadow-soft py-0 gap-0">
+          <CardContent className="p-6 sm:p-8 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 border border-accent/30 text-lg font-bold text-accent">
+                ?
+              </span>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground">How to get started</h3>
               </div>
-            ))}
-          </div>
-          <Link
-            href="/how-it-works"
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
-          >
-            Learn more
-          </Link>
-        </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { title: "Sign up", body: "Create your profile so coaches and clubs know who you are." },
+                { title: "Search nearby", body: "Browse verified coaches or clubs in your area by specialty." },
+                { title: "Contact to start", body: "Message the coach or club admin to begin your training plan." },
+              ].map((step, idx) => (
+                <Card key={step.title} className="py-0 gap-0 shadow-none bg-muted/40">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center gap-2 text-accent font-semibold">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
+                        {idx + 1}
+                      </span>
+                      <span>{step.title}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+                    {step.title === "Sign up" ? (
+                      <Button asChild size="sm" variant="outline" className="rounded-full">
+                        <Link href="/signup">Go to signup</Link>
+                      </Button>
+                    ) : step.title === "Search nearby" ? (
+                      <div className="flex flex-wrap gap-2">
+                        <Button asChild size="sm" variant="outline" className="rounded-full">
+                          <Link href="/coaches">Search Coaches</Link>
+                        </Button>
+                        <Button asChild size="sm" variant="outline" className="rounded-full">
+                          <Link href="/clubs">Search Clubs</Link>
+                        </Button>
+                      </div>
+                    ) : null}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <Button asChild className="w-full sm:w-auto rounded-full">
+              <Link href="/how-it-works">Learn more</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Footer */}

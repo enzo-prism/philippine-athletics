@@ -9,7 +9,7 @@ export const dynamicParams = true
 
 const ContactItem = ({ emoji, label, value }: { emoji: string; label: string; value: string }) => (
   <div className="flex items-center gap-2 text-sm text-foreground">
-    <Emoji symbol={emoji} className="text-base" aria-hidden />
+    <Emoji symbol={emoji} className="text-base" />
     <span className="font-medium">{label}:</span>
     <span className="text-muted-foreground">{value}</span>
   </div>
@@ -37,7 +37,7 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
               Athlete
             </span>
             <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
+              <Emoji symbol={emojiIcons.location} className="text-sm" />
               {athlete.location}
             </span>
             <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
@@ -63,7 +63,7 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
           <div className="lg:col-span-2 space-y-8">
             <section className="space-y-3">
               <div className="flex items-center gap-2">
-                <Emoji symbol={emojiIcons.medal} className="text-base" aria-hidden />
+                <Emoji symbol={emojiIcons.medal} className="text-base" />
                 <h2 className="text-xl font-semibold text-foreground">Event Performances</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -98,7 +98,7 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
 
             <section className="space-y-3">
               <div className="flex items-center gap-2">
-                <Emoji symbol="📅" className="text-base" aria-hidden />
+                <Emoji symbol="📅" className="text-base" />
                 <h2 className="text-xl font-semibold text-foreground">Recent Competitions</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -118,7 +118,7 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
 
             <section className="space-y-3">
               <div className="flex items-center gap-2">
-                <Emoji symbol="🗓️" className="text-base" aria-hidden />
+                <Emoji symbol="🗓️" className="text-base" />
                 <h2 className="text-xl font-semibold text-foreground">Upcoming Competitions</h2>
               </div>
               {athlete.upcoming.length === 0 ? (

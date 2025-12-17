@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import { Badge as UiBadge } from "@/components/ui/badge"
 import { 
   Globe, 
   Award, 
@@ -45,22 +46,19 @@ export function Badge({ text, className, variant = "accent" }: BadgeProps) {
   const Icon = badgeIcons[text] || DefaultIcon
   
   const variants = {
-    default: "bg-primary/10 text-primary border-primary/20",
-    outline: "border-border text-foreground bg-transparent",
-    secondary: "bg-secondary text-secondary-foreground border-transparent",
-    accent: "bg-accent/10 text-accent border-accent/30",
+    default: { ui: "outline" as const, className: "bg-primary/10 text-primary border-primary/20" },
+    outline: { ui: "outline" as const, className: "border-border text-foreground bg-transparent" },
+    secondary: { ui: "secondary" as const, className: "" },
+    accent: { ui: "outline" as const, className: "bg-accent/10 text-accent border-accent/30" },
   }
 
   return (
-    <span 
-      className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors",
-        variants[variant],
-        className
-      )}
+    <UiBadge
+      variant={variants[variant].ui}
+      className={cn("font-semibold", variants[variant].className, className)}
     >
       <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       {text}
-    </span>
+    </UiBadge>
   )
 }

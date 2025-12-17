@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { Avatar } from "@/components/avatar"
 import { WeeklySchedule } from "@/components/weekly-schedule"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
+import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 import { MapEmbed } from "@/components/map-embed"
@@ -31,14 +32,14 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
               Club
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
+              <Emoji symbol={emojiIcons.location} className="text-sm" />
               {club.location}
             </span>
             <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
               Founded: {club.founded}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <Emoji symbol={emojiIcons.users} className="text-sm" aria-hidden />
+              <Emoji symbol={emojiIcons.users} className="text-sm" />
               {club.spots}
             </span>
           </div>
@@ -64,7 +65,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         {club.locationDetail ? (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Emoji symbol={emojiIcons.location} className="text-base" aria-hidden />
+              <Emoji symbol={emojiIcons.location} className="text-base" />
               <h2 className="text-lg font-semibold text-foreground">Practice Location</h2>
             </div>
             <MapEmbed
@@ -79,7 +80,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         {club.schedule && club.schedule.length > 0 ? (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Emoji symbol="📅" className="text-base" aria-hidden />
+              <Emoji symbol="📅" className="text-base" />
               <h2 className="text-lg font-semibold text-foreground">Practice Schedule</h2>
             </div>
             <WeeklySchedule sessions={club.schedule} />
@@ -156,18 +157,18 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-4 rounded-lg border border-border bg-card space-y-3">
             <div className="flex items-center gap-2">
-              <Emoji symbol={emojiIcons.mail} className="text-base" aria-hidden />
+              <Emoji symbol={emojiIcons.mail} className="text-base" />
               <h2 className="text-sm font-semibold text-foreground">Contact</h2>
             </div>
             <div className="space-y-2 text-sm text-foreground">
               <div className="flex items-center gap-2">
-                <Emoji symbol={emojiIcons.mail} className="text-base" aria-hidden />
+                <Emoji symbol={emojiIcons.mail} className="text-base" />
                 <Link href={`mailto:${club.contact?.email ?? "clubs@philippineathletics.ph"}`} className="text-accent hover:text-accent/80">
                   {club.contact?.email ?? "clubs@philippineathletics.ph"}
                 </Link>
               </div>
               <div className="flex items-center gap-2">
-                <Emoji symbol={emojiIcons.phone} className="text-base" aria-hidden />
+                <Emoji symbol={emojiIcons.phone} className="text-base" />
                 <Link
                   href={`tel:${(club.contact?.phone ?? "+639170000000").replace(/[^\\d+]/g, "")}`}
                   className="text-foreground hover:text-accent"
@@ -180,7 +181,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
 
           <div className="p-4 rounded-lg border border-border bg-card space-y-3">
             <div className="flex items-center gap-2">
-              <Emoji symbol={emojiIcons.users} className="text-base" aria-hidden />
+              <Emoji symbol={emojiIcons.users} className="text-base" />
               <h2 className="text-sm font-semibold text-foreground">Team Contacts</h2>
             </div>
             <div className="space-y-2 text-sm text-foreground">
@@ -191,7 +192,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                   <div className="flex flex-wrap items-center gap-3 text-xs mt-1">
                     {person.email ? (
                       <Link href={`mailto:${person.email}`} className="text-accent hover:text-accent/80 inline-flex items-center gap-1">
-                        <Emoji symbol={emojiIcons.mail} className="text-sm" aria-hidden />
+                        <Emoji symbol={emojiIcons.mail} className="text-sm" />
                         {person.email}
                       </Link>
                     ) : null}
@@ -200,7 +201,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                         href={`tel:${person.phone.replace(/[^\\d+]/g, "")}`}
                         className="text-foreground hover:text-accent inline-flex items-center gap-1"
                       >
-                        <Emoji symbol={emojiIcons.phone} className="text-sm" aria-hidden />
+                        <Emoji symbol={emojiIcons.phone} className="text-sm" />
                         {person.phone}
                       </Link>
                     ) : null}
@@ -215,24 +216,15 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/signup?role=athlete"
-            className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
-          >
-            Apply as Athlete
-          </Link>
-          <Link
-            href="/signup?role=coach"
-            className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
-          >
-            Apply as Coach
-          </Link>
-          <Link
-            href="/signup?role=sponsor"
-            className="px-4 py-2 border border-border text-foreground rounded-md font-semibold hover:bg-muted transition-colors"
-          >
-            Apply to Sponsor
-          </Link>
+          <Button asChild variant="outline">
+            <Link href="/signup?role=athlete">Apply as Athlete</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/signup?role=coach">Apply as Coach</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/signup?role=sponsor">Apply to Sponsor</Link>
+          </Button>
         </div>
       </div>
     </div>

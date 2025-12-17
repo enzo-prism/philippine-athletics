@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { Input } from "@/components/ui/input"
 import { clubs } from "@/lib/data/clubs"
 
 export default function ClubsPage() {
@@ -29,16 +30,16 @@ export default function ClubsPage() {
             <p className="text-muted-foreground">Explore track and field clubs across the Philippines</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="w-full sm:w-96 rounded-full border border-border bg-background px-3 py-2 flex items-center gap-2 focus-within:ring-2 focus-within:ring-accent shadow-soft">
-              <span className="text-base" aria-hidden>
+            <div className="relative w-full sm:w-96">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-base text-muted-foreground" aria-hidden>
                 🔍
               </span>
-              <input
+              <Input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search by club, city, or focus..."
-                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                className="rounded-full pl-9 shadow-soft"
               />
             </div>
             <span className="text-xs text-muted-foreground sm:self-center">

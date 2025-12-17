@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { competitions } from "@/lib/data/competitions"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
@@ -24,38 +26,41 @@ export default function CompetitionsPage() {
           <p className="text-muted-foreground">Track and field competitions across the Philippines and beyond</p>
         </div>
 
-        <div className="p-4 border border-border rounded-lg bg-card mb-6 space-y-3">
+        <Card className="py-0 gap-0 mb-6">
+          <CardContent className="p-4 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Emoji symbol={emojiIcons.filter} className="text-sm" aria-hidden />
+            <Emoji symbol={emojiIcons.filter} className="text-sm" />
             Filters
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
             {(["Upcoming", "Past", "All"] as const).map((status) => (
-              <button
+              <Button
                 key={status}
+                type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => setStatusFilter(status)}
-                className={`px-3 py-1.5 rounded-md border text-sm font-semibold transition-colors ${
-                  statusFilter === status
-                    ? "bg-accent text-accent-foreground border-accent"
-                    : "bg-card text-foreground border-border hover:bg-muted"
+                className={`font-semibold ${
+                  statusFilter === status ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90" : "hover:bg-muted hover:text-foreground"
                 }`}
               >
                 {status}
-              </button>
+              </Button>
             ))}
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         <div className="space-y-3">
           {filtered.map((comp) => (
-            <Link
-              key={comp.id}
-              href={`/competitions/${comp.slug}`}
-              className="block p-4 rounded-lg border border-border bg-card hover:border-accent hover:bg-accent/5 transition-colors"
-            >
-              <p className="text-sm font-semibold text-foreground">{comp.name}</p>
-              <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>
-              <p className="text-xs text-muted-foreground">{comp.dateLabel}</p>
+            <Link key={comp.id} href={`/competitions/${comp.slug}`} className="block">
+              <Card className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors">
+                <CardContent className="p-4">
+                  <p className="text-sm font-semibold text-foreground">{comp.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>
+                  <p className="text-xs text-muted-foreground">{comp.dateLabel}</p>
+                </CardContent>
+              </Card>
             </Link>
           ))}
         </div>

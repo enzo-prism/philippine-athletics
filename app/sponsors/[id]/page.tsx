@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getSponsorByIdOrStub, resolveRoster } from "@/lib/data/sponsors"
+import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 import { Badge } from "@/components/badge"
@@ -35,7 +36,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
             <h1 className="text-4xl font-bold text-foreground">{sponsor.name}</h1>
             <p className="text-base text-muted-foreground">{sponsor.focus}</p>
             <div className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
+              <Emoji symbol={emojiIcons.location} className="text-sm" />
               {sponsor.location}
             </div>
           </div>
@@ -51,7 +52,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
           <div className="lg:col-span-2 space-y-6">
             <div className="space-y-2">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <Emoji symbol={emojiIcons.sponsor} className="text-base" aria-hidden />
+                <Emoji symbol={emojiIcons.sponsor} className="text-base" />
                 What they provide
               </h2>
               <div className="space-y-2">
@@ -65,7 +66,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
 
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                <Emoji symbol={emojiIcons.trophy} className="text-base" aria-hidden />
+                <Emoji symbol={emojiIcons.trophy} className="text-base" />
                 Sponsored roster
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -85,7 +86,6 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
                               : emojiIcons.club
                         }
                         className="text-base"
-                        aria-hidden
                       />
                       <div>
                         <p className="font-semibold text-foreground">{entity.name}</p>
@@ -104,13 +104,12 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
               <p className="text-sm text-muted-foreground">
                 Reach out via sponsors@philippineathletics.ph to start a sponsorship conversation.
               </p>
-              <Link
-                href="mailto:sponsors@philippineathletics.ph"
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
-              >
-                <Emoji symbol={emojiIcons.mail} className="text-base" aria-hidden />
-                Email sponsor desk
-              </Link>
+              <Button asChild>
+                <Link href="mailto:sponsors@philippineathletics.ph" className="inline-flex items-center gap-2">
+                  <Emoji symbol={emojiIcons.mail} className="text-base" />
+                  Email sponsor desk
+                </Link>
+              </Button>
             </div>
           </aside>
         </div>

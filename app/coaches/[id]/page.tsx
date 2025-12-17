@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
+import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 import { Badge } from "@/components/badge"
@@ -40,7 +41,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
 
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted border border-border text-foreground">
-              <Emoji symbol={emojiIcons.location} className="text-sm" aria-hidden />
+              <Emoji symbol={emojiIcons.location} className="text-sm" />
               {coach.location}
             </span>
             {coach.clubId ? (
@@ -65,13 +66,13 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
               <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 {coach.contact.email ? (
                   <Link href={`mailto:${coach.contact.email}`} className="inline-flex items-center gap-1 text-accent hover:text-accent/80">
-                    <Emoji symbol={emojiIcons.mail} className="text-sm" aria-hidden />
+                    <Emoji symbol={emojiIcons.mail} className="text-sm" />
                     {coach.contact.email}
                   </Link>
                 ) : null}
                 {coach.contact.phone ? (
                   <Link href={`tel:${coach.contact.phone.replace(/[^\\d+]/g, "")}`} className="inline-flex items-center gap-1 text-foreground hover:text-accent">
-                    <Emoji symbol={emojiIcons.phone} className="text-sm" aria-hidden />
+                    <Emoji symbol={emojiIcons.phone} className="text-sm" />
                     {coach.contact.phone}
                   </Link>
                 ) : null}
@@ -118,12 +119,11 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
         ) : null}
 
         <div className="flex gap-3">
-          <Link
-            href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
-          >
-            Contact
-          </Link>
+          <Button asChild>
+            <Link href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}>
+              Contact
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

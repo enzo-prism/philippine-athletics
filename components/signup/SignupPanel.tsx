@@ -5,6 +5,12 @@ import type { ReactNode } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { CheckCircle2, Loader2, Mail } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
 
 type SocialProviderId = "facebook" | "google" | "instagram"
 
@@ -68,9 +74,9 @@ const roleOptions = ["Athlete", "Coach", "Club Manager", "Fan / Supporter"] as c
 function Divider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="h-px flex-1 bg-border" />
+      <Separator className="flex-1 w-auto" />
       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.24em]">{label}</p>
-      <div className="h-px flex-1 bg-border" />
+      <Separator className="flex-1 w-auto" />
     </div>
   )
 }
@@ -87,15 +93,12 @@ function SocialSignupButton({
   provider: (typeof socialProviders)[number]
 }) {
   return (
-    <button
+    <Button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={cn(
-        "w-full inline-flex items-center justify-between gap-3 rounded-md border border-border bg-background px-4 py-3 text-sm font-semibold text-foreground",
-        "hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent",
-        "disabled:opacity-60 disabled:cursor-not-allowed",
-      )}
+      variant="outline"
+      className="w-full justify-between gap-3 h-auto py-3"
       aria-busy={isConnecting || undefined}
     >
       <span className="flex items-center gap-3">
@@ -116,7 +119,7 @@ function SocialSignupButton({
           Connecting…
         </span>
       ) : null}
-    </button>
+    </Button>
   )
 }
 
@@ -174,27 +177,22 @@ export function SignupPanel() {
   if (signupComplete) {
     return (
       <div className="max-w-xl mx-auto">
-        <div className="p-6 rounded-lg border border-border bg-card space-y-4">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-accent" aria-hidden="true" />
-            <p className="text-sm font-semibold text-foreground">Account created</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/profile"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
-            >
-              Go to profile
-            </Link>
-            <button
-              type="button"
-              onClick={reset}
-              className="inline-flex items-center justify-center rounded-md border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
-            >
-              Start over
-            </button>
-          </div>
-        </div>
+        <Card>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-accent" aria-hidden="true" />
+              <p className="text-sm font-semibold text-foreground">Account created</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild>
+                <Link href="/profile">Go to profile</Link>
+              </Button>
+              <Button type="button" variant="outline" onClick={reset}>
+                Start over
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -203,8 +201,9 @@ export function SignupPanel() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <div className="p-6 rounded-lg border border-border bg-card space-y-6">
-        <div className="space-y-3">
+      <Card>
+        <CardContent className="space-y-6">
+          <div className="space-y-3">
           {socialProviders.map((provider) => (
             <SocialSignupButton
               key={provider.id}
@@ -214,7 +213,7 @@ export function SignupPanel() {
               onClick={() => startSocial(provider.id)}
             />
           ))}
-        </div>
+          </div>
 
         {social.status !== "idle" ? (
           <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
@@ -229,13 +228,9 @@ export function SignupPanel() {
                   {social.status === "connected" ? `Connected to ${providerLabel}` : `Connecting to ${providerLabel}…`}
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={cancelSocial}
-                className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <Button type="button" variant="ghost" size="sm" onClick={cancelSocial} className="h-auto px-2 py-1 text-xs">
                 Cancel
-              </button>
+              </Button>
             </div>
 
             {social.status === "connected" ? (
@@ -248,36 +243,33 @@ export function SignupPanel() {
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-foreground uppercase">Role</label>
-                    <select
-                      value={role}
-                      onChange={(event) => setRole(event.target.value as (typeof roleOptions)[number])}
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                    >
-                      {roleOptions.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
+                    <Label className="text-xs font-semibold text-foreground uppercase">Role</Label>
+                    <Select value={role} onValueChange={(value) => setRole(value as (typeof roleOptions)[number])}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {roleOptions.map((opt) => (
+                          <SelectItem key={opt} value={opt}>
+                            {opt}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-foreground uppercase">Location</label>
-                    <input
+                    <Label className="text-xs font-semibold text-foreground uppercase">Location</Label>
+                    <Input
                       value={location}
                       onChange={(event) => setLocation(event.target.value)}
                       type="text"
                       placeholder="Quezon City"
-                      className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full px-4 py-3 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
-                >
+                <Button type="submit" className="w-full">
                   Finish signup
-                </button>
+                </Button>
               </form>
             ) : null}
           </div>
@@ -286,17 +278,15 @@ export function SignupPanel() {
         <Divider label="or" />
 
         <div className="space-y-4">
-          <button
+          <Button
             type="button"
             onClick={() => setShowEmail((v) => !v)}
-            className={cn(
-              "w-full inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground",
-              "hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent",
-            )}
+            variant="secondary"
+            className="w-full justify-center gap-2"
           >
             <Mail className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             {showEmail ? "Hide email signup" : social.status === "idle" ? "Continue with email" : "Use email instead"}
-          </button>
+          </Button>
 
           {showEmail ? (
             <form
@@ -308,58 +298,59 @@ export function SignupPanel() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">First Name</label>
-                  <input
+                  <Label className="text-sm font-medium text-foreground">First Name</Label>
+                  <Input
                     type="text"
                     placeholder="Maria"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Last Name</label>
-                  <input
+                  <Label className="text-sm font-medium text-foreground">Last Name</Label>
+                  <Input
                     type="text"
                     placeholder="Santos"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Email</label>
-                <input
+                <Label className="text-sm font-medium text-foreground">Email</Label>
+                <Input
                   type="email"
                   placeholder="you@example.com"
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Role</label>
-                  <select className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent">
-                    {roleOptions.map((opt) => (
-                      <option key={opt}>{opt}</option>
-                    ))}
-                  </select>
+                  <Label className="text-sm font-medium text-foreground">Role</Label>
+                  <Select defaultValue="Athlete">
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roleOptions.map((opt) => (
+                        <SelectItem key={opt} value={opt}>
+                          {opt}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Location</label>
-                  <input
+                  <Label className="text-sm font-medium text-foreground">Location</Label>
+                  <Input
                     type="text"
                     placeholder="Quezon City"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
-              <button
-                type="submit"
-                className="w-full px-4 py-3 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
-              >
+              <Button type="submit" className="w-full">
                 Create account
-              </button>
+              </Button>
             </form>
           ) : null}
         </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
