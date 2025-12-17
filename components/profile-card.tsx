@@ -30,7 +30,11 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
                 <Badge key={badge} text={badge} variant="accent" className="uppercase tracking-wide rounded-md" />
               ))}
               {location && (
-                <UiBadge variant="outline" className="gap-1 rounded-md bg-muted/80 text-foreground">
+                <UiBadge
+                  variant="outline"
+                  className="gap-1 rounded-md bg-muted/80 text-foreground max-w-full whitespace-normal break-words leading-tight"
+                  title={location}
+                >
                   <Emoji symbol={emojiIcons.location} className="text-sm" />
                   <span>{location}</span>
                 </UiBadge>

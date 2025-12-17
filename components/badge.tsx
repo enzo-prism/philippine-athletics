@@ -55,7 +55,12 @@ export function Badge({ text, className, variant = "accent" }: BadgeProps) {
   return (
     <UiBadge
       variant={variants[variant].ui}
-      className={cn("font-semibold", variants[variant].className, className)}
+      title={text}
+      className={cn(
+        "font-semibold max-w-full whitespace-normal break-words leading-tight",
+        variants[variant].className,
+        className,
+      )}
     >
       <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       {text}
