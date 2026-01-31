@@ -17,6 +17,7 @@ Template (copy/paste for new entries):
 - Expanded competition results with athlete linking, event filtering, and PB/SB callouts.
 - Added Recognition page plus recognition badges with issuer/validity details on club/coach pages.
 - Introduced data‑source labels (World Athletics vs Demo data) across rankings, competitions, and athlete summaries.
+- Fixed `/search` build by wrapping `useSearchParams` usage in a Suspense boundary.
 
 ## 2025-12-19 — Deeper athlete sample data
 - Enriched athlete sample profiles to improve browsing and profile detail completeness.
