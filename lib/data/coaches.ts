@@ -11,6 +11,10 @@ export type Coach = {
   clubId?: string
   experience: string
   badges?: string[]
+  isRecognized?: boolean
+  recognitions?: string[]
+  recognitionDetails?: { label: string; issuer: string; validThrough?: string }[]
+  certifications?: string[]
   bio?: string
   achievements?: string[]
   isStub?: boolean
@@ -31,6 +35,13 @@ export const coaches: Coach[] = [
     clubId: "club-manila-striders",
     experience: "Former national team 100m hurdler turned coach with over 10 years leading high school and collegiate sprint programs in Metro Manila.",
     badges: ["World Athletics CE Level 1", "Philippine Athletics Certified Coach", "SafeSport Trained"],
+    isRecognized: true,
+    recognitions: ["PA Recognized Coach", "SafeSport Trained"],
+    recognitionDetails: [
+      { label: "PA Recognized Coach", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+      { label: "SafeSport Trained", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+    ],
+    certifications: ["World Athletics CE Level 1", "Philippine Athletics Certified Coach"],
     bio: "Ana focuses on building strong fundamentals in acceleration, mechanics, and race planning for youth sprinters transitioning into elite competition.",
     achievements: [
       "Coached multiple Palarong Pambansa medalists in 100m and 200m",
@@ -50,6 +61,12 @@ export const coaches: Coach[] = [
     clubId: "club-manila-striders",
     experience: "Relay specialist and former 4x100m national pool member, now coordinating relays and speed development sessions.",
     badges: ["Philippine Athletics Relay Clinic Facilitator"],
+    isRecognized: true,
+    recognitions: ["PA Recognized Coach"],
+    recognitionDetails: [
+      { label: "PA Recognized Coach", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+    ],
+    certifications: ["Philippine Athletics Relay Clinic Facilitator"],
     bio: "Mark enjoys designing competitive relay programs for clubs and schools, emphasizing baton skills and teamwork.",
     achievements: [
       "Set multiple meet records in 4x100m at regional championships as a coach",
@@ -68,6 +85,12 @@ export const coaches: Coach[] = [
     clubId: "club-cebu-distance-project",
     experience: "Former UAAP 1500m champion with a sports science background, leading structured middle-distance training in Cebu.",
     badges: ["World Athletics CE Level 1", "Strength & Conditioning for Endurance Runners"],
+    isRecognized: true,
+    recognitions: ["PA Recognized Coach"],
+    recognitionDetails: [
+      { label: "PA Recognized Coach", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+    ],
+    certifications: ["World Athletics CE Level 1", "Strength & Conditioning for Endurance Runners"],
     bio: "Liza builds annual training plans that balance school, academics, and high-performance distance running.",
     achievements: [
       "Coached athletes to podium finishes in UAAP 800m and 1500m",
@@ -86,6 +109,12 @@ export const coaches: Coach[] = [
     clubId: "club-cebu-distance-project",
     experience: "Over 15 years of experience coaching 5K–marathon athletes, building a bridge from the running community to track events.",
     badges: ["Marathon Training Specialist", "Philippine Athletics Endurance Coach"],
+    isRecognized: true,
+    recognitions: ["PA Recognized Coach"],
+    recognitionDetails: [
+      { label: "PA Recognized Coach", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+    ],
+    certifications: ["Marathon Training Specialist", "Philippine Athletics Endurance Coach"],
     bio: "Joel focuses on aerobic development, race strategy, and progressive loading for young distance runners.",
     achievements: [
       "Coached sub-32 minute 10K and sub-70 minute half marathon Filipino runners",
@@ -104,6 +133,13 @@ export const coaches: Coach[] = [
     clubId: "club-davao-field-jumps",
     experience: "Former national decathlete now dedicated to developing field event talent across Southern Mindanao.",
     badges: ["World Athletics CE Level 1", "Certified Throws Coach", "SafeSport Trained"],
+    isRecognized: true,
+    recognitions: ["PA Recognized Coach", "SafeSport Trained"],
+    recognitionDetails: [
+      { label: "PA Recognized Coach", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+      { label: "SafeSport Trained", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+    ],
+    certifications: ["World Athletics CE Level 1", "Certified Throws Coach"],
     bio: "Mon runs a technical, fundamentals-first program for young jumpers and throwers with limited access to facilities.",
     achievements: [
       "Guided athletes to Mindanao regional records in long jump and javelin",

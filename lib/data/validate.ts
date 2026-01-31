@@ -36,6 +36,19 @@ export const validateDataIntegrity = (): ValidationIssue[] => {
     if (clubCoaches.length === 0) {
       issues.push({ kind: "warning", message: `Club ${club.name} has no mapped coaches` })
     }
+    if (club.isRecognized && (!club.recognitions || club.recognitions.length === 0)) {
+      issues.push({ kind: "warning", message: `Club ${club.name} is recognized but has no recognition labels` })
+    }
+  })
+
+  // Coach recognition
+  coaches.forEach((coach) => {
+    if (coach.isRecognized && (!coach.recognitions || coach.recognitions.length === 0)) {
+      issues.push({ kind: "warning", message: `Coach ${coach.name} is recognized but has no recognition labels` })
+    }
+    if (coach.isRecognized && (!coach.certifications || coach.certifications.length === 0)) {
+      issues.push({ kind: "warning", message: `Coach ${coach.name} is recognized but has no certifications listed` })
+    }
   })
 
   // Sponsor rosters

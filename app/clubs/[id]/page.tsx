@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { Avatar } from "@/components/avatar"
 import { WeeklySchedule } from "@/components/weekly-schedule"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
+import { Badge } from "@/components/badge"
 import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
@@ -56,6 +57,53 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           </div>
         ) : null}
 
+        {!isStub ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="p-4 rounded-lg border border-border bg-card">
+              <p className="text-xs text-muted-foreground uppercase font-semibold">Athletes</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{roster.length}</p>
+            </div>
+            <div className="p-4 rounded-lg border border-border bg-card">
+              <p className="text-xs text-muted-foreground uppercase font-semibold">Coaches</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{staff.length}</p>
+            </div>
+            <div className="p-4 rounded-lg border border-border bg-card">
+              <p className="text-xs text-muted-foreground uppercase font-semibold">Founded</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{club.founded}</p>
+            </div>
+            <div className="p-4 rounded-lg border border-border bg-card">
+              <p className="text-xs text-muted-foreground uppercase font-semibold">Athlete spots</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{club.spots}</p>
+            </div>
+          </div>
+        ) : null}
+
+        {!isStub ? (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button asChild variant="outline" size="sm" className="rounded-full">
+              <Link href="#roster">View roster</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="rounded-full">
+              <Link href="#coaches">View coaches</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="rounded-full">
+              <Link href="#contact">Contact club</Link>
+            </Button>
+          </div>
+        ) : null}
+
+        {!isStub ? (
+          <div className="p-4 rounded-lg border border-accent/30 bg-accent/5">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Emoji symbol={emojiIcons.check} className="text-base" />
+              Demo callout: roster + coaches
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">
+              This is the club proof point: show the roster, show the coaches, then click an athlete to confirm results.
+            </p>
+          </div>
+        ) : null}
+
         {club.bio ? (
           <div className="p-4 rounded-lg border border-border bg-card">
             <p className="text-sm text-foreground leading-relaxed">{club.bio}</p>
@@ -87,6 +135,45 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           </div>
         ) : null}
 
+        {club.recognitions && club.recognitions.length ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol={emojiIcons.shield} className="text-base" />
+              <h2 className="text-lg font-semibold text-foreground">Recognition</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {club.recognitions.map((item) => (
+                <Badge key={item} text={item} variant="accent" />
+              ))}
+            </div>
+            {club.recognitionDetails && club.recognitionDetails.length ? (
+              <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
+                {club.recognitionDetails.map((detail) => (
+                  <div key={`${detail.label}-${detail.issuer}`} className="rounded-md border border-border bg-muted/40 px-3 py-2">
+                    <p className="font-semibold text-foreground">{detail.label}</p>
+                    <p className="text-xs text-muted-foreground">Issuer: {detail.issuer}</p>
+                    {detail.validThrough ? (
+                      <p className="text-xs text-muted-foreground">Valid through {detail.validThrough}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {club.safety && club.safety.length ? (
+              <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
+                {club.safety.map((item) => (
+                  <div key={item} className="rounded-md border border-border bg-muted/40 px-3 py-2">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <p className="text-sm text-muted-foreground">
+              Recognition shows the club meets Philippine Athletics standards for safety, coaching, and athlete care.
+            </p>
+          </div>
+        ) : null}
+
         {club.achievements && club.achievements.length ? (
           <div className="space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
@@ -101,18 +188,20 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         {roster && roster.length ? (
-          <div className="space-y-3">
+          <div className="space-y-3" id="roster">
             <h2 className="text-lg font-semibold text-foreground">Roster</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {roster.map((athlete) => {
                 const href = athlete.id ? `/athletes/${athlete.id}` : undefined
                 const primaryEvent = athlete.events?.[0] || athlete.specialty
+                const pbLabel = athlete.pb ? `PB: ${athlete.pb}` : null
                 const content = (
                   <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors">
                     <Avatar name={athlete.name} size="md" />
                     <div className="space-y-0.5">
                       <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
                       <p className="text-xs text-muted-foreground">{primaryEvent}</p>
+                      {pbLabel ? <p className="text-[11px] text-muted-foreground">{pbLabel}</p> : null}
                     </div>
                   </div>
                 )
@@ -130,7 +219,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         {staff && staff.length ? (
-          <div className="space-y-2">
+          <div className="space-y-2" id="coaches">
             <h2 className="text-lg font-semibold text-foreground">Coaching Roster</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {staff.map((coach) => {
@@ -154,7 +243,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           </div>
         ) : null}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="contact">
           <div className="p-4 rounded-lg border border-border bg-card space-y-3">
             <div className="flex items-center gap-2">
               <Emoji symbol={emojiIcons.mail} className="text-base" />

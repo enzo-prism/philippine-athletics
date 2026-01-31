@@ -3,7 +3,19 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useMemo, useState } from "react"
-import { Building2, Dumbbell, Footprints, Menu, type LucideIcon, UserPlus, UserRound } from "lucide-react"
+import {
+  Building2,
+  CalendarDays,
+  Dumbbell,
+  Footprints,
+  Menu,
+  ShieldCheck,
+  Trophy,
+  type LucideIcon,
+  UserPlus,
+  UserRound,
+} from "lucide-react"
+import { GlobalSearchForm } from "@/components/global-search"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -14,6 +26,17 @@ const primaryLinks: NavLink[] = [
   { href: "/clubs", label: "Clubs", icon: Building2 },
   { href: "/coaches", label: "Coaches", icon: Dumbbell },
   { href: "/athletes", label: "Athletes", icon: Footprints },
+  { href: "/rankings", label: "Rankings", icon: Trophy },
+  { href: "/competitions", label: "Competitions", icon: CalendarDays },
+  { href: "/recognition", label: "Recognition", icon: ShieldCheck },
+]
+
+const bottomLinks: NavLink[] = [
+  { href: "/clubs", label: "Clubs", icon: Building2 },
+  { href: "/athletes", label: "Athletes", icon: Footprints },
+  { href: "/rankings", label: "Rankings", icon: Trophy },
+  { href: "/competitions", label: "Competitions", icon: CalendarDays },
+  { href: "/recognition", label: "Recognition", icon: ShieldCheck },
 ]
 
 const actionLinks: NavLink[] = [
@@ -69,6 +92,7 @@ export function Navigation() {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
+            <GlobalSearchForm className="w-56 lg:w-72" />
             <Button asChild variant="outline">
               <Link href="/signup">Sign Up</Link>
             </Button>
@@ -92,6 +116,7 @@ export function Navigation() {
                 </SheetHeader>
 
                 <div className="p-4 space-y-4">
+                  <GlobalSearchForm className="w-full" />
                   <div className="grid gap-2">
                     {primaryLinks.map((link) => {
                       const active = isActive(pathname, link.href)
@@ -153,8 +178,8 @@ export function Navigation() {
       </nav>
 
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90 shadow-soft">
-        <div className="grid grid-cols-3 gap-1 px-2 py-2 pb-safe text-[11px] font-semibold text-muted-foreground">
-          {primaryLinks.map((link) => {
+        <div className="grid grid-cols-5 gap-1 px-2 py-2 pb-safe text-[11px] font-semibold text-muted-foreground">
+          {bottomLinks.map((link) => {
             const active = isActive(pathname, link.href)
             const Icon = link.icon
             return (

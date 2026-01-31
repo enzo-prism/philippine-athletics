@@ -1,86 +1,83 @@
 "use client"
 
 import { Suspense, useEffect, useMemo, useState } from "react"
+import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { athleteProfiles } from "@/lib/data/athletes"
+import { buildRankings, getRankingEvents, getRankingYears, type AgeGroup, type Gender } from "@/lib/data/rankings"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
-import { useSearchParams } from "next/navigation"
 
-type RankingEntry = {
-  name: string
-  event: string
-  level: string
-  club: string
-  location: string
-  rank: string
-  pb: string
-}
-
-const athleteRankingData: RankingEntry[] = athleteProfiles.flatMap((athlete) =>
-  athlete.events.map((evt) => ({
-    name: `${athlete.firstName} ${athlete.lastName}`,
-    event: evt.name,
-    level: "National",
-    club: athlete.club,
-    location: athlete.location,
-    rank: evt.nationalRank || "—",
-    pb: evt.personalBest,
-  })),
-)
-
-const extraRankingData: RankingEntry[] = [
-  { name: "Mia Gutierrez", event: "200m", level: "College", club: "UP Track", location: "Quezon City", rank: "#1 COL", pb: "23.15s" },
-  { name: "Leo Dominguez", event: "100m", level: "Highschool", club: "Parañaque Speedworks", location: "Parañaque", rank: "#1 HS", pb: "10.80s" },
-]
-
-const rankingData: RankingEntry[] = [...athleteRankingData, ...extraRankingData]
-
-const eventOptions = ["Select an event", "Sprints", "100m", "200m", "400m", "Middle Distance", "800m", "1500m", "Long Distance", "5000m", "10,000m", "Hurdles", "110m hurdles (men)", "100m hurdles (women)", "400m hurdles", "Steeplechase", "3000m steeplechase", "Relays", "4×100m relay", "4×400m relay", "Jumps", "High jump", "Pole vault", "Long jump", "Triple jump", "Throws", "Shot put", "Discus throw", "Hammer throw", "Javelin throw", "Combined Events", "Decathlon (men)", "Heptathlon (women)", "Road Events", "Marathon"]
-
-const levelOptions = ["Highschool", "College", "National"]
+const eventOptions = ["Select an event", ...getRankingEvents()]
+const yearOptions = getRankingYears()
+const genderOptions: Gender[] = ["Women", "Men"]
+const ageGroupOptions: AgeGroup[] = ["Open", "Youth"]
 
 const normalizeEvent = (eventParam: string | null) => {
   if (!eventParam) return "Select an event"
-  return eventOptions.includes(eventParam) && eventParam !== "Select an event" ? eventParam : "Select an event"
+  return eventOptions.includes(eventParam) ? eventParam : "Select an event"
 }
 
-const normalizeLevel = (levelParam: string | null) => {
-  if (!levelParam) return "National"
-  const normalized = levelParam.charAt(0).toUpperCase() + levelParam.slice(1).toLowerCase()
-  return levelOptions.includes(normalized) ? normalized : "National"
+const normalizeGender = (genderParam: string | null) => {
+  if (!genderParam) return "Women"
+  return genderOptions.includes(genderParam as Gender) ? (genderParam as Gender) : "Women"
 }
 
-const normalizeHighlight = (highlightParam: string | null) => highlightParam?.trim() || ""
+const normalizeAgeGroup = (ageParam: string | null) => {
+  if (!ageParam) return "Open"
+  return ageGroupOptions.includes(ageParam as AgeGroup) ? (ageParam as AgeGroup) : "Open"
+}
+
+const normalizeYear = (yearParam: string | null) => {
+  const fallback = yearOptions[0] ?? new Date().getFullYear()
+  const parsed = Number.parseInt(yearParam ?? "", 10)
+  return Number.isNaN(parsed) ? fallback : parsed
+}
+
+const formatRank = (rank: number) => `#${rank}`
 
 function RankingsContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const [selectedEvent, setSelectedEvent] = useState(() => normalizeEvent(searchParams.get("event")))
-  const [selectedLevel, setSelectedLevel] = useState(() => normalizeLevel(searchParams.get("level")))
-  const [highlightId, setHighlightId] = useState(() => normalizeHighlight(searchParams.get("highlight")))
+  const [selectedGender, setSelectedGender] = useState<Gender>(() => normalizeGender(searchParams.get("gender")))
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeGroup>(() => normalizeAgeGroup(searchParams.get("ageGroup")))
+  const [selectedYear, setSelectedYear] = useState<number>(() => normalizeYear(searchParams.get("year")))
+  const highlightId = searchParams.get("highlight")?.trim() ?? ""
 
   useEffect(() => {
     setSelectedEvent(normalizeEvent(searchParams.get("event")))
-    setSelectedLevel(normalizeLevel(searchParams.get("level")))
-    setHighlightId(normalizeHighlight(searchParams.get("highlight")))
+    setSelectedGender(normalizeGender(searchParams.get("gender")))
+    setSelectedAgeGroup(normalizeAgeGroup(searchParams.get("ageGroup")))
+    setSelectedYear(normalizeYear(searchParams.get("year")))
   }, [searchParams])
 
   useEffect(() => {
-    if (!highlightId) return
-    const timer = setTimeout(() => setHighlightId(""), 2000)
-    return () => clearTimeout(timer)
-  }, [highlightId])
+    if (selectedEvent === "Select an event") return
+    const params = new URLSearchParams()
+    params.set("event", selectedEvent)
+    params.set("gender", selectedGender)
+    params.set("ageGroup", selectedAgeGroup)
+    params.set("year", String(selectedYear))
+    if (highlightId) params.set("highlight", highlightId)
+    router.replace(`?${params.toString()}`, { scroll: false })
+  }, [selectedEvent, selectedGender, selectedAgeGroup, selectedYear, highlightId, router])
 
-  const filtered = useMemo(() => {
+  const rankings = useMemo(() => {
     if (selectedEvent === "Select an event") return []
-    return rankingData.filter(
-      (item) => item.event === selectedEvent && item.level.toLowerCase() === selectedLevel.toLowerCase(),
-    )
-  }, [selectedEvent, selectedLevel])
+    return buildRankings({
+      event: selectedEvent,
+      gender: selectedGender,
+      ageGroup: selectedAgeGroup,
+      year: selectedYear,
+    })
+  }, [selectedEvent, selectedGender, selectedAgeGroup, selectedYear])
+
+  const topThree = rankings.slice(0, 3)
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,9 +91,18 @@ function RankingsContent() {
           </p>
           <h1 className="text-4xl font-bold text-foreground">Philippine Athletics Rankings</h1>
           <p className="text-muted-foreground max-w-2xl text-sm">
-            Select an event to view rankings. Level defaults to National; switch to Highschool or College to preview other
-            ladders. Sample data only.
+            Filter by event, gender, age group, and year to see the best performances. Rankings use the best result in the
+            selected year.
           </p>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <span>Data labels:</span>
+            <Badge variant="outline" className="border-emerald-300/60 text-emerald-700 bg-emerald-50">
+              World Athletics
+            </Badge>
+            <Badge variant="outline" className="border-border text-foreground bg-muted">
+              Demo data
+            </Badge>
+          </div>
         </header>
 
         <Card className="py-0 gap-0">
@@ -105,7 +111,7 @@ function RankingsContent() {
               <Emoji symbol={emojiIcons.filter} className="text-base" />
               Filters
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs font-semibold text-foreground uppercase">Event</Label>
                 <Select value={selectedEvent} onValueChange={setSelectedEvent}>
@@ -123,15 +129,47 @@ function RankingsContent() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground uppercase">Level</Label>
-                <Select value={selectedLevel} onValueChange={setSelectedLevel}>
+                <Label className="text-xs font-semibold text-foreground uppercase">Gender</Label>
+                <Select value={selectedGender} onValueChange={(value) => setSelectedGender(value as Gender)}>
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {levelOptions.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
+                    {genderOptions.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground uppercase">Age group</Label>
+                <Select value={selectedAgeGroup} onValueChange={(value) => setSelectedAgeGroup(value as AgeGroup)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ageGroupOptions.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground uppercase">Year</Label>
+                <Select value={String(selectedYear)} onValueChange={(value) => setSelectedYear(Number.parseInt(value, 10))}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {yearOptions.map((year) => (
+                      <SelectItem key={year} value={String(year)}>
+                        {year}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -145,45 +183,107 @@ function RankingsContent() {
           <Card className="py-0 gap-0 border-dashed bg-muted/40">
             <CardContent className="p-6 text-sm text-muted-foreground">Choose an event to load rankings.</CardContent>
           </Card>
-        ) : filtered.length === 0 ? (
+        ) : rankings.length === 0 ? (
           <Card className="py-0 gap-0">
             <CardContent className="p-6 text-sm text-muted-foreground">
-              No rankings found for {selectedEvent} at {selectedLevel} level.
+              No rankings found for {selectedEvent} in {selectedYear}. Try another filter.
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((athlete) => {
-              const isHighlighted = highlightId && athlete.name.toLowerCase() === highlightId.toLowerCase()
-
-              return (
-                <Card
-                  key={`${athlete.name}-${athlete.event}`}
-                  className={`py-0 gap-0 transition-colors ${isHighlighted ? "border-accent ring-2 ring-accent/30" : ""}`}
-                >
-                  <CardContent className="p-4 space-y-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-foreground truncate">{athlete.name}</p>
-                        <p className="text-xs text-muted-foreground">{athlete.event}</p>
+          <div className="space-y-6">
+            <Card className="py-0 gap-0">
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold text-foreground">Top 3</p>
+                  <span className="text-xs text-muted-foreground">Best performances in {selectedYear}</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {topThree.map((entry) => (
+                    <Link
+                      key={entry.id}
+                      href={`${entry.href}?event=${encodeURIComponent(selectedEvent)}&year=${selectedYear}`}
+                      className="block"
+                    >
+                      <div className="p-4 rounded-lg border border-border bg-card hover:border-accent transition-colors">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-semibold text-foreground">{entry.name}</p>
+                          <Badge variant="outline" className="border-accent/40 text-accent">
+                            {formatRank(entry.rank)}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">{entry.result}</p>
+                        <p className="text-xs text-muted-foreground">{entry.meet}</p>
+                        <div className="pt-1">
+                          <Badge
+                            variant="outline"
+                            className={
+                              entry.source === "World Athletics"
+                                ? "border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                                : "border-border text-foreground bg-muted"
+                            }
+                          >
+                            {entry.source ?? "Demo data"}
+                          </Badge>
+                        </div>
                       </div>
-                      <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
-                        {athlete.rank}
-                      </Badge>
-                    </div>
-                    <div className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Emoji symbol={emojiIcons.location} className="text-sm" />
-                      {athlete.location}
-                    </div>
-                    <p className="text-xs text-muted-foreground">Club: {athlete.club}</p>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Emoji symbol={emojiIcons.medal} className="text-base" />
-                      <span className="font-semibold text-foreground">PB: {athlete.pb}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
+                    </Link>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {rankings.map((entry) => {
+                const isHighlighted = highlightId && entry.name.toLowerCase() === highlightId.toLowerCase()
+                return (
+                  <Link
+                    key={`${entry.id}-${entry.rank}`}
+                    href={`${entry.href}?event=${encodeURIComponent(selectedEvent)}&year=${selectedYear}`}
+                    className="block"
+                  >
+                    <Card
+                      className={`py-0 gap-0 transition-colors hover:border-accent ${
+                        isHighlighted ? "border-accent ring-2 ring-accent/30" : ""
+                      }`}
+                    >
+                      <CardContent className="p-4 space-y-3">
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-foreground truncate">{entry.name}</p>
+                            <p className="text-xs text-muted-foreground">{entry.event}</p>
+                          </div>
+                          <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
+                            {formatRank(entry.rank)}
+                          </Badge>
+                        </div>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Emoji symbol={emojiIcons.location} className="text-sm" />
+                          {entry.location}
+                        </div>
+                        <p className="text-xs text-muted-foreground">Club: {entry.club}</p>
+                        <div className="flex items-center gap-2 text-sm">
+                          <Emoji symbol={emojiIcons.medal} className="text-base" />
+                          <span className="font-semibold text-foreground">Best: {entry.result}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {entry.meet} • {entry.date}
+                        </p>
+                        <Badge
+                          variant="outline"
+                          className={
+                            entry.source === "World Athletics"
+                              ? "border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                              : "border-border text-foreground bg-muted"
+                          }
+                        >
+                          {entry.source ?? "Demo data"}
+                        </Badge>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
         )}
       </div>

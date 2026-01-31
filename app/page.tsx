@@ -1,11 +1,13 @@
 import Link from "next/link"
-import { BackgroundVideo } from "@/components/background-video"
 import { Navigation } from "@/components/navigation"
+import { GlobalSearchForm } from "@/components/global-search"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { athleteSummaries } from "@/lib/data/athletes"
 import { coaches } from "@/lib/data/coaches"
 import { clubs } from "@/lib/data/clubs"
+import { competitions } from "@/lib/data/competitions"
+import { getRankingEvents } from "@/lib/data/rankings"
 
 export default function Home() {
   return (
@@ -14,37 +16,26 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="page-shell py-12 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-12 items-center">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft aspect-[4/5] sm:aspect-[3/4] lg:aspect-[5/4] min-h-[260px] animate-fade-in-up opacity-0 [animation-fill-mode:forwards]">
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent/16 via-background/30 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/45 via-black/25 to-transparent pointer-events-none" />
-            <BackgroundVideo
-              src="https://res.cloudinary.com/dhqpqfw6w/video/upload/v1765031902/ej_pv_lruye1.mp4"
-              className="opacity-95 object-cover object-center md:object-[50%_45%]"
-            />
-          </div>
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft px-6 py-10 sm:px-10 sm:py-14">
+          <div className="pointer-events-none absolute -top-20 right-[-8rem] h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 left-[-6rem] h-72 w-72 rounded-full bg-[oklch(0.8_0.1_95_/0.25)] blur-3xl" />
 
-          <div className="hero-panel p-6 sm:p-8 space-y-6 max-w-xl">
-            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-muted/60 px-5 py-4 w-fit transition duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:shadow-soft hover:shadow-accent/30 animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-              <img
-                src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
-                alt="Philippine Olympic Committee"
-                className="h-16 w-auto opacity-85"
-                loading="lazy"
-              />
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em] animate-fade-in opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
-                Building the Next Generation of Philippine Track &amp; Field
-              </p>
-              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
-                Grassroots Program empowering athletes nationwide
-              </h1>
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
-                Find a coach or join a club to start training with verified professionals and grow into world-class talent.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:700ms] [animation-fill-mode:forwards]">
+          <div className="relative z-10 space-y-6 max-w-2xl">
+            <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em] animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
+              Building the Next Generation of Philippine Track &amp; Field
+            </p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
+              Grassroots Program empowering athletes nationwide
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+              Find a coach or join a club to start training with verified professionals and grow into world-class talent.
+            </p>
+            <GlobalSearchForm
+              variant="hero"
+              className="max-w-xl animate-fade-in-up opacity-0 [animation-delay:450ms] [animation-fill-mode:forwards]"
+              actionLabel="Search"
+            />
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
               <Button asChild size="lg" className="w-full sm:w-auto rounded-full shadow-soft">
                 <Link href="/clubs">Join a Club</Link>
               </Button>
@@ -60,31 +51,23 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-6">Browse by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Link href="/clubs" className="block">
-              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
-                <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-accent uppercase">Clubs</p>
-                  <p className="text-2xl font-bold text-foreground mt-2">{clubs.length}</p>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link href="/coaches" className="block">
-              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
-                <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-accent uppercase">Coaches</p>
-                  <p className="text-2xl font-bold text-foreground mt-2">{coaches.length}</p>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link href="/athletes" className="block">
-              <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
-                <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-accent uppercase">Athletes</p>
-                  <p className="text-2xl font-bold text-foreground mt-2">{athleteSummaries.length}</p>
-                </CardContent>
-              </Card>
-            </Link>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+            {[
+              { label: "Clubs", value: clubs.length, href: "/clubs" },
+              { label: "Coaches", value: coaches.length, href: "/coaches" },
+              { label: "Athletes", value: athleteSummaries.length, href: "/athletes" },
+              { label: "Rankings", value: getRankingEvents().length, href: "/rankings" },
+              { label: "Competitions", value: competitions.length, href: "/competitions" },
+            ].map((item) => (
+              <Link key={item.label} href={item.href} className="block">
+                <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
+                  <CardContent className="p-6">
+                    <p className="text-sm font-semibold text-accent uppercase">{item.label}</p>
+                    <p className="text-2xl font-bold text-foreground mt-2">{item.value}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
 

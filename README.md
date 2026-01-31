@@ -10,6 +10,10 @@
 This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
 Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
 
+## Demo guide
+
+The demo flows and narrative live in `DemoFlows.md`. Use it to keep product decisions aligned with the 5 core flows showcased in demos.
+
 ## Deployment
 
 Your project is live at:

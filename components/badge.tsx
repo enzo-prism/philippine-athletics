@@ -33,6 +33,12 @@ const badgeIcons: Record<string, LucideIcon> = {
   "Marathon Training Specialist": Timer,
   "Philippine Athletics Endurance Coach": Mountain,
   "Certified Throws Coach": Target,
+
+  // Recognition badges
+  "PA Recognized Club": ShieldCheck,
+  "PA Recognized Coach": ShieldCheck,
+  "SafeSport Compliant": ShieldCheck,
+  "Background Checked": ShieldCheck,
   
   // Sponsor badges
   "National Partner": Flag,

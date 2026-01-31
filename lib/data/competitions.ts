@@ -11,6 +11,18 @@ export type Competition = {
   organizer: string
   about: string
   events: string[]
+  results?: {
+    event: string
+    round?: string
+    entries: {
+      athleteName: string
+      athleteId?: string
+      result: string
+      place: string
+      note?: string
+      source?: "World Athletics" | "Demo data"
+    }[]
+  }[]
   participants: number
   countries: number
   records: number
@@ -36,6 +48,50 @@ export const competitions: Competition[] = [
     about:
       "The National Championships is the premier track and field competition in the Philippines. Athletes compete for national titles across all track and field events.",
     events: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "High Jump", "Triple Jump", "Shot Put", "Discus Throw", "Javelin Throw", "Hammer Throw", "Relays"],
+    results: [
+      {
+        event: "400m hurdles",
+        round: "Final",
+        entries: [
+          { athleteName: "Lauren Hoffman", athleteId: "athlete-lauren-hoffman", result: "55.72", place: "1st", source: "Demo data" },
+          { athleteName: "Robyn Lauren Brown", athleteId: "athlete-robyn-lauren-brown", result: "56.93", place: "2nd", source: "Demo data" },
+          { athleteName: "Bernalyn Bejoy", athleteId: "athlete-bernalyn-bejoy", result: "1:00.53", place: "3rd", source: "Demo data" },
+        ],
+      },
+      {
+        event: "100m hurdles",
+        round: "Final",
+        entries: [
+          { athleteName: "Lauren Hoffman", athleteId: "athlete-lauren-hoffman", result: "13.34", place: "1st", source: "Demo data" },
+          { athleteName: "Mia Santos", athleteId: "athlete-mia-santos", result: "13.58", place: "2nd", source: "Demo data" },
+          { athleteName: "Bernalyn Bejoy", athleteId: "athlete-bernalyn-bejoy", result: "13.72", place: "3rd", source: "Demo data" },
+        ],
+      },
+      {
+        event: "100m",
+        round: "Final",
+        entries: [
+          { athleteName: "JC Dela Cruz", athleteId: "athlete-jc-dela-cruz", result: "10.68", place: "1st", source: "Demo data" },
+          { athleteName: "Eric Cray", athleteId: "athlete-eric-cray", result: "10.82", place: "2nd", source: "Demo data" },
+          { athleteName: "Anfernee Lopena", athleteId: "athlete-anfernee-lopena", result: "10.91", place: "3rd", source: "Demo data" },
+          { athleteName: "Mia Santos", athleteId: "athlete-mia-santos", result: "11.98", place: "4th", source: "Demo data" },
+          { athleteName: "Kristina Knott", athleteId: "athlete-kristina-knott", result: "12.05", place: "5th", source: "Demo data" },
+          { athleteName: "Kayla Richardson", athleteId: "athlete-kayla-richardson", result: "12.20", place: "6th", source: "Demo data" },
+        ],
+      },
+      {
+        event: "200m",
+        round: "Final",
+        entries: [
+          { athleteName: "JC Dela Cruz", athleteId: "athlete-jc-dela-cruz", result: "21.45", place: "1st", source: "Demo data" },
+          { athleteName: "Anfernee Lopena", athleteId: "athlete-anfernee-lopena", result: "21.80", place: "2nd", source: "Demo data" },
+          { athleteName: "Eric Cray", athleteId: "athlete-eric-cray", result: "22.05", place: "3rd", source: "Demo data" },
+          { athleteName: "Mia Santos", athleteId: "athlete-mia-santos", result: "24.70", place: "4th", source: "Demo data" },
+          { athleteName: "Kristina Knott", athleteId: "athlete-kristina-knott", result: "24.95", place: "5th", source: "Demo data" },
+          { athleteName: "Kyla Richardson", athleteId: "athlete-kyla-richardson", result: "25.10", place: "6th", source: "Demo data" },
+        ],
+      },
+    ],
     participants: 260,
     countries: 1,
     records: 5,
@@ -94,6 +150,23 @@ export const competitions: Competition[] = [
     about:
       "Premier continental championship featuring elite athletes from across Asia. Strong representation from Philippines team.",
     events: ["All Olympic Track & Field Events", "Marathon Men & Women", "Race Walk 20km", "All Field Events"],
+    results: [
+      {
+        event: "400m hurdles",
+        round: "Final",
+        entries: [
+          { athleteName: "Lauren Hoffman", athleteId: "athlete-lauren-hoffman", result: "56.10", place: "6th", source: "Demo data" },
+          { athleteName: "Robyn Lauren Brown", athleteId: "athlete-robyn-lauren-brown", result: "57.40", place: "8th", source: "Demo data" },
+        ],
+      },
+      {
+        event: "5000m",
+        round: "Final",
+        entries: [
+          { athleteName: "Juan Dela Cruz", result: "14:36.20", place: "7th", source: "Demo data" },
+        ],
+      },
+    ],
     participants: 800,
     countries: 48,
     records: 3,
@@ -248,6 +321,23 @@ export const competitions: Competition[] = [
 
 export const getCompetitionById = (idOrSlug: string) =>
   competitions.find((competition) => matchesIdOrSlug(competition, idOrSlug))
+
+export const getCompetitionResultsByAthleteId = (athleteId: string) =>
+  competitions.flatMap((competition) =>
+    (competition.results ?? []).flatMap((eventBlock) =>
+      eventBlock.entries
+        .filter((entry) => entry.athleteId === athleteId)
+        .map((entry) => ({
+          meet: competition.name,
+          date: competition.startDate,
+          location: competition.location,
+          event: eventBlock.event,
+          result: entry.result,
+          place: entry.place,
+          source: entry.source ?? "Demo data",
+        })),
+    ),
+  )
 
 export const getCompetitionByIdOrStub = (idOrSlug: string): Competition => {
   const competition = getCompetitionById(idOrSlug)

@@ -21,6 +21,10 @@ export type Club = {
   spots: number | string
   bio?: string
   achievements?: string[]
+  isRecognized?: boolean
+  recognitions?: string[]
+  recognitionDetails?: { label: string; issuer: string; validThrough?: string }[]
+  safety?: string[]
   isStub?: boolean
   contact?: {
     email?: string
@@ -53,6 +57,13 @@ export const clubs: Club[] = [
       "Finalists in 4x100m relay at Philippine National Open",
       "Regular host of weekend sprint and relay clinics for high school teams",
     ],
+    isRecognized: true,
+    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitionDetails: [
+      { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+      { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+    ],
+    safety: ["Youth safeguarding policy on file", "Background-checked coaching staff"],
     contact: {
       email: "info@manilastriders.ph",
       phone: "+63 917 100 1234",
@@ -93,6 +104,13 @@ export const clubs: Club[] = [
       "Produced UAAP and national collegiate 1500m finalists",
       "Hosts an annual 5K road race and time trial series for youth runners",
     ],
+    isRecognized: true,
+    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitionDetails: [
+      { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+      { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+    ],
+    safety: ["Medical emergency plan on file", "SafeSport-trained staff"],
     contact: {
       email: "hello@cebudistanceproject.ph",
       phone: "+63 917 200 5678",
@@ -134,6 +152,13 @@ export const clubs: Club[] = [
       "Consistent podium finishes in Mindanao regional championships for throws and jumps",
       "Partner club for LGU-led grassroots athletics festivals in Davao City",
     ],
+    isRecognized: true,
+    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitionDetails: [
+      { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
+      { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+    ],
+    safety: ["Facility safety checklist maintained", "Youth safeguarding policy on file"],
     contact: {
       email: "contact@davaofieldjumps.ph",
       phone: "+63 917 300 9012",

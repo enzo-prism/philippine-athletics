@@ -1,3 +1,4 @@
+import { getCompetitionResultsByAthleteId } from "./competitions"
 import { matchesIdOrSlug, slugify } from "./utils"
 
 // Shared athlete data and helpers
@@ -10,6 +11,8 @@ export type EventPerformance = {
   globalRank?: string | number
 }
 
+export type DataSourceLabel = "World Athletics" | "Demo data"
+
 export type CompetitionResult = {
   meet: string
   date: string
@@ -17,6 +20,7 @@ export type CompetitionResult = {
   event: string
   result: string
   place: string
+  source?: DataSourceLabel
 }
 
 export type UpcomingCompetition = {
@@ -45,6 +49,7 @@ export type AthleteProfile = {
   slug: string
   firstName: string
   lastName: string
+  gender?: "Women" | "Men"
   specialty: string
   location: string
   hometown?: string
@@ -111,6 +116,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "jc-dela-cruz",
     firstName: "JC",
     lastName: "Dela Cruz",
+    gender: "Men",
     specialty: "100m, 200m sprint",
     location: "Manila, NCR",
     hometown: "Quezon City, NCR",
@@ -153,6 +159,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "mia-santos",
     firstName: "Mia",
     lastName: "Santos",
+    gender: "Women",
     specialty: "100m, 200m sprint",
     location: "Pasig, NCR",
     hometown: "Caloocan City, NCR",
@@ -190,10 +197,56 @@ export const athleteProfiles: AthleteProfile[] = [
     sponsors: [{ name: "Manila Health Lab", category: "Sports Science", note: "Performance testing and recovery support" }],
   },
   {
+    id: "athlete-lauren-hoffman",
+    slug: "lauren-hoffman",
+    firstName: "Lauren",
+    lastName: "Hoffman",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics National Team",
+    coach: "National Team Staff",
+    events: [
+      {
+        name: "400m hurdles",
+        personalBest: "55.47",
+        seasonBest: "55.72",
+        nationalRank: 1,
+      },
+      { name: "100m hurdles", personalBest: "13.34", seasonBest: "13.34" },
+    ],
+    birthDate: "1999-03-30",
+    joinedYear: 2023,
+    achievements: [
+      "Philippines 400m hurdles season leader (2024)",
+      "Bronze, SEA Games 2025 400m hurdles (57.75)",
+      "Personal best 55.47 at Hayward Field (2022)",
+    ],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-04-27",
+        location: "Drake Stadium, Des Moines, IA (USA)",
+        event: "400m hurdles",
+        result: "55.72",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "Filipino 400m hurdler and national champion who represented the Philippines at the Paris 2024 Olympics.",
+    contact: {
+      email: "info@philippineathletics.ph",
+    },
+    sponsors: [],
+  },
+  {
     id: "athlete-paolo-lim",
     slug: "paolo-lim",
     firstName: "Paolo",
     lastName: "Lim",
+    gender: "Men",
     specialty: "400m, 400m hurdles",
     location: "Manila, NCR",
     hometown: "Pasig, NCR",
@@ -233,6 +286,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "erika-villarin",
     firstName: "Erika",
     lastName: "Villarin",
+    gender: "Women",
     specialty: "800m, 1500m",
     location: "Cebu City, Central Visayas",
     hometown: "Lapu-Lapu City, Cebu",
@@ -271,6 +325,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "carlo-mendoza",
     firstName: "Carlo",
     lastName: "Mendoza",
+    gender: "Men",
     specialty: "5000m, 10000m",
     location: "Cebu City, Central Visayas",
     hometown: "Toledo City, Cebu",
@@ -346,6 +401,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "janelle-go",
     firstName: "Janelle",
     lastName: "Go",
+    gender: "Women",
     specialty: "400m, 800m",
     location: "Cebu City, Central Visayas",
     hometown: "Talisay City, Cebu",
@@ -530,32 +586,11 @@ export const athleteProfiles: AthleteProfile[] = [
     sponsors: [],
   },
   {
-    id: "athlete-lauren-hoffman",
-    slug: "lauren-hoffman",
-    firstName: "Lauren",
-    lastName: "Hoffman",
-    specialty: "400m hurdles",
-    location: "Manila, NCR",
-    hometown: "Manila, NCR",
-    club: "Manila Striders Track Club",
-    clubId: "club-manila-striders",
-    coach: "Ana Reyes",
-    coachId: "coach-ana-reyes",
-    events: [{ name: "400m hurdles", personalBest: "—" }],
-    birthDate: "1999-01-01",
-    joinedYear: 2022,
-    achievements: [],
-    competitions: [],
-    upcoming: [],
-    bio: "400m hurdler in the Manila Striders Track Club program.",
-    contact: {},
-    sponsors: [],
-  },
-  {
     id: "athlete-eric-cray",
     slug: "eric-cray",
     firstName: "Eric",
     lastName: "Cray",
+    gender: "Men",
     specialty: "400m hurdles, 100m sprint",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
@@ -581,6 +616,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "kristina-knott",
     firstName: "Kristina",
     lastName: "Knott",
+    gender: "Women",
     specialty: "100m, 200m sprint",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
@@ -631,20 +667,187 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "robyn-lauren-brown",
     firstName: "Robyn Lauren",
     lastName: "Brown",
+    gender: "Women",
     specialty: "400m hurdles",
-    location: "Manila, NCR",
-    hometown: "Manila, NCR",
-    club: "Manila Striders Track Club",
-    clubId: "club-manila-striders",
-    coach: "Ana Reyes",
-    coachId: "coach-ana-reyes",
-    events: [{ name: "400m hurdles", personalBest: "—" }],
-    birthDate: "1994-01-01",
-    joinedYear: 2018,
-    achievements: [],
-    competitions: [],
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics National Team",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "56.44", seasonBest: "56.93", nationalRank: 2 }],
+    birthDate: "1994-07-27",
+    joinedYear: 2016,
+    achievements: [
+      "Former Philippine national record holder (400m hurdles)",
+      "SEA Games bronze medalist (400m hurdles)",
+    ],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-06-13",
+        location: "Foote Field, Edmonton (CAN)",
+        event: "400m hurdles",
+        result: "56.93",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
     upcoming: [],
-    bio: "400m hurdler in the Manila Striders Track Club program.",
+    bio: "National team 400m hurdler with multiple SEA Games appearances.",
+    contact: {},
+    sponsors: [],
+  },
+  {
+    id: "athlete-bernalyn-bejoy",
+    slug: "bernalyn-bejoy",
+    firstName: "Bernalyn",
+    lastName: "Bejoy",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics Development Pool",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "1:00.49", seasonBest: "1:00.53", nationalRank: 3 }],
+    birthDate: "2001-09-01",
+    joinedYear: 2022,
+    achievements: ["Top 3 Philippines 400m hurdles season list (2024)"],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-11-20",
+        location: "New Clark City Stadium, New Clark City (PHI)",
+        event: "400m hurdles",
+        result: "1:00.53",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "Development pool hurdler focused on the 400m hurdles.",
+    contact: {},
+    sponsors: [],
+  },
+  {
+    id: "athlete-lealyn-sanita",
+    slug: "lealyn-sanita",
+    firstName: "Lealyn",
+    lastName: "Sanita",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics Development Pool",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "1:02.44", seasonBest: "1:02.44", nationalRank: 4 }],
+    birthDate: "2001-03-18",
+    joinedYear: 2021,
+    achievements: ["Consistent finalist in national open hurdles events"],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-11-20",
+        location: "New Clark City Stadium, New Clark City (PHI)",
+        event: "400m hurdles",
+        result: "1:02.44",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "National development hurdler with a focus on 400m hurdles technique and rhythm.",
+    contact: {},
+    sponsors: [],
+  },
+  {
+    id: "athlete-justine-mae-catindoy",
+    slug: "justine-mae-catindoy",
+    firstName: "Justine Mae",
+    lastName: "Catindoy",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics Development Pool",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "1:02.92", seasonBest: "1:02.92", nationalRank: 5 }],
+    birthDate: "2001-08-13",
+    joinedYear: 2022,
+    achievements: ["National-level 400m hurdles competitor"],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-11-20",
+        location: "New Clark City Stadium, New Clark City (PHI)",
+        event: "400m hurdles",
+        result: "1:02.92",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "Development hurdler competing in the national circuit.",
+    contact: {},
+    sponsors: [],
+  },
+  {
+    id: "athlete-jeralyn-rodriguez",
+    slug: "jeralyn-rodriguez",
+    firstName: "Jeralyn",
+    lastName: "Rodriguez",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics Youth Program",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "1:02.99", seasonBest: "1:02.99", nationalRank: 6 }],
+    birthDate: "2007-05-17",
+    joinedYear: 2023,
+    achievements: ["Youth division standout in 400m hurdles"],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-11-20",
+        location: "New Clark City Stadium, New Clark City (PHI)",
+        event: "400m hurdles",
+        result: "1:02.99",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "Youth hurdler developing toward the open division.",
+    contact: {},
+    sponsors: [],
+  },
+  {
+    id: "athlete-loraine-audrey-batalla",
+    slug: "loraine-audrey-batalla",
+    firstName: "Loraine Audrey",
+    lastName: "Batalla",
+    gender: "Women",
+    specialty: "400m hurdles",
+    location: "Philippines",
+    hometown: "Philippines",
+    club: "Philippine Athletics Youth Program",
+    coach: "National Team Staff",
+    events: [{ name: "400m hurdles", personalBest: "1:04.62", seasonBest: "1:04.62" }],
+    birthDate: "2009-09-22",
+    joinedYear: 2024,
+    achievements: ["Youth division national-level hurdler"],
+    competitions: [
+      {
+        meet: "World Athletics Toplist",
+        date: "2024-05-10",
+        location: "Philsport Track Oval, Pasig (PHI)",
+        event: "400m hurdles",
+        result: "1:04.62",
+        place: "Season best",
+        source: "World Athletics",
+      },
+    ],
+    upcoming: [],
+    bio: "Emerging youth hurdler on the national development pathway.",
     contact: {},
     sponsors: [],
   },
@@ -779,6 +982,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "kayla-richardson",
     firstName: "Kayla",
     lastName: "Richardson",
+    gender: "Women",
     specialty: "100m, 200m sprint",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
@@ -804,6 +1008,7 @@ export const athleteProfiles: AthleteProfile[] = [
     slug: "kyla-richardson",
     firstName: "Kyla",
     lastName: "Richardson",
+    gender: "Women",
     specialty: "100m, 200m sprint, 4x100m relay",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
@@ -826,35 +1031,11 @@ export const athleteProfiles: AthleteProfile[] = [
     sponsors: [],
   },
   {
-    id: "athlete-bernalyn-bejoy",
-    slug: "bernalyn-bejoy",
-    firstName: "Bernalyn",
-    lastName: "Bejoy",
-    specialty: "800m, 400m hurdles",
-    location: "Manila, NCR",
-    hometown: "Manila, NCR",
-    club: "Manila Striders Track Club",
-    clubId: "club-manila-striders",
-    coach: "Ana Reyes",
-    coachId: "coach-ana-reyes",
-    events: [
-      { name: "800m", personalBest: "—" },
-      { name: "400m hurdles", personalBest: "—" },
-    ],
-    birthDate: "2001-01-01",
-    joinedYear: 2022,
-    achievements: [],
-    competitions: [],
-    upcoming: [],
-    bio: "Versatile 800m and 400m hurdles athlete with the Manila Striders Track Club.",
-    contact: {},
-    sponsors: [],
-  },
-  {
     id: "athlete-anfernee-lopena",
     slug: "anfernee-lopena",
     firstName: "Anfernee",
     lastName: "Lopena",
+    gender: "Men",
     specialty: "100m sprint, 4x100m relay",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
@@ -1354,7 +1535,26 @@ const buildUnknownStub = (idOrSlug: string): AthleteProfile => {
 
 export const getAthleteProfileOrStub = (idOrSlug: string): AthleteProfile => {
   const profile = getAthleteProfile(idOrSlug)
-  if (profile) return profile
+  if (profile) {
+    const competitionResults = getCompetitionResultsByAthleteId(profile.id)
+    if (!competitionResults.length) return profile
+
+    const seen = new Set(profile.competitions.map((comp) => `${comp.meet}|${comp.date}|${comp.event}|${comp.result}`))
+    const merged = [
+      ...profile.competitions,
+      ...competitionResults.filter((comp) => {
+        const key = `${comp.meet}|${comp.date}|${comp.event}|${comp.result}`
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      }),
+    ]
+
+    return {
+      ...profile,
+      competitions: merged,
+    }
+  }
   const summary = getAthleteSummary(idOrSlug)
   if (summary) return buildStubProfile(summary)
   return buildUnknownStub(idOrSlug)

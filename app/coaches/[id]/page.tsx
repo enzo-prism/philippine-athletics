@@ -89,6 +89,43 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
           </div>
         ) : null}
 
+        {coach.recognitions && coach.recognitions.length ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Emoji symbol={emojiIcons.shield} className="text-base" />
+              <h2 className="text-lg font-semibold text-foreground">Recognition</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {coach.recognitions.map((item) => (
+                <Badge key={item} text={item} variant="accent" />
+              ))}
+            </div>
+            {coach.recognitionDetails && coach.recognitionDetails.length ? (
+              <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
+                {coach.recognitionDetails.map((detail) => (
+                  <div key={`${detail.label}-${detail.issuer}`} className="rounded-md border border-border bg-muted/40 px-3 py-2">
+                    <p className="font-semibold text-foreground">{detail.label}</p>
+                    <p className="text-xs text-muted-foreground">Issuer: {detail.issuer}</p>
+                    {detail.validThrough ? (
+                      <p className="text-xs text-muted-foreground">Valid through {detail.validThrough}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {coach.certifications && coach.certifications.length ? (
+              <div className="flex flex-wrap gap-2">
+                {coach.certifications.map((item) => (
+                  <Badge key={item} text={item} variant="outline" />
+                ))}
+              </div>
+            ) : null}
+            <p className="text-sm text-muted-foreground">
+              Recognition and certifications show a coach is verified and trained under Philippine Athletics standards.
+            </p>
+          </div>
+        ) : null}
+
         {coach.achievements && coach.achievements.length ? (
           <div className="space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Highlights</h2>

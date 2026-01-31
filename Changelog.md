@@ -1,0 +1,43 @@
+# Changelog
+
+Feed-style log of major product changes. Add newest entries at the top.
+
+Template (copy/paste for new entries):
+## YYYY-MM-DD — Short title
+- Change 1 (what changed + why it matters).
+- Change 2 (what changed + why it matters).
+- Change 3 (optional).
+
+## 2026-01-31 — Demo flow foundation + product readiness
+- Added `DemoFlows.md` and updated README to keep the team aligned on the 5 demo flows.
+- Simplified the homepage hero (removed looping video/image square) and added a global hero search entry point.
+- Added Rankings and Competitions to primary navigation and homepage browse tiles for clearer discovery.
+- Added global search across athletes/coaches/clubs with a `/search` results page and nav search access.
+- Built the rankings experience (event/gender/age/year filters, Top 3, best‑of‑year logic, deep links to profiles).
+- Expanded competition results with athlete linking, event filtering, and PB/SB callouts.
+- Added Recognition page plus recognition badges with issuer/validity details on club/coach pages.
+- Introduced data‑source labels (World Athletics vs Demo data) across rankings, competitions, and athlete summaries.
+
+## 2025-12-19 — Deeper athlete sample data
+- Enriched athlete sample profiles to improve browsing and profile detail completeness.
+
+## 2025-12-16 — UI system + profile polish
+- Migrated UI components to shadcn-based primitives and Lucide icons.
+- Simplified athletes filters and improved mobile navigation usability.
+- Added profile avatar placeholders and refined homepage category cards and how‑to steps.
+- Added social signup UI and simplified authentication pages.
+
+## 2025-12-08 — Club experience + badges + hero motion
+- Added avatar headshots and weekly schedules to club profiles.
+- Implemented the badge system with custom icons for coaches and sponsors.
+- Added hero animations and bottom‑section imagery to the homepage.
+
+## 2025-12-06 — Data model + club search + navigation refinements
+- Replaced legacy stub data with structured athlete/coach/club profiles.
+- Added club search, roster event details, contact blocks, and practice maps.
+- Refined mobile bottom navigation and homepage hero messaging.
+- Introduced a hero background video (later removed in Jan 2026 simplification).
+
+## 2025-12-01 — Project initialized + athletics pages scaffolded
+- Initialized the repository and synced base v0 app.
+- Added structured athletics data and core pages for athletes, clubs, coaches, and competitions.

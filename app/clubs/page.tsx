@@ -1,13 +1,18 @@
  "use client"
 
 import { useMemo, useState } from "react"
+import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { clubs } from "@/lib/data/clubs"
 
 export default function ClubsPage() {
   const [query, setQuery] = useState("")
+  const featuredClub = clubs.find((club) => club.slug === "manila-striders-track-club") ?? clubs[0]
+
   const filteredClubs = useMemo(() => {
     const term = query.trim().toLowerCase()
     if (!term) return clubs
@@ -24,6 +29,32 @@ export default function ClubsPage() {
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+        {featuredClub ? (
+          <Card className="py-0 gap-0 border-accent/30 bg-accent/5 shadow-soft">
+            <CardContent className="p-6 sm:p-8 space-y-4">
+              <p className="text-xs font-semibold text-accent uppercase tracking-widest">Featured club</p>
+              <div className="space-y-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground">{featuredClub.name}</h2>
+                <p className="text-sm text-muted-foreground max-w-2xl">{featuredClub.focus}</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                  {featuredClub.location}
+                </span>
+                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                  Founded: {featuredClub.founded}
+                </span>
+                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                  Athlete spots: {featuredClub.spots}
+                </span>
+              </div>
+              <Button asChild className="rounded-full">
+                <Link href={`/clubs/${featuredClub.slug ?? featuredClub.id}`}>View club profile</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ) : null}
+
         <div className="space-y-4">
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-foreground">Search Clubs</h1>

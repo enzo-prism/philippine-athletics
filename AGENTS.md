@@ -30,6 +30,10 @@
 - Commits: Follow conventional commits (e.g., `feat: add club detail page`, `fix: handle empty coach roster`); keep commits scoped and meaningful.
 - PRs: Provide a concise summary, linked issue (if any), screenshots for UI changes, and steps to validate (`pnpm dev`, `pnpm build`, relevant tests). Note any known warnings (e.g., lockfile root selection) if still present.
 
+## Changelog
+- Keep `Changelog.md` updated for major product changes.
+- Newest entries go at the top, using short bullets for what changed and why it matters.
+
 ## Environment & Deployment Notes
 - This repo targets Vercel; keep secrets in Vercel env vars, not committed files.
 - Add a `.gitignore` that excludes `node_modules`, `.next`, and local env files before committing.

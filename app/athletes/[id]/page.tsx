@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { ProfileAvatar } from "@/components/ProfileAvatar"
+import { Badge } from "@/components/ui/badge"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
-import { decodeIdParam } from "@/lib/data/utils"
+import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export const dynamic = "force-dynamic"
@@ -16,11 +17,94 @@ const ContactItem = ({ emoji, label, value }: { emoji: string; label: string; va
   </div>
 )
 
-export default async function AthleteProfilePage({ params }: { params: Promise<{ id: string }> }) {
+const formatRank = (rank?: string | number) => {
+  if (rank === undefined || rank === null || rank === "") return "—"
+  if (typeof rank === "number") return `#${rank}`
+  const trimmed = rank.trim()
+  return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
+}
+
+const parsePerformance = (performance?: string) => {
+  if (!performance) return null
+  const raw = performance.trim()
+  if (!raw || raw === "—") return null
+  const lower = raw.toLowerCase()
+  const hasColon = lower.includes(":")
+  const endsWithSeconds = /\ds\b/.test(lower) || lower.endsWith("s")
+  const isTime = hasColon || endsWithSeconds
+
+  if (isTime) {
+    if (hasColon) {
+      const parts = raw.split(":").map((part) => parseFloat(part))
+      if (parts.some((value) => Number.isNaN(value))) return null
+      const [first, second = 0, third = 0] = parts
+      const totalSeconds = parts.length === 3 ? first * 3600 + second * 60 + third : first * 60 + second
+      return { value: totalSeconds, higherIsBetter: false }
+    }
+    const value = parseFloat(raw)
+    if (Number.isNaN(value)) return null
+    return { value, higherIsBetter: false }
+  }
+
+  const numeric = parseFloat(raw)
+  if (Number.isNaN(numeric)) return null
+  const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
+  return { value: numeric, higherIsBetter }
+}
+
+export default async function AthleteProfilePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams?: { event?: string; year?: string }
+}) {
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
   const athlete = getAthleteProfileOrStub(id)
   const isStub = athlete.isStub
+  const primaryEvent = athlete.events[0]
+  const primaryEventSource = primaryEvent
+    ? athlete.competitions.find(
+        (competition) => normalizeKey(competition.event) === normalizeKey(primaryEvent.name) && competition.source,
+      )?.source ?? "Demo data"
+    : "Demo data"
+  const sortedCompetitions = [...athlete.competitions].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  )
+  const latestCompetition = sortedCompetitions[0]
+  const targetEvent = searchParams?.event ? normalizeKey(searchParams.event) : null
+  const targetYear = searchParams?.year ? Number.parseInt(searchParams.year, 10) : null
+  const yearBest = targetEvent && targetYear
+    ? sortedCompetitions
+        .filter(
+          (competition) =>
+            normalizeKey(competition.event) === targetEvent &&
+            new Date(competition.date).getFullYear() === targetYear,
+        )
+        .map((competition) => {
+          const parsed = parsePerformance(competition.result)
+          if (!parsed) return null
+          return { competition, parsed }
+        })
+        .filter(Boolean)
+        .reduce((current, next) => {
+          if (!current) return next
+          const currentParsed = current.parsed
+          const nextParsed = next.parsed
+          if (currentParsed.higherIsBetter !== nextParsed.higherIsBetter) return current
+          if (currentParsed.higherIsBetter) {
+            if (nextParsed.value > currentParsed.value) return next
+          } else if (nextParsed.value < currentParsed.value) {
+            return next
+          }
+          const currentDate = new Date(current.competition.date).getTime()
+          const nextDate = new Date(next.competition.date).getTime()
+          return nextDate > currentDate ? next : current
+        }, null as null | { competition: (typeof athlete.competitions)[number]; parsed: { value: number; higherIsBetter: boolean } })
+    : null
+  const focusResult = yearBest?.competition ?? latestCompetition
+  const focusLabel = yearBest && targetYear ? `Year best (${targetYear})` : "Most recent result"
 
   return (
     <div className="min-h-screen bg-background">
@@ -63,6 +147,64 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
           ) : null}
         </header>
 
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="p-4 rounded-lg border border-border bg-card">
+            <p className="text-xs text-muted-foreground uppercase font-semibold">Primary event</p>
+            <p className="text-base font-semibold text-foreground mt-1">{primaryEvent?.name ?? "—"}</p>
+          </div>
+          <div className="p-4 rounded-lg border border-border bg-card">
+            <p className="text-xs text-muted-foreground uppercase font-semibold">Personal best</p>
+            <p className="text-base font-semibold text-foreground mt-1">{primaryEvent?.personalBest ?? "—"}</p>
+            <Badge
+              variant="outline"
+              className={
+                primaryEventSource === "World Athletics"
+                  ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                  : "mt-2 border-border text-foreground bg-muted"
+              }
+            >
+              {primaryEventSource}
+            </Badge>
+          </div>
+          <div className="p-4 rounded-lg border border-border bg-card">
+            <p className="text-xs text-muted-foreground uppercase font-semibold">Philippines rank</p>
+            <p className="text-base font-semibold text-foreground mt-1">{formatRank(primaryEvent?.nationalRank)}</p>
+            <Badge
+              variant="outline"
+              className={
+                primaryEventSource === "World Athletics"
+                  ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                  : "mt-2 border-border text-foreground bg-muted"
+              }
+            >
+              {primaryEventSource}
+            </Badge>
+          </div>
+          <div className="p-4 rounded-lg border border-border bg-card">
+            <p className="text-xs text-muted-foreground uppercase font-semibold">{focusLabel}</p>
+            <p className="text-sm font-semibold text-foreground mt-1">
+              {focusResult ? `${focusResult.event} ${focusResult.result}` : "—"}
+            </p>
+            {focusResult ? (
+              <p className="text-xs text-muted-foreground">
+                {focusResult.meet} • {focusResult.date}
+              </p>
+            ) : null}
+            {focusResult ? (
+              <Badge
+                variant="outline"
+                className={
+                  focusResult.source === "World Athletics"
+                    ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                    : "mt-2 border-border text-foreground bg-muted"
+                }
+              >
+                {focusResult.source ?? "Demo data"}
+              </Badge>
+            ) : null}
+          </div>
+        </section>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <section className="space-y-3">
@@ -88,9 +230,9 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
                           </span>
                         </div>
                         <div className="text-xs text-muted-foreground space-y-1">
-                          <p>National: {evt.nationalRank || "—"}</p>
-                          <p>Asian: {evt.asianRank || "—"}</p>
-                          <p>Global: {evt.globalRank || "—"}</p>
+                          <p>National: {formatRank(evt.nationalRank)}</p>
+                          <p>Asian: {formatRank(evt.asianRank)}</p>
+                          <p>Global: {formatRank(evt.globalRank)}</p>
                           {evt.seasonBest ? <p>Season: {evt.seasonBest}</p> : null}
                         </div>
                       </div>
@@ -106,8 +248,18 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
                 <h2 className="text-xl font-semibold text-foreground">Recent Competitions</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {athlete.competitions.map((comp, i) => (
-                  <div key={`${comp.meet}-${i}`} className="p-4 rounded-lg border border-border bg-card space-y-1">
+                {sortedCompetitions.map((comp, i) => {
+                  const isHighlight =
+                    yearBest &&
+                    comp.event === yearBest.competition.event &&
+                    comp.result === yearBest.competition.result &&
+                    comp.date === yearBest.competition.date
+
+                  return (
+                    <div
+                      key={`${comp.meet}-${i}`}
+                      className={`p-4 rounded-lg border space-y-1 ${isHighlight ? "border-accent bg-accent/5" : "border-border bg-card"}`}
+                    >
                     <p className="text-sm font-semibold text-foreground">{comp.meet}</p>
                     <p className="text-xs text-muted-foreground">
                       {comp.date} • {comp.location}
@@ -115,8 +267,19 @@ export default async function AthleteProfilePage({ params }: { params: Promise<{
                     <p className="text-xs text-foreground">
                       {comp.event} — {comp.result} ({comp.place})
                     </p>
+                    <Badge
+                      variant="outline"
+                      className={
+                        comp.source === "World Athletics"
+                          ? "border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                          : "border-border text-foreground bg-muted"
+                      }
+                    >
+                      {comp.source ?? "Demo data"}
+                    </Badge>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             </section>
 

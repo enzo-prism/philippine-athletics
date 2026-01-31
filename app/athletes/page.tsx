@@ -224,10 +224,18 @@ export default function AthletesPage() {
     return "Luzon"
   }
 
-  const parseRank = (rank: string | undefined) => {
-    if (!rank) return Number.POSITIVE_INFINITY
+  const parseRank = (rank: string | number | undefined) => {
+    if (rank === undefined || rank === null || rank === "") return Number.POSITIVE_INFINITY
+    if (typeof rank === "number") return rank
     const match = rank.match(/#(\d+)/)
     return match ? parseInt(match[1], 10) : Number.POSITIVE_INFINITY
+  }
+
+  const formatRank = (rank?: string | number) => {
+    if (rank === undefined || rank === null || rank === "") return "—"
+    if (typeof rank === "number") return `#${rank}`
+    const trimmed = rank.trim()
+    return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
   }
 
   const parsePerformance = (perf: string | undefined) => {
@@ -453,7 +461,10 @@ export default function AthletesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
             {filteredAthletes.map((athlete) => {
               const badges = getEventTags(athlete).slice(0, 3)
-              const rankLabel = [athlete.nationalRank, athlete.asianRank, athlete.globalRank].filter(Boolean).join(" · ")
+              const rankLabel = [athlete.nationalRank, athlete.asianRank, athlete.globalRank]
+                .filter(Boolean)
+                .map((rank) => formatRank(rank))
+                .join(" · ")
               const details = [
                 `Club: ${athlete.club}`,
                 athlete.pb ? `PB: ${athlete.pb}` : undefined,

@@ -1,14 +1,44 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { Badge } from "@/components/ui/badge"
+import { getAthleteProfile } from "@/lib/data/athletes"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
-import { decodeIdParam } from "@/lib/data/utils"
+import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-export default async function CompetitionProfilePage({ params }: { params: Promise<{ id: string }> }) {
+export default async function CompetitionProfilePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams?: { event?: string }
+}) {
   const { id: rawId } = await params
   const param = decodeIdParam(rawId)
   const competition = getCompetitionByIdOrStub(param)
   const isStub = competition.isStub
+  const selectedEvent = searchParams?.event?.trim() ?? ""
+  const normalizedSelected = selectedEvent ? normalizeKey(selectedEvent) : null
+  const results = competition.results ?? []
+  const filteredResults = normalizedSelected
+    ? results.filter((eventBlock) => normalizeKey(eventBlock.event) === normalizedSelected)
+    : results
+  const baseHref = `/competitions/${competition.slug ?? param}`
+
+  const getResultFlags = (athleteId: string | undefined, event: string, result: string) => {
+    if (!athleteId) return { isPB: false, isSB: false }
+    const athlete = getAthleteProfile(athleteId)
+    if (!athlete) return { isPB: false, isSB: false }
+    const eventMatch = athlete.events.find((evt) => normalizeKey(evt.name) === normalizeKey(event))
+    if (!eventMatch) return { isPB: false, isSB: false }
+    const pb = eventMatch.personalBest?.trim()
+    const sb = eventMatch.seasonBest?.trim()
+    const normalizedResult = result.trim()
+    return {
+      isPB: Boolean(pb && pb !== "—" && pb === normalizedResult),
+      isSB: Boolean(sb && sb !== "—" && sb === normalizedResult),
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,6 +89,112 @@ export default async function CompetitionProfilePage({ params }: { params: Promi
               <h2 className="text-xl font-bold text-foreground mb-4">About</h2>
               <p className="p-6 rounded-lg border border-border text-foreground leading-relaxed">{competition.about}</p>
             </div>
+
+            {results.length ? (
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-foreground">Results</h2>
+                  <Badge variant="outline" className="border-border text-foreground bg-muted">
+                    Demo data
+                  </Badge>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 mb-4 text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">Filter:</span>
+                  <Link
+                    href={baseHref}
+                    className={`rounded-full border px-3 py-1 ${
+                      !normalizedSelected ? "border-accent text-accent" : "border-border text-foreground"
+                    }`}
+                  >
+                    All events
+                  </Link>
+                  {results.map((eventBlock) => (
+                    <Link
+                      key={eventBlock.event}
+                      href={`${baseHref}?event=${encodeURIComponent(eventBlock.event)}`}
+                      className={`rounded-full border px-3 py-1 ${
+                        normalizedSelected && normalizeKey(eventBlock.event) === normalizedSelected
+                          ? "border-accent text-accent"
+                          : "border-border text-foreground"
+                      }`}
+                    >
+                      {eventBlock.event}
+                    </Link>
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  {filteredResults.map((eventBlock) => (
+                    <div key={eventBlock.event} className="p-4 rounded-lg border border-border bg-card space-y-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-foreground">{eventBlock.event}</p>
+                        {eventBlock.round ? (
+                          <span className="text-xs font-semibold text-muted-foreground uppercase">{eventBlock.round}</span>
+                        ) : null}
+                      </div>
+                      <div className="space-y-2">
+                        {eventBlock.entries.map((entry, idx) => {
+                          const { isPB, isSB } = getResultFlags(entry.athleteId, eventBlock.event, entry.result)
+                          const content = (
+                            <div className="flex items-center justify-between gap-3 text-sm">
+                              <div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="font-semibold text-foreground">{entry.athleteName}</p>
+                                  {isPB ? (
+                                    <Badge variant="outline" className="border-accent/40 text-accent">
+                                      PB
+                                    </Badge>
+                                  ) : null}
+                                  {!isPB && isSB ? (
+                                    <Badge variant="outline" className="border-amber-300/70 text-amber-700 bg-amber-50">
+                                      SB
+                                    </Badge>
+                                  ) : null}
+                                </div>
+                                <p className="text-xs text-muted-foreground">{entry.place}</p>
+                                <p className="text-[11px] text-muted-foreground">
+                                  {entry.source ?? "Demo data"}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-semibold text-foreground">{entry.result}</p>
+                                {entry.note ? (
+                                  <p className="text-xs text-muted-foreground">{entry.note}</p>
+                                ) : null}
+                              </div>
+                            </div>
+                          )
+
+                          const yearParam = new Date(competition.startDate).getFullYear()
+                          const href = entry.athleteId
+                            ? `/athletes/${entry.athleteId}?${new URLSearchParams({
+                                event: eventBlock.event,
+                                year: String(yearParam),
+                              }).toString()}`
+                            : null
+
+                          return href ? (
+                            <Link
+                              key={`${entry.athleteName}-${idx}`}
+                              href={href}
+                              className="block rounded-md border border-border bg-background px-3 py-2 hover:border-accent transition-colors"
+                            >
+                              {content}
+                            </Link>
+                          ) : (
+                            <div
+                              key={`${entry.athleteName}-${idx}`}
+                              className="rounded-md border border-border bg-background px-3 py-2"
+                            >
+                              {content}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div>
               <h2 className="text-xl font-bold text-foreground mb-4">Events</h2>
