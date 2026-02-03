@@ -1,33 +1,101 @@
-export type CommitFile = {
-  path: string
-  additions: number | null
-  deletions: number | null
-}
-
-export type CommitStats = {
-  files: number
-  insertions: number
-  deletions: number
-  summary: string
-}
-
-export type CommitLogEntry = {
-  hash: string
-  shortHash: string
-  subject: string
-  body?: string
-  author: string
-  date: string
-  stats: CommitStats
-  areas: string[]
-  summary: string
-  notes: string[]
-  files: CommitFile[]
-}
-
-export const commitLogUpdatedAt = "2026-02-03T18:51:25.836Z"
-
-export const commitLog: CommitLogEntry[] = [
+export type CommitFile = {\n  path: string\n  additions: number | null\n  deletions: number | null\n}\n\nexport type CommitStats = {\n  files: number\n  insertions: number\n  deletions: number\n  summary: string\n}\n\nexport type CommitLogEntry = {\n  hash: string\n  shortHash: string\n  subject: string\n  body?: string\n  author: string\n  date: string\n  stats: CommitStats\n  areas: string[]\n  tags: string[]\n  summary: string\n  notes: string[]\n  plainSummary: string\n  plainNotes: string[]\n  files: CommitFile[]\n}\n\nexport const commitLogUpdatedAt = "2026-02-03T19:07:50.367Z"\n\nexport const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "5f193fc7815ae018db2ce82e77b217d48a5db473",
+    "shortHash": "5f193fc",
+    "subject": "Add commit-history changelog menu",
+    "author": "enzo-prism",
+    "date": "2026-02-03T10:54:09-08:00",
+    "stats": {
+      "files": 10,
+      "insertions": 3487,
+      "deletions": 2,
+      "summary": "10 files changed, 3487 insertions(+), 2 deletions(-)"
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "docs",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Navigation",
+      "Docs",
+      "Demo Data",
+      "Config",
+      "Tooling"
+    ],
+    "summary": "Add commit-history changelog menu. Updated Other files, App pages, Components, Documentation, Data modules, Scripts. 10 files changed, 3487 insertions(+), 2 deletions(-).",
+    "notes": [
+      "Updated app routes or page layouts.",
+      "Refined shared UI components.",
+      "Adjusted demo data or data relationships.",
+      "Documentation updated for clarity and onboarding.",
+      "Key files touched: lib/data/commit-log.ts, app/changelog/page.tsx, scripts/generate-commit-log.ts, scripts/generate-commit-log.mjs."
+    ],
+    "plainSummary": "Added changelog viewer, app pages, and navigation.",
+    "plainNotes": [
+      "Updated the demo changelog experience.",
+      "Updated app pages or layouts.",
+      "Adjusted navigation to improve discovery.",
+      "Updated documentation to keep everyone aligned."
+    ],
+    "files": [
+      {
+        "path": "CLAUDE.md",
+        "additions": 4,
+        "deletions": 0
+      },
+      {
+        "path": "Changelog.md",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "README.md",
+        "additions": 4,
+        "deletions": 0
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 171,
+        "deletions": 0
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 3,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 3019,
+        "deletions": 0
+      },
+      {
+        "path": "package.json",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 127,
+        "deletions": 0
+      },
+      {
+        "path": "scripts/generate-commit-log.ts",
+        "additions": 154,
+        "deletions": 0
+      }
+    ]
+  },
   {
     "hash": "3c002b51f80524c8d4fa271f2e8729f318eb6b3d",
     "shortHash": "3c002b5",
@@ -46,12 +114,27 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "docs"
     ],
+    "tags": [
+      "Results Intake",
+      "App Pages",
+      "Search",
+      "Components",
+      "Navigation",
+      "Docs"
+    ],
     "summary": "Add detailed docs for preview flow. Updated Other files, App pages, Components, Documentation. 9 files changed, 2058 insertions(+), 9 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Documentation updated for clarity and onboarding.",
       "Key files touched: app/data-portal/page.tsx, docs/research/results-intake.md, docs/STATUS.md, components/navigation.tsx."
+    ],
+    "plainSummary": "Added results intake workflow, app pages, and search and discovery.",
+    "plainNotes": [
+      "Improved the results intake workflow or previews.",
+      "Updated app pages or layouts.",
+      "Improved how people search and discover profiles.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -118,11 +201,27 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "data"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Competitions",
+      "Rankings",
+      "Search",
+      "Demo Data"
+    ],
     "summary": "Add results pending callout. Updated Other files, App pages, Data modules. 11 files changed, 712 insertions(+), 684 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Adjusted demo data or data relationships.",
       "Key files touched: app/athletes/page.tsx, app/search/page.tsx, app/search/search-client.tsx, app/rankings/page.tsx."
+    ],
+    "plainSummary": "Added athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated competition listings or results displays."
     ],
     "files": [
       {
@@ -198,10 +297,20 @@ export const commitLog: CommitLogEntry[] = [
       "other",
       "app"
     ],
+    "tags": [
+      "Search",
+      "App Pages"
+    ],
     "summary": "fix: wrap search page in suspense. Updated Other files, App pages. 3 files changed, 248 insertions(+), 231 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/search/page.tsx, app/search/search-client.tsx, Changelog.md."
+    ],
+    "plainSummary": "Fixed search and discovery and app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved how people search and discover profiles.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -239,12 +348,32 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "data"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Rankings",
+      "Recognition",
+      "Search",
+      "Components",
+      "Navigation",
+      "Demo Data"
+    ],
     "summary": "feat: enhance demo flows and changelog. Updated Other files, App pages, Components, Data modules. 24 files changed, 1957 insertions(+), 230 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/athletes.ts, app/rankings/page.tsx, app/search/page.tsx, lib/data/rankings.ts."
+    ],
+    "plainSummary": "Added athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -384,10 +513,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "data"
     ],
+    "tags": [
+      "Demo Data"
+    ],
     "summary": "feat: enrich athlete sample data. Updated Data modules. 1 file changed, 788 insertions(+), 0 deletions(-).",
     "notes": [
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/athletes.ts."
+    ],
+    "plainSummary": "Added demo data.",
+    "plainNotes": [
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -412,10 +548,20 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Accounts",
+      "App Pages"
+    ],
     "summary": "fix: make profile preview switcher usable on mobile. Updated App pages. 1 file changed, 65 insertions(+), 20 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/profile/page.tsx."
+    ],
+    "plainSummary": "Fixed signup and profile pages and app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated signup or profile experiences.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -440,10 +586,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Athletes"
+    ],
     "summary": "refactor: simplify athletes page filters. Updated App pages. 1 file changed, 102 insertions(+), 160 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/athletes/page.tsx."
+    ],
+    "plainSummary": "Improved athlete pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views."
     ],
     "files": [
       {
@@ -468,10 +621,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "refactor: use lucide icons in mobile nav. Updated Components. 1 file changed, 13 insertions(+), 11 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Improved navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -496,10 +656,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Components"
+    ],
     "summary": "fix: use Google logo on signup. Updated Components. 1 file changed, 18 insertions(+), 3 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/signup/SignupPanel.tsx."
+    ],
+    "plainSummary": "Fixed shared UI components.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -524,10 +692,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Components"
+    ],
     "summary": "fix: prevent badge overflow in cards. Updated Components. 2 files changed, 11 insertions(+), 2 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/badge.tsx, components/profile-card.tsx."
+    ],
+    "plainSummary": "Fixed shared UI components.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -558,11 +734,24 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Athletes",
+      "Coaches",
+      "App Pages",
+      "Components"
+    ],
     "summary": "feat: add profile avatar placeholders. Updated App pages, Components. 4 files changed, 98 insertions(+), 8 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: components/ui/avatar.tsx, components/ProfileAvatar.tsx, app/athletes/[id]/page.tsx, app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Added athlete pages, coach profiles, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated coach profiles or coaching details.",
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -602,10 +791,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "fix: make how-to cards clickable. Updated App pages. 1 file changed, 31 insertions(+), 27 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Fixed app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -630,10 +827,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "fix: reorder homepage category cards. Updated App pages. 1 file changed, 6 insertions(+), 6 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Fixed app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -659,11 +864,29 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Accounts",
+      "Rankings",
+      "Components",
+      "Navigation"
+    ],
     "summary": "refactor: migrate UI to shadcn components. Updated App pages, Components. 25 files changed, 1667 insertions(+), 709 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/athletes/page.tsx, components/ui/dropdown-menu.tsx, app/profile/page.tsx, components/navigation.tsx."
+    ],
+    "plainSummary": "Improved athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -809,11 +1032,26 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Athletes",
+      "Coaches",
+      "App Pages",
+      "Accounts",
+      "Navigation",
+      "Components"
+    ],
     "summary": "feat: add social signup UI and simplify pages. Updated App pages, Components. 6 files changed, 375 insertions(+), 104 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: components/signup/SignupPanel.tsx, app/signup/page.tsx, app/page.tsx, app/coaches/page.tsx."
+    ],
+    "plainSummary": "Added athlete pages, coach profiles, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated coach profiles or coaching details.",
+      "Updated app pages or layouts.",
+      "Updated signup or profile experiences."
     ],
     "files": [
       {
@@ -863,10 +1101,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add Gemini generated image to homepage bottom section. Updated App pages. 1 file changed, 12 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -891,10 +1136,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add fade-in and slide-up animations to hero section. Updated App pages. 2 files changed, 29 insertions(+), 6 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/globals.css, app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -924,10 +1176,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Components"
+    ],
     "summary": "style: replace emojis with flat modern lucide icons in badges. Updated Components. 1 file changed, 32 insertions(+), 18 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/badge.tsx."
+    ],
+    "plainSummary": "Polished shared UI components.",
+    "plainNotes": [
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -953,11 +1212,22 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Coaches",
+      "App Pages",
+      "Components"
+    ],
     "summary": "feat: implement badge system with custom icons for coaches and sponsors. Updated App pages, Components. 4 files changed, 58 insertions(+), 17 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: components/badge.tsx, app/sponsors/[id]/page.tsx, components/profile-card.tsx, app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Added coach profiles, app pages, and shared UI components.",
+    "plainNotes": [
+      "Updated coach profiles or coaching details.",
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -1001,12 +1271,25 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "data"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Components",
+      "Demo Data"
+    ],
     "summary": "feat: add avatar headshots and weekly schedule to club pages. Updated Other files, App pages, Components, Data modules. 6 files changed, 287 insertions(+), 20 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Adjusted demo data or data relationships.",
       "Key files touched: components/weekly-schedule.tsx, CLAUDE.md, components/avatar.tsx, app/clubs/[id]/page.tsx."
+    ],
+    "plainSummary": "Added club pages, app pages, and shared UI components.",
+    "plainNotes": [
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks.",
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1056,10 +1339,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "style: align how-it-works buttons. Updated App pages. 1 file changed, 4 insertions(+), 4 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Polished app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1084,10 +1374,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "style: add hover motion to hero badge. Updated App pages. 1 file changed, 1 insertion(+), 1 deletion(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1112,10 +1409,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: enlarge hero badge to larger minimum size. Updated App pages. 1 file changed, 2 insertions(+), 2 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1140,10 +1444,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: enlarge hero partner badge and remove label. Updated App pages. 1 file changed, 2 insertions(+), 3 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1168,10 +1479,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add POC partner badge to hero. Updated App pages. 1 file changed, 9 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1196,10 +1514,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add coach and club links to how it works search step. Updated App pages. 1 file changed, 15 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1224,10 +1549,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add signup link to how it works step. Updated App pages. 1 file changed, 9 insertions(+), 1 deletion(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1252,10 +1584,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: show live counts in home category tiles. Updated App pages. 1 file changed, 6 insertions(+), 3 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1280,10 +1619,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add learn more link to how it works section. Updated App pages. 1 file changed, 6 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1308,10 +1654,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: remove how it works hero button. Updated App pages. 1 file changed, 0 insertions(+), 6 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1336,10 +1689,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "feat: add how it works steps to homepage. Updated App pages. 1 file changed, 29 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Added app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1365,11 +1725,20 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "App Pages",
+      "Navigation"
+    ],
     "summary": "chore: add home nav link and update coach CTA copy. Updated App pages, Components. 2 files changed, 2 insertions(+), 1 deletion(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/page.tsx, components/navigation.tsx."
+    ],
+    "plainSummary": "Added app pages and navigation.",
+    "plainNotes": [
+      "Updated app pages or layouts.",
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1399,10 +1768,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "data"
     ],
+    "tags": [
+      "Demo Data"
+    ],
     "summary": "fix: avoid toSummary ref error in athlete data. Updated Data modules. 1 file changed, 25 insertions(+), 5 deletions(-).",
     "notes": [
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/athletes.ts."
+    ],
+    "plainSummary": "Fixed demo data.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1429,12 +1806,28 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "data"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Navigation",
+      "Demo Data"
+    ],
     "summary": "fix: unwrap params and simplify nav. Updated App pages, Components, Data modules. 8 files changed, 23 insertions(+), 22 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Adjusted demo data or data relationships.",
       "Key files touched: app/page.tsx, app/athletes/[id]/page.tsx, app/clubs/[id]/page.tsx, app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Fixed athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1494,10 +1887,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "data"
     ],
+    "tags": [
+      "Demo Data"
+    ],
     "summary": "chore: replace sample data with new club/coach/athlete JSON. Updated Data modules. 4 files changed, 456 insertions(+), 1197 deletions(-).",
     "notes": [
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/legacy-athlete-records.ts, lib/data/athletes.ts, lib/data/clubs.ts, lib/data/coaches.ts."
+    ],
+    "plainSummary": "Updated demo data.",
+    "plainNotes": [
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1537,10 +1937,20 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Coaches",
+      "App Pages"
+    ],
     "summary": "fix: render full coach profiles and correct athlete links. Updated App pages. 1 file changed, 34 insertions(+), 17 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Fixed coach profiles and app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated coach profiles or coaching details.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1565,10 +1975,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "data"
     ],
+    "tags": [
+      "Demo Data"
+    ],
     "summary": "chore: remove legacy stub athletes and rely on rich sample profiles. Updated Data modules. 1 file changed, 1 insertion(+), 28 deletions(-).",
     "notes": [
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/athletes.ts."
+    ],
+    "plainSummary": "Updated demo data.",
+    "plainNotes": [
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1593,10 +2010,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "data"
     ],
+    "tags": [
+      "Demo Data"
+    ],
     "summary": "feat: enrich sample athlete and coach data with full profiles. Updated Data modules. 2 files changed, 127 insertions(+), 8 deletions(-).",
     "notes": [
       "Adjusted demo data or data relationships.",
       "Key files touched: lib/data/athletes.ts, lib/data/coaches.ts."
+    ],
+    "plainSummary": "Added demo data.",
+    "plainNotes": [
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1626,10 +2050,20 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages"
+    ],
     "summary": "fix: make clubs page client for search state. Updated App pages. 1 file changed, 3 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/clubs/page.tsx."
+    ],
+    "plainSummary": "Fixed club pages and app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1654,10 +2088,19 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages"
+    ],
     "summary": "feat: add minimal club search bar. Updated App pages. 1 file changed, 36 insertions(+), 5 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/clubs/page.tsx."
+    ],
+    "plainSummary": "Added club pages and app pages.",
+    "plainNotes": [
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1682,10 +2125,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: trim mobile bottom nav to home/clubs/coaches. Updated Components. 1 file changed, 0 insertions(+), 1 deletion(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1710,10 +2160,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: simplify mobile bottom nav to home/clubs/coaches/athletes. Updated Components. 1 file changed, 2 insertions(+), 4 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1738,10 +2195,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: ensure mobile nav uses emoji-only tabs. Updated Components. 1 file changed, 1 insertion(+), 1 deletion(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1766,10 +2230,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: update mobile bottom nav emojis. Updated Components. 1 file changed, 9 insertions(+), 8 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1795,11 +2266,20 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "App Pages",
+      "Components"
+    ],
     "summary": "chore: ensure pages reset scroll to top on navigation. Updated App pages, Components. 2 files changed, 16 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: components/scroll-reset.tsx, app/layout.tsx."
+    ],
+    "plainSummary": "Updated app pages and shared UI components.",
+    "plainNotes": [
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks."
     ],
     "files": [
       {
@@ -1829,10 +2309,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: update mobile bottom nav to clubs/coaches/athletes. Updated Components. 1 file changed, 4 insertions(+), 4 deletions(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -1857,10 +2344,19 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages"
+    ],
     "summary": "feat: show athlete events in club roster. Updated App pages. 1 file changed, 13 insertions(+), 13 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/clubs/[id]/page.tsx."
+    ],
+    "plainSummary": "Added club pages and app pages.",
+    "plainNotes": [
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1887,12 +2383,25 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "data"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Components",
+      "Demo Data"
+    ],
     "summary": "feat: add practice location map section to club pages. Updated App pages, Components, Data modules. 3 files changed, 108 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Adjusted demo data or data relationships.",
       "Key files touched: components/map-embed.tsx, lib/data/clubs.ts, app/clubs/[id]/page.tsx."
+    ],
+    "plainSummary": "Added club pages, app pages, and shared UI components.",
+    "plainNotes": [
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks.",
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1928,11 +2437,22 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "data"
     ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Demo Data"
+    ],
     "summary": "feat: add structured contact section to club pages. Updated App pages, Data modules. 2 files changed, 120 insertions(+), 7 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Adjusted demo data or data relationships.",
       "Key files touched: app/clubs/[id]/page.tsx, lib/data/clubs.ts."
+    ],
+    "plainSummary": "Added club pages, app pages, and demo data.",
+    "plainNotes": [
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Refreshed demo data used across the app."
     ],
     "files": [
       {
@@ -1962,10 +2482,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: tweak hero headline. Updated App pages. 1 file changed, 1 insertion(+), 1 deletion(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -1990,10 +2517,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: update hero messaging. Updated App pages. 1 file changed, 1 insertion(+), 4 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -2018,10 +2552,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "chore: update hero eyebrow text. Updated App pages. 1 file changed, 3 insertions(+), 1 deletion(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/page.tsx."
+    ],
+    "plainSummary": "Updated app pages.",
+    "plainNotes": [
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -2046,10 +2587,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: remove emoji from profile nav button. Updated Components. 1 file changed, 0 insertions(+), 1 deletion(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -2074,10 +2622,17 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "components"
     ],
+    "tags": [
+      "Navigation"
+    ],
     "summary": "chore: remove emoji from signup nav button. Updated Components. 1 file changed, 0 insertions(+), 1 deletion(-).",
     "notes": [
       "Refined shared UI components.",
       "Key files touched: components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -2103,11 +2658,22 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Athletes",
+      "App Pages",
+      "Navigation"
+    ],
     "summary": "feat: simplify athletes filters and refine hero/video layout. Updated App pages, Components. 3 files changed, 201 insertions(+), 170 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/athletes/page.tsx, app/page.tsx, components/navigation.tsx."
+    ],
+    "plainSummary": "Added athlete pages, app pages, and navigation.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated app pages or layouts.",
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -2142,9 +2708,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: bump next/react to patched RSC versions. Updated Other files. 2 files changed, 6863 insertions(+), 890 deletions(-).",
     "notes": [
       "Key files touched: pnpm-lock.yaml, package.json."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2175,9 +2748,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: sync main changes to project. Updated Other files. 2 files changed, 337 insertions(+), 6310 deletions(-).",
     "notes": [
       "Key files touched: pnpm-lock.yaml, package.json."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2207,9 +2787,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: whitelist esbuild build script for pnpm. Updated Other files. 1 file changed, 6 insertions(+), 1 deletion(-).",
     "notes": [
       "Key files touched: package.json."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2234,9 +2821,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: bump typescript to 5.9.3. Updated Other files. 2 files changed, 60 insertions(+), 60 deletions(-).",
     "notes": [
       "Key files touched: pnpm-lock.yaml, package.json."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2269,11 +2863,22 @@ export const commitLog: CommitLogEntry[] = [
       "lib",
       "other"
     ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Navigation"
+    ],
     "summary": "feat: add hero background video and nav emoji mapping. Updated App pages, Components, Utilities, Other files. 5 files changed, 83 insertions(+), 26 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/page.tsx, components/background-video.tsx, components/navigation.tsx, lib/ui/emoji.tsx."
+    ],
+    "plainSummary": "Added app pages, shared UI components, and navigation.",
+    "plainNotes": [
+      "Updated app pages or layouts.",
+      "Refined shared UI building blocks.",
+      "Adjusted navigation to improve discovery."
     ],
     "files": [
       {
@@ -2318,10 +2923,18 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "app"
     ],
+    "tags": [
+      "App Pages"
+    ],
     "summary": "fix: restore global styles by removing invalid shadow apply. Updated App pages. 1 file changed, 29 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Key files touched: app/globals.css."
+    ],
+    "plainSummary": "Fixed app pages.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Updated app pages or layouts."
     ],
     "files": [
       {
@@ -2345,8 +2958,11 @@ export const commitLog: CommitLogEntry[] = [
       "summary": "0 files changed, 0 insertions(+), 0 deletions(-)"
     },
     "areas": [],
+    "tags": [],
     "summary": "chore: sync main changes into project. Updated General updates. 0 files changed, 0 insertions(+), 0 deletions(-).",
     "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
     "files": []
   },
   {
@@ -2366,11 +2982,27 @@ export const commitLog: CommitLogEntry[] = [
       "components",
       "other"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Navigation",
+      "Components"
+    ],
     "summary": "feat: improve mobile navigation and search headings. Updated App pages, Components, Other files. 9 files changed, 378 insertions(+), 129 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/athletes/page.tsx, components/navigation.tsx, app/globals.css, components/profile-card.tsx."
+    ],
+    "plainSummary": "Added athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -2434,8 +3066,11 @@ export const commitLog: CommitLogEntry[] = [
       "summary": "0 files changed, 0 insertions(+), 0 deletions(-)"
     },
     "areas": [],
+    "tags": [],
     "summary": "chore: sync main changes into project. Updated General updates. 0 files changed, 0 insertions(+), 0 deletions(-).",
     "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
     "files": []
   },
   {
@@ -2452,8 +3087,11 @@ export const commitLog: CommitLogEntry[] = [
       "summary": "0 files changed, 0 insertions(+), 0 deletions(-)"
     },
     "areas": [],
+    "tags": [],
     "summary": "chore: sync main changes into project. Updated General updates. 0 files changed, 0 insertions(+), 0 deletions(-).",
     "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
     "files": []
   },
   {
@@ -2470,8 +3108,11 @@ export const commitLog: CommitLogEntry[] = [
       "summary": "0 files changed, 0 insertions(+), 0 deletions(-)"
     },
     "areas": [],
+    "tags": [],
     "summary": "chore: sync main changes into project. Updated General updates. 0 files changed, 0 insertions(+), 0 deletions(-).",
     "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
     "files": []
   },
   {
@@ -2490,9 +3131,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: sync main changes into project. Updated Other files. 1 file changed, 5 insertions(+), 5 deletions(-).",
     "notes": [
       "Key files touched: package.json."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2521,12 +3169,32 @@ export const commitLog: CommitLogEntry[] = [
       "data",
       "lib"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Accounts",
+      "Rankings",
+      "Navigation",
+      "Components",
+      "Demo Data",
+      "Config"
+    ],
     "summary": "feat: add structured athletics data and pages. Updated Other files, App pages, Components, Data modules, Utilities. 27 files changed, 3698 insertions(+), 2232 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Adjusted demo data or data relationships.",
       "Key files touched: app/athletes/page.tsx, lib/data/legacy-athlete-records.ts, app/profile/page.tsx, lib/data/athletes.ts."
+    ],
+    "plainSummary": "Added athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -2683,11 +3351,30 @@ export const commitLog: CommitLogEntry[] = [
       "app",
       "components"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Accounts",
+      "Rankings",
+      "Navigation",
+      "Components",
+      "Config"
+    ],
     "summary": "feat: update athlete profiles and competitions. Updated Other files, App pages, Components. 18 files changed, 2583 insertions(+), 564 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Key files touched: app/athletes/page.tsx, app/athletes/[id]/page.tsx, app/profile/page.tsx, app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Added athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -2798,9 +3485,16 @@ export const commitLog: CommitLogEntry[] = [
     "areas": [
       "other"
     ],
+    "tags": [
+      "Config"
+    ],
     "summary": "chore: sync main changes into project. Updated Other files. 4 files changed, 4 insertions(+), 4 deletions(-).",
     "notes": [
       "Key files touched: README.md, next.config.mjs, package.json, pnpm-lock.yaml."
+    ],
+    "plainSummary": "Updated project configuration.",
+    "plainNotes": [
+      "Adjusted project configuration or dependencies."
     ],
     "files": [
       {
@@ -2846,12 +3540,31 @@ export const commitLog: CommitLogEntry[] = [
       "public",
       "styles"
     ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Competitions",
+      "Navigation",
+      "Components",
+      "Config",
+      "Assets",
+      "Styling"
+    ],
     "summary": "Initialized repository for chat Philippine Athletics design. Updated Other files, App pages, Components, Utilities, Public assets, Styling. 32 files changed, 11620 insertions(+), 0 deletions(-).",
     "notes": [
       "Updated app routes or page layouts.",
       "Refined shared UI components.",
       "Styling changes and visual polish tweaks.",
       "Key files touched: pnpm-lock.yaml, app/competitions/[id]/page.tsx, app/clubs/[id]/page.tsx, app/coaches/[id]/page.tsx."
+    ],
+    "plainSummary": "Updated athlete pages, club pages, and app pages.",
+    "plainNotes": [
+      "Updated athlete profiles or athlete-facing views.",
+      "Updated club pages, rosters, or contact details.",
+      "Updated app pages or layouts.",
+      "Updated coach profiles or coaching details."
     ],
     "files": [
       {
@@ -3016,4 +3729,4 @@ export const commitLog: CommitLogEntry[] = [
       }
     ]
   }
-]
+]\n

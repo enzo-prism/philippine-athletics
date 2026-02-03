@@ -10,6 +10,7 @@ Date: 2026-02-03
 - Intake submissions are stored locally in the browser and can be exported as JSON. No backend writes exist yet.
 - Preview tooling now shows impact on competition pages, athlete pages, and rankings based on uploaded results.
 - A demo Changelog page exists at `/changelog` backed by a generated commit log dataset.
+- Changelog entries now surface plain-English summaries and non-technical notes by default.
 
 ## What Was Built Recently
 

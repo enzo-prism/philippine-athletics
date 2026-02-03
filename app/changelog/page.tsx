@@ -39,21 +39,23 @@ export default function ChangelogPage() {
     return ["All", ...Array.from(areas).sort((a, b) => a.localeCompare(b))]
   }, [])
 
-  const filteredCommits = useMemo(() => {
-    const term = normalizeKey(query)
-    return commitLog.filter((commit) => {
-      const matchesArea = activeArea === "All" || commit.areas.includes(activeArea)
-      if (!matchesArea) return false
-      if (!term) return true
-      const fileMatch = commit.files.some((file) => normalizeKey(file.path).includes(term))
-      return (
-        normalizeKey(commit.subject).includes(term) ||
-        normalizeKey(commit.summary).includes(term) ||
-        normalizeKey(commit.author).includes(term) ||
-        fileMatch
-      )
-    })
-  }, [query, activeArea])
+const filteredCommits = useMemo(() => {
+  const term = normalizeKey(query)
+  return commitLog.filter((commit) => {
+    const matchesArea = activeArea === "All" || commit.areas.includes(activeArea)
+    if (!matchesArea) return false
+    if (!term) return true
+    const fileMatch = commit.files.some((file) => normalizeKey(file.path).includes(term))
+    return (
+      normalizeKey(commit.subject).includes(term) ||
+      normalizeKey(commit.plainSummary).includes(term) ||
+      commit.plainNotes.some((note) => normalizeKey(note).includes(term)) ||
+      normalizeKey(commit.summary).includes(term) ||
+      normalizeKey(commit.author).includes(term) ||
+      fileMatch
+    )
+  })
+}, [query, activeArea])
 
   return (
     <div className="min-h-screen bg-background">
@@ -120,8 +122,16 @@ export default function ChangelogPage() {
               <CardContent className="p-5 space-y-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-foreground">{commit.subject}</p>
-                    <p className="text-xs text-muted-foreground">{commit.summary}</p>
+                    <p className="text-sm font-semibold text-foreground">{commit.plainSummary}</p>
+                    {commit.plainNotes.length ? (
+                      <ul className="text-xs text-muted-foreground list-disc list-inside space-y-1">
+                        {commit.plainNotes.map((note) => (
+                          <li key={`${commit.hash}-${note}`}>{note}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">{commit.summary}</p>
+                    )}
                   </div>
                   <Badge variant="outline">{commit.shortHash}</Badge>
                 </div>
@@ -133,15 +143,18 @@ export default function ChangelogPage() {
                   <span>{commit.stats.summary}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {commit.areas.map((area) => (
-                    <Badge key={`${commit.hash}-${area}`} variant="outline">
-                      {AREA_LABELS[area] ?? area}
+                  {commit.tags.map((tag) => (
+                    <Badge key={`${commit.hash}-${tag}`} variant="outline">
+                      {tag}
                     </Badge>
                   ))}
                 </div>
                 <details className="rounded-md border border-border bg-muted/40 p-3">
-                  <summary className="cursor-pointer text-xs font-semibold text-foreground">View details</summary>
+                  <summary className="cursor-pointer text-xs font-semibold text-foreground">Technical details</summary>
                   <div className="mt-3 space-y-2">
+                    <div className="text-xs text-muted-foreground">
+                      Commit: {commit.subject}
+                    </div>
                     {commit.body ? (
                       <div className="text-xs text-muted-foreground whitespace-pre-line">{commit.body}</div>
                     ) : null}
