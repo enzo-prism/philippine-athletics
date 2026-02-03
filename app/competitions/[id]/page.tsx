@@ -20,6 +20,7 @@ export default async function CompetitionProfilePage({
   const selectedEvent = searchParams?.event?.trim() ?? ""
   const normalizedSelected = selectedEvent ? normalizeKey(selectedEvent) : null
   const results = competition.results ?? []
+  const isUpcoming = competition.status === "Upcoming"
   const filteredResults = normalizedSelected
     ? results.filter((eventBlock) => normalizeKey(eventBlock.event) === normalizedSelected)
     : results
@@ -90,7 +91,11 @@ export default async function CompetitionProfilePage({
               <p className="p-6 rounded-lg border border-border text-foreground leading-relaxed">{competition.about}</p>
             </div>
 
-            {results.length ? (
+            {isUpcoming ? (
+              <div className="p-4 rounded-lg border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+                Results will be posted after the competition concludes. Check back for official times and placements.
+              </div>
+            ) : results.length ? (
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-bold text-foreground">Results</h2>
@@ -222,13 +227,19 @@ export default async function CompetitionProfilePage({
 
             <div>
               <h2 className="text-xl font-bold text-foreground mb-4">Medal Winners (Philippines)</h2>
-              <div className="space-y-2">
-                {competition.medalists.map((medalist, i) => (
-                  <div key={i} className="p-3 rounded-lg border border-border hover:bg-muted transition-colors">
-                    <p className="text-foreground text-sm">{medalist}</p>
-                  </div>
-                ))}
-              </div>
+              {isUpcoming ? (
+                <div className="p-4 rounded-lg border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+                  Medal winners will be updated after the competition ends.
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {competition.medalists.map((medalist, i) => (
+                    <div key={i} className="p-3 rounded-lg border border-border hover:bg-muted transition-colors">
+                      <p className="text-foreground text-sm">{medalist}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

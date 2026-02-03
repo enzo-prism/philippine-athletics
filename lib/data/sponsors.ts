@@ -30,9 +30,9 @@ export const sponsors: Sponsor[] = [
     details: ["Performance kits", "Spikes & relay gear", "Athlete activation support"],
     badges: ["National Partner"],
     roster: [
-      { id: "1", type: "athlete" },
-      { id: "4", type: "athlete" },
-      { id: "1", type: "club" },
+      { id: "athlete-jc-dela-cruz", type: "athlete" },
+      { id: "athlete-mia-santos", type: "athlete" },
+      { id: "club-manila-striders", type: "club" },
     ],
   },
   {
@@ -44,10 +44,10 @@ export const sponsors: Sponsor[] = [
     details: ["Hydration program", "Electrolytes & gels", "Travel kits"],
     badges: ["Performance Nutrition"],
     roster: [
-      { id: "2", type: "athlete" },
-      { id: "16", type: "athlete" },
-      { id: "3", type: "athlete" },
-      { id: "2", type: "club" },
+      { id: "athlete-erika-villarin", type: "athlete" },
+      { id: "athlete-carlo-mendoza", type: "athlete" },
+      { id: "athlete-nico-uy", type: "athlete" },
+      { id: "club-cebu-distance-project", type: "club" },
     ],
   },
   {
@@ -59,9 +59,9 @@ export const sponsors: Sponsor[] = [
     details: ["Physio support", "Soft-tissue & strength plans", "Travel coverage"],
     badges: ["Recovery Partner"],
     roster: [
-      { id: "6", type: "athlete" },
-      { id: "7", type: "athlete" },
-      { id: "1", type: "coach" },
+      { id: "athlete-rico-navarro", type: "athlete" },
+      { id: "athlete-leah-dominguez", type: "athlete" },
+      { id: "coach-ramon-castillo", type: "coach" },
     ],
   },
 ]

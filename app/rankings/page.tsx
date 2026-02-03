@@ -1,13 +1,7 @@
-"use client"
-
-import { Suspense, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { buildRankings, getRankingEvents, getRankingYears, type AgeGroup, type Gender } from "@/lib/data/rankings"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
@@ -16,22 +10,28 @@ const yearOptions = getRankingYears()
 const genderOptions: Gender[] = ["Women", "Men"]
 const ageGroupOptions: AgeGroup[] = ["Open", "Youth"]
 
-const normalizeEvent = (eventParam: string | null) => {
-  if (!eventParam) return "Select an event"
-  return eventOptions.includes(eventParam) ? eventParam : "Select an event"
+const selectClassName =
+  "h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+
+const getParam = (
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+  key: string,
+) => {
+  const value = searchParams?.[key]
+  if (Array.isArray(value)) return value[0] ?? ""
+  return value ?? ""
 }
 
-const normalizeGender = (genderParam: string | null) => {
-  if (!genderParam) return "Women"
-  return genderOptions.includes(genderParam as Gender) ? (genderParam as Gender) : "Women"
-}
+const normalizeEvent = (eventParam: string) =>
+  eventOptions.includes(eventParam) ? eventParam : "Select an event"
 
-const normalizeAgeGroup = (ageParam: string | null) => {
-  if (!ageParam) return "Open"
-  return ageGroupOptions.includes(ageParam as AgeGroup) ? (ageParam as AgeGroup) : "Open"
-}
+const normalizeGender = (genderParam: string) =>
+  genderOptions.includes(genderParam as Gender) ? (genderParam as Gender) : "Women"
 
-const normalizeYear = (yearParam: string | null) => {
+const normalizeAgeGroup = (ageParam: string) =>
+  ageGroupOptions.includes(ageParam as AgeGroup) ? (ageParam as AgeGroup) : "Open"
+
+const normalizeYear = (yearParam: string) => {
   const fallback = yearOptions[0] ?? new Date().getFullYear()
   const parsed = Number.parseInt(yearParam ?? "", 10)
   return Number.isNaN(parsed) ? fallback : parsed
@@ -39,43 +39,26 @@ const normalizeYear = (yearParam: string | null) => {
 
 const formatRank = (rank: number) => `#${rank}`
 
-function RankingsContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
+export default function RankingsPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) {
+  const selectedEvent = normalizeEvent(getParam(searchParams, "event"))
+  const selectedGender = normalizeGender(getParam(searchParams, "gender"))
+  const selectedAgeGroup = normalizeAgeGroup(getParam(searchParams, "ageGroup"))
+  const selectedYear = normalizeYear(getParam(searchParams, "year"))
+  const highlightId = getParam(searchParams, "highlight").trim()
 
-  const [selectedEvent, setSelectedEvent] = useState(() => normalizeEvent(searchParams.get("event")))
-  const [selectedGender, setSelectedGender] = useState<Gender>(() => normalizeGender(searchParams.get("gender")))
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeGroup>(() => normalizeAgeGroup(searchParams.get("ageGroup")))
-  const [selectedYear, setSelectedYear] = useState<number>(() => normalizeYear(searchParams.get("year")))
-  const highlightId = searchParams.get("highlight")?.trim() ?? ""
-
-  useEffect(() => {
-    setSelectedEvent(normalizeEvent(searchParams.get("event")))
-    setSelectedGender(normalizeGender(searchParams.get("gender")))
-    setSelectedAgeGroup(normalizeAgeGroup(searchParams.get("ageGroup")))
-    setSelectedYear(normalizeYear(searchParams.get("year")))
-  }, [searchParams])
-
-  useEffect(() => {
-    if (selectedEvent === "Select an event") return
-    const params = new URLSearchParams()
-    params.set("event", selectedEvent)
-    params.set("gender", selectedGender)
-    params.set("ageGroup", selectedAgeGroup)
-    params.set("year", String(selectedYear))
-    if (highlightId) params.set("highlight", highlightId)
-    router.replace(`?${params.toString()}`, { scroll: false })
-  }, [selectedEvent, selectedGender, selectedAgeGroup, selectedYear, highlightId, router])
-
-  const rankings = useMemo(() => {
-    if (selectedEvent === "Select an event") return []
-    return buildRankings({
-      event: selectedEvent,
-      gender: selectedGender,
-      ageGroup: selectedAgeGroup,
-      year: selectedYear,
-    })
-  }, [selectedEvent, selectedGender, selectedAgeGroup, selectedYear])
+  const rankings =
+    selectedEvent === "Select an event"
+      ? []
+      : buildRankings({
+          event: selectedEvent,
+          gender: selectedGender,
+          ageGroup: selectedAgeGroup,
+          year: selectedYear,
+        })
 
   const topThree = rankings.slice(0, 3)
 
@@ -111,71 +94,65 @@ function RankingsContent() {
               <Emoji symbol={emojiIcons.filter} className="text-base" />
               Filters
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <form method="get" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground uppercase">Event</Label>
-                <Select value={selectedEvent} onValueChange={setSelectedEvent}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {eventOptions.map((opt) => (
-                      <SelectItem key={opt} value={opt}>
-                        {opt}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="text-xs font-semibold text-foreground uppercase">Event</label>
+                <select name="event" defaultValue={selectedEvent} className={selectClassName}>
+                  {eventOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground uppercase">Gender</Label>
-                <Select value={selectedGender} onValueChange={(value) => setSelectedGender(value as Gender)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {genderOptions.map((opt) => (
-                      <SelectItem key={opt} value={opt}>
-                        {opt}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="text-xs font-semibold text-foreground uppercase">Gender</label>
+                <select name="gender" defaultValue={selectedGender} className={selectClassName}>
+                  {genderOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground uppercase">Age group</Label>
-                <Select value={selectedAgeGroup} onValueChange={(value) => setSelectedAgeGroup(value as AgeGroup)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {ageGroupOptions.map((opt) => (
-                      <SelectItem key={opt} value={opt}>
-                        {opt}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="text-xs font-semibold text-foreground uppercase">Age group</label>
+                <select name="ageGroup" defaultValue={selectedAgeGroup} className={selectClassName}>
+                  {ageGroupOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground uppercase">Year</Label>
-                <Select value={String(selectedYear)} onValueChange={(value) => setSelectedYear(Number.parseInt(value, 10))}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {yearOptions.map((year) => (
-                      <SelectItem key={year} value={String(year)}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="text-xs font-semibold text-foreground uppercase">Year</label>
+                <select name="year" defaultValue={String(selectedYear)} className={selectClassName}>
+                  {yearOptions.map((year) => (
+                    <option key={year} value={String(year)}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
+
+              {highlightId ? <input type="hidden" name="highlight" value={highlightId} /> : null}
+
+              <div className="lg:col-span-4 flex items-center gap-2">
+                <button
+                  type="submit"
+                  className="h-9 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
+                >
+                  Apply filters
+                </button>
+                <Link href="/rankings" className="text-xs font-semibold text-accent">
+                  Reset
+                </Link>
+              </div>
+            </form>
           </CardContent>
         </Card>
 
@@ -294,22 +271,5 @@ function RankingsContent() {
         </div>
       </div>
     </div>
-  )
-}
-
-export default function RankingsPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-background">
-          <Navigation />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-sm text-muted-foreground">
-            Loading rankings...
-          </div>
-        </div>
-      }
-    >
-      <RankingsContent />
-    </Suspense>
   )
 }

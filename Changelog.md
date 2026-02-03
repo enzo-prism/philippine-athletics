@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-03 — Competition polish + sponsor roster fixes
+- Fixed sponsor roster IDs so sponsor pages link to real athlete/club/coach profiles (removes “Unknown” entries).
+- Added 2025 SEA Games demo results and medalists, and marked the event as past to support the competition results flow.
+- Hide results and medalists for upcoming competitions with “results pending” callouts to avoid placeholder noise.
+
 ## 2026-01-31 — Demo flow foundation + product readiness
 - Added `DemoFlows.md` and updated README to keep the team aligned on the 5 demo flows.
 - Simplified the homepage hero (removed looping video/image square) and added a global hero search entry point.

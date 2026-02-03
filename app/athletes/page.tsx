@@ -1,16 +1,11 @@
-"use client"
-
-import { useMemo, useState } from "react"
-import { Search, SlidersHorizontal } from "lucide-react"
+import Link from "next/link"
+import { Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { AthleteSummary, athleteSummaries } from "@/lib/data/athletes"
 
 const eventOptions = [
@@ -59,6 +54,15 @@ const regionOptions = [
   { label: "Mindanao", value: "Mindanao" },
 ]
 
+const sortOptions = [
+  { label: "Relevance", value: "relevance" },
+  { label: "National Rank", value: "national_rank" },
+  { label: "Asian Rank", value: "asian_rank" },
+  { label: "Global Rank", value: "global_rank" },
+  { label: "Personal Best", value: "personal_best" },
+  { label: "Name (A-Z)", value: "name" },
+]
+
 const categoryByEvent: Record<string, string> = {
   Sprints: "Sprints",
   "100m": "Sprints",
@@ -97,6 +101,21 @@ const categoryByEvent: Record<string, string> = {
 }
 
 const athletes: AthleteSummary[] = athleteSummaries
+
+const selectClassName =
+  "h-9 w-full rounded-full border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+
+const getParam = (
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+  key: string,
+) => {
+  const value = searchParams?.[key]
+  if (Array.isArray(value)) return value[0] ?? ""
+  return value ?? ""
+}
+
+const isValidOption = (value: string, options: { value: string }[]) =>
+  Boolean(value) && options.some((opt) => opt.value === value)
 
 const normalizeEvents = (events: string[]) => Array.from(new Set(events.filter(Boolean).map((e) => e.trim())))
 
@@ -161,271 +180,238 @@ const getEventTags = (athlete: AthleteSummary) => {
   return Array.from(tags)
 }
 
-export default function AthletesPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [regionFilter, setRegionFilter] = useState("All")
-  const [eventFilter, setEventFilter] = useState("All")
-  const [sortOption, setSortOption] = useState("relevance")
-  const [filtersOpen, setFiltersOpen] = useState(false)
+const classifyRegion = (location: string) => {
+  const metroManila = [
+    "manila",
+    "quezon city",
+    "makati",
+    "taguig",
+    "bonifacio global city",
+    "bgc",
+    "pasay",
+    "pasig",
+    "mandaluyong",
+    "san juan",
+    "parañaque",
+    "las piñas",
+    "marikina",
+    "caloocan",
+    "valenzuela",
+    "malabon",
+    "navotas",
+    "muntinlupa",
+  ]
+  const visayas = [
+    "cebu",
+    "iloilo",
+    "bacolod",
+    "mactan",
+    "aklan",
+    "capiz",
+    "tacloban",
+    "ormoc",
+    "bohol",
+    "mandaue",
+  ]
+  const mindanao = [
+    "davao",
+    "cagayan de oro",
+    "iligan",
+    "tagum",
+    "digos",
+    "general santos",
+    "koronadal",
+    "zamboanga",
+    "dipolog",
+    "pagadian",
+    "surigao",
+    "butuan",
+    "siargao",
+  ]
 
-  const classifyRegion = (location: string) => {
-    const metroManila = [
-      "manila",
-      "quezon city",
-      "makati",
-      "taguig",
-      "bonifacio global city",
-      "bgc",
-      "pasay",
-      "pasig",
-      "mandaluyong",
-      "san juan",
-      "parañaque",
-      "las piñas",
-      "marikina",
-      "caloocan",
-      "valenzuela",
-      "malabon",
-      "navotas",
-      "muntinlupa",
-    ]
-    const visayas = [
-      "cebu",
-      "iloilo",
-      "bacolod",
-      "mactan",
-      "aklan",
-      "capiz",
-      "tacloban",
-      "ormoc",
-      "bohol",
-      "mandaue",
-    ]
-    const mindanao = [
-      "davao",
-      "cagayan de oro",
-      "iligan",
-      "tagum",
-      "digos",
-      "general santos",
-      "koronadal",
-      "zamboanga",
-      "dipolog",
-      "pagadian",
-      "surigao",
-      "butuan",
-      "siargao",
-    ]
+  const lower = location.toLowerCase()
+  if (metroManila.some((city) => lower.includes(city))) return "Metro Manila"
+  if (visayas.some((city) => lower.includes(city))) return "Visayas"
+  if (mindanao.some((city) => lower.includes(city))) return "Mindanao"
+  return "Luzon"
+}
 
-    const lower = location.toLowerCase()
-    if (metroManila.some((city) => lower.includes(city))) return "Metro Manila"
-    if (visayas.some((city) => lower.includes(city))) return "Visayas"
-    if (mindanao.some((city) => lower.includes(city))) return "Mindanao"
-    return "Luzon"
-  }
+const parseRank = (rank: string | number | undefined) => {
+  if (rank === undefined || rank === null || rank === "") return Number.POSITIVE_INFINITY
+  if (typeof rank === "number") return rank
+  const match = rank.match(/#(\d+)/)
+  return match ? parseInt(match[1], 10) : Number.POSITIVE_INFINITY
+}
 
-  const parseRank = (rank: string | number | undefined) => {
-    if (rank === undefined || rank === null || rank === "") return Number.POSITIVE_INFINITY
-    if (typeof rank === "number") return rank
-    const match = rank.match(/#(\d+)/)
-    return match ? parseInt(match[1], 10) : Number.POSITIVE_INFINITY
-  }
+const formatRank = (rank?: string | number) => {
+  if (rank === undefined || rank === null || rank === "") return "—"
+  if (typeof rank === "number") return `#${rank}`
+  const trimmed = rank.trim()
+  return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
+}
 
-  const formatRank = (rank?: string | number) => {
-    if (rank === undefined || rank === null || rank === "") return "—"
-    if (typeof rank === "number") return `#${rank}`
-    const trimmed = rank.trim()
-    return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
-  }
+const parsePerformance = (perf: string | undefined) => {
+  if (!perf) return { value: Number.POSITIVE_INFINITY, higherIsBetter: false }
+  const lower = perf.toLowerCase()
+  const hasColon = lower.includes(":")
+  const endsWithSeconds = /\ds\b/.test(lower) || lower.endsWith("s")
+  const isTime = hasColon || endsWithSeconds
 
-  const parsePerformance = (perf: string | undefined) => {
-    if (!perf) return { value: Number.POSITIVE_INFINITY, higherIsBetter: false }
-    const lower = perf.toLowerCase()
-    const hasColon = lower.includes(":")
-    const endsWithSeconds = /\ds\b/.test(lower) || lower.endsWith("s")
-    const isTime = hasColon || endsWithSeconds
-
-    if (isTime) {
-      if (hasColon) {
-        const parts = perf.split(":").map((p) => parseFloat(p))
-        const [first, second = 0, third = 0] = parts
-        const totalSeconds = parts.length === 3 ? first * 3600 + second * 60 + third : first * 60 + second
-        return { value: totalSeconds, higherIsBetter: false }
-      }
-      return { value: parseFloat(perf), higherIsBetter: false }
+  if (isTime) {
+    if (hasColon) {
+      const parts = perf.split(":").map((p) => parseFloat(p))
+      const [first, second = 0, third = 0] = parts
+      const totalSeconds = parts.length === 3 ? first * 3600 + second * 60 + third : first * 60 + second
+      return { value: totalSeconds, higherIsBetter: false }
     }
-
-    const numeric = parseFloat(perf)
-    const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
-    return { value: numeric, higherIsBetter }
+    return { value: parseFloat(perf), higherIsBetter: false }
   }
 
-  const filteredAthletes = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase()
+  const numeric = parseFloat(perf)
+  const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
+  return { value: numeric, higherIsBetter }
+}
 
-    let result = athletes.filter((athlete) => {
-      const events = getDisplayEvents(athlete)
-      const matchesSearch =
-        !term ||
-        athlete.name.toLowerCase().includes(term) ||
-        athlete.specialty.toLowerCase().includes(term) ||
-        athlete.club.toLowerCase().includes(term) ||
-        athlete.location.toLowerCase().includes(term) ||
-        events.some((evt) => evt.toLowerCase().includes(term))
+export default function AthletesPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) {
+  const query = getParam(searchParams, "q").trim()
+  const regionParam = getParam(searchParams, "region")
+  const eventParam = getParam(searchParams, "event")
+  const sortParam = getParam(searchParams, "sort")
 
-      const region = classifyRegion(athlete.location)
-      const eventTags = getEventTags(athlete)
-      const matchesRegion = regionFilter === "All" || region === regionFilter
-      const matchesEvent = eventFilter === "All" || eventTags.includes(eventFilter)
+  const regionFilter = isValidOption(regionParam, regionOptions) ? regionParam : "All"
+  const eventFilter = isValidOption(eventParam, eventOptions) ? eventParam : "All"
+  const sortOption = isValidOption(sortParam, sortOptions) ? sortParam : "relevance"
+  const sortLabel = sortOptions.find((opt) => opt.value === sortOption)?.label ?? "Relevance"
 
-      return matchesSearch && matchesRegion && matchesEvent
-    })
+  let filteredAthletes = athletes.filter((athlete) => {
+    const events = getDisplayEvents(athlete)
+    const term = query.toLowerCase()
+    const matchesSearch =
+      !term ||
+      athlete.name.toLowerCase().includes(term) ||
+      athlete.specialty.toLowerCase().includes(term) ||
+      athlete.club.toLowerCase().includes(term) ||
+      athlete.location.toLowerCase().includes(term) ||
+      events.some((evt) => evt.toLowerCase().includes(term))
 
-    const sorter = (a: (typeof athletes)[number], b: (typeof athletes)[number]) => {
-      switch (sortOption) {
-        case "national_rank":
-          return parseRank(a.nationalRank) - parseRank(b.nationalRank)
-        case "asian_rank":
-          return parseRank(a.asianRank) - parseRank(b.asianRank)
-        case "global_rank":
-          return parseRank(a.globalRank) - parseRank(b.globalRank)
-        case "name":
-          return a.name.localeCompare(b.name)
-        case "personal_best": {
-          const perfA = parsePerformance(a.pb)
-          const perfB = parsePerformance(b.pb)
-          if (perfA.higherIsBetter !== perfB.higherIsBetter) return 0
-          if (perfA.higherIsBetter) {
-            return perfB.value - perfA.value
-          }
-          return perfA.value - perfB.value
+    const region = classifyRegion(athlete.location)
+    const eventTags = getEventTags(athlete)
+    const matchesRegion = regionFilter === "All" || region === regionFilter
+    const matchesEvent = eventFilter === "All" || eventTags.includes(eventFilter)
+
+    return matchesSearch && matchesRegion && matchesEvent
+  })
+
+  const sorter = (a: (typeof athletes)[number], b: (typeof athletes)[number]) => {
+    switch (sortOption) {
+      case "national_rank":
+        return parseRank(a.nationalRank) - parseRank(b.nationalRank)
+      case "asian_rank":
+        return parseRank(a.asianRank) - parseRank(b.asianRank)
+      case "global_rank":
+        return parseRank(a.globalRank) - parseRank(b.globalRank)
+      case "name":
+        return a.name.localeCompare(b.name)
+      case "personal_best": {
+        const perfA = parsePerformance(a.pb)
+        const perfB = parsePerformance(b.pb)
+        if (perfA.higherIsBetter !== perfB.higherIsBetter) return 0
+        if (perfA.higherIsBetter) {
+          return perfB.value - perfA.value
         }
-        default:
-          return 0
+        return perfA.value - perfB.value
       }
+      default:
+        return 0
     }
+  }
 
-    return sortOption === "relevance" ? result : [...result].sort(sorter)
-  }, [searchTerm, regionFilter, eventFilter, sortOption])
+  filteredAthletes = sortOption === "relevance" ? filteredAthletes : [...filteredAthletes].sort(sorter)
 
   const hasActiveFilters =
-    Boolean(searchTerm.trim()) || regionFilter !== "All" || eventFilter !== "All" || sortOption !== "relevance"
+    Boolean(query) || regionFilter !== "All" || eventFilter !== "All" || sortOption !== "relevance"
 
   const activeFilterLabels = [
+    query ? `Search: ${query}` : null,
     regionFilter !== "All" ? `Region: ${regionFilter}` : null,
     eventFilter !== "All" ? `Event: ${eventFilter}` : null,
+    sortOption !== "relevance" ? `Sort: ${sortLabel}` : null,
   ].filter(Boolean) as string[]
-
-  const resetAll = () => {
-    setSearchTerm("")
-    setRegionFilter("All")
-    setEventFilter("All")
-    setSortOption("relevance")
-  }
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-        <div className="page-shell py-10 space-y-8">
+      <div className="page-shell py-10 space-y-8">
         <div className="space-y-2">
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search Athletes</h1>
         </div>
 
         <div className="sticky top-14 z-30 space-y-2">
           <Card className="py-0 gap-0 shadow-soft">
-            <CardContent className="p-3 sm:p-4 space-y-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
-                <Input
-                  type="text"
-                  placeholder="Search name, club, event..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="rounded-full pl-9"
-                />
-              </div>
+            <CardContent className="p-3 sm:p-4 space-y-4">
+              <form method="get" className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                  <div className="relative md:col-span-2">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
+                    <Input
+                      type="text"
+                      name="q"
+                      placeholder="Search name, club, event..."
+                      defaultValue={query}
+                      className="rounded-full pl-9"
+                    />
+                  </div>
 
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Select value={sortOption} onValueChange={setSortOption}>
-                  <SelectTrigger className="rounded-full w-full sm:w-[220px]">
-                    <SelectValue placeholder="Sort" />
-                  </SelectTrigger>
-                  <SelectContent align="end">
-                    <SelectItem value="relevance">Relevance</SelectItem>
-                    <SelectItem value="national_rank">National Rank</SelectItem>
-                    <SelectItem value="asian_rank">Asian Rank</SelectItem>
-                    <SelectItem value="global_rank">Global Rank</SelectItem>
-                    <SelectItem value="personal_best">Personal Best</SelectItem>
-                    <SelectItem value="name">Name (A-Z)</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
+                    <select name="sort" defaultValue={sortOption} className={selectClassName}>
+                      {sortOptions.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
-                  <SheetTrigger asChild>
-                    <Button type="button" variant="outline" className="rounded-full sm:w-auto w-full justify-center gap-2">
-                      <SlidersHorizontal className="size-4" aria-hidden="true" />
-                      Filters
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
+                    <select name="region" defaultValue={regionFilter} className={selectClassName}>
+                      {regionOptions.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-1 xl:col-span-2">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
+                    <select name="event" defaultValue={eventFilter} className={selectClassName}>
+                      {eventOptions.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button type="submit" className="rounded-full">
+                    Apply filters
+                  </Button>
+                  {hasActiveFilters ? (
+                    <Button asChild variant="link" className="h-auto p-0 text-accent">
+                      <Link href="/athletes">Reset</Link>
                     </Button>
-                  </SheetTrigger>
-                  <SheetContent side="bottom" className="gap-0 rounded-t-xl max-h-[85vh] overflow-hidden">
-                    <SheetHeader className="border-b border-border">
-                      <SheetTitle>Filters</SheetTitle>
-                    </SheetHeader>
-
-                    <div className="p-4 space-y-4 overflow-auto">
-                      <div className="space-y-2">
-                        <Label className="text-xs font-semibold text-muted-foreground uppercase">Region</Label>
-                        <Select value={regionFilter} onValueChange={setRegionFilter}>
-                          <SelectTrigger className="w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {regionOptions.map((opt) => (
-                              <SelectItem key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label className="text-xs font-semibold text-muted-foreground uppercase">Event</Label>
-                        <Select value={eventFilter} onValueChange={setEventFilter}>
-                          <SelectTrigger className="w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {eventOptions.map((opt) => (
-                              <SelectItem key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <SheetFooter className="border-t border-border">
-                      <Button type="button" onClick={() => setFiltersOpen(false)}>
-                        Apply
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          setRegionFilter("All")
-                          setEventFilter("All")
-                          setFiltersOpen(false)
-                        }}
-                      >
-                        Clear
-                      </Button>
-                    </SheetFooter>
-                  </SheetContent>
-                </Sheet>
-              </div>
+                  ) : null}
+                </div>
+              </form>
 
               {activeFilterLabels.length ? (
                 <div className="flex flex-wrap gap-2">
@@ -443,11 +429,6 @@ export default function AthletesPage() {
             <span>
               Showing {filteredAthletes.length} of {athletes.length} athletes
             </span>
-            {hasActiveFilters ? (
-              <Button type="button" variant="link" className="h-auto p-0 text-accent" onClick={resetAll}>
-                Reset
-              </Button>
-            ) : null}
           </div>
         </div>
 

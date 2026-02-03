@@ -124,6 +124,35 @@ export const competitions: Competition[] = [
     about:
       "Biennial multi-sport event for Southeast Asia. Athletics is a marquee sport with full Olympic event slate.",
     events: ["100m to Marathon", "Race Walk", "All Jumps", "All Throws", "Relays"],
+    results: [
+      {
+        event: "400m hurdles",
+        round: "Final",
+        entries: [
+          { athleteName: "Nguyen Thi Lan", result: "55.92", place: "1st", source: "Demo data" },
+          { athleteName: "Siti Aisyah", result: "56.40", place: "2nd", source: "Demo data" },
+          { athleteName: "Lauren Hoffman", athleteId: "athlete-lauren-hoffman", result: "56.80", place: "3rd", source: "Demo data" },
+        ],
+      },
+      {
+        event: "200m",
+        round: "Final",
+        entries: [
+          { athleteName: "Suphawadee Thongchai", result: "23.10", place: "1st", source: "Demo data" },
+          { athleteName: "Nguyen Minh Anh", result: "23.32", place: "2nd", source: "Demo data" },
+          { athleteName: "Kristina Knott", athleteId: "athlete-kristina-knott", result: "23.45", place: "3rd", source: "Demo data" },
+        ],
+      },
+      {
+        event: "4x100m relay",
+        round: "Final",
+        entries: [
+          { athleteName: "Thailand Relay Team", result: "39.20", place: "1st", source: "Demo data" },
+          { athleteName: "Philippines Relay Team", result: "39.65", place: "2nd", note: "Season best", source: "Demo data" },
+          { athleteName: "Vietnam Relay Team", result: "39.90", place: "3rd", source: "Demo data" },
+        ],
+      },
+    ],
     participants: 600,
     countries: 11,
     records: 8,
@@ -132,10 +161,14 @@ export const competitions: Competition[] = [
       "Philippines targeting relay podiums",
       "Distance squad peaking off altitude blocks",
     ],
-    medalists: ["TBD after competition"],
+    medalists: [
+      "Lauren Hoffman - 400m hurdles (Bronze)",
+      "Kristina Knott - 200m (Bronze)",
+      "Philippines - 4x100m relay (Silver)",
+    ],
     ticketInfo: "Ticketed sessions by venue",
     sponsor: "Host Country Government, Corporate Sponsors",
-    status: "Upcoming",
+    status: "Past",
     dateLabel: "Dec 11, 2025",
   },
   {

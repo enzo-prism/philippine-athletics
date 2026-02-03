@@ -1,6 +1,3 @@
-"use client"
-
-import { useMemo, useState } from "react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
@@ -8,13 +5,29 @@ import { Card, CardContent } from "@/components/ui/card"
 import { competitions } from "@/lib/data/competitions"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
-export default function CompetitionsPage() {
-  const [statusFilter, setStatusFilter] = useState<"All" | "Upcoming" | "Past">("Upcoming")
+const statusOptions = ["Upcoming", "Past", "All"] as const
 
-  const filtered = useMemo(() => {
-    if (statusFilter === "All") return competitions
-    return competitions.filter((c) => c.status === statusFilter)
-  }, [statusFilter])
+type StatusFilter = (typeof statusOptions)[number]
+
+const getParam = (
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+  key: string,
+) => {
+  const value = searchParams?.[key]
+  if (Array.isArray(value)) return value[0] ?? ""
+  return value ?? ""
+}
+
+const normalizeStatus = (value: string): StatusFilter =>
+  statusOptions.includes(value as StatusFilter) ? (value as StatusFilter) : "Upcoming"
+
+export default function CompetitionsPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) {
+  const statusFilter = normalizeStatus(getParam(searchParams, "status"))
+  const filtered = statusFilter === "All" ? competitions : competitions.filter((c) => c.status === statusFilter)
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,26 +41,32 @@ export default function CompetitionsPage() {
 
         <Card className="py-0 gap-0 mb-6">
           <CardContent className="p-4 space-y-3">
-          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Emoji symbol={emojiIcons.filter} className="text-sm" />
-            Filters
-          </div>
-          <div className="flex flex-wrap gap-3 text-sm">
-            {(["Upcoming", "Past", "All"] as const).map((status) => (
-              <Button
-                key={status}
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setStatusFilter(status)}
-                className={`font-semibold ${
-                  statusFilter === status ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90" : "hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                {status}
-              </Button>
-            ))}
-          </div>
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Emoji symbol={emojiIcons.filter} className="text-sm" />
+              Filters
+            </div>
+            <div className="flex flex-wrap gap-3 text-sm">
+              {statusOptions.map((status) => {
+                const active = statusFilter === status
+                const href = status === "Upcoming" ? "/competitions" : `/competitions?status=${encodeURIComponent(status)}`
+                return (
+                  <Button
+                    key={status}
+                    asChild
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className={`font-semibold ${
+                      active
+                        ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90"
+                        : "hover:bg-muted hover:text-foreground"
+                    }`}
+                  >
+                    <Link href={href}>{status}</Link>
+                  </Button>
+                )
+              })}
+            </div>
           </CardContent>
         </Card>
 

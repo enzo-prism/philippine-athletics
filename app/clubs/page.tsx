@@ -1,6 +1,3 @@
- "use client"
-
-import { useMemo, useState } from "react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
@@ -9,12 +6,25 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { clubs } from "@/lib/data/clubs"
 
-export default function ClubsPage() {
-  const [query, setQuery] = useState("")
+const getParam = (
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+  key: string,
+) => {
+  const value = searchParams?.[key]
+  if (Array.isArray(value)) return value[0] ?? ""
+  return value ?? ""
+}
+
+export default function ClubsPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) {
+  const query = getParam(searchParams, "q").trim()
   const featuredClub = clubs.find((club) => club.slug === "manila-striders-track-club") ?? clubs[0]
 
-  const filteredClubs = useMemo(() => {
-    const term = query.trim().toLowerCase()
+  const filteredClubs = (() => {
+    const term = query.toLowerCase()
     if (!term) return clubs
     return clubs.filter(
       (club) =>
@@ -22,7 +32,7 @@ export default function ClubsPage() {
         club.focus.toLowerCase().includes(term) ||
         club.location.toLowerCase().includes(term),
     )
-  }, [query])
+  })()
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,23 +70,31 @@ export default function ClubsPage() {
             <h1 className="text-4xl font-bold text-foreground">Search Clubs</h1>
             <p className="text-muted-foreground">Explore track and field clubs across the Philippines</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <form method="get" className="flex flex-col sm:flex-row gap-3">
             <div className="relative w-full sm:w-96">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-base text-muted-foreground" aria-hidden>
                 🔍
               </span>
               <Input
                 type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                name="q"
+                defaultValue={query}
                 placeholder="Search by club, city, or focus..."
                 className="rounded-full pl-9 shadow-soft"
               />
             </div>
+            <Button type="submit" className="rounded-full">
+              Search
+            </Button>
+            {query ? (
+              <Button asChild variant="link" className="h-auto p-0 text-accent sm:self-center">
+                <Link href="/clubs">Reset</Link>
+              </Button>
+            ) : null}
             <span className="text-xs text-muted-foreground sm:self-center">
               Showing {filteredClubs.length} of {clubs.length}
             </span>
-          </div>
+          </form>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

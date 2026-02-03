@@ -1,5 +1,3 @@
-"use client"
-
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
 import { sponsors } from "@/lib/data/sponsors"
