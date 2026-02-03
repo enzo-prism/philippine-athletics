@@ -8,6 +8,16 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-03 — Results intake portal (demo)
+- Added a front-end Results Intake portal with upload, field mapping, validation, and review flows to demonstrate how certified staff can submit official meet data.
+- Implemented CSV/TSV parsing with header auto-mapping, validation rules, and warnings for missing wind data or unknown athletes.
+- Implemented local-only submission storage and a downloadable JSON payload to simulate publishing without a backend.
+- Added impact previews that compute PB/SB changes, ranking shifts, and event-level impacts from uploaded results.
+- Added sandbox previews for competition, athlete, and rankings pages to show how the new data would render in the UI.
+- Added navigation entry for the Data Portal to make the intake flow discoverable.
+- Documented the research and plan for manual results ingestion in `docs/research/results-intake.md`.
+- Added `docs/STATUS.md` as a progress snapshot for the project.
+
 ## 2026-02-03 — Competition polish + sponsor roster fixes
 - Fixed sponsor roster IDs so sponsor pages link to real athlete/club/coach profiles (removes “Unknown” entries).
 - Added 2025 SEA Games demo results and medalists, and marked the event as past to support the competition results flow.

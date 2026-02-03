@@ -6,6 +6,7 @@ import { useMemo, useState } from "react"
 import {
   Building2,
   CalendarDays,
+  ClipboardList,
   Dumbbell,
   Footprints,
   Menu,
@@ -42,6 +43,7 @@ const bottomLinks: NavLink[] = [
 const actionLinks: NavLink[] = [
   { href: "/signup", label: "Sign Up", icon: UserPlus },
   { href: "/profile", label: "Profile", icon: UserRound },
+  { href: "/data-portal", label: "Data Portal", icon: ClipboardList },
 ]
 
 const isActive = (pathname: string, href: string) => {
@@ -67,7 +69,7 @@ export function Navigation() {
             href="/"
             className="flex items-center gap-2 group"
           >
-            <div className="w-9 h-9 rounded-md flex items-center justify-center bg-card border border-accent transition-colors group-hover:bg-accent/10">
+            <div className="w-9 h-9 rounded-none flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
               <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
             </div>
             <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
@@ -81,7 +83,7 @@ export function Navigation() {
                   key={link.href}
                   asChild
                   variant="ghost"
-                  className={active ? "text-accent" : "text-foreground"}
+                  className={active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
                 >
                   <Link href={link.href} aria-current={active ? "page" : undefined}>
                     {link.label}
@@ -92,11 +94,11 @@ export function Navigation() {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
-            <GlobalSearchForm className="w-56 lg:w-72" />
-            <Button asChild variant="outline">
+            <GlobalSearchForm className="w-56 lg:w-72" buttonVariant="outline" />
+            <Button asChild variant="outline" className="text-muted-foreground hover:text-foreground">
               <Link href="/signup">Sign Up</Link>
             </Button>
-            <Button asChild>
+            <Button asChild variant="outline" className="text-muted-foreground hover:text-foreground">
               <Link href="/profile">Profile</Link>
             </Button>
           </div>
@@ -148,14 +150,15 @@ export function Navigation() {
                     {actionLinks.map((link) => {
                       const active = isActive(pathname, link.href)
                       const Icon = link.icon
-                      const variant =
-                        link.href === "/profile" ? "default" : active ? "secondary" : "outline"
+                      const variant = active ? "secondary" : "outline"
                       return (
                         <Button
                           key={link.href}
                           asChild
                           variant={variant}
-                          className="w-full justify-start"
+                          className={`w-full justify-start ${
+                            active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                          }`}
                           onClick={() => setOpen(false)}
                         >
                           <Link

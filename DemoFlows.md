@@ -1,6 +1,7 @@
 TrackPH Demo Guide
 The 5 best flows to show when explaining the app
 January 29, 2026
+Updated: February 3, 2026
 
 Goal of the demo
 In a few minutes, you want people to understand three things:
@@ -103,6 +104,20 @@ Step 2: Open a club or coach page.
 Step 3: Point to recognition labels and certifications.
 Step 4: Explain: “This is how the sport stays safe and fair.”
 Why this matters: This is what turns the app from “just a website” into a real national system.
+
+Optional backstage flow: Results intake (admin or certified steward)
+Who is using it? A meet organizer or a certified data steward.
+What do they want to do?
+Upload official results after a competition.
+Validate data quality (missing wind, unknown athletes, duplicates).
+Preview how results would change athlete pages and rankings.
+How do they do it in the app?
+Step 1: Open the Results Intake portal at `/data-portal`.
+Step 2: Upload CSV/TSV or paste results and map fields.
+Step 3: Review validation warnings and fix issues.
+Step 4: Preview competition, athlete, and rankings changes.
+Step 5: Submit for review or publish (demo mode).
+Why this matters: This shows how the system stays accurate when there is no reliable external data feed.
 
 How the 5 flows connect
 Different people start in different places. But everything connects through the athlete profile.

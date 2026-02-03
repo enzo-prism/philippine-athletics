@@ -14,6 +14,21 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 The demo flows and narrative live in `DemoFlows.md`. Use it to keep product decisions aligned with the 5 core flows showcased in demos.
 
+## Status snapshot
+
+For a concise view of what is implemented, what is demo-ready, and what gaps remain, see `docs/STATUS.md`.
+
+## Documentation index
+
+- `DemoFlows.md` — 5 core demo flows plus the optional results intake flow.
+- `docs/STATUS.md` — current build status, gaps, and recommended next steps.
+- `docs/research/results-intake.md` — research basis and workflow rationale for manual results ingestion.
+- `CLAUDE.md` — engineering notes for contributors and agent tooling.
+
+## Results intake (manual data entry)
+
+The Results Intake portal lives at `/data-portal`. It supports CSV/TSV upload, field mapping, validation, and previewing how new results would look across competitions, athlete pages, and rankings. Research rationale and workflow notes live in `docs/research/results-intake.md`.
+
 ## Deployment
 
 Your project is live at:

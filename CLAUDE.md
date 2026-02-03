@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Philippine Athletics is a Next.js 16 App Router website displaying track and field community profiles (athletes, coaches, clubs, competitions, sponsors). Built with v0.app and deployed on Vercel.
 
+The demo also includes a front-end-only Results Intake portal at `/data-portal` for manual results upload, validation, and preview. Submissions are stored in local browser storage and do not update `lib/data/*` without manual merge.
+
 ## Commands
 
 ```bash
@@ -36,6 +38,7 @@ Dynamic routes accept either `id` or `slug`:
 - `/clubs/[id]` → `getClubByIdOrStub(id)`
 - `/competitions/[id]` → `getCompetitionByIdOrStub(id)`
 - `/sponsors/[id]` → `getSponsorByIdOrStub(id)`
+- `/data-portal` → local-only results intake wizard with preview tooling
 
 Use `decodeIdParam()` from `lib/data/utils.ts` to handle URL-encoded params.
 
@@ -47,6 +50,12 @@ Use `decodeIdParam()` from `lib/data/utils.ts` to handle URL-encoded params.
 - Sponsor rosters resolve to valid entities
 
 Run `pnpm data:check` after modifying data modules.
+
+### Results Intake (Demo)
+The Results Intake portal at `/data-portal` is front-end only:
+- Uploads are parsed client-side and stored in local browser storage (`trackph:results-intake`).
+- Previews show competition, athlete, and rankings impacts without mutating `lib/data/*`.
+- Exported JSON payloads are intended for manual merge in a future workflow.
 
 ## Conventions
 

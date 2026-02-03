@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label"
 
 type GlobalSearchFormProps = {
   actionLabel?: string
+  buttonClassName?: string
+  buttonVariant?: React.ComponentProps<typeof Button>["variant"]
   className?: string
   defaultValue?: string
   inputClassName?: string
@@ -18,6 +20,8 @@ type GlobalSearchFormProps = {
 
 export function GlobalSearchForm({
   actionLabel = "Search",
+  buttonClassName,
+  buttonVariant,
   className,
   defaultValue = "",
   inputClassName,
@@ -28,6 +32,7 @@ export function GlobalSearchForm({
   const inputId = useId()
 
   const isCompact = variant === "compact"
+  const resolvedButtonVariant = buttonVariant ?? (isCompact ? "outline" : "default")
 
   useEffect(() => {
     setValue(defaultValue)
@@ -59,7 +64,13 @@ export function GlobalSearchForm({
       <Button
         type="submit"
         size={isCompact ? "icon" : "lg"}
-        className={cn(isCompact ? "h-9 w-9" : "rounded-full px-6", !isCompact && "shadow-soft")}
+        variant={resolvedButtonVariant}
+        className={cn(
+          isCompact ? "h-9 w-9" : "rounded-full px-6",
+          !isCompact && "shadow-soft",
+          resolvedButtonVariant === "outline" && "text-muted-foreground hover:text-foreground",
+          buttonClassName,
+        )}
         aria-label="Run search"
       >
         {isCompact ? <Search className="size-4" aria-hidden="true" /> : actionLabel}
