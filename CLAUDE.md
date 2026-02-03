@@ -57,6 +57,10 @@ The Results Intake portal at `/data-portal` is front-end only:
 - Previews show competition, athlete, and rankings impacts without mutating `lib/data/*`.
 - Exported JSON payloads are intended for manual merge in a future workflow.
 
+### Changelog (Demo)
+The demo changelog at `/changelog` reads from `lib/data/commit-log.ts`.
+Refresh the dataset with `pnpm data:commits` after new commits land.
+
 ## Conventions
 
 - **Imports**: Use `@/` alias (maps to repo root)

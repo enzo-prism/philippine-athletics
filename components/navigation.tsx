@@ -8,6 +8,7 @@ import {
   CalendarDays,
   ClipboardList,
   Dumbbell,
+  FileText,
   Footprints,
   Menu,
   ShieldCheck,
@@ -44,6 +45,7 @@ const actionLinks: NavLink[] = [
   { href: "/signup", label: "Sign Up", icon: UserPlus },
   { href: "/profile", label: "Profile", icon: UserRound },
   { href: "/data-portal", label: "Data Portal", icon: ClipboardList },
+  { href: "/changelog", label: "Changelog", icon: FileText },
 ]
 
 const isActive = (pathname: string, href: string) => {

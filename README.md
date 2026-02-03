@@ -29,6 +29,10 @@ For a concise view of what is implemented, what is demo-ready, and what gaps rem
 
 The Results Intake portal lives at `/data-portal`. It supports CSV/TSV upload, field mapping, validation, and previewing how new results would look across competitions, athlete pages, and rankings. Research rationale and workflow notes live in `docs/research/results-intake.md`.
 
+## Changelog (demo-only)
+
+The demo changelog lives at `/changelog` and reads from `lib/data/commit-log.ts`. Regenerate the commit dataset with `pnpm data:commits` whenever git history changes.
+
 ## Deployment
 
 Your project is live at:

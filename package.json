@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "data:commits": "node scripts/generate-commit-log.mjs",
     "data:check": "tsx lib/data/validate.ts",
     "dev": "next dev",
     "lint": "eslint .",

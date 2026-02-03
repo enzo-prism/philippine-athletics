@@ -17,6 +17,7 @@ Template (copy/paste for new entries):
 - Added navigation entry for the Data Portal to make the intake flow discoverable.
 - Documented the research and plan for manual results ingestion in `docs/research/results-intake.md`.
 - Added `docs/STATUS.md` as a progress snapshot for the project.
+- Added a demo changelog page with git-synced commit history, searchable filters, and per-commit detail panels.
 
 ## 2026-02-03 — Competition polish + sponsor roster fixes
 - Fixed sponsor roster IDs so sponsor pages link to real athlete/club/coach profiles (removes “Unknown” entries).
