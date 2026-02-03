@@ -18,5 +18,10 @@ yarn-error.log*
 pnpm-debug.log*
 .turbo/
 
+# Playwright
+test-results/
+playwright-report/
+.playwright/
+
 # Editor
 .DS_Store

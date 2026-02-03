@@ -11,6 +11,8 @@ Date: 2026-02-03
 - Preview tooling now shows impact on competition pages, athlete pages, and rankings based on uploaded results.
 - A demo Changelog page exists at `/changelog` backed by a generated commit log dataset.
 - Changelog entries now surface plain-English summaries and non-technical notes by default.
+- Weekly digest mode groups updates by week with “why it matters” impact lines.
+- Design regression tests use Playwright snapshots across key routes and device sizes (`pnpm test:design` auto-installs deps/browsers on first run).
 
 ## What Was Built Recently
 

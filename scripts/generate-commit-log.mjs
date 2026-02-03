@@ -86,6 +86,50 @@ const tagNotes = {
   "App Pages": "Updated app pages or layouts.",
 }
 
+const tagImpact = {
+  Athletes: "Makes athlete profiles clearer and easier to share.",
+  Competitions: "Makes competition results easier to find after a meet.",
+  Rankings: "Helps people trust rankings and compare performances.",
+  Clubs: "Helps families evaluate clubs and training options.",
+  Coaches: "Helps athletes find qualified coaching.",
+  Recognition: "Clarifies trust and safety signals for parents and staff.",
+  Search: "Makes finding people and clubs faster.",
+  "Results Intake": "Helps capture official results even without external feeds.",
+  Changelog: "Keeps non-technical stakeholders aligned on progress.",
+  Navigation: "Improves discoverability of key areas.",
+  Accounts: "Smooths sign-up and profile flows.",
+  "Demo Data": "Makes the demo feel more complete and realistic.",
+  Docs: "Improves shared understanding of the product.",
+  Styling: "Improves visual clarity and polish.",
+  Assets: "Strengthens presentation with better imagery.",
+  Tooling: "Makes maintenance and updates easier.",
+  Config: "Keeps builds reliable and predictable.",
+  Components: "Improves consistency across shared UI pieces.",
+  "App Pages": "Makes core pages feel more complete.",
+}
+
+const impactPriority = [
+  "Rankings",
+  "Competitions",
+  "Athletes",
+  "Clubs",
+  "Coaches",
+  "Recognition",
+  "Search",
+  "Results Intake",
+  "Changelog",
+  "Navigation",
+  "Accounts",
+  "Demo Data",
+  "Docs",
+  "Styling",
+  "Assets",
+  "Components",
+  "App Pages",
+  "Tooling",
+  "Config",
+]
+
 const getAreas = (files) => {
   const areas = new Set()
   files.forEach((file) => {
@@ -211,6 +255,20 @@ const buildPlainNotes = (tags, subject) => {
   return notes.slice(0, 4)
 }
 
+const buildPlainImpact = (tags) => {
+  if (!tags.length) return "Keeps the product moving forward."
+  const ordered = [
+    ...impactPriority.filter((tag) => tags.includes(tag)),
+    ...tags.filter((tag) => !impactPriority.includes(tag)),
+  ]
+  const impacts = ordered
+    .map((tag) => tagImpact[tag])
+    .filter(Boolean)
+    .slice(0, 2)
+  if (!impacts.length) return "Keeps the product moving forward."
+  return impacts.length === 1 ? impacts[0] : `${impacts[0]} ${impacts[1]}`
+}
+
 const commits = logRaw
   .split("\x1e")
   .map((entry) => entry.trim())
@@ -226,6 +284,7 @@ const commits = logRaw
     const notes = buildNotes(areas, files)
     const plainSummary = buildPlainSummary(subject, tags)
     const plainNotes = buildPlainNotes(tags, subject)
+    const plainImpact = buildPlainImpact(tags)
 
     return {
       hash,
@@ -241,6 +300,7 @@ const commits = logRaw
       notes,
       plainSummary,
       plainNotes,
+      plainImpact,
       files,
     }
   })
@@ -272,6 +332,7 @@ export type CommitLogEntry = {
   notes: string[]
   plainSummary: string
   plainNotes: string[]
+  plainImpact: string
   files: CommitFile[]
 }
 

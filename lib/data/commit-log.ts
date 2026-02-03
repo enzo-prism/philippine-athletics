@@ -25,12 +25,73 @@ export type CommitLogEntry = {
   notes: string[]
   plainSummary: string
   plainNotes: string[]
+  plainImpact: string
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-03T19:12:21.366Z"
+export const commitLogUpdatedAt = "2026-02-03T19:28:11.402Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "f0475160d0507ba2ee6f0a32c5f35c3782b0a430",
+    "shortHash": "f047516",
+    "subject": "Improve changelog design",
+    "author": "enzo-prism",
+    "date": "2026-02-03T11:21:05-08:00",
+    "stats": {
+      "files": 4,
+      "insertions": 176,
+      "deletions": 5,
+      "summary": "4 files changed, 176 insertions(+), 5 deletions(-)"
+    },
+    "areas": [
+      "components",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Navigation",
+      "Changelog",
+      "Demo Data",
+      "Tooling"
+    ],
+    "summary": "Improve changelog design. Updated Components, Data modules, Scripts. 4 files changed, 176 insertions(+), 5 deletions(-).",
+    "notes": [
+      "Refined shared UI components.",
+      "Adjusted demo data or data relationships.",
+      "Key files touched: lib/data/commit-log.ts, scripts/generate-commit-log.mjs, scripts/generate-commit-log.ts, components/navigation.tsx."
+    ],
+    "plainSummary": "Updated navigation, changelog viewer, and demo data.",
+    "plainNotes": [
+      "Adjusted navigation to improve discovery.",
+      "Updated the demo changelog experience.",
+      "Refreshed demo data used across the app.",
+      "Improved internal tooling for maintenance."
+    ],
+    "plainImpact": "Keeps non-technical stakeholders aligned on progress. Improves discoverability of key areas.",
+    "files": [
+      {
+        "path": "components/navigation.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 107,
+        "deletions": 2
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 34,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.ts",
+        "additions": 34,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "c2728a416fb10e342ae9b5ec09800316c14081e3",
     "shortHash": "c2728a4",
@@ -71,6 +132,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated documentation to keep everyone aligned.",
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Keeps non-technical stakeholders aligned on progress. Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "Changelog.md",
@@ -148,6 +210,7 @@ export const commitLog: CommitLogEntry[] = [
       "Adjusted navigation to improve discovery.",
       "Updated documentation to keep everyone aligned."
     ],
+    "plainImpact": "Keeps non-technical stakeholders aligned on progress. Improves discoverability of key areas.",
     "files": [
       {
         "path": "CLAUDE.md",
@@ -241,6 +304,7 @@ export const commitLog: CommitLogEntry[] = [
       "Improved how people search and discover profiles.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Makes finding people and clubs faster. Helps capture official results even without external feeds.",
     "files": [
       {
         "path": "CLAUDE.md",
@@ -328,6 +392,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated competition listings or results displays."
     ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
     "files": [
       {
         "path": "Changelog.md",
@@ -417,6 +482,7 @@ export const commitLog: CommitLogEntry[] = [
       "Improved how people search and discover profiles.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes finding people and clubs faster. Makes core pages feel more complete.",
     "files": [
       {
         "path": "Changelog.md",
@@ -480,6 +546,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
     "files": [
       {
         "path": "AGENTS.md",
@@ -630,6 +697,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "lib/data/athletes.ts",
@@ -668,6 +736,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated signup or profile experiences.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Smooths sign-up and profile flows. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/profile/page.tsx",
@@ -703,6 +772,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated athlete profiles or athlete-facing views."
     ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share.",
     "files": [
       {
         "path": "app/athletes/page.tsx",
@@ -738,6 +808,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -774,6 +845,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Improves consistency across shared UI pieces.",
     "files": [
       {
         "path": "components/signup/SignupPanel.tsx",
@@ -810,6 +882,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Improves consistency across shared UI pieces.",
     "files": [
       {
         "path": "components/badge.tsx",
@@ -858,6 +931,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Helps athletes find qualified coaching.",
     "files": [
       {
         "path": "app/athletes/[id]/page.tsx",
@@ -909,6 +983,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -945,6 +1020,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -993,6 +1069,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
     "files": [
       {
         "path": "app/athletes/[id]/page.tsx",
@@ -1158,6 +1235,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated signup or profile experiences."
     ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Helps athletes find qualified coaching.",
     "files": [
       {
         "path": "app/athletes/page.tsx",
@@ -1218,6 +1296,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1253,6 +1332,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/globals.css",
@@ -1293,6 +1373,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Improves consistency across shared UI pieces.",
     "files": [
       {
         "path": "components/badge.tsx",
@@ -1334,6 +1415,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Helps athletes find qualified coaching. Improves consistency across shared UI pieces.",
     "files": [
       {
         "path": "app/coaches/[id]/page.tsx",
@@ -1396,6 +1478,7 @@ export const commitLog: CommitLogEntry[] = [
       "Refined shared UI building blocks.",
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "CLAUDE.md",
@@ -1456,6 +1539,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1491,6 +1575,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1526,6 +1611,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1561,6 +1647,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1596,6 +1683,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1631,6 +1719,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1666,6 +1755,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1701,6 +1791,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1736,6 +1827,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1771,6 +1863,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1806,6 +1899,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1845,6 +1939,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -1886,6 +1981,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "lib/data/athletes.ts",
@@ -1934,6 +2030,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated club pages, rosters, or contact details.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes competition results easier to find after a meet. Makes athlete profiles clearer and easier to share.",
     "files": [
       {
         "path": "app/athletes/[id]/page.tsx",
@@ -2004,6 +2101,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "lib/data/athletes.ts",
@@ -2057,6 +2155,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated coach profiles or coaching details.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Helps athletes find qualified coaching. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/coaches/[id]/page.tsx",
@@ -2092,6 +2191,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "lib/data/athletes.ts",
@@ -2127,6 +2227,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "lib/data/athletes.ts",
@@ -2170,6 +2271,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated club pages, rosters, or contact details.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/clubs/page.tsx",
@@ -2207,6 +2309,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated club pages, rosters, or contact details.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/clubs/page.tsx",
@@ -2242,6 +2345,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2277,6 +2381,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2312,6 +2417,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2347,6 +2453,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2386,6 +2493,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Refined shared UI building blocks."
     ],
+    "plainImpact": "Improves consistency across shared UI pieces. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/layout.tsx",
@@ -2426,6 +2534,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2463,6 +2572,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated club pages, rosters, or contact details.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/clubs/[id]/page.tsx",
@@ -2508,6 +2618,7 @@ export const commitLog: CommitLogEntry[] = [
       "Refined shared UI building blocks.",
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "app/clubs/[id]/page.tsx",
@@ -2559,6 +2670,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Refreshed demo data used across the app."
     ],
+    "plainImpact": "Helps families evaluate clubs and training options. Makes the demo feel more complete and realistic.",
     "files": [
       {
         "path": "app/clubs/[id]/page.tsx",
@@ -2599,6 +2711,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -2634,6 +2747,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -2669,6 +2783,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -2704,6 +2819,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2739,6 +2855,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas.",
     "files": [
       {
         "path": "components/navigation.tsx",
@@ -2780,6 +2897,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Improves discoverability of key areas.",
     "files": [
       {
         "path": "app/athletes/page.tsx",
@@ -2824,6 +2942,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "package.json",
@@ -2864,6 +2983,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "package.json",
@@ -2903,6 +3023,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "package.json",
@@ -2937,6 +3058,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "package.json",
@@ -2985,6 +3107,7 @@ export const commitLog: CommitLogEntry[] = [
       "Refined shared UI building blocks.",
       "Adjusted navigation to improve discovery."
     ],
+    "plainImpact": "Improves discoverability of key areas. Improves consistency across shared UI pieces.",
     "files": [
       {
         "path": "app/page.tsx",
@@ -3041,6 +3164,7 @@ export const commitLog: CommitLogEntry[] = [
       "Focused on reliability and reducing friction.",
       "Updated app pages or layouts."
     ],
+    "plainImpact": "Makes core pages feel more complete.",
     "files": [
       {
         "path": "app/globals.css",
@@ -3068,6 +3192,7 @@ export const commitLog: CommitLogEntry[] = [
     "notes": [],
     "plainSummary": "Updated the app.",
     "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
     "files": []
   },
   {
@@ -3109,6 +3234,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Makes competition results easier to find after a meet. Makes athlete profiles clearer and easier to share.",
     "files": [
       {
         "path": "app/athletes/page.tsx",
@@ -3176,6 +3302,7 @@ export const commitLog: CommitLogEntry[] = [
     "notes": [],
     "plainSummary": "Updated the app.",
     "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
     "files": []
   },
   {
@@ -3197,6 +3324,7 @@ export const commitLog: CommitLogEntry[] = [
     "notes": [],
     "plainSummary": "Updated the app.",
     "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
     "files": []
   },
   {
@@ -3218,6 +3346,7 @@ export const commitLog: CommitLogEntry[] = [
     "notes": [],
     "plainSummary": "Updated the app.",
     "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
     "files": []
   },
   {
@@ -3247,6 +3376,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "package.json",
@@ -3301,6 +3431,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
     "files": [
       {
         "path": "README.md",
@@ -3481,6 +3612,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
     "files": [
       {
         "path": ".gitignore",
@@ -3601,6 +3733,7 @@ export const commitLog: CommitLogEntry[] = [
     "plainNotes": [
       "Adjusted project configuration or dependencies."
     ],
+    "plainImpact": "Keeps builds reliable and predictable.",
     "files": [
       {
         "path": "README.md",
@@ -3671,6 +3804,7 @@ export const commitLog: CommitLogEntry[] = [
       "Updated app pages or layouts.",
       "Updated coach profiles or coaching details."
     ],
+    "plainImpact": "Makes competition results easier to find after a meet. Makes athlete profiles clearer and easier to share.",
     "files": [
       {
         "path": "README.md",

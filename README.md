@@ -31,7 +31,17 @@ The Results Intake portal lives at `/data-portal`. It supports CSV/TSV upload, f
 
 ## Changelog (demo-only)
 
-The demo changelog lives at `/changelog` and reads from `lib/data/commit-log.ts`. Regenerate the commit dataset with `pnpm data:commits` whenever git history changes.
+The demo changelog lives at `/changelog` and reads from `lib/data/commit-log.ts`. It includes weekly digest mode and plain-language “Why it matters” notes for non-technical stakeholders. Regenerate the commit dataset with `pnpm data:commits` whenever git history changes.
+
+## Design regression tests
+
+This repo includes a basic design test suite using Playwright to capture visual snapshots across common routes and device sizes.
+
+Run it after major UI changes:
+1. `pnpm test:design` (installs deps and Playwright browsers on first run)
+
+Update snapshots when intentional design changes land:
+1. `pnpm test:design:update`
 
 ## Deployment
 

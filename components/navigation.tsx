@@ -85,7 +85,7 @@ export function Navigation() {
                   key={link.href}
                   asChild
                   variant="ghost"
-                  className={active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
+                  className={active ? "text-foreground" : "text-muted-foreground hover:text-accent-foreground"}
                 >
                   <Link href={link.href} aria-current={active ? "page" : undefined}>
                     {link.label}
@@ -97,10 +97,10 @@ export function Navigation() {
 
           <div className="hidden md:flex items-center gap-2">
             <GlobalSearchForm className="w-56 lg:w-72" buttonVariant="outline" />
-            <Button asChild variant="outline" className="text-muted-foreground hover:text-foreground">
+            <Button asChild variant="outline" className="text-muted-foreground hover:text-accent-foreground">
               <Link href="/signup">Sign Up</Link>
             </Button>
-            <Button asChild variant="outline" className="text-muted-foreground hover:text-foreground">
+            <Button asChild variant="outline" className="text-muted-foreground hover:text-accent-foreground">
               <Link href="/profile">Profile</Link>
             </Button>
           </div>
@@ -159,7 +159,7 @@ export function Navigation() {
                           asChild
                           variant={variant}
                           className={`w-full justify-start ${
-                            active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                            active ? "text-foreground" : "text-muted-foreground hover:text-accent-foreground"
                           }`}
                           onClick={() => setOpen(false)}
                         >

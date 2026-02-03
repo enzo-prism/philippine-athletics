@@ -61,6 +61,10 @@ The Results Intake portal at `/data-portal` is front-end only:
 The demo changelog at `/changelog` reads from `lib/data/commit-log.ts`.
 Refresh the dataset with `pnpm data:commits` after new commits land.
 
+### Design Regression Tests
+Playwright snapshot tests live under `tests/` with config in `playwright.config.ts`.
+Run with `pnpm test:design` (auto-installs dependencies and browsers if needed), and update snapshots with `pnpm test:design:update`.
+
 ## Conventions
 
 - **Imports**: Use `@/` alias (maps to repo root)

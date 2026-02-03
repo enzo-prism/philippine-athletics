@@ -19,6 +19,9 @@ Template (copy/paste for new entries):
 - Added `docs/STATUS.md` as a progress snapshot for the project.
 - Added a demo changelog page with git-synced commit history, searchable filters, and per-commit detail panels.
 - Updated the demo changelog to show plain-language summaries and non-technical notes by default.
+- Added weekly digest mode and “Why it matters” impact lines for non-technical audiences.
+- Added a Playwright-based design regression test suite to snapshot key routes on mobile/tablet/desktop.
+- Added a helper script so `pnpm test:design` auto-installs dependencies and Playwright browsers on first run.
 
 ## 2026-02-03 — Competition polish + sponsor roster fixes
 - Fixed sponsor roster IDs so sponsor pages link to real athlete/club/coach profiles (removes “Unknown” entries).

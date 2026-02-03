@@ -8,7 +8,9 @@
     "data:check": "tsx lib/data/validate.ts",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "test:design": "bash scripts/test-design.sh",
+    "test:design:update": "bash scripts/test-design.sh --update-snapshots"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -63,6 +65,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.2",
     "@tailwindcss/postcss": "^4.1.9",
     "@types/node": "^22",
     "@types/react": "^19",
