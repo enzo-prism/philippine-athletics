@@ -33,8 +33,12 @@ type CommitLogEntry = {
   date: string
   stats: CommitStats
   areas: string[]
+  tags: string[]
   summary: string
   notes: string[]
+  plainSummary: string
+  plainNotes: string[]
+  plainImpact: string
   files: CommitFile[]
 }
 
@@ -57,60 +61,60 @@ const parseNumStat = (hash: string): CommitFile[] => {
 }
 
 const areaLabels: Record<string, string> = {
-  app: "App pages",
-  components: "Components",
-  lib: "Utilities",
-  data: "Data modules",
-  docs: "Documentation",
-  public: "Public assets",
-  styles: "Styling",
-  scripts: "Scripts",
-  config: "Config",
-  other: "Other files",
+  app: "Core screens",
+  components: "Shared interface",
+  lib: "Behind the scenes",
+  data: "Sample data",
+  docs: "Guides & notes",
+  public: "Images & media",
+  styles: "Look and feel",
+  scripts: "Tools",
+  config: "App setup",
+  other: "General updates",
 }
 
 const tagLabels: Record<string, string> = {
-  Athletes: "athlete pages",
-  Competitions: "competition results",
+  Athletes: "athlete profiles",
+  Competitions: "meet results",
   Rankings: "rankings",
   Clubs: "club pages",
   Coaches: "coach profiles",
-  Recognition: "recognition and verification",
-  Search: "search and discovery",
-  "Results Intake": "results intake workflow",
-  Changelog: "changelog viewer",
+  Recognition: "trust and safety",
+  Search: "finding people",
+  "Results Intake": "result submissions",
+  Changelog: "update timeline",
   Navigation: "navigation",
-  Accounts: "signup and profile pages",
-  "Demo Data": "demo data",
-  Docs: "documentation",
-  Styling: "visual styling",
-  Assets: "images and assets",
-  Tooling: "internal tools",
-  Config: "project configuration",
-  Components: "shared UI components",
-  "App Pages": "app pages",
+  Accounts: "profiles & sign-up",
+  "Demo Data": "sample data",
+  Docs: "guides & notes",
+  Styling: "look and feel",
+  Assets: "images & media",
+  Tooling: "behind the scenes",
+  Config: "app setup",
+  Components: "shared interface pieces",
+  "App Pages": "core screens",
 }
 
 const tagNotes: Record<string, string> = {
-  Athletes: "Updated athlete profiles or athlete-facing views.",
-  Competitions: "Updated competition listings or results displays.",
-  Rankings: "Updated ranking lists, filters, or ranking logic.",
-  Clubs: "Updated club pages, rosters, or contact details.",
-  Coaches: "Updated coach profiles or coaching details.",
-  Recognition: "Updated recognition, certification, or trust indicators.",
-  Search: "Improved how people search and discover profiles.",
-  "Results Intake": "Improved the results intake workflow or previews.",
-  Changelog: "Updated the demo changelog experience.",
-  Navigation: "Adjusted navigation to improve discovery.",
-  Accounts: "Updated signup or profile experiences.",
-  "Demo Data": "Refreshed demo data used across the app.",
-  Docs: "Updated documentation to keep everyone aligned.",
-  Styling: "Visual polish and layout refinements.",
-  Assets: "Updated imagery or static assets.",
-  Tooling: "Improved internal tooling for maintenance.",
-  Config: "Adjusted project configuration or dependencies.",
-  Components: "Refined shared UI building blocks.",
-  "App Pages": "Updated app pages or layouts.",
+  Athletes: "Made athlete profiles clearer and easier to browse.",
+  Competitions: "Highlighted meet results and how to explore them.",
+  Rankings: "Clarified how rankings and comparisons are shown.",
+  Clubs: "Improved club pages and roster visibility.",
+  Coaches: "Made coaching details easier to understand.",
+  Recognition: "Added clearer trust signals and verification context.",
+  Search: "Made it quicker to find people and results.",
+  "Results Intake": "Refined the result submission and preview flow.",
+  Changelog: "Improved how updates are shared in plain language.",
+  Navigation: "Made navigation easier to follow.",
+  Accounts: "Smoothed sign-up and profile steps.",
+  "Demo Data": "Refreshed sample data for more realistic browsing.",
+  Docs: "Added clearer guidance for teammates and stakeholders.",
+  Styling: "Polished layout, spacing, and visual balance.",
+  Assets: "Refreshed images and supporting media.",
+  Tooling: "Improved internal tools for upkeep.",
+  Config: "Kept the app setup reliable and current.",
+  Components: "Refined shared interface pieces for consistency.",
+  "App Pages": "Improved core screens and layouts.",
 }
 
 const tagImpact: Record<string, string> = {
@@ -122,7 +126,7 @@ const tagImpact: Record<string, string> = {
   Recognition: "Clarifies trust and safety signals for parents and staff.",
   Search: "Makes finding people and clubs faster.",
   "Results Intake": "Helps capture official results even without external feeds.",
-  Changelog: "Keeps non-technical stakeholders aligned on progress.",
+  Changelog: "Keeps everyone aligned on progress.",
   Navigation: "Improves discoverability of key areas.",
   Accounts: "Smooths sign-up and profile flows.",
   "Demo Data": "Makes the demo feel more complete and realistic.",
@@ -130,8 +134,8 @@ const tagImpact: Record<string, string> = {
   Styling: "Improves visual clarity and polish.",
   Assets: "Strengthens presentation with better imagery.",
   Tooling: "Makes maintenance and updates easier.",
-  Config: "Keeps builds reliable and predictable.",
-  Components: "Improves consistency across shared UI pieces.",
+  Config: "Keeps the app stable and reliable.",
+  Components: "Improves consistency across shared interface pieces.",
   "App Pages": "Makes core pages feel more complete.",
 }
 
@@ -232,8 +236,11 @@ const pickVerb = (subject: string, tags: string[]) => {
 }
 
 const buildPlainSummary = (subject: string, tags: string[]) => {
-  const verb = pickVerb(subject, tags)
+  let verb = pickVerb(subject, tags)
   const targets = tags.map((tag) => tagLabels[tag]).filter(Boolean)
+  if (verb === "Updated" && targets.some((target) => target.toLowerCase().includes("update"))) {
+    verb = "Refreshed"
+  }
   const summaryTargets = listify(targets.slice(0, 3))
   return `${verb} ${summaryTargets}.`
 }
@@ -242,30 +249,17 @@ const buildStats = (files: CommitFile[]): CommitStats => {
   const fileCount = files.length
   const insertions = files.reduce((sum, file) => sum + (file.additions ?? 0), 0)
   const deletions = files.reduce((sum, file) => sum + (file.deletions ?? 0), 0)
-  const summary = `${fileCount} file${fileCount === 1 ? "" : "s"} changed, ${insertions} insertion${
-    insertions === 1 ? "" : "s"
-  }(+), ${deletions} deletion${deletions === 1 ? "" : "s"}(-)`
-  return { files: fileCount, insertions, deletions, summary }
+  return { files: fileCount, insertions, deletions, summary: "" }
 }
 
-const buildNotes = (areas: string[], files: CommitFile[]): string[] => {
+const buildNotes = (areas: string[]): string[] => {
   const notes: string[] = []
-  if (areas.includes("app")) notes.push("Updated app routes or page layouts.")
-  if (areas.includes("components")) notes.push("Refined shared UI components.")
-  if (areas.includes("data")) notes.push("Adjusted demo data or data relationships.")
-  if (areas.includes("docs")) notes.push("Documentation updated for clarity and onboarding.")
-  if (areas.includes("styles")) notes.push("Styling changes and visual polish tweaks.")
-  if (areas.includes("config")) notes.push("Project configuration updates.")
-
-  const topFiles = files
-    .slice()
-    .sort((a, b) => (b.additions ?? 0) + (b.deletions ?? 0) - ((a.additions ?? 0) + (a.deletions ?? 0)))
-    .slice(0, 4)
-    .map((file) => file.path)
-
-  if (topFiles.length) {
-    notes.push(`Key files touched: ${topFiles.join(", ")}.`)
-  }
+  if (areas.includes("app")) notes.push("Updated core screens and key flows.")
+  if (areas.includes("components")) notes.push("Refined shared interface pieces for consistency.")
+  if (areas.includes("data")) notes.push("Improved the sample data used in the demo.")
+  if (areas.includes("docs")) notes.push("Updated guides so everyone stays aligned.")
+  if (areas.includes("styles")) notes.push("Visual polish and layout refinements.")
+  if (areas.includes("config")) notes.push("Kept the app setup healthy and reliable.")
   return notes
 }
 
@@ -307,8 +301,8 @@ const commits: CommitLogEntry[] = logRaw
     const areas = getAreas(files)
     const tags = getTags(files)
     const areaSummary = areas.map((area) => areaLabels[area] ?? area).join(", ") || "General updates"
-    const summary = `${subject}. Updated ${areaSummary}. ${stats.summary}.`
-    const notes = buildNotes(areas, files)
+    const summary = `${pickVerb(subject, tags)} ${areaSummary}.`
+    const notes = buildNotes(areas)
     const plainSummary = buildPlainSummary(subject, tags)
     const plainNotes = buildPlainNotes(tags, subject)
     const plainImpact = buildPlainImpact(tags)

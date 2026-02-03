@@ -10,40 +10,29 @@ import { Label } from "@/components/ui/label"
 import { commitLog, commitLogUpdatedAt } from "@/lib/data/commit-log"
 import { normalizeKey } from "@/lib/data/utils"
 
-const AREA_LABELS: Record<string, string> = {
-  app: "App pages",
-  components: "Components",
-  lib: "Utilities",
-  data: "Data modules",
-  docs: "Documentation",
-  public: "Public assets",
-  styles: "Styling",
-  scripts: "Scripts",
-  config: "Config",
-  other: "Other files",
+const TAG_LABELS: Record<string, string> = {
+  Athletes: "Athlete profiles",
+  Competitions: "Meet results",
+  Rankings: "Rankings",
+  Clubs: "Club pages",
+  Coaches: "Coach profiles",
+  Recognition: "Trust and safety",
+  Search: "Finding people",
+  "Results Intake": "Result submissions",
+  Changelog: "Updates",
+  Navigation: "Navigation",
+  Accounts: "Profiles & sign-up",
+  "Demo Data": "Sample data",
+  Docs: "Guides & notes",
+  Styling: "Look and feel",
+  Assets: "Images & media",
+  Tooling: "Behind the scenes",
+  Config: "App setup",
+  Components: "Shared interface pieces",
+  "App Pages": "Core screens",
 }
 
-const TAG_FOCUS: Record<string, string> = {
-  Athletes: "athlete profiles",
-  Competitions: "competition results",
-  Rankings: "rankings",
-  Clubs: "club discovery",
-  Coaches: "coach profiles",
-  Recognition: "trust and safety",
-  Search: "search",
-  "Results Intake": "results intake",
-  Changelog: "changelog",
-  Navigation: "navigation",
-  Accounts: "accounts",
-  "Demo Data": "demo data",
-  Docs: "documentation",
-  Styling: "visual polish",
-  Assets: "assets",
-  Tooling: "tooling",
-  Config: "configuration",
-  Components: "shared UI",
-  "App Pages": "app pages",
-}
+const getTagLabel = (tag: string) => TAG_LABELS[tag] ?? tag
 
 const formatDate = (value: string) => {
   const parsed = new Date(value)
@@ -53,33 +42,31 @@ const formatDate = (value: string) => {
 
 export default function ChangelogPage() {
   const [query, setQuery] = useState("")
-  const [activeArea, setActiveArea] = useState("All")
+  const [activeTopic, setActiveTopic] = useState("All")
   const [viewMode, setViewMode] = useState<"weekly" | "all">("weekly")
 
-  const areaOptions = useMemo(() => {
-    const areas = new Set<string>()
-    commitLog.forEach((commit) => commit.areas.forEach((area) => areas.add(area)))
-    return ["All", ...Array.from(areas).sort((a, b) => a.localeCompare(b))]
+  const topicOptions = useMemo(() => {
+    const topics = new Set<string>()
+    commitLog.forEach((commit) => commit.tags.forEach((tag) => topics.add(tag)))
+    return ["All", ...Array.from(topics).sort((a, b) => a.localeCompare(b))]
   }, [])
 
   const filteredCommits = useMemo(() => {
     const term = normalizeKey(query)
     return commitLog.filter((commit) => {
-      const matchesArea = activeArea === "All" || commit.areas.includes(activeArea)
-      if (!matchesArea) return false
+      const matchesTopic = activeTopic === "All" || commit.tags.includes(activeTopic)
+      if (!matchesTopic) return false
       if (!term) return true
-      const fileMatch = commit.files.some((file) => normalizeKey(file.path).includes(term))
+      const tagMatch = commit.tags.some((tag) => normalizeKey(getTagLabel(tag)).includes(term))
       return (
-        normalizeKey(commit.subject).includes(term) ||
         normalizeKey(commit.plainSummary).includes(term) ||
         commit.plainNotes.some((note) => normalizeKey(note).includes(term)) ||
         normalizeKey(commit.plainImpact).includes(term) ||
-        normalizeKey(commit.summary).includes(term) ||
         normalizeKey(commit.author).includes(term) ||
-        fileMatch
+        tagMatch
       )
     })
-  }, [query, activeArea])
+  }, [query, activeTopic])
 
   const weeklyDigest = useMemo(() => {
     const getWeekStart = (date: Date) => {
@@ -118,7 +105,7 @@ export default function ChangelogPage() {
           .map(([tag]) => tag)
 
         const focusLabel = focusTags.length
-          ? focusTags.map((tag) => TAG_FOCUS[tag] ?? tag).join(", ")
+          ? focusTags.map((tag) => getTagLabel(tag)).join(", ")
           : "general improvements"
 
         return {
@@ -141,18 +128,17 @@ export default function ChangelogPage() {
         <header className="space-y-3">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
             <FileText className="size-4" />
-            Changelog
+            Updates
           </p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Project Changelog</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Project Updates</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">
-            Demo-only update browser synced from Git history. Use this to see what changed, when it changed, and which files
-            were touched.
+            Demo-only update history. Use this to see what changed and when, in plain English.
           </p>
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <Clock className="size-3" />
-            Last synced: {formatDate(commitLogUpdatedAt)}
+            Last updated: {formatDate(commitLogUpdatedAt)}
             <span>•</span>
-            Total updates: {commitLog.length}
+            {commitLog.length}+ enhancements applied to the app
           </div>
         </header>
 
@@ -165,7 +151,7 @@ export default function ChangelogPage() {
                 <Input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search updates, authors, or files"
+                  placeholder="Search updates or people"
                   className="pl-9"
                 />
               </div>
@@ -179,7 +165,7 @@ export default function ChangelogPage() {
                   viewMode === "weekly" ? "border-accent text-accent" : "border-border text-foreground"
                 }`}
               >
-                Weekly digest
+                Weekly highlights
               </button>
               <button
                 type="button"
@@ -193,24 +179,24 @@ export default function ChangelogPage() {
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <Filter className="size-3" />
-              {areaOptions.map((area) => {
-                const active = area === activeArea
+              {topicOptions.map((topic) => {
+                const active = topic === activeTopic
                 return (
                   <button
-                    key={area}
+                    key={topic}
                     type="button"
-                    onClick={() => setActiveArea(area)}
+                    onClick={() => setActiveTopic(topic)}
                     className={`rounded-full border px-3 py-1 ${
                       active ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
                   >
-                    {area === "All" ? "All areas" : AREA_LABELS[area] ?? area}
+                    {topic === "All" ? "All updates" : getTagLabel(topic)}
                   </button>
                 )
               })}
             </div>
             <p className="text-xs text-muted-foreground">
-              Showing {filteredCommits.length} updates in {viewMode === "weekly" ? `${weeklyDigest.length} weekly digests` : "all updates"}.
+              Showing {filteredCommits.length} updates across {viewMode === "weekly" ? `${weeklyDigest.length} weekly highlights` : "all updates"}.
             </p>
           </CardContent>
         </Card>
@@ -223,14 +209,17 @@ export default function ChangelogPage() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="space-y-1">
                       <p className="text-sm font-semibold text-foreground">{week.weekLabel}</p>
-                      <p className="text-xs text-muted-foreground">Focus: {week.focusLabel}.</p>
+                      <p className="text-xs text-muted-foreground">Main focus: {week.focusLabel}.</p>
                     </div>
                     <Badge variant="outline">{week.commits.length} enhancements</Badge>
                   </div>
                   <div className="space-y-2">
-                    {week.commits.slice(0, 3).map((commit) => (
+                    {week.commits.slice(0, 3).map((commit, idx) => (
                       <div key={commit.hash} className="rounded-md border border-border bg-muted/40 p-3">
-                        <p className="text-sm font-semibold text-foreground">{commit.plainSummary}</p>
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-semibold text-foreground">{commit.plainSummary}</p>
+                          <Badge variant="outline">Update {idx + 1}</Badge>
+                        </div>
                         <p className="text-xs text-muted-foreground">
                           Why it matters: {commit.plainImpact}
                         </p>
@@ -238,11 +227,9 @@ export default function ChangelogPage() {
                     ))}
                   </div>
                   <details className="rounded-md border border-border bg-background p-3">
-                    <summary className="cursor-pointer text-xs font-semibold text-foreground">
-                      View all enhancements this week
-                    </summary>
+                    <summary className="cursor-pointer text-xs font-semibold text-foreground">View all updates this week</summary>
                     <div className="mt-3 space-y-3">
-                      {week.commits.map((commit) => (
+                      {week.commits.map((commit, idx) => (
                         <div key={commit.hash} className="rounded-md border border-border bg-muted/40 p-3 space-y-2">
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <div className="space-y-1">
@@ -258,7 +245,7 @@ export default function ChangelogPage() {
                                 Why it matters: {commit.plainImpact}
                               </p>
                             </div>
-                            <Badge variant="outline">{commit.shortHash}</Badge>
+                            <Badge variant="outline">Update {idx + 1}</Badge>
                           </div>
                           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                             <span>{commit.author}</span>
@@ -268,7 +255,7 @@ export default function ChangelogPage() {
                           <div className="flex flex-wrap gap-2">
                             {commit.tags.map((tag) => (
                               <Badge key={`${commit.hash}-${tag}`} variant="outline">
-                                {tag}
+                                {getTagLabel(tag)}
                               </Badge>
                             ))}
                           </div>
@@ -282,7 +269,7 @@ export default function ChangelogPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredCommits.map((commit) => (
+            {filteredCommits.map((commit, index) => (
               <Card key={commit.hash} className="py-0 gap-0">
                 <CardContent className="p-5 space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-3">
@@ -294,50 +281,43 @@ export default function ChangelogPage() {
                             <li key={`${commit.hash}-${note}`}>{note}</li>
                           ))}
                         </ul>
-                      ) : (
-                        <p className="text-xs text-muted-foreground">{commit.summary}</p>
-                      )}
+                      ) : null}
                       <p className="text-xs text-muted-foreground">
                         Why it matters: {commit.plainImpact}
                       </p>
                     </div>
-                    <Badge variant="outline">{commit.shortHash}</Badge>
+                    <Badge variant="outline">Update {index + 1}</Badge>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <span>{commit.author}</span>
                     <span>•</span>
                     <span>{formatDate(commit.date)}</span>
-                    <span>•</span>
-                    <span>{commit.stats.summary}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {commit.tags.map((tag) => (
                       <Badge key={`${commit.hash}-${tag}`} variant="outline">
-                        {tag}
+                        {getTagLabel(tag)}
                       </Badge>
                     ))}
                   </div>
                   <details className="rounded-md border border-border bg-muted/40 p-3">
-                    <summary className="cursor-pointer text-xs font-semibold text-foreground">Technical details</summary>
+                    <summary className="cursor-pointer text-xs font-semibold text-foreground">More details</summary>
                     <div className="mt-3 space-y-2">
-                      <div className="text-xs text-muted-foreground">
-                      Update: {commit.subject}
-                      </div>
-                      {commit.body ? (
-                        <div className="text-xs text-muted-foreground whitespace-pre-line">{commit.body}</div>
+                      {commit.plainNotes.length ? (
+                        <ul className="text-xs text-muted-foreground list-disc list-inside space-y-1">
+                          {commit.plainNotes.map((note) => (
+                            <li key={`${commit.hash}-${note}`}>{note}</li>
+                          ))}
+                        </ul>
                       ) : null}
-                      <div className="space-y-1">
-                        {commit.notes.map((note, idx) => (
-                          <div key={`${commit.hash}-note-${idx}`} className="text-xs text-muted-foreground">
-                            {note}
-                          </div>
-                        ))}
-                      </div>
-                      <div className="space-y-1">
-                        {commit.files.map((file) => (
-                          <div key={`${commit.hash}-${file.path}`} className="text-xs text-muted-foreground">
-                            {file.additions !== null ? `+${file.additions}` : "+-"} {file.deletions !== null ? `-${file.deletions}` : "-"} {file.path}
-                          </div>
+                      <p className="text-xs text-muted-foreground">
+                        Why it matters: {commit.plainImpact}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {commit.tags.map((tag) => (
+                          <Badge key={`${commit.hash}-detail-${tag}`} variant="outline">
+                            {getTagLabel(tag)}
+                          </Badge>
                         ))}
                       </div>
                     </div>
