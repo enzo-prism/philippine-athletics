@@ -1,4 +1,109 @@
-export type CommitFile = {\n  path: string\n  additions: number | null\n  deletions: number | null\n}\n\nexport type CommitStats = {\n  files: number\n  insertions: number\n  deletions: number\n  summary: string\n}\n\nexport type CommitLogEntry = {\n  hash: string\n  shortHash: string\n  subject: string\n  body?: string\n  author: string\n  date: string\n  stats: CommitStats\n  areas: string[]\n  tags: string[]\n  summary: string\n  notes: string[]\n  plainSummary: string\n  plainNotes: string[]\n  files: CommitFile[]\n}\n\nexport const commitLogUpdatedAt = "2026-02-03T19:07:50.367Z"\n\nexport const commitLog: CommitLogEntry[] = [
+export type CommitFile = {
+  path: string
+  additions: number | null
+  deletions: number | null
+}
+
+export type CommitStats = {
+  files: number
+  insertions: number
+  deletions: number
+  summary: string
+}
+
+export type CommitLogEntry = {
+  hash: string
+  shortHash: string
+  subject: string
+  body?: string
+  author: string
+  date: string
+  stats: CommitStats
+  areas: string[]
+  tags: string[]
+  summary: string
+  notes: string[]
+  plainSummary: string
+  plainNotes: string[]
+  files: CommitFile[]
+}
+
+export const commitLogUpdatedAt = "2026-02-03T19:12:21.366Z"
+
+export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "c2728a416fb10e342ae9b5ec09800316c14081e3",
+    "shortHash": "c2728a4",
+    "subject": "Update changelog documentation",
+    "author": "enzo-prism",
+    "date": "2026-02-03T11:10:31-08:00",
+    "stats": {
+      "files": 6,
+      "insertions": 1034,
+      "deletions": 54,
+      "summary": "6 files changed, 1034 insertions(+), 54 deletions(-)"
+    },
+    "areas": [
+      "other",
+      "app",
+      "docs",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Docs",
+      "Demo Data",
+      "Tooling"
+    ],
+    "summary": "Update changelog documentation. Updated Other files, App pages, Documentation, Data modules, Scripts. 6 files changed, 1034 insertions(+), 54 deletions(-).",
+    "notes": [
+      "Updated app routes or page layouts.",
+      "Adjusted demo data or data relationships.",
+      "Documentation updated for clarity and onboarding.",
+      "Key files touched: lib/data/commit-log.ts, scripts/generate-commit-log.mjs, scripts/generate-commit-log.ts, app/changelog/page.tsx."
+    ],
+    "plainSummary": "Updated changelog viewer, app pages, and documentation.",
+    "plainNotes": [
+      "Updated the demo changelog experience.",
+      "Updated app pages or layouts.",
+      "Updated documentation to keep everyone aligned.",
+      "Refreshed demo data used across the app."
+    ],
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 34,
+        "deletions": 21
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 744,
+        "deletions": 31
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 127,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.ts",
+        "additions": 127,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "5f193fc7815ae018db2ce82e77b217d48a5db473",
     "shortHash": "5f193fc",
@@ -3729,4 +3834,4 @@ export type CommitFile = {\n  path: string\n  additions: number | null\n  deleti
       }
     ]
   }
-]\n
+]

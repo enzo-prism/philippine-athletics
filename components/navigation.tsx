@@ -71,7 +71,7 @@ export function Navigation() {
             href="/"
             className="flex items-center gap-2 group"
           >
-            <div className="w-9 h-9 rounded-none flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
+            <div className="size-9 shrink-0 rounded-lg flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
               <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
             </div>
             <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>

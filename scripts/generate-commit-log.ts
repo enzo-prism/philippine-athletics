@@ -272,7 +272,40 @@ const commits: CommitLogEntry[] = logRaw
     }
   })
 
-const output = `export type CommitFile = {\n  path: string\n  additions: number | null\n  deletions: number | null\n}\n\nexport type CommitStats = {\n  files: number\n  insertions: number\n  deletions: number\n  summary: string\n}\n\nexport type CommitLogEntry = {\n  hash: string\n  shortHash: string\n  subject: string\n  body?: string\n  author: string\n  date: string\n  stats: CommitStats\n  areas: string[]\n  tags: string[]\n  summary: string\n  notes: string[]\n  plainSummary: string\n  plainNotes: string[]\n  files: CommitFile[]\n}\n\nexport const commitLogUpdatedAt = ${JSON.stringify(new Date().toISOString())}\n\nexport const commitLog: CommitLogEntry[] = ${JSON.stringify(commits, null, 2)}\n`
+const output = `export type CommitFile = {
+  path: string
+  additions: number | null
+  deletions: number | null
+}
+
+export type CommitStats = {
+  files: number
+  insertions: number
+  deletions: number
+  summary: string
+}
+
+export type CommitLogEntry = {
+  hash: string
+  shortHash: string
+  subject: string
+  body?: string
+  author: string
+  date: string
+  stats: CommitStats
+  areas: string[]
+  tags: string[]
+  summary: string
+  notes: string[]
+  plainSummary: string
+  plainNotes: string[]
+  files: CommitFile[]
+}
+
+export const commitLogUpdatedAt = ${JSON.stringify(new Date().toISOString())}
+
+export const commitLog: CommitLogEntry[] = ${JSON.stringify(commits, null, 2)}
+`
 
 const outputPath = resolve("lib/data/commit-log.ts")
 writeFileSync(outputPath, output, "utf8")
