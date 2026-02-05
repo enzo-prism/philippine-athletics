@@ -37,7 +37,7 @@ export default function RecognitionPage() {
           </CardContent>
         </Card>
 
-        <section className="space-y-4">
+        <section className="space-y-4" data-testid="recognized-clubs">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">Recognized Clubs</h2>
             <span className="text-xs text-muted-foreground">{recognizedClubs.length} total</span>
@@ -74,7 +74,7 @@ export default function RecognitionPage() {
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-4" data-testid="recognized-coaches">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">Recognized Coaches</h2>
             <span className="text-xs text-muted-foreground">{recognizedCoaches.length} total</span>

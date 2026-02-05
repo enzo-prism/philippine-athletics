@@ -12,6 +12,24 @@ import { getRankingEvents } from "@/lib/data/rankings"
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
+      <section className="w-full border-b border-[#123a57] bg-[#0b2a45] py-2 sm:py-3">
+        <div className="page-shell flex flex-col items-center gap-3 md:flex-row md:gap-4">
+          <div className="w-full flex-1">
+            <div className="flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 shadow-soft">
+              <img
+                src="https://cdnweb.ictsi.com/users/user56/ICTSI%20Foundation%20unveils%20a%20fresh%20identity%20with%20new%20logo.jpg"
+                alt="ICTSI Foundation"
+                className="max-h-16 w-auto object-contain sm:max-h-20"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          </div>
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:text-sm">
+            Discover &rarr;
+          </div>
+        </div>
+      </section>
       <Navigation />
 
       {/* Hero Section */}

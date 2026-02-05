@@ -1090,20 +1090,20 @@ export default function DataPortalPage() {
         </Card>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="upload">
+          <TabsList data-testid="intake-tabs">
+            <TabsTrigger value="upload" data-testid="intake-tab-upload">
               <UploadCloud className="size-4" />
               Upload
             </TabsTrigger>
-            <TabsTrigger value="map" disabled={!canMap}>
+            <TabsTrigger value="map" disabled={!canMap} data-testid="intake-tab-map">
               <Clipboard className="size-4" />
               Map fields
             </TabsTrigger>
-            <TabsTrigger value="validate" disabled={!canValidate}>
+            <TabsTrigger value="validate" disabled={!canValidate} data-testid="intake-tab-validate">
               <CheckCircle2 className="size-4" />
               Validate
             </TabsTrigger>
-            <TabsTrigger value="review" disabled={!canValidate}>
+            <TabsTrigger value="review" disabled={!canValidate} data-testid="intake-tab-review">
               <FileText className="size-4" />
               Review
             </TabsTrigger>
@@ -1117,6 +1117,7 @@ export default function DataPortalPage() {
                   <Input
                     type="file"
                     accept=".csv,.tsv,text/csv,text/tab-separated-values"
+                    data-testid="results-upload-input"
                     onChange={(event) => {
                       const file = event.target.files?.[0]
                       if (file) handleFile(file)
@@ -1130,11 +1131,12 @@ export default function DataPortalPage() {
                   <textarea
                     className="min-h-[180px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                     placeholder="Paste CSV or TSV data here"
+                    data-testid="results-paste-input"
                     value={rawText}
                     onChange={(event) => setRawText(event.target.value)}
                   />
                   <div className="flex flex-wrap gap-2">
-                    <Button type="button" variant="outline" onClick={() => parseInput(rawText)}>
+                    <Button type="button" variant="outline" onClick={() => parseInput(rawText)} data-testid="results-parse">
                       Parse
                     </Button>
                     <Button
@@ -1145,6 +1147,7 @@ export default function DataPortalPage() {
                         setFileName(null)
                         parseInput(SAMPLE_CSV)
                       }}
+                      data-testid="results-sample"
                     >
                       Use sample data
                     </Button>
@@ -1175,6 +1178,7 @@ export default function DataPortalPage() {
                       <select
                         className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
                         value={mapping[field.key]}
+                        data-testid={`map-field-${field.key}`}
                         onChange={(event) =>
                           setMapping((prev) => ({
                             ...prev,
@@ -1193,7 +1197,7 @@ export default function DataPortalPage() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Button type="button" onClick={() => setActiveTab("validate")}>
+                  <Button type="button" onClick={() => setActiveTab("validate")} data-testid="map-validate">
                     Validate
                   </Button>
                   <Button type="button" variant="outline" onClick={() => setActiveTab("upload")}>
@@ -1237,7 +1241,7 @@ export default function DataPortalPage() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button type="button" onClick={() => setActiveTab("review")} disabled={!canReview}>
+                  <Button type="button" onClick={() => setActiveTab("review")} disabled={!canReview} data-testid="validate-review">
                     Continue to review
                   </Button>
                   <Button type="button" variant="outline" onClick={() => setActiveTab("map")}>
@@ -1270,6 +1274,7 @@ export default function DataPortalPage() {
                       <Label className="text-xs font-semibold uppercase">{field.label}</Label>
                       <Input
                         value={meta[field.key as keyof CompetitionMeta] as string}
+                        data-testid={`meta-${field.key}`}
                         onChange={(event) =>
                           setMeta((prev) => ({
                             ...prev,
@@ -1284,6 +1289,7 @@ export default function DataPortalPage() {
                     <select
                       className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
                       value={meta.status}
+                      data-testid="meta-status"
                       onChange={(event) =>
                         setMeta((prev) => ({
                           ...prev,
@@ -1300,6 +1306,7 @@ export default function DataPortalPage() {
                     <select
                       className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
                       value={meta.source}
+                      data-testid="meta-source"
                       onChange={(event) =>
                         setMeta((prev) => ({
                           ...prev,
@@ -1336,7 +1343,7 @@ export default function DataPortalPage() {
                   </div>
                 </div>
                 <Separator />
-                <div className="space-y-4">
+                <div className="space-y-4" data-testid="impact-preview">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-semibold text-foreground">Impact preview</p>
                     <Badge variant="outline">Year {impactPreview.year}</Badge>
@@ -1759,7 +1766,7 @@ export default function DataPortalPage() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button type="button" onClick={handleSubmit} disabled={!canPublish}>
+                  <Button type="button" onClick={handleSubmit} disabled={!canPublish} data-testid="review-submit">
                     {role === "certified" ? "Publish to demo" : "Submit for review"}
                   </Button>
                   <Button type="button" variant="outline" onClick={() => setActiveTab("validate")}>
@@ -1776,7 +1783,7 @@ export default function DataPortalPage() {
           </TabsContent>
         </Tabs>
 
-        <section className="space-y-4">
+        <section className="space-y-4" data-testid="submission-log">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-foreground">Submission log</h2>
             <Badge variant="outline">{submissions.length} total</Badge>

@@ -132,6 +132,7 @@ export default function SearchPage({
                 defaultValue={query}
                 placeholder="Search by name"
                 className="rounded-full pl-9"
+                data-testid="search-input"
               />
             </div>
             <Button type="submit" className="rounded-full">
@@ -164,7 +165,7 @@ export default function SearchPage({
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-8" data-testid="search-results">
             {topResult ? (
               <Card className="py-0 gap-0 border-accent/40 bg-accent/5">
                 <CardContent className="p-5 space-y-3">

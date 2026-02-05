@@ -110,6 +110,7 @@ export default async function CompetitionProfilePage({
                     className={`rounded-full border px-3 py-1 ${
                       !normalizedSelected ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
+                    data-testid="competition-event-filter"
                   >
                     All events
                   </Link>
@@ -122,12 +123,13 @@ export default async function CompetitionProfilePage({
                           ? "border-accent text-accent"
                           : "border-border text-foreground"
                       }`}
+                      data-testid="competition-event-filter"
                     >
                       {eventBlock.event}
                     </Link>
                   ))}
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4" data-testid="competition-results">
                   {filteredResults.map((eventBlock) => (
                     <div key={eventBlock.event} className="p-4 rounded-lg border border-border bg-card space-y-3">
                       <div className="flex items-center justify-between">
@@ -182,6 +184,7 @@ export default async function CompetitionProfilePage({
                               key={`${entry.athleteName}-${idx}`}
                               href={href}
                               className="block rounded-md border border-border bg-background px-3 py-2 hover:border-accent transition-colors"
+                              data-testid="competition-result-entry"
                             >
                               {content}
                             </Link>
@@ -189,6 +192,7 @@ export default async function CompetitionProfilePage({
                             <div
                               key={`${entry.athleteName}-${idx}`}
                               className="rounded-md border border-border bg-background px-3 py-2"
+                              data-testid="competition-result-entry"
                             >
                               {content}
                             </div>

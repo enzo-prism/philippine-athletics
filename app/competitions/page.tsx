@@ -61,6 +61,7 @@ export default function CompetitionsPage({
                         ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90"
                         : "hover:bg-muted hover:text-foreground"
                     }`}
+                    data-testid={`competition-filter-${status.toLowerCase()}`}
                   >
                     <Link href={href}>{status}</Link>
                   </Button>
@@ -70,10 +71,10 @@ export default function CompetitionsPage({
           </CardContent>
         </Card>
 
-        <div className="space-y-3">
+        <div className="space-y-3" data-testid="competition-list">
           {filtered.map((comp) => (
             <Link key={comp.id} href={`/competitions/${comp.slug}`} className="block">
-              <Card className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors">
+              <Card className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors" data-testid="competition-item">
                 <CardContent className="p-4">
                   <p className="text-sm font-semibold text-foreground">{comp.name}</p>
                   <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>

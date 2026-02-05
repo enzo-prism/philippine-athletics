@@ -97,7 +97,7 @@ export default function RankingsPage({
             <form method="get" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-foreground uppercase">Event</label>
-                <select name="event" defaultValue={selectedEvent} className={selectClassName}>
+                <select name="event" defaultValue={selectedEvent} className={selectClassName} data-testid="rankings-filter-event">
                   {eventOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -108,7 +108,7 @@ export default function RankingsPage({
 
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-foreground uppercase">Gender</label>
-                <select name="gender" defaultValue={selectedGender} className={selectClassName}>
+                <select name="gender" defaultValue={selectedGender} className={selectClassName} data-testid="rankings-filter-gender">
                   {genderOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -119,7 +119,7 @@ export default function RankingsPage({
 
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-foreground uppercase">Age group</label>
-                <select name="ageGroup" defaultValue={selectedAgeGroup} className={selectClassName}>
+                <select name="ageGroup" defaultValue={selectedAgeGroup} className={selectClassName} data-testid="rankings-filter-age">
                   {ageGroupOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -130,7 +130,7 @@ export default function RankingsPage({
 
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-foreground uppercase">Year</label>
-                <select name="year" defaultValue={String(selectedYear)} className={selectClassName}>
+                <select name="year" defaultValue={String(selectedYear)} className={selectClassName} data-testid="rankings-filter-year">
                   {yearOptions.map((year) => (
                     <option key={year} value={String(year)}>
                       {year}
@@ -145,6 +145,7 @@ export default function RankingsPage({
                 <button
                   type="submit"
                   className="h-9 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
+                  data-testid="rankings-apply"
                 >
                   Apply filters
                 </button>
@@ -168,7 +169,7 @@ export default function RankingsPage({
           </Card>
         ) : (
           <div className="space-y-6">
-            <Card className="py-0 gap-0">
+            <Card className="py-0 gap-0" data-testid="rankings-top-three">
               <CardContent className="p-5 space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-foreground">Top 3</p>
@@ -209,7 +210,7 @@ export default function RankingsPage({
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="rankings-list">
               {rankings.map((entry) => {
                 const isHighlighted = highlightId && entry.name.toLowerCase() === highlightId.toLowerCase()
                 return (
@@ -222,6 +223,7 @@ export default function RankingsPage({
                       className={`py-0 gap-0 transition-colors hover:border-accent ${
                         isHighlighted ? "border-accent ring-2 ring-accent/30" : ""
                       }`}
+                      data-testid="rankings-row"
                     >
                       <CardContent className="p-4 space-y-3">
                         <div className="flex items-center justify-between gap-3">

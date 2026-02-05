@@ -55,6 +55,7 @@ export function GlobalSearchForm({
         <Input
           id={inputId}
           type="search"
+          data-testid="global-search-input"
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder="Search athletes, coaches, clubs..."
@@ -72,6 +73,7 @@ export function GlobalSearchForm({
           buttonClassName,
         )}
         aria-label="Run search"
+        data-testid="global-search-submit"
       >
         {isCompact ? <Search className="size-4" aria-hidden="true" /> : actionLabel}
       </Button>

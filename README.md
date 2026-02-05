@@ -43,6 +43,18 @@ Run it after major UI changes:
 Update snapshots when intentional design changes land:
 1. `pnpm test:design:update`
 
+## Flow tests (E2E)
+
+Flow tests cover the core demo journeys and UX validation steps using Playwright.
+
+Quick commands:
+1. `pnpm test:flows` — fast desktop smoke for key flows
+2. `pnpm test:flows:full` — desktop + tablet + mobile
+3. `pnpm test:flows:ui` — interactive UI mode
+4. `pnpm test:flows:codegen` — record new flows
+
+See `docs/TESTING.md` for details and troubleshooting.
+
 ## Deployment
 
 Your project is live at:

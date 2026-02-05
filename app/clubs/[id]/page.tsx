@@ -188,7 +188,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         {roster && roster.length ? (
-          <div className="space-y-3" id="roster">
+          <div className="space-y-3" id="roster" data-testid="club-roster">
             <h2 className="text-lg font-semibold text-foreground">Roster</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {roster.map((athlete) => {
@@ -196,7 +196,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                 const primaryEvent = athlete.events?.[0] || athlete.specialty
                 const pbLabel = athlete.pb ? `PB: ${athlete.pb}` : null
                 const content = (
-                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors">
+                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-roster-item">
                     <Avatar name={athlete.name} size="md" />
                     <div className="space-y-0.5">
                       <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
@@ -219,13 +219,13 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         {staff && staff.length ? (
-          <div className="space-y-2" id="coaches">
+          <div className="space-y-2" id="coaches" data-testid="club-coaches">
             <h2 className="text-lg font-semibold text-foreground">Coaching Roster</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {staff.map((coach) => {
                 const href = coach.id ? `/coaches/${coach.id}` : undefined
                 const inner = (
-                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors">
+                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-coach-item">
                     <Avatar name={coach.name} size="sm" />
                     <span className="text-sm text-foreground">{coach.name}</span>
                   </div>
