@@ -8,6 +8,12 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-05 — Membership + sponsor experience refresh
+- Reworked the homepage branding strip, sponsor banner, and membership section to spotlight PATAFA messaging, tiers, and featured athlete callouts for the sponsorship story.
+- Added membership-specific copy, CTAs, and badge previews (member + member club) alongside coach-submitted logo placeholders for the demo.
+- Added a sanctioned events calendar preview on the homepage plus a dedicated events page to mirror a Sport:80 widget layout.
+- Expanded the footer with official sponsor, supplier, technology partner, and medical network partner groupings aligned to the demo sponsor roster.
+
 ## 2026-02-03 — Results intake portal (demo)
 - Added a front-end Results Intake portal with upload, field mapping, validation, and review flows to demonstrate how certified staff can submit official meet data.
 - Implemented CSV/TSV parsing with header auto-mapping, validation rules, and warnings for missing wind data or unknown athletes.

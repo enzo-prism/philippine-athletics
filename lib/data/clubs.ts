@@ -58,10 +58,11 @@ export const clubs: Club[] = [
       "Regular host of weekend sprint and relay clinics for high school teams",
     ],
     isRecognized: true,
-    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitions: ["PA Recognized Club", "SafeSport Compliant", "Member Club Badge"],
     recognitionDetails: [
       { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
       { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+      { label: "Member Club Badge", issuer: "Philippine Athletics" },
     ],
     safety: ["Youth safeguarding policy on file", "Background-checked coaching staff"],
     contact: {
@@ -105,10 +106,11 @@ export const clubs: Club[] = [
       "Hosts an annual 5K road race and time trial series for youth runners",
     ],
     isRecognized: true,
-    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitions: ["PA Recognized Club", "SafeSport Compliant", "Member Club Badge"],
     recognitionDetails: [
       { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
       { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+      { label: "Member Club Badge", issuer: "Philippine Athletics" },
     ],
     safety: ["Medical emergency plan on file", "SafeSport-trained staff"],
     contact: {
@@ -153,10 +155,11 @@ export const clubs: Club[] = [
       "Partner club for LGU-led grassroots athletics festivals in Davao City",
     ],
     isRecognized: true,
-    recognitions: ["PA Recognized Club", "SafeSport Compliant"],
+    recognitions: ["PA Recognized Club", "SafeSport Compliant", "Member Club Badge"],
     recognitionDetails: [
       { label: "PA Recognized Club", issuer: "Philippine Athletics", validThrough: "Dec 2026" },
       { label: "SafeSport Compliant", issuer: "SafeSport Philippines", validThrough: "Jun 2026" },
+      { label: "Member Club Badge", issuer: "Philippine Athletics" },
     ],
     safety: ["Facility safety checklist maintained", "Youth safeguarding policy on file"],
     contact: {
