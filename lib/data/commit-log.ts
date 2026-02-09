@@ -29,9 +29,576 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-03T20:07:19.251Z"
+export const commitLogUpdatedAt = "2026-02-09T05:32:42.164Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "6a1a0d876c1bebcae6a16593e8a7ac21c38e16fe",
+    "shortHash": "6a1a0d8",
+    "subject": "Merge pull request #2 from enzo-prism/codex/implement-web-app-updates-from-spec-uxn2b2",
+    "body": "feat: membership & sponsor refresh, events page, badge and data updates",
+    "author": "enzo",
+    "date": "2026-02-08T19:22:38-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 4,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "other"
+    ],
+    "tags": [],
+    "summary": "Updated General updates.",
+    "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 4,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "a104bf05f68a10048391d113fe7447ee2cdf8f41",
+    "shortHash": "a104bf0",
+    "subject": "Merge branch 'main' into codex/implement-web-app-updates-from-spec-uxn2b2",
+    "author": "enzo",
+    "date": "2026-02-08T19:22:05-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 3,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "other"
+    ],
+    "tags": [],
+    "summary": "Updated General updates.",
+    "notes": [],
+    "plainSummary": "Updated the app.",
+    "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 3,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "2109f8a61b478092277b74f5a88b5b2a3a5d9e61",
+    "shortHash": "2109f8a",
+    "subject": "docs: expand changelog entry",
+    "author": "enzo",
+    "date": "2026-02-08T19:20:37-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 366,
+      "deletions": 96,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Navigation",
+      "Demo Data"
+    ],
+    "summary": "Updated General updates, Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated core screens, shared interface pieces, and navigation.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Made navigation easier to follow.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Improves discoverability of key areas. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 78,
+        "deletions": 0
+      },
+      {
+        "path": "app/{how-it-works => membership}/page.tsx",
+        "additions": 14,
+        "deletions": 12
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 221,
+        "deletions": 54
+      },
+      {
+        "path": "components/badge.tsx",
+        "additions": 19,
+        "deletions": 13
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 17,
+        "deletions": 9
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 6,
+        "deletions": 3
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 5,
+        "deletions": 5
+      }
+    ]
+  },
+  {
+    "hash": "f1de1608c31e08679c57cf9846e46e6f54605556",
+    "shortHash": "f1de160",
+    "subject": "Merge pull request #1 from enzo-prism/codex/implement-web-app-updates-from-spec",
+    "body": "Codex-generated pull request",
+    "author": "enzo",
+    "date": "2026-02-08T19:09:04-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 365,
+      "deletions": 96,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Navigation",
+      "Demo Data"
+    ],
+    "summary": "Updated General updates, Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated core screens, shared interface pieces, and navigation.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Made navigation easier to follow.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Improves discoverability of key areas. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 78,
+        "deletions": 0
+      },
+      {
+        "path": "app/{how-it-works => membership}/page.tsx",
+        "additions": 14,
+        "deletions": 12
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 221,
+        "deletions": 54
+      },
+      {
+        "path": "components/badge.tsx",
+        "additions": 19,
+        "deletions": 13
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 17,
+        "deletions": 9
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 6,
+        "deletions": 3
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 5,
+        "deletions": 5
+      }
+    ]
+  },
+  {
+    "hash": "6976ed5e101745882cd6c7cc93ba162d482b6763",
+    "shortHash": "6976ed5",
+    "subject": "feat: refresh membership and sponsors",
+    "author": "enzo",
+    "date": "2026-02-08T19:08:14-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 365,
+      "deletions": 96,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Navigation",
+      "Demo Data"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added core screens, shared interface pieces, and navigation.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Made navigation easier to follow.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Improves discoverability of key areas. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 78,
+        "deletions": 0
+      },
+      {
+        "path": "app/{how-it-works => membership}/page.tsx",
+        "additions": 14,
+        "deletions": 12
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 221,
+        "deletions": 54
+      },
+      {
+        "path": "components/badge.tsx",
+        "additions": 19,
+        "deletions": 13
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 17,
+        "deletions": 9
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 6,
+        "deletions": 3
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 5,
+        "deletions": 5
+      }
+    ]
+  },
+  {
+    "hash": "b40474792cb08f59e2e37bb493406e36c6761f60",
+    "shortHash": "b404747",
+    "subject": "Add ICTSI Foundation banner",
+    "author": "enzo-prism",
+    "date": "2026-02-05T08:06:38-08:00",
+    "stats": {
+      "files": 23,
+      "insertions": 374,
+      "deletions": 27,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "docs",
+      "scripts"
+    ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Competitions",
+      "Results Intake",
+      "Rankings",
+      "Recognition",
+      "Search",
+      "Components",
+      "Docs",
+      "Config",
+      "Tooling"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Guides & notes, Tools.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Updated guides so everyone stays aligned."
+    ],
+    "plainSummary": "Added club pages, core screens, and meet results.",
+    "plainNotes": [
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Highlighted meet results and how to explore them.",
+      "Refined the result submission and preview flow."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "README.md",
+        "additions": 12,
+        "deletions": 0
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 5,
+        "deletions": 1
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "path": "app/data-portal/page.tsx",
+        "additions": 18,
+        "deletions": 11
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 8,
+        "deletions": 6
+      },
+      {
+        "path": "app/recognition/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "components/global-search.tsx",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "docs/TESTING.md",
+        "additions": 48,
+        "deletions": 0
+      },
+      {
+        "path": "package.json",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "playwright.config.ts",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "additions": 19,
+        "deletions": 0
+      },
+      {
+        "path": "scripts/test-flows.sh",
+        "additions": 31,
+        "deletions": 0
+      },
+      {
+        "path": "tests/fixtures/results-intake.csv",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/a11y.ts",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-athlete-search.spec.ts",
+        "additions": 30,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-clubs.spec.ts",
+        "additions": 24,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-competitions.spec.ts",
+        "additions": 33,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-data-portal.spec.ts",
+        "additions": 41,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-rankings.spec.ts",
+        "additions": 28,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-recognition.spec.ts",
+        "additions": 19,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "010846b7292b255ab34d642187c8ec4f3ff3c2a5",
+    "shortHash": "010846b",
+    "subject": "Simplify changelog language",
+    "author": "enzo-prism",
+    "date": "2026-02-03T13:48:20-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 45,
+      "deletions": 5,
+      "summary": ""
+    },
+    "areas": [
+      "other"
+    ],
+    "tags": [
+      "Config"
+    ],
+    "summary": "Updated General updates.",
+    "notes": [],
+    "plainSummary": "Updated app setup.",
+    "plainNotes": [
+      "Kept the app setup reliable and current."
+    ],
+    "plainImpact": "Keeps the app stable and reliable.",
+    "files": [
+      {
+        "path": "pnpm-lock.yaml",
+        "additions": 45,
+        "deletions": 5
+      }
+    ]
+  },
+  {
+    "hash": "61c9601e070618c11d9d1d32f7d207dec580838e",
+    "shortHash": "61c9601",
+    "subject": "Simplify changelog language",
+    "author": "enzo-prism",
+    "date": "2026-02-03T12:47:48-08:00",
+    "stats": {
+      "files": 5,
+      "insertions": 786,
+      "deletions": 774,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Navigation",
+      "Demo Data",
+      "Tooling"
+    ],
+    "summary": "Updated Core screens, Shared interface, Sample data, Tools.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline, core screens, and navigation.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Made navigation easier to follow.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Improves discoverability of key areas.",
+    "files": [
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 74,
+        "deletions": 94
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 585,
+        "deletions": 537
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 61,
+        "deletions": 71
+      },
+      {
+        "path": "scripts/generate-commit-log.ts",
+        "additions": 65,
+        "deletions": 71
+      }
+    ]
+  },
   {
     "hash": "8af8c8244d2f4366a9fa2e317d9b37af262724c2",
     "shortHash": "8af8c82",
