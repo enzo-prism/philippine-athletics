@@ -13,9 +13,6 @@ Template (copy/paste for new entries):
 - Added membership-specific copy, CTAs, and badge previews (member + member club) alongside coach-submitted logo placeholders for the demo.
 - Added a sanctioned events calendar preview on the homepage plus a dedicated events page to mirror a Sport:80 widget layout.
 - Expanded the footer with official sponsor, supplier, technology partner, and medical network partner groupings aligned to the demo sponsor roster.
-- Reworked the homepage branding, sponsor banner, and membership section to spotlight PATAFA messaging and membership tiers.
-- Added a sanctioned events calendar preview plus a dedicated events page for sanctioned meet listings.
-- Expanded the homepage footer with sponsor/supplier/partner groupings and membership badge coverage.
 
 ## 2026-02-03 — Results intake portal (demo)
 - Added a front-end Results Intake portal with upload, field mapping, validation, and review flows to demonstrate how certified staff can submit official meet data.
