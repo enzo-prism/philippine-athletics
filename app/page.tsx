@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Badge } from "@/components/badge"
 import { Navigation } from "@/components/navigation"
 import { GlobalSearchForm } from "@/components/global-search"
 import { Button } from "@/components/ui/button"
@@ -9,21 +10,77 @@ import { clubs } from "@/lib/data/clubs"
 import { competitions } from "@/lib/data/competitions"
 import { getRankingEvents } from "@/lib/data/rankings"
 
+const brandingLogos = [
+  { label: "PATAFA", subLabel: "Philippine Athletics Association" },
+  { label: "Philippine Athletics", subLabel: "National Federation" },
+  { label: "Philippines", subLabel: "🇵🇭 Official Flag" },
+  { label: "Track & Field", subLabel: "Grassroots Program" },
+]
+
+const membershipTiers = [
+  {
+    title: "Community Member",
+    price: "$10",
+    description: "Support local clubs, grassroots meets, and youth development programs.",
+  },
+  {
+    title: "Competitive Member",
+    price: "$20",
+    description: "Access sanctioned event listings, rankings, and member badge verification.",
+  },
+  {
+    title: "Elite Supporter",
+    price: "$50",
+    description: "Fuel Olympic pathways with priority program updates and volunteer access.",
+  },
+]
+
+const sanctionedEvents = [
+  {
+    name: "Philippine National Open Championships",
+    date: "Apr 24–27, 2026",
+    location: "Pasig City, NCR",
+    status: "Sanctioned",
+  },
+  {
+    name: "PATAFA Youth Relay Festival",
+    date: "May 18, 2026",
+    location: "Cebu City, Central Visayas",
+    status: "Sanctioned",
+  },
+  {
+    name: "Mindanao Throws & Jumps Series",
+    date: "Jun 8, 2026",
+    location: "Davao City, Davao Region",
+    status: "Permit Pending",
+  },
+]
+
+const coachLogos = ["Sprint Academy", "Distance Project", "Field & Jumps", "Relay Lab"]
+
+const footerSponsors = {
+  sponsors: ["Ayala", "MILO", "Philippine Airlines", "ICTSI", "AIA Philippines"],
+  suppliers: ["ASICS Philippines", "Manila Water", "CEL Logistics"],
+  technology: ["GoTyme Bank", "Sport:80"],
+  medical: ["Ajinomoto Philippines"],
+}
+
 export default function Home() {
+  const featuredAthletes = athleteSummaries.slice(0, 3)
   return (
     <div className="min-h-screen bg-background">
       <section className="w-full border-b border-[#123a57] bg-[#0b2a45] py-2 sm:py-3">
-        <div className="page-shell flex flex-col items-center gap-3 md:flex-row md:gap-4">
-          <div className="w-full flex-1">
-            <div className="flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 shadow-soft">
-              <img
-                src="https://cdnweb.ictsi.com/users/user56/ICTSI%20Foundation%20unveils%20a%20fresh%20identity%20with%20new%20logo.jpg"
-                alt="ICTSI Foundation"
-                className="max-h-16 w-auto object-contain sm:max-h-20"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
+        <div className="page-shell flex flex-col items-center gap-3 md:flex-row md:gap-4 md:justify-between">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {brandingLogos.map((logo) => (
+              <div
+                key={logo.label}
+                className="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-center text-white shadow-soft backdrop-blur"
+              >
+                <p className="text-sm font-semibold">{logo.label}</p>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/70">{logo.subLabel}</p>
+              </div>
+            ))}
           </div>
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:text-sm">
             Discover &rarr;
@@ -31,6 +88,41 @@ export default function Home() {
         </div>
       </section>
       <Navigation />
+
+      <section className="page-shell py-8 sm:py-10">
+        <div className="rounded-3xl border border-[#ead9b5] bg-[linear-gradient(120deg,#fff7e6,#ffffff,#f3f9ff)] p-6 shadow-soft">
+          <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+            <div className="space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b86b00]">Official Sponsor</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
+                Ayala Corporation backs the next generation of Philippine track &amp; field.
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Featuring standout athletes powered by grassroots programs, elite coaches, and community volunteers.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs font-semibold">
+                <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-amber-700">Ayala Sponsor Banner</span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-slate-600">PATAFA Featured Athletes</span>
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {featuredAthletes.map((athlete) => (
+                <div
+                  key={athlete.id}
+                  className="rounded-2xl border border-border bg-white p-4 shadow-sm transition-transform hover:-translate-y-1"
+                >
+                  <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
+                  <p className="text-xs text-muted-foreground">{athlete.specialty}</p>
+                  <p className="text-xs text-muted-foreground mt-2">{athlete.club}</p>
+                  {athlete.pb ? (
+                    <p className="text-xs font-semibold text-accent mt-2">PB {athlete.pb}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Hero Section */}
       <section className="page-shell py-12 sm:py-16 lg:py-20">
@@ -90,55 +182,76 @@ export default function Home() {
         </div>
 
         <Card className="rounded-2xl shadow-soft py-0 gap-0">
-          <CardContent className="p-6 sm:p-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 border border-accent/30 text-lg font-bold text-accent">
-                ?
-              </span>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground">How to get started</h3>
-              </div>
+          <CardContent className="p-6 sm:p-8 space-y-6">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Membership</p>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground">MEMBERSHIP</h3>
+              <p className="text-sm text-muted-foreground italic">Welcome To The Sport, The Team, The Journey</p>
             </div>
+            <p className="text-sm text-muted-foreground">
+              Philippine Athletics unites athletes, coaches, event directors, community leaders, officials, volunteers, and fans into
+              one national movement that champions safe, competitive, and inspiring track &amp; field experiences.
+            </p>
             <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                {
-                  title: "Sign up",
-                  body: "Create your profile so coaches and clubs know who you are.",
-                  href: "/signup",
-                  cta: "Go to signup",
-                },
-                {
-                  title: "Search nearby",
-                  body: "Browse verified coaches or clubs in your area by specialty.",
-                  href: "/clubs",
-                  cta: "Browse clubs",
-                },
-                {
-                  title: "Contact to start",
-                  body: "Message the coach or club admin to begin your training plan.",
-                  href: "/coaches",
-                  cta: "Find a coach",
-                },
-              ].map((step, idx) => (
-                <Link key={step.title} href={step.href} className="block">
-                  <Card className="py-0 gap-0 shadow-none bg-muted/40 hover:bg-accent/10 transition-colors">
-                    <CardContent className="p-4 space-y-2">
-                      <div className="flex items-center gap-2 text-accent font-semibold">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-accent/10 border border-accent/30 text-sm">
-                          {idx + 1}
-                        </span>
-                        <span>{step.title}</span>
-                      </div>
-                      <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
-                      <p className="text-xs font-semibold text-accent">{step.cta} →</p>
-                    </CardContent>
-                  </Card>
-                </Link>
+              {membershipTiers.map((tier) => (
+                <Card key={tier.title} className="py-0 gap-0 shadow-none bg-muted/40">
+                  <CardContent className="p-4 space-y-2">
+                    <p className="text-xs font-semibold uppercase text-accent">{tier.title}</p>
+                    <p className="text-2xl font-bold text-foreground">{tier.price}</p>
+                    <p className="text-xs text-muted-foreground">{tier.description}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-            <Button asChild className="w-full sm:w-auto rounded-full">
-              <Link href="/how-it-works">Learn more</Link>
-            </Button>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-accent">
+              <Badge text="Member Badge" variant="accent" className="uppercase tracking-wide rounded-md" />
+              <Badge text="Member Club Badge" variant="accent" className="uppercase tracking-wide rounded-md" />
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground">
+              {coachLogos.map((logo) => (
+                <span key={logo} className="rounded-full border border-border bg-white px-3 py-1">
+                  {logo} Logo
+                </span>
+              ))}
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <Button asChild className="w-full sm:w-auto rounded-full">
+                <Link href="/membership">Join Team PATAFA Today By Becoming A Member</Link>
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Support the team, compete locally, and chase Olympic dreams.{" "}
+                <Link href="/membership" className="text-accent font-semibold">
+                  Click here to learn more
+                </Link>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="rounded-2xl shadow-soft py-0 gap-0">
+          <CardContent className="p-6 sm:p-8 space-y-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sanctioned events</p>
+                <h3 className="text-2xl font-bold text-foreground">Sanctioned Events Calendar</h3>
+              </div>
+              <Button asChild variant="outline" className="rounded-full">
+                <Link href="/events">View full calendar</Link>
+              </Button>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {sanctionedEvents.map((event) => (
+                <Card key={event.name} className="py-0 gap-0 shadow-none bg-muted/40">
+                  <CardContent className="p-4 space-y-2">
+                    <p className="text-sm font-semibold text-foreground">{event.name}</p>
+                    <p className="text-xs text-muted-foreground">{event.date}</p>
+                    <p className="text-xs text-muted-foreground">{event.location}</p>
+                    <span className="inline-flex w-fit rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
+                      {event.status}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -146,7 +259,61 @@ export default function Home() {
       {/* Footer */}
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics. Track and field community.</p>
+          <div className="grid gap-8 lg:grid-cols-4">
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-foreground">Official Sponsors</h4>
+              <div className="grid gap-2">
+                {footerSponsors.sponsors.map((brand) => (
+                  <div
+                    key={brand}
+                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
+                  >
+                    {brand}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-foreground">Official Suppliers</h4>
+              <div className="grid gap-2">
+                {footerSponsors.suppliers.map((brand) => (
+                  <div
+                    key={brand}
+                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
+                  >
+                    {brand}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-foreground">Official Technology Partners</h4>
+              <div className="grid gap-2">
+                {footerSponsors.technology.map((brand) => (
+                  <div
+                    key={brand}
+                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
+                  >
+                    {brand}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-foreground">Official Medical Network Partner</h4>
+              <div className="grid gap-2">
+                {footerSponsors.medical.map((brand) => (
+                  <div
+                    key={brand}
+                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
+                  >
+                    {brand}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground mt-8">&copy; 2025 Philippine Athletics. Track and field community.</p>
         </div>
       </div>
     </div>

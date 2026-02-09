@@ -1,19 +1,21 @@
 import { cn } from "@/lib/utils"
 import { Badge as UiBadge } from "@/components/ui/badge"
-import { 
-  Globe, 
-  Award, 
-  ShieldCheck, 
-  Users, 
-  Dumbbell, 
-  Timer, 
-  Mountain, 
-  Target, 
-  Flag, 
-  Zap, 
-  HeartPulse, 
+import {
+  Award,
+  Building2,
+  Flag,
+  Globe,
+  HeartPulse,
+  LucideIcon,
   Medal,
-  LucideIcon
+  Mountain,
+  ShieldCheck,
+  Target,
+  Timer,
+  UserCheck,
+  Users,
+  Zap,
+  Dumbbell,
 } from "lucide-react"
 
 interface BadgeProps {
@@ -44,6 +46,10 @@ const badgeIcons: Record<string, LucideIcon> = {
   "National Partner": Flag,
   "Performance Nutrition": Zap,
   "Recovery Partner": HeartPulse,
+
+  // Membership badges
+  "Member Badge": UserCheck,
+  "Member Club Badge": Building2,
 }
 
 const DefaultIcon = Medal

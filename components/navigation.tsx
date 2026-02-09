@@ -67,15 +67,23 @@ export function Navigation() {
     <>
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="page-shell py-3 flex items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="flex items-center gap-2 group"
-          >
-            <div className="size-9 shrink-0 rounded-lg flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
-              <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
-            </div>
-            <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex items-center gap-2 group"
+            >
+              <div className="size-9 shrink-0 rounded-lg flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
+                <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
+              </div>
+              <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
+            </Link>
+            <Link
+              href="/"
+              className="hidden sm:inline text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-accent"
+            >
+              Back to Home
+            </Link>
+          </div>
 
           <div className="hidden md:flex items-center gap-1">
             {primaryLinks.map((link) => {
