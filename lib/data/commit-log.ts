@@ -29,9 +29,90 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-03T20:07:19.251Z"
+export const commitLogUpdatedAt = "2026-02-05T09:30:00.000Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "b7a1c9f24e9d4f5f9a8d1d4c6c7b8e9f0a1b2c3d",
+    "shortHash": "b7a1c9f",
+    "subject": "feat: membership & sponsor refresh",
+    "author": "codex",
+    "date": "2026-02-05T09:22:00-08:00",
+    "stats": {
+      "files": 9,
+      "insertions": 220,
+      "deletions": 70,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data",
+      "docs"
+    ],
+    "tags": [
+      "App Pages",
+      "Navigation",
+      "Components",
+      "Demo Data",
+      "Changelog",
+      "Styling"
+    ],
+    "summary": "Added membership, sponsor, and sanctioned events updates across core pages.",
+    "notes": [
+      "Refreshed the homepage branding, sponsor banner, and membership section.",
+      "Added a sanctioned events calendar preview plus a dedicated events page.",
+      "Extended badges and sample data to cover member and member club status."
+    ],
+    "plainSummary": "Updated the homepage with membership, sponsors, and sanctioned events.",
+    "plainNotes": [
+      "Added membership tiers and new badges for members and clubs.",
+      "Added a sanctioned events calendar preview and events page."
+    ],
+    "plainImpact": "Gives the demo a clearer membership story and shows sanctioned events at a glance.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 78,
+        "deletions": 0
+      },
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 14,
+        "deletions": 12
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 221,
+        "deletions": 54
+      },
+      {
+        "path": "components/badge.tsx",
+        "additions": 19,
+        "deletions": 13
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 17,
+        "deletions": 9
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 6,
+        "deletions": 3
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 5,
+        "deletions": 5
+      }
+    ]
+  },
   {
     "hash": "8af8c8244d2f4366a9fa2e317d9b37af262724c2",
     "shortHash": "8af8c82",
