@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
-import { ArrowRight, BadgeCheck, CheckCircle2, Flag, Heart, MapPin, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react"
+import { ArrowRight, BadgeCheck, CheckCircle2, Heart, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react"
 
 type PersonaKey = "athlete" | "coach" | "club" | "sponsor" | "fan"
 
@@ -37,7 +37,7 @@ const personas: Persona[] = [
       "Add social/contact (youth contact may route via parent/club).",
       "Compete and let verified results update your rankings.",
     ],
-    ctaLabel: "Sign up as athlete",
+    ctaLabel: "Join as athlete member",
   },
   {
     key: "coach",
@@ -57,7 +57,7 @@ const personas: Persona[] = [
       "Confirm athlete requests and keep your roster current.",
       "Use rankings and calendars to plan training targets.",
     ],
-    ctaLabel: "Sign up as coach",
+    ctaLabel: "Join as coach member",
   },
   {
     key: "club",
@@ -77,7 +77,7 @@ const personas: Persona[] = [
       "Invite athletes to link; confirm membership requests.",
       "Share your club profile to families, schools, LGUs, sponsors.",
     ],
-    ctaLabel: "Sign up as club admin",
+    ctaLabel: "Join as club admin",
   },
   {
     key: "sponsor",
@@ -96,7 +96,7 @@ const personas: Persona[] = [
       "Define what you’re looking for (segments, event types, regions).",
       "Reach out via provided contacts to activate partnerships.",
     ],
-    ctaLabel: "Sign up as sponsor",
+    ctaLabel: "Join as sponsor member",
   },
   {
     key: "fan",
@@ -139,7 +139,7 @@ const trustPoints = [
   },
 ]
 
-export default function HowItWorksPage() {
+export default function MembershipPage() {
   const [activePersona, setActivePersona] = useState<PersonaKey>("athlete")
   const persona = useMemo(() => personas.find((p) => p.key === activePersona)!, [activePersona])
 
@@ -150,25 +150,27 @@ export default function HowItWorksPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
         {/* Hero */}
         <section className="space-y-4">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest">How it works</p>
+          <p className="text-xs font-semibold text-accent uppercase tracking-widest">Membership</p>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="space-y-3 max-w-3xl">
-              <h1 className="text-4xl sm:text-5xl font-bold text-foreground">How the Philippine Athletics Platform Works</h1>
+              <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Membership with Philippine Athletics</h1>
               <p className="text-muted-foreground text-sm sm:text-base">
-                The official home for Filipino track & field athletes, clubs, coaches, sponsors, and fans. Everything you need—in one verified place.
+                Welcome To The Sport, The Team, The Journey. Become part of the official home for Filipino track &amp; field athletes,
+                clubs, coaches, sponsors, and fans.
               </p>
               <p className="text-sm text-muted-foreground">
-                Philippine Athletics brings together athlete profiles, club directories, national rankings, and verified competition results in one place.
+                Membership connects you to athlete profiles, club directories, national rankings, and verified competition results in one place.
               </p>
               <p className="text-sm text-muted-foreground">
-                Whether you’re competing, coaching, running a club, sponsoring, or cheering, this is where you find—and be found—in Philippine track & field.
+                Whether you’re competing, coaching, running a club, sponsoring, or cheering, membership is where you find—and be found—in Philippine track &amp;
+                field.
               </p>
               <div className="flex gap-3 pt-2 flex-wrap">
                 <a
                   href="#personas"
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
                 >
-                  Sign Up
+                  Become a member
                 </a>
                 <a
                   href="/athletes"

@@ -34,7 +34,7 @@ export const coaches: Coach[] = [
     club: "Manila Striders Track Club",
     clubId: "club-manila-striders",
     experience: "Former national team 100m hurdler turned coach with over 10 years leading high school and collegiate sprint programs in Metro Manila.",
-    badges: ["World Athletics CE Level 1", "Philippine Athletics Certified Coach", "SafeSport Trained"],
+    badges: ["World Athletics CE Level 1", "Philippine Athletics Certified Coach", "SafeSport Trained", "Member Badge"],
     isRecognized: true,
     recognitions: ["PA Recognized Coach", "SafeSport Trained"],
     recognitionDetails: [
@@ -60,7 +60,7 @@ export const coaches: Coach[] = [
     club: "Manila Striders Track Club",
     clubId: "club-manila-striders",
     experience: "Relay specialist and former 4x100m national pool member, now coordinating relays and speed development sessions.",
-    badges: ["Philippine Athletics Relay Clinic Facilitator"],
+    badges: ["Philippine Athletics Relay Clinic Facilitator", "Member Badge"],
     isRecognized: true,
     recognitions: ["PA Recognized Coach"],
     recognitionDetails: [
@@ -84,7 +84,7 @@ export const coaches: Coach[] = [
     club: "Cebu Distance Project",
     clubId: "club-cebu-distance-project",
     experience: "Former UAAP 1500m champion with a sports science background, leading structured middle-distance training in Cebu.",
-    badges: ["World Athletics CE Level 1", "Strength & Conditioning for Endurance Runners"],
+    badges: ["World Athletics CE Level 1", "Strength & Conditioning for Endurance Runners", "Member Badge"],
     isRecognized: true,
     recognitions: ["PA Recognized Coach"],
     recognitionDetails: [
@@ -108,7 +108,7 @@ export const coaches: Coach[] = [
     club: "Cebu Distance Project",
     clubId: "club-cebu-distance-project",
     experience: "Over 15 years of experience coaching 5K–marathon athletes, building a bridge from the running community to track events.",
-    badges: ["Marathon Training Specialist", "Philippine Athletics Endurance Coach"],
+    badges: ["Marathon Training Specialist", "Philippine Athletics Endurance Coach", "Member Badge"],
     isRecognized: true,
     recognitions: ["PA Recognized Coach"],
     recognitionDetails: [
@@ -132,7 +132,7 @@ export const coaches: Coach[] = [
     club: "Davao Field & Jumps Academy",
     clubId: "club-davao-field-jumps",
     experience: "Former national decathlete now dedicated to developing field event talent across Southern Mindanao.",
-    badges: ["World Athletics CE Level 1", "Certified Throws Coach", "SafeSport Trained"],
+    badges: ["World Athletics CE Level 1", "Certified Throws Coach", "SafeSport Trained", "Member Badge"],
     isRecognized: true,
     recognitions: ["PA Recognized Coach", "SafeSport Trained"],
     recognitionDetails: [

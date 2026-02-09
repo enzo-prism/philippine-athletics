@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-05 — Membership + sponsor experience refresh
+- Reworked the homepage branding, sponsor banner, and membership section to spotlight PATAFA messaging and membership tiers.
+- Added a sanctioned events calendar preview plus a dedicated events page for sanctioned meet listings.
+- Expanded the homepage footer with sponsor/supplier/partner groupings and membership badge coverage.
+
 ## 2026-02-03 — Results intake portal (demo)
 - Added a front-end Results Intake portal with upload, field mapping, validation, and review flows to demonstrate how certified staff can submit official meet data.
 - Implemented CSV/TSV parsing with header auto-mapping, validation rules, and warnings for missing wind data or unknown athletes.
