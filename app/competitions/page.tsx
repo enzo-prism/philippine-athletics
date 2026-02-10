@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { competitions } from "@/lib/data/competitions"
@@ -71,6 +72,8 @@ export default function CompetitionsPage({
           </CardContent>
         </Card>
 
+        <DemoAdSlot slotId="competitions-inline-leaderboard-1" format="leaderboard" className="mb-6" />
+
         <div className="space-y-3" data-testid="competition-list">
           {filtered.map((comp) => (
             <Link key={comp.id} href={`/competitions/${comp.slug}`} className="block">
@@ -83,6 +86,11 @@ export default function CompetitionsPage({
               </Card>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <DemoAdSlot slotId="competitions-inline-mrec-1" format="mrec" />
+          <DemoAdSlot slotId="competitions-inline-mrec-2" format="mrec" className="hidden sm:block" />
         </div>
       </div>
 

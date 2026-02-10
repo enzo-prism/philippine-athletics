@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, Medal, Sparkles, Zap } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { UnicornHomeScene } from "@/components/unicorn-home-scene"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -142,6 +143,13 @@ export default function Home() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
+
+        <section className="mt-6 grid gap-3">
+          <DemoAdSlot slotId="home-inline-leaderboard-1" format="leaderboard" />
+          <div className="sm:hidden">
+            <DemoAdSlot slotId="home-inline-mobile-1" format="mobile" />
           </div>
         </section>
 

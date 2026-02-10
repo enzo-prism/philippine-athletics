@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ArrowRight, BadgeCheck, CheckCircle2, Heart, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react"
 
 type PersonaKey = "athlete" | "coach" | "club" | "sponsor" | "fan"
@@ -192,6 +193,8 @@ export default function MembershipPage() {
           </div>
         </section>
 
+        <DemoAdSlot slotId="membership-inline-leaderboard-1" format="leaderboard" />
+
         {/* What it is */}
         <section className="space-y-6">
           <div className="space-y-2">
@@ -234,6 +237,11 @@ export default function MembershipPage() {
             ))}
           </div>
         </section>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <DemoAdSlot slotId="membership-inline-mrec-1" format="mrec" />
+          <DemoAdSlot slotId="membership-inline-mrec-2" format="mrec" className="hidden sm:block" />
+        </div>
 
         {/* Persona slider */}
         <section className="space-y-4">
@@ -323,6 +331,8 @@ export default function MembershipPage() {
             Look for the PA-verified badge on profiles, clubs, and results to know that data has been validated by Philippine Athletics.
           </div>
         </section>
+
+        <DemoAdSlot slotId="membership-inline-leaderboard-2" format="leaderboard" />
 
         {/* Final CTA */}
         <section className="space-y-3">
