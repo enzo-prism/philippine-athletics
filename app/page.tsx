@@ -78,30 +78,30 @@ export default function Home() {
                       <p className="text-xs text-white/55">Trusted by the Philippine athletics ecosystem.</p>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 sm:justify-items-center">
-                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
+                    <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 px-2 pb-1 sm:gap-x-12 lg:gap-x-16">
+                      <div className="flex items-center justify-center">
                         <img
                           src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/FAS_LOGO_SQUARE_WHITE_iprxox.png"
                           alt="FAS logo"
-                          className="h-14 w-auto opacity-95 sm:h-16"
+                          className="h-20 w-auto opacity-95 drop-shadow-[0_14px_30px_rgba(4,16,32,0.35)] transition duration-300 hover:scale-[1.03] sm:h-24"
                         />
                       </div>
 
-                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
-                        <div className="rounded-2xl bg-white/90 p-2 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]">
+                      <div className="flex items-center justify-center">
+                        <div className="rounded-2xl border border-white/20 bg-white/95 px-4 py-3 shadow-[0_20px_45px_-24px_rgba(5,10,24,0.75)]">
                           <img
                             src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/PSC_POC_LOGO_tjd8qv.jpg"
                             alt="PSC and POC logo"
-                            className="h-12 w-auto sm:h-14"
+                            className="h-16 w-auto transition duration-300 hover:scale-[1.03] sm:h-20"
                           />
                         </div>
                       </div>
 
-                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
+                      <div className="flex items-center justify-center">
                         <img
                           src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697127/MASIV_LOGO_pf1sgn.png"
                           alt="MASIV logo"
-                          className="h-12 w-auto opacity-95 sm:h-14"
+                          className="h-16 w-auto opacity-95 drop-shadow-[0_14px_30px_rgba(4,16,32,0.35)] transition duration-300 hover:scale-[1.03] sm:h-20"
                         />
                       </div>
                     </div>
