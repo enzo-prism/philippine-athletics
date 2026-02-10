@@ -23,21 +23,6 @@ const quickLinks = [
   { href: "/competitions", label: "Competitions" },
 ]
 
-const spotlightItems = [
-  {
-    title: "Talent Pipeline",
-    description: "Track rising athletes from school meets to national-level competition.",
-  },
-  {
-    title: "Verified Coaches",
-    description: "Connect with licensed coaches building high-performance training environments.",
-  },
-  {
-    title: "Live Competition Calendar",
-    description: "Stay synced with upcoming races, championships, and official event updates.",
-  },
-]
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_35%),radial-gradient(circle_at_90%_15%,rgba(168,85,247,0.13),transparent_32%),#040714] text-white">
@@ -51,7 +36,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.25),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(168,85,247,0.3),transparent_40%),linear-gradient(to_top,rgba(3,7,18,0.96),rgba(3,7,18,0.4))]" />
 
           <div className="relative z-10 flex min-h-[76vh] flex-col justify-between gap-12 p-6 sm:p-10 lg:p-14">
-            <div className="grid items-end gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid items-end gap-10">
               <div className="space-y-5">
                 <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-100 backdrop-blur">
                   <Sparkles className="h-3.5 w-3.5" />
@@ -81,19 +66,6 @@ export default function Home() {
                 </div>
               </div>
 
-              <Card className="rounded-3xl border-white/20 bg-black/35 py-0 text-white backdrop-blur-xl">
-                <CardContent className="space-y-4 p-5 sm:p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/75">Why this platform works</p>
-                  <div className="space-y-3">
-                    {spotlightItems.map((item) => (
-                      <div key={item.title} className="rounded-2xl border border-white/15 bg-white/5 p-4">
-                        <p className="text-sm font-semibold text-white">{item.title}</p>
-                        <p className="mt-1 text-sm text-white/75">{item.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -138,13 +110,13 @@ export default function Home() {
             { icon: Zap, title: "Upcoming meets", href: "/competitions", description: "Plan around upcoming races and championship fixtures." },
           ].map((item) => (
             <Link key={item.title} href={item.href}>
-              <Card className="h-full rounded-2xl border-white/15 bg-gradient-to-br from-cyan-400/20 via-indigo-500/15 to-fuchsia-500/20 py-0 text-white transition hover:-translate-y-1 hover:border-white/30">
+              <Card className="h-full rounded-2xl border-slate-200 bg-white py-0 text-slate-900 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md">
                 <CardContent className="space-y-3 p-5">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold uppercase tracking-[0.14em]">{item.title}</p>
-                    <item.icon className="h-5 w-5" />
+                    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-900">{item.title}</p>
+                    <item.icon className="h-5 w-5 text-slate-700" />
                   </div>
-                  <p className="text-sm text-white/80">{item.description}</p>
+                  <p className="text-sm text-slate-700">{item.description}</p>
                 </CardContent>
               </Card>
             </Link>
