@@ -77,30 +77,30 @@ export default function Home() {
                       <p className="text-xs text-white/55">Trusted by the Philippine athletics ecosystem.</p>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
-                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 sm:justify-items-center">
+                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
                         <img
                           src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/FAS_LOGO_SQUARE_WHITE_iprxox.png"
                           alt="FAS logo"
-                          className="h-10 w-auto opacity-95 sm:h-14"
+                          className="h-14 w-auto opacity-95 sm:h-16"
                         />
                       </div>
 
-                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
                         <div className="rounded-2xl bg-white/90 p-2 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]">
                           <img
                             src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/PSC_POC_LOGO_tjd8qv.jpg"
                             alt="PSC and POC logo"
-                            className="h-9 w-auto sm:h-12"
+                            className="h-12 w-auto sm:h-14"
                           />
                         </div>
                       </div>
 
-                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                      <div className="flex h-24 w-full items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-28 sm:max-w-[250px]">
                         <img
                           src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697127/MASIV_LOGO_pf1sgn.png"
                           alt="MASIV logo"
-                          className="h-10 w-auto opacity-95 sm:h-14"
+                          className="h-12 w-auto opacity-95 sm:h-14"
                         />
                       </div>
                     </div>
