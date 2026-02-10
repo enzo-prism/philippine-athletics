@@ -25,10 +25,10 @@ const membershipTypes: MembershipType[] = [
     description:
       "Designed for the next generation of Filipino athletes. Youth members can compete in recognized competitions and build official profiles from the start of their journey.",
     pricing: {
-      base: "₱1,000",
-      processing: "₱60",
-      cardFee: "₱45",
-      total: "₱1,105",
+      base: "$10 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$10 / month",
     },
     highlights: [
       "Eligible for youth-sanctioned competitions",
@@ -44,10 +44,10 @@ const membershipTypes: MembershipType[] = [
     description:
       "The most popular membership for active participation in Philippine Athletics. Adult members can compete, coach, officiate, volunteer, and support the sport nationwide.",
     pricing: {
-      base: "₱2,100",
-      processing: "₱125",
-      cardFee: "₱95",
-      total: "₱2,320",
+      base: "$10 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$10 / month",
     },
     highlights: [
       "Eligible for adult-sanctioned competitions",
@@ -63,10 +63,10 @@ const membershipTypes: MembershipType[] = [
     description:
       "Built for members who want to support Philippine Athletics at a deeper level while receiving elevated access to events, experiences, and partner offers.",
     pricing: {
-      base: "₱8,000",
-      processing: "₱450",
-      cardFee: "₱320",
-      total: "₱8,770",
+      base: "$20 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$20 / month",
     },
     highlights: [
       "Includes all Adult Membership benefits",
