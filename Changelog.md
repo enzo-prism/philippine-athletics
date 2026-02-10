@@ -8,6 +8,10 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Homepage CTA and membership packages update
+- Updated the homepage hero CTA buttons to “Become a Member” and “View Events,” with direct links to membership and competitions for clearer next actions.
+- Added a dedicated membership packages section with Starter, Performance, and Club Plus tiers, including pricing and included benefits.
+- Pointed the membership hero “Become a member” action to the new packages section so visitors can immediately compare options.
 ## 2026-02-10 — Changelog feature overhaul (accurate + plain-language)
 - Rebuilt `/changelog` into a dual-mode update center: product highlights for non-technical readers and a commit feed for engineering detail.
 - Added structured, human-readable release entries that explain each major update with clear summaries, key highlights, and “why it matters” context.
