@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Badge } from "@/components/badge"
 import { Navigation } from "@/components/navigation"
 import { GlobalSearchForm } from "@/components/global-search"
+import { HeroAnimationBackground } from "@/components/HeroAnimationBackground"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { athleteSummaries } from "@/lib/data/athletes"
@@ -118,18 +119,17 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="page-shell py-12 sm:py-16 lg:py-20">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft px-6 py-10 sm:px-10 sm:py-14">
-          <div className="pointer-events-none absolute -top-20 right-[-8rem] h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 left-[-6rem] h-72 w-72 rounded-full bg-[oklch(0.8_0.1_95_/0.25)] blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-card shadow-soft px-6 py-10 sm:px-10 sm:py-14">
+          <HeroAnimationBackground />
 
           <div className="relative z-10 space-y-6 max-w-2xl">
             <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em] animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
               Building the Next Generation of Philippine Track &amp; Field
             </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-foreground leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
               Grassroots Program empowering athletes nationwide
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+            <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
               Find a coach or join a club to start training with verified professionals and grow into world-class talent.
             </p>
             <GlobalSearchForm
