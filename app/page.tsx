@@ -39,8 +39,7 @@ export default function Home() {
           <div className="relative z-10 flex min-h-[76vh] flex-col justify-between gap-12 p-6 sm:p-10 lg:p-14">
             <div className="grid items-end gap-10">
               <div className="space-y-5">
-                <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-100 backdrop-blur">
-                  <Sparkles className="h-3.5 w-3.5" />
+                <div className="inline-flex items-center rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-100 backdrop-blur">
                   Philippine Athletics
                 </div>
                 <h1 className="max-w-[12ch] text-5xl font-black leading-[0.95] sm:text-6xl lg:text-7xl">
