@@ -58,6 +58,12 @@ const footerSponsors = {
   medical: ["Ajinomoto Philippines"],
 }
 
+const heroHighlights = [
+  { label: "Verified clubs", value: clubs.length },
+  { label: "Certified coaches", value: coaches.length },
+  { label: "Athletes listed", value: athleteSummaries.length },
+]
+
 export default function Home() {
   const featuredAthletes = athleteSummaries.slice(0, 3)
   return (
@@ -82,12 +88,67 @@ export default function Home() {
       </section>
       <Navigation />
 
-      <section className="page-shell py-8 sm:py-10">
+      {/* Hero Section */}
+      <section className="page-shell py-8 sm:py-10 lg:py-12">
+        <div className="relative overflow-hidden rounded-3xl border border-white/20 bg-card px-6 py-8 shadow-soft sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+          <HeroAnimationBackground />
+
+          <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] lg:items-end">
+            <div className="space-y-6">
+              <div className="inline-flex w-fit rounded-full border border-white/25 bg-black/30 px-4 py-2 backdrop-blur animate-fade-in opacity-0 [animation-delay:180ms] [animation-fill-mode:forwards]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-cyan-200/90">
+                  Building the Next Generation of Philippine Track &amp; Field
+                </p>
+              </div>
+              <h1 className="max-w-[18ch] text-4xl font-bold leading-[1.02] text-white sm:text-5xl lg:text-6xl animate-fade-in-up opacity-0 [animation-delay:260ms] [animation-fill-mode:forwards]">
+                Grassroots Program empowering athletes nationwide
+              </h1>
+              <p className="max-w-[54ch] text-sm leading-relaxed text-white/85 sm:text-base animate-fade-in-up opacity-0 [animation-delay:340ms] [animation-fill-mode:forwards]">
+                Find a coach, discover a club, and enter sanctioned meets with confidence through a modern platform built for Philippine athletics.
+              </p>
+              <GlobalSearchForm
+                variant="hero"
+                className="max-w-xl animate-fade-in-up opacity-0 [animation-delay:430ms] [animation-fill-mode:forwards]"
+                actionLabel="Search"
+              />
+              <div className="flex flex-col flex-wrap gap-2 sm:flex-row sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
+                <Button asChild size="lg" className="w-full rounded-full shadow-soft sm:w-auto">
+                  <Link href="/clubs">Join a Club</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="w-full rounded-full border-white/35 bg-white/10 text-white backdrop-blur hover:bg-white/20 sm:w-auto">
+                  <Link href="/coaches">Search Coaches</Link>
+                </Button>
+              </div>
+              <div className="grid gap-2 text-white/90 sm:max-w-xl sm:grid-cols-3 animate-fade-in-up opacity-0 [animation-delay:560ms] [animation-fill-mode:forwards]">
+                {heroHighlights.map((item) => (
+                  <div key={item.label} className="rounded-2xl border border-white/20 bg-black/30 px-4 py-3 backdrop-blur">
+                    <p className="text-lg font-semibold leading-none">{item.value}</p>
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-white/70">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-3 animate-fade-in-up opacity-0 [animation-delay:620ms] [animation-fill-mode:forwards]">
+              {featuredAthletes.map((athlete) => (
+                <div key={athlete.id} className="rounded-2xl border border-white/20 bg-black/35 p-4 text-white backdrop-blur">
+                  <p className="text-sm font-semibold">{athlete.name}</p>
+                  <p className="text-xs text-white/70">{athlete.specialty}</p>
+                  <p className="mt-2 text-xs text-white/70">{athlete.club}</p>
+                  {athlete.pb ? <p className="mt-2 text-xs font-semibold text-cyan-200">PB {athlete.pb}</p> : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="page-shell pb-4 sm:pb-8">
         <div className="rounded-3xl border border-[#ead9b5] bg-[linear-gradient(120deg,#fff7e6,#ffffff,#f3f9ff)] p-6 shadow-soft">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
             <div className="space-y-4">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b86b00]">Official Sponsor</p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
+              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
                 Ayala Corporation backs the next generation of Philippine track &amp; field.
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -101,49 +162,15 @@ export default function Home() {
             <div className="grid gap-3 sm:grid-cols-3">
               {featuredAthletes.map((athlete) => (
                 <div
-                  key={athlete.id}
+                  key={`sponsor-${athlete.id}`}
                   className="rounded-2xl border border-border bg-white p-4 shadow-sm transition-transform hover:-translate-y-1"
                 >
                   <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
                   <p className="text-xs text-muted-foreground">{athlete.specialty}</p>
-                  <p className="text-xs text-muted-foreground mt-2">{athlete.club}</p>
-                  {athlete.pb ? (
-                    <p className="text-xs font-semibold text-accent mt-2">PB {athlete.pb}</p>
-                  ) : null}
+                  <p className="mt-2 text-xs text-muted-foreground">{athlete.club}</p>
+                  {athlete.pb ? <p className="mt-2 text-xs font-semibold text-accent">PB {athlete.pb}</p> : null}
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Hero Section */}
-      <section className="page-shell py-12 sm:py-16 lg:py-20">
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-card shadow-soft px-6 py-10 sm:px-10 sm:py-14">
-          <HeroAnimationBackground />
-
-          <div className="relative z-10 space-y-6 max-w-2xl">
-            <p className="text-xs font-semibold text-accent/80 uppercase tracking-[0.24em] animate-fade-in opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
-              Building the Next Generation of Philippine Track &amp; Field
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white leading-[1.05] max-w-[20ch] animate-fade-in-up opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
-              Grassroots Program empowering athletes nationwide
-            </h1>
-            <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-[48ch] animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
-              Find a coach or join a club to start training with verified professionals and grow into world-class talent.
-            </p>
-            <GlobalSearchForm
-              variant="hero"
-              className="max-w-xl animate-fade-in-up opacity-0 [animation-delay:450ms] [animation-fill-mode:forwards]"
-              actionLabel="Search"
-            />
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
-              <Button asChild size="lg" className="w-full sm:w-auto rounded-full shadow-soft">
-                <Link href="/clubs">Join a Club</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto rounded-full">
-                <Link href="/coaches">Search Coaches</Link>
-              </Button>
             </div>
           </div>
         </div>
