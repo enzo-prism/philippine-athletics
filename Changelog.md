@@ -8,6 +8,10 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Expanded demo display ad placements
+- Added more demo ad placements across homepage, competitions, events, membership, and recognition pages to preview sponsor inventory in realistic layouts.
+- Reused standardized leaderboard, MREC, and mobile ad slot components so placements remain visually consistent and easy to tune.
+
 ## 2026-02-10 — Homepage visual redesign with Unicorn Studio
 - Rebuilt the homepage into a dramatic, visual-first layout with reduced copy so visitors immediately focus on motion and atmosphere.
 - Integrated the Unicorn Studio WebGL scene (`TBeVNSgsX813yn7xC6FZ`) as the hero centerpiece for a more modern, animated first impression.

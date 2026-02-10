@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Badge } from "@/components/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { clubs } from "@/lib/data/clubs"
@@ -37,6 +38,8 @@ export default function RecognitionPage() {
           </CardContent>
         </Card>
 
+        <DemoAdSlot slotId="recognition-inline-leaderboard-1" format="leaderboard" />
+
         <section className="space-y-4" data-testid="recognized-clubs">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">Recognized Clubs</h2>
@@ -73,6 +76,11 @@ export default function RecognitionPage() {
             ))}
           </div>
         </section>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <DemoAdSlot slotId="recognition-inline-mrec-1" format="mrec" />
+          <DemoAdSlot slotId="recognition-inline-mrec-2" format="mrec" className="hidden sm:block" />
+        </div>
 
         <section className="space-y-4" data-testid="recognized-coaches">
           <div className="flex items-center justify-between">

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Card, CardContent } from "@/components/ui/card"
 
 const sanctionedEvents = [
@@ -55,6 +56,8 @@ export default function EventsPage() {
           </CardContent>
         </Card>
 
+        <DemoAdSlot slotId="events-inline-leaderboard-1" format="leaderboard" />
+
         <div className="grid gap-4 md:grid-cols-2">
           {sanctionedEvents.map((event) => (
             <Card key={event.name} className="py-0 gap-0 shadow-soft">
@@ -71,6 +74,11 @@ export default function EventsPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <DemoAdSlot slotId="events-inline-mrec-1" format="mrec" />
+          <DemoAdSlot slotId="events-inline-mrec-2" format="mrec" className="hidden sm:block" />
         </div>
       </div>
     </div>
