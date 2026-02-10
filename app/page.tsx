@@ -9,13 +9,7 @@ import { coaches } from "@/lib/data/coaches"
 import { clubs } from "@/lib/data/clubs"
 import { competitions } from "@/lib/data/competitions"
 import { getRankingEvents } from "@/lib/data/rankings"
-
-const brandingLogos = [
-  { label: "PATAFA", subLabel: "Philippine Athletics Association" },
-  { label: "Philippine Athletics", subLabel: "National Federation" },
-  { label: "Philippines", subLabel: "🇵🇭 Official Flag" },
-  { label: "Track & Field", subLabel: "Grassroots Program" },
-]
+import { footerLogos, headerLogos, logoAssets } from "@/lib/data/logo-assets"
 
 const membershipTiers = [
   {
@@ -56,8 +50,6 @@ const sanctionedEvents = [
   },
 ]
 
-const coachLogos = ["Sprint Academy", "Distance Project", "Field & Jumps", "Relay Lab"]
-
 const footerSponsors = {
   sponsors: ["Ayala", "MILO", "Philippine Airlines", "ICTSI", "AIA Philippines"],
   suppliers: ["ASICS Philippines", "Manila Water", "CEL Logistics"],
@@ -72,13 +64,13 @@ export default function Home() {
       <section className="w-full border-b border-[#123a57] bg-[#0b2a45] py-2 sm:py-3">
         <div className="page-shell flex flex-col items-center gap-3 md:flex-row md:gap-4 md:justify-between">
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {brandingLogos.map((logo) => (
+            {headerLogos.map((logo) => (
               <div
-                key={logo.label}
-                className="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-center text-white shadow-soft backdrop-blur"
+                key={logo.name}
+                className="flex min-w-24 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white shadow-soft backdrop-blur"
               >
-                <p className="text-sm font-semibold">{logo.label}</p>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/70">{logo.subLabel}</p>
+                <img src={logo.url} alt={logo.alt} className="h-8 w-8 shrink-0 rounded object-contain" />
+                <p className="text-xs font-semibold leading-tight">{logo.name}</p>
               </div>
             ))}
           </div>
@@ -208,9 +200,10 @@ export default function Home() {
               <Badge text="Member Club Badge" variant="accent" className="uppercase tracking-wide rounded-md" />
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground">
-              {coachLogos.map((logo) => (
-                <span key={logo} className="rounded-full border border-border bg-white px-3 py-1">
-                  {logo} Logo
+              {logoAssets.filter((logo) => logo.category === "program").map((logo) => (
+                <span key={logo.name} className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1">
+                  <img src={logo.url} alt={logo.alt} className="h-4 w-4 rounded object-contain" />
+                  {logo.name}
                 </span>
               ))}
             </div>
@@ -259,6 +252,18 @@ export default function Home() {
       {/* Footer */}
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="mb-8 rounded-2xl border border-border bg-muted/40 p-4 sm:p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Official marks from federation partners</p>
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+              {footerLogos.map((logo) => (
+                <div key={logo.name} className="flex flex-col items-center gap-2 rounded-xl border border-border bg-background px-2 py-3 text-center">
+                  <img src={logo.url} alt={logo.alt} className="h-10 w-10 object-contain" />
+                  <span className="text-[10px] font-semibold leading-tight text-muted-foreground">{logo.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="grid gap-8 lg:grid-cols-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold text-foreground">Official Sponsors</h4>

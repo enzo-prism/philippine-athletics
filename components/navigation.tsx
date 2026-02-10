@@ -18,6 +18,7 @@ import {
   UserRound,
 } from "lucide-react"
 import { GlobalSearchForm } from "@/components/global-search"
+import { headerLogos } from "@/lib/data/logo-assets"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -72,8 +73,8 @@ export function Navigation() {
               href="/"
               className="flex items-center gap-2 group"
             >
-              <div className="size-9 shrink-0 rounded-lg flex items-center justify-center bg-card border border-border transition-colors group-hover:bg-accent/10">
-                <span className="text-foreground font-bold text-lg leading-none">🇵🇭</span>
+              <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-card transition-colors group-hover:bg-accent/10">
+                <img src={headerLogos[0].url} alt={headerLogos[0].alt} className="h-full w-full object-contain p-1" />
               </div>
               <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
             </Link>
