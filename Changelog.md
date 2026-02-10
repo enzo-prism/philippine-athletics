@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Official logo collection integration
+- Added a curated Cloudinary-powered logo asset catalog for federation, program, and symbol marks so branding can be reused consistently across pages.
+- Replaced placeholder text badges in the homepage header/membership/footer with real partner logos to improve visual trust and identity.
+- Updated global navigation branding to use an official logo mark, so the identity is visible throughout the app experience.
+
 ## 2026-02-05 — Membership + sponsor experience refresh
 - Reworked the homepage branding strip, sponsor banner, and membership section to spotlight PATAFA messaging, tiers, and featured athlete callouts for the sponsorship story.
 - Added membership-specific copy, CTAs, and badge previews (member + member club) alongside coach-submitted logo placeholders for the demo.
