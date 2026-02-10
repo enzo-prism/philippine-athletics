@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Changelog feature overhaul (accurate + plain-language)
+- Rebuilt `/changelog` into a dual-mode update center: product highlights for non-technical readers and a commit feed for engineering detail.
+- Added structured, human-readable release entries that explain each major update with clear summaries, key highlights, and “why it matters” context.
+- Fixed stale freshness indicators by deriving “Last updated” from the latest product release and commit activity instead of a hardcoded timestamp.
+
 ## 2026-02-10 — Expanded demo display ad placements
 - Added more demo ad placements across homepage, competitions, events, membership, and recognition pages to preview sponsor inventory in realistic layouts.
 - Reused standardized leaderboard, MREC, and mobile ad slot components so placements remain visually consistent and easy to tune.
