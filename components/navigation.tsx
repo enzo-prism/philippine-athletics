@@ -120,7 +120,13 @@ export function Navigation() {
 
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button type="button" variant="outline" size="icon" aria-label="Open navigation">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="text-foreground hover:text-foreground"
+                  aria-label="Open navigation"
+                >
                   <Menu className="w-5 h-5" aria-hidden="true" />
                 </Button>
               </SheetTrigger>
