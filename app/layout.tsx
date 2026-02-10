@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Philippine Athletics",
   description: "Track and field community profiles for the Philippines",
   generator: "v0.app",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon.svg",
   openGraph: {
     images: ["/opengraph-image"],
   },
