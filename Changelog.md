@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Homepage visual redesign with Unicorn Studio
+- Rebuilt the homepage into a dramatic, visual-first layout with reduced copy so visitors immediately focus on motion and atmosphere.
+- Integrated the Unicorn Studio WebGL scene (`TBeVNSgsX813yn7xC6FZ`) as the hero centerpiece for a more modern, animated first impression.
+- Simplified homepage actions into quick-access cards and concise CTAs to keep navigation fast while preserving core discovery paths.
+
 ## 2026-02-10 — Official logo collection integration
 - Added a curated Cloudinary-powered logo asset catalog for federation, program, and symbol marks so branding can be reused consistently across pages.
 - Replaced placeholder text badges in the homepage header/membership/footer with real partner logos to improve visual trust and identity.

@@ -1,353 +1,120 @@
 import Link from "next/link"
-import { Badge } from "@/components/badge"
+import { ArrowRight, Medal, Sparkles, Zap } from "lucide-react"
 import { Navigation } from "@/components/navigation"
-import { GlobalSearchForm } from "@/components/global-search"
-import { HeroAnimationBackground } from "@/components/HeroAnimationBackground"
+import { UnicornHomeScene } from "@/components/unicorn-home-scene"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { athleteSummaries } from "@/lib/data/athletes"
 import { coaches } from "@/lib/data/coaches"
 import { clubs } from "@/lib/data/clubs"
 import { competitions } from "@/lib/data/competitions"
-import { getRankingEvents } from "@/lib/data/rankings"
-import { footerLogos, headerLogos, logoAssets } from "@/lib/data/logo-assets"
 
-const membershipTiers = [
-  {
-    title: "Community Member",
-    price: "$10",
-    description: "Support local clubs, grassroots meets, and youth development programs.",
-  },
-  {
-    title: "Competitive Member",
-    price: "$20",
-    description: "Access sanctioned event listings, rankings, and member badge verification.",
-  },
-  {
-    title: "Elite Supporter",
-    price: "$50",
-    description: "Fuel Olympic pathways with priority program updates and volunteer access.",
-  },
+const quickStats = [
+  { label: "Clubs", value: clubs.length },
+  { label: "Coaches", value: coaches.length },
+  { label: "Athletes", value: athleteSummaries.length },
+  { label: "Events", value: competitions.length },
 ]
 
-const sanctionedEvents = [
-  {
-    name: "Philippine National Open Championships",
-    date: "Apr 24–27, 2026",
-    location: "Pasig City, NCR",
-    status: "Sanctioned",
-  },
-  {
-    name: "PATAFA Youth Relay Festival",
-    date: "May 18, 2026",
-    location: "Cebu City, Central Visayas",
-    status: "Sanctioned",
-  },
-  {
-    name: "Mindanao Throws & Jumps Series",
-    date: "Jun 8, 2026",
-    location: "Davao City, Davao Region",
-    status: "Permit Pending",
-  },
-]
-
-const footerSponsors = {
-  sponsors: ["Ayala", "MILO", "Philippine Airlines", "ICTSI", "AIA Philippines"],
-  suppliers: ["ASICS Philippines", "Manila Water", "CEL Logistics"],
-  technology: ["GoTyme Bank", "Sport:80"],
-  medical: ["Ajinomoto Philippines"],
-}
-
-const heroHighlights = [
-  { label: "Verified clubs", value: clubs.length },
-  { label: "Certified coaches", value: coaches.length },
-  { label: "Athletes listed", value: athleteSummaries.length },
+const quickLinks = [
+  { href: "/athletes", label: "Athletes" },
+  { href: "/coaches", label: "Coaches" },
+  { href: "/clubs", label: "Clubs" },
+  { href: "/competitions", label: "Competitions" },
 ]
 
 export default function Home() {
-  const featuredAthletes = athleteSummaries.slice(0, 3)
   return (
-    <div className="min-h-screen bg-background">
-      <section className="w-full border-b border-[#123a57] bg-[#0b2a45] py-2 sm:py-3">
-        <div className="page-shell flex flex-col items-center gap-3 md:flex-row md:gap-4 md:justify-between">
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {headerLogos.map((logo) => (
-              <div
-                key={logo.name}
-                className="flex min-w-24 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white shadow-soft backdrop-blur"
-              >
-                <img src={logo.url} alt={logo.alt} className="h-8 w-8 shrink-0 rounded object-contain" />
-                <p className="text-xs font-semibold leading-tight">{logo.name}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:text-sm">
-            Discover &rarr;
-          </div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-[#040714] text-white">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="page-shell py-8 sm:py-10 lg:py-12">
-        <div className="relative overflow-hidden rounded-3xl border border-white/20 bg-card px-6 py-8 shadow-soft sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-          <HeroAnimationBackground />
+      <main className="page-shell py-6 sm:py-8">
+        <section className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-black/40 shadow-2xl">
+          <div className="absolute inset-0">
+            <UnicornHomeScene />
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.25),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(168,85,247,0.3),transparent_40%),linear-gradient(to_top,rgba(3,7,18,0.96),rgba(3,7,18,0.4))]" />
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] lg:items-end">
-            <div className="space-y-6">
-              <div className="inline-flex w-fit rounded-full border border-white/25 bg-black/30 px-4 py-2 backdrop-blur animate-fade-in opacity-0 [animation-delay:180ms] [animation-fill-mode:forwards]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-cyan-200/90">
-                  Building the Next Generation of Philippine Track &amp; Field
-                </p>
+          <div className="relative z-10 flex min-h-[78vh] flex-col justify-between gap-10 p-6 sm:p-10 lg:p-14">
+            <div className="space-y-5">
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-100 backdrop-blur">
+                <Sparkles className="h-3.5 w-3.5" />
+                Philippine Athletics
               </div>
-              <h1 className="max-w-[18ch] text-4xl font-bold leading-[1.02] text-white sm:text-5xl lg:text-6xl animate-fade-in-up opacity-0 [animation-delay:260ms] [animation-fill-mode:forwards]">
-                Grassroots Program empowering athletes nationwide
+              <h1 className="max-w-[12ch] text-5xl font-black leading-[0.95] sm:text-6xl lg:text-7xl">
+                Run the Future.
               </h1>
-              <p className="max-w-[54ch] text-sm leading-relaxed text-white/85 sm:text-base animate-fade-in-up opacity-0 [animation-delay:340ms] [animation-fill-mode:forwards]">
-                Find a coach, discover a club, and enter sanctioned meets with confidence through a modern platform built for Philippine athletics.
-              </p>
-              <GlobalSearchForm
-                variant="hero"
-                className="max-w-xl animate-fade-in-up opacity-0 [animation-delay:430ms] [animation-fill-mode:forwards]"
-                actionLabel="Search"
-              />
-              <div className="flex flex-col flex-wrap gap-2 sm:flex-row sm:gap-3 animate-fade-in-up opacity-0 [animation-delay:500ms] [animation-fill-mode:forwards]">
-                <Button asChild size="lg" className="w-full rounded-full shadow-soft sm:w-auto">
-                  <Link href="/clubs">Join a Club</Link>
+              <p className="max-w-md text-sm text-white/80 sm:text-base">Elite visuals. Real athletes. One national movement.</p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="rounded-full bg-white px-8 text-black hover:bg-white/85">
+                  <Link href="/athletes">
+                    Explore
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full rounded-full border-white/35 bg-white/10 text-white backdrop-blur hover:bg-white/20 sm:w-auto">
-                  <Link href="/coaches">Search Coaches</Link>
-                </Button>
-              </div>
-              <div className="grid gap-2 text-white/90 sm:max-w-xl sm:grid-cols-3 animate-fade-in-up opacity-0 [animation-delay:560ms] [animation-fill-mode:forwards]">
-                {heroHighlights.map((item) => (
-                  <div key={item.label} className="rounded-2xl border border-white/20 bg-black/30 px-4 py-3 backdrop-blur">
-                    <p className="text-lg font-semibold leading-none">{item.value}</p>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-white/70">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-3 animate-fade-in-up opacity-0 [animation-delay:620ms] [animation-fill-mode:forwards]">
-              {featuredAthletes.map((athlete) => (
-                <div key={athlete.id} className="rounded-2xl border border-white/20 bg-black/35 p-4 text-white backdrop-blur">
-                  <p className="text-sm font-semibold">{athlete.name}</p>
-                  <p className="text-xs text-white/70">{athlete.specialty}</p>
-                  <p className="mt-2 text-xs text-white/70">{athlete.club}</p>
-                  {athlete.pb ? <p className="mt-2 text-xs font-semibold text-cyan-200">PB {athlete.pb}</p> : null}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="page-shell pb-4 sm:pb-8">
-        <div className="rounded-3xl border border-[#ead9b5] bg-[linear-gradient(120deg,#fff7e6,#ffffff,#f3f9ff)] p-6 shadow-soft">
-          <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-            <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b86b00]">Official Sponsor</p>
-              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
-                Ayala Corporation backs the next generation of Philippine track &amp; field.
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Featuring standout athletes powered by grassroots programs, elite coaches, and community volunteers.
-              </p>
-              <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-amber-700">Ayala Sponsor Banner</span>
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-slate-600">PATAFA Featured Athletes</span>
-              </div>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {featuredAthletes.map((athlete) => (
-                <div
-                  key={`sponsor-${athlete.id}`}
-                  className="rounded-2xl border border-border bg-white p-4 shadow-sm transition-transform hover:-translate-y-1"
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full border-white/40 bg-white/10 px-8 text-white hover:bg-white/20"
                 >
-                  <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
-                  <p className="text-xs text-muted-foreground">{athlete.specialty}</p>
-                  <p className="mt-2 text-xs text-muted-foreground">{athlete.club}</p>
-                  {athlete.pb ? <p className="mt-2 text-xs font-semibold text-accent">PB {athlete.pb}</p> : null}
-                </div>
-              ))}
+                  <Link href="/competitions">Watch Events</Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+              <Card className="rounded-3xl border-white/20 bg-black/45 py-0 text-white backdrop-blur-xl">
+                <CardContent className="grid grid-cols-2 gap-4 p-5 sm:grid-cols-4">
+                  {quickStats.map((stat) => (
+                    <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/5 p-4 text-center">
+                      <p className="text-3xl font-extrabold tracking-tight">{stat.value}</p>
+                      <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/65">{stat.label}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-3xl border-white/20 bg-black/45 py-0 text-white backdrop-blur-xl">
+                <CardContent className="space-y-3 p-5">
+                  <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/75">
+                    <Zap className="h-3.5 w-3.5" />
+                    Quick access
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {quickLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="rounded-xl border border-white/20 bg-white/10 px-3 py-4 text-center text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-white/20"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Categories Preview */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground mb-6">Browse by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-            {[
-              { label: "Clubs", value: clubs.length, href: "/clubs" },
-              { label: "Coaches", value: coaches.length, href: "/coaches" },
-              { label: "Athletes", value: athleteSummaries.length, href: "/athletes" },
-              { label: "Rankings", value: getRankingEvents().length, href: "/rankings" },
-              { label: "Competitions", value: competitions.length, href: "/competitions" },
-            ].map((item) => (
-              <Link key={item.label} href={item.href} className="block">
-                <Card className="py-0 gap-0 shadow-none hover:bg-accent/10 transition-colors text-center">
-                  <CardContent className="p-6">
-                    <p className="text-sm font-semibold text-accent uppercase">{item.label}</p>
-                    <p className="text-2xl font-bold text-foreground mt-2">{item.value}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <Card className="rounded-2xl shadow-soft py-0 gap-0">
-          <CardContent className="p-6 sm:p-8 space-y-6">
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Membership</p>
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground">MEMBERSHIP</h3>
-              <p className="text-sm text-muted-foreground italic">Welcome To The Sport, The Team, The Journey</p>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Philippine Athletics unites athletes, coaches, event directors, community leaders, officials, volunteers, and fans into
-              one national movement that champions safe, competitive, and inspiring track &amp; field experiences.
-            </p>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {membershipTiers.map((tier) => (
-                <Card key={tier.title} className="py-0 gap-0 shadow-none bg-muted/40">
-                  <CardContent className="p-4 space-y-2">
-                    <p className="text-xs font-semibold uppercase text-accent">{tier.title}</p>
-                    <p className="text-2xl font-bold text-foreground">{tier.price}</p>
-                    <p className="text-xs text-muted-foreground">{tier.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-accent">
-              <Badge text="Member Badge" variant="accent" className="uppercase tracking-wide rounded-md" />
-              <Badge text="Member Club Badge" variant="accent" className="uppercase tracking-wide rounded-md" />
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground">
-              {logoAssets.filter((logo) => logo.category === "program").map((logo) => (
-                <span key={logo.name} className="flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1">
-                  <img src={logo.url} alt={logo.alt} className="h-4 w-4 rounded object-contain" />
-                  {logo.name}
-                </span>
-              ))}
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <Button asChild className="w-full sm:w-auto rounded-full">
-                <Link href="/membership">Join Team PATAFA Today By Becoming A Member</Link>
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                Support the team, compete locally, and chase Olympic dreams.{" "}
-                <Link href="/membership" className="text-accent font-semibold">
-                  Click here to learn more
-                </Link>
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl shadow-soft py-0 gap-0">
-          <CardContent className="p-6 sm:p-8 space-y-4">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sanctioned events</p>
-                <h3 className="text-2xl font-bold text-foreground">Sanctioned Events Calendar</h3>
-              </div>
-              <Button asChild variant="outline" className="rounded-full">
-                <Link href="/events">View full calendar</Link>
-              </Button>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {sanctionedEvents.map((event) => (
-                <Card key={event.name} className="py-0 gap-0 shadow-none bg-muted/40">
-                  <CardContent className="p-4 space-y-2">
-                    <p className="text-sm font-semibold text-foreground">{event.name}</p>
-                    <p className="text-xs text-muted-foreground">{event.date}</p>
-                    <p className="text-xs text-muted-foreground">{event.location}</p>
-                    <span className="inline-flex w-fit rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
-                      {event.status}
-                    </span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Footer */}
-      <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="mb-8 rounded-2xl border border-border bg-muted/40 p-4 sm:p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Official marks from federation partners</p>
-            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-              {footerLogos.map((logo) => (
-                <div key={logo.name} className="flex flex-col items-center gap-2 rounded-xl border border-border bg-background px-2 py-3 text-center">
-                  <img src={logo.url} alt={logo.alt} className="h-10 w-10 object-contain" />
-                  <span className="text-[10px] font-semibold leading-tight text-muted-foreground">{logo.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-4">
-            <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-foreground">Official Sponsors</h4>
-              <div className="grid gap-2">
-                {footerSponsors.sponsors.map((brand) => (
-                  <div
-                    key={brand}
-                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
-                  >
-                    {brand}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-foreground">Official Suppliers</h4>
-              <div className="grid gap-2">
-                {footerSponsors.suppliers.map((brand) => (
-                  <div
-                    key={brand}
-                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
-                  >
-                    {brand}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-foreground">Official Technology Partners</h4>
-              <div className="grid gap-2">
-                {footerSponsors.technology.map((brand) => (
-                  <div
-                    key={brand}
-                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
-                  >
-                    {brand}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-foreground">Official Medical Network Partner</h4>
-              <div className="grid gap-2">
-                {footerSponsors.medical.map((brand) => (
-                  <div
-                    key={brand}
-                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-semibold text-foreground"
-                  >
-                    {brand}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground mt-8">&copy; 2025 Philippine Athletics. Track and field community.</p>
-        </div>
-      </div>
+        <section className="mt-6 grid gap-4 sm:grid-cols-3">
+          {[
+            { icon: Medal, title: "National rankings", href: "/rankings" },
+            { icon: Sparkles, title: "Featured athletes", href: "/athletes" },
+            { icon: Zap, title: "Upcoming meets", href: "/competitions" },
+          ].map((item) => (
+            <Link key={item.title} href={item.href}>
+              <Card className="h-full rounded-2xl border-white/15 bg-gradient-to-br from-cyan-400/20 via-indigo-500/15 to-fuchsia-500/20 py-0 text-white transition hover:-translate-y-1 hover:border-white/30">
+                <CardContent className="flex items-center justify-between p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.14em]">{item.title}</p>
+                  <item.icon className="h-5 w-5" />
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </section>
+      </main>
     </div>
   )
 }
