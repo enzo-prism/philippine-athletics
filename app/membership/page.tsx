@@ -7,6 +7,54 @@ import { ArrowRight, BadgeCheck, CheckCircle2, Heart, ShieldCheck, Sparkles, Tro
 
 type PersonaKey = "athlete" | "coach" | "club" | "sponsor" | "fan"
 
+
+type MembershipPackage = {
+  name: string
+  price: string
+  cadence: string
+  description: string
+  includes: string[]
+}
+
+const membershipPackages: MembershipPackage[] = [
+  {
+    name: "Starter",
+    price: "₱499",
+    cadence: "per year",
+    description: "Best for athletes and supporters getting started with official profiles and rankings.",
+    includes: [
+      "Official member profile with verification badge",
+      "Access to national rankings and certified results",
+      "Save favorite athletes, clubs, and competitions",
+      "Member updates for upcoming meets and announcements",
+    ],
+  },
+  {
+    name: "Performance",
+    price: "₱1,499",
+    cadence: "per year",
+    description: "Ideal for active athletes and coaches who need deeper tools and season planning support.",
+    includes: [
+      "Everything in Starter",
+      "Expanded performance history and progress tracking",
+      "Priority support for profile and result correction requests",
+      "Early access to selected Philippine Athletics member clinics",
+    ],
+  },
+  {
+    name: "Club Plus",
+    price: "₱4,999",
+    cadence: "per year",
+    description: "Built for clubs and organizations managing teams, compliance, and visibility.",
+    includes: [
+      "Everything in Performance",
+      "Club page with roster highlights and recognition badges",
+      "Admin tools for member invites and roster confirmations",
+      "Quarterly club spotlight opportunities on the platform",
+    ],
+  },
+]
+
 type Persona = {
   key: PersonaKey
   label: string
@@ -168,7 +216,7 @@ export default function MembershipPage() {
               </p>
               <div className="flex gap-3 pt-2 flex-wrap">
                 <a
-                  href="#personas"
+                  href="#packages"
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:opacity-90 transition-opacity"
                 >
                   Become a member
@@ -194,6 +242,42 @@ export default function MembershipPage() {
         </section>
 
         <DemoAdSlot slotId="membership-inline-leaderboard-1" format="leaderboard" />
+
+
+        <section className="space-y-5" id="packages">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-foreground">Membership Packages</h2>
+            <p className="text-sm text-muted-foreground max-w-3xl">
+              Choose the package that matches your role. Every membership supports athlete development, verified competition records,
+              and a stronger national athletics ecosystem.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {membershipPackages.map((pkg) => (
+              <div key={pkg.name} className="rounded-lg border border-border bg-card p-5 space-y-4">
+                <div className="space-y-1">
+                  <p className="text-lg font-semibold text-foreground">{pkg.name}</p>
+                  <p className="text-sm text-muted-foreground">{pkg.description}</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-foreground">{pkg.price}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide">{pkg.cadence}</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-accent">What’s included</p>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    {pkg.includes.map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* What it is */}
         <section className="space-y-6">

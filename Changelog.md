@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-10 — Homepage CTA and membership packages update
+- Updated the homepage hero CTA buttons to “Become a Member” and “View Events,” with direct links to membership and competitions for clearer next actions.
+- Added a dedicated membership packages section with Starter, Performance, and Club Plus tiers, including pricing and included benefits.
+- Pointed the membership hero “Become a member” action to the new packages section so visitors can immediately compare options.
+
 ## 2026-02-10 — Expanded demo display ad placements
 - Added more demo ad placements across homepage, competitions, events, membership, and recognition pages to preview sponsor inventory in realistic layouts.
 - Reused standardized leaderboard, MREC, and mobile ad slot components so placements remain visually consistent and easy to tune.

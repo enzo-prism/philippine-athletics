@@ -50,8 +50,8 @@ export default function Home() {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild size="lg" className="rounded-full bg-white px-8 text-black hover:bg-white/85">
-                    <Link href="/athletes">
-                      Explore
+                    <Link href="/membership">
+                      Become a Member
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -61,7 +61,7 @@ export default function Home() {
                     variant="outline"
                     className="rounded-full border-white/40 bg-white/10 px-8 text-white hover:bg-white/20"
                   >
-                    <Link href="/competitions">Watch Events</Link>
+                    <Link href="/competitions">View Events</Link>
                   </Button>
                 </div>
                 <div className="relative pt-3">
