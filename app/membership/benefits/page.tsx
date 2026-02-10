@@ -5,7 +5,12 @@ type MembershipBenefit = {
   id: "youth" | "adult" | "vip"
   title: string
   summary: string
-  annualCost: string
+  pricing: {
+    base: string
+    processing: string
+    cardFee: string
+    total: string
+  }
   details: string[]
   bestFor: string[]
 }
@@ -14,44 +19,59 @@ const benefitTiers: MembershipBenefit[] = [
   {
     id: "youth",
     title: "Individual Youth Membership",
-    summary: "Ages 18 and under who are building their competitive foundation.",
-    annualCost: "₱1,105 total annual cost",
+    summary: "For athletes and supporters 18 years old and younger.",
+    pricing: {
+      base: "$10 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$10 / month",
+    },
     details: [
-      "Eligibility for youth-sanctioned competitions and meets",
-      "Official athlete profile with verified race and field results",
-      "Access to age-group rankings, progress tracking, and PB history",
-      "Member updates for youth camps, clinics, and development opportunities",
-      "Parent/guardian-supported account management for youth safety",
+      "Eligible for youth-sanctioned competitions",
+      "Official athlete profile with verified results",
+      "Age-group rankings and season progress tracking",
+      "Member updates on youth meets, camps, and training opportunities",
+      "Support pathways for young athletes and their families",
     ],
-    bestFor: ["Student-athletes", "Parents supporting youth athletes", "School-based youth programs"],
+    bestFor: ["Student-athletes", "Parents and guardians", "School and club development programs"],
   },
   {
     id: "adult",
     title: "Individual Adult Membership",
-    summary: "Ages 19+ for active athletes, coaches, officials, and supporters.",
-    annualCost: "₱2,320 total annual cost",
+    summary: "For athletes, coaches, officials, volunteers, and supporters 19+.",
+    pricing: {
+      base: "$10 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$10 / month",
+    },
     details: [
-      "Eligibility for adult-sanctioned competitions and recognized races",
-      "Full member profile for athlete, coach, official, or volunteer pathways",
-      "Access to national rankings, competition history, and official result records",
-      "Priority access to member education sessions and federation announcements",
-      "Participation in member-driven programs supporting grassroots athletics",
+      "Eligible for adult-sanctioned competitions",
+      "Access to coach and official pathway resources",
+      "Priority member updates, clinics, and announcements",
+      "Official member profile for athlete, coach, official, or volunteer pathways",
+      "Participation opportunities that support Philippine Athletics nationwide",
     ],
     bestFor: ["Competitive athletes", "Coaches and officials", "Volunteers and sport advocates"],
   },
   {
     id: "vip",
     title: "VIP Membership",
-    summary: "Premium membership with elevated access and added support impact.",
-    annualCost: "₱8,770 total annual cost",
+    summary: "For members who want premium access and added perks.",
+    pricing: {
+      base: "$20 / month",
+      processing: "$0",
+      cardFee: "$0",
+      total: "$20 / month",
+    },
     details: [
       "Includes all Adult Membership benefits",
-      "Priority notice and access to select national athletics events",
-      "Exclusive updates, invitations, and partner offers for VIP members",
-      "Enhanced recognition as a supporter of Philippine Athletics initiatives",
-      "Concierge-style support for selected member services",
+      "Priority access to select ticketed athletics events",
+      "Exclusive partner discounts and VIP updates",
+      "Elevated access to select experiences and member opportunities",
+      "Additional recognition as a premium supporter of Philippine Athletics",
     ],
-    bestFor: ["High-engagement supporters", "Corporate partners", "Members seeking premium access"],
+    bestFor: ["High-engagement supporters", "Corporate and community partners", "Members seeking premium access"],
   },
 ]
 
@@ -77,6 +97,12 @@ const comparisonRows = [
   {
     label: "Education and member updates",
     youth: true,
+    adult: true,
+    vip: true,
+  },
+  {
+    label: "Coach and official pathway resources",
+    youth: false,
     adult: true,
     vip: true,
   },
@@ -109,8 +135,8 @@ export default function MembershipBenefitsPage() {
           </a>
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Membership Benefits</h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
-            Compare membership tiers and review detailed benefits before you join or renew. Each membership helps grow the Philippine athletics
-            ecosystem while giving you access to official pathways, records, and opportunities.
+            Compare membership tiers and review detailed benefits before you join or renew. These details mirror the latest membership overview,
+            including monthly pricing and updated feature highlights for each tier.
           </p>
         </section>
 
@@ -143,7 +169,12 @@ export default function MembershipBenefitsPage() {
               <div>
                 <h2 className="text-lg font-semibold text-foreground">{tier.title}</h2>
                 <p className="text-sm text-muted-foreground mt-1">{tier.summary}</p>
-                <p className="text-sm font-semibold text-accent mt-2">{tier.annualCost}</p>
+                <div className="pt-3 text-sm text-muted-foreground space-y-1">
+                  <p>Base Price: {tier.pricing.base}</p>
+                  <p>Processing Fee: {tier.pricing.processing}</p>
+                  <p>Card Fee: {tier.pricing.cardFee}</p>
+                  <p className="font-semibold text-foreground">Total Cost: {tier.pricing.total}</p>
+                </div>
               </div>
 
               <div className="space-y-2">
