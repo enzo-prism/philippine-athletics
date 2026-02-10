@@ -10,6 +10,7 @@ import {
   Dumbbell,
   FileText,
   Footprints,
+  House,
   Menu,
   Search,
   ShieldCheck,
@@ -30,6 +31,7 @@ type NavLink = { href: string; label: string; icon: LucideIcon }
 
 // Keep the top bar intentionally minimal; everything else lives in the menu sheet.
 const topLinks: NavLink[] = [
+  { href: "/", label: "Home", icon: House },
   { href: "/athletes", label: "Athletes", icon: Footprints },
   { href: "/clubs", label: "Clubs", icon: Building2 },
   { href: "/competitions", label: "Competitions", icon: CalendarDays },
