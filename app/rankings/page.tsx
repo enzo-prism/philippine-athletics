@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { buildRankings, getRankingEvents, getRankingYears, type AgeGroup, type Gender } from "@/lib/data/rankings"
@@ -87,6 +88,8 @@ export default function RankingsPage({
             </Badge>
           </div>
         </header>
+
+        <DemoAdSlot slotId="rankings-inline-1" format="leaderboard" />
 
         <Card className="py-0 gap-0">
           <CardContent className="p-4 space-y-4">

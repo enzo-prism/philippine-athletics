@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,8 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Coaches
         </Link>
+
+        <DemoAdSlot slotId="coach-profile-top" format="leaderboard" />
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">

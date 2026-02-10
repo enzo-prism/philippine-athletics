@@ -11,6 +11,7 @@ import {
   FileText,
   Footprints,
   Menu,
+  Search,
   ShieldCheck,
   Trophy,
   type LucideIcon,
@@ -19,32 +20,34 @@ import {
 } from "lucide-react"
 import { GlobalSearchForm } from "@/components/global-search"
 import { headerLogos } from "@/lib/data/logo-assets"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 
 type NavLink = { href: string; label: string; icon: LucideIcon }
 
-const primaryLinks: NavLink[] = [
+// Keep the top bar intentionally minimal; everything else lives in the menu sheet.
+const topLinks: NavLink[] = [
+  { href: "/athletes", label: "Athletes", icon: Footprints },
   { href: "/clubs", label: "Clubs", icon: Building2 },
+  { href: "/competitions", label: "Competitions", icon: CalendarDays },
+]
+
+const exploreLinks: NavLink[] = [
+  ...topLinks,
   { href: "/coaches", label: "Coaches", icon: Dumbbell },
-  { href: "/athletes", label: "Athletes", icon: Footprints },
   { href: "/rankings", label: "Rankings", icon: Trophy },
-  { href: "/competitions", label: "Competitions", icon: CalendarDays },
   { href: "/recognition", label: "Recognition", icon: ShieldCheck },
 ]
 
-const bottomLinks: NavLink[] = [
-  { href: "/clubs", label: "Clubs", icon: Building2 },
-  { href: "/athletes", label: "Athletes", icon: Footprints },
-  { href: "/rankings", label: "Rankings", icon: Trophy },
-  { href: "/competitions", label: "Competitions", icon: CalendarDays },
-  { href: "/recognition", label: "Recognition", icon: ShieldCheck },
-]
-
-const actionLinks: NavLink[] = [
-  { href: "/signup", label: "Sign Up", icon: UserPlus },
+const accountLinks: NavLink[] = [
   { href: "/profile", label: "Profile", icon: UserRound },
+  { href: "/signup", label: "Sign Up", icon: UserPlus },
+]
+
+const utilityLinks: NavLink[] = [
   { href: "/data-portal", label: "Data Portal", icon: ClipboardList },
   { href: "/changelog", label: "Updates", icon: FileText },
 ]
@@ -60,62 +63,61 @@ export function Navigation() {
 
   const activeLabel = useMemo(() => {
     if (pathname === "/") return "Home"
-    const match = [...primaryLinks, ...actionLinks].find((link) => isActive(pathname, link.href))
+    const match = [...exploreLinks, ...accountLinks, ...utilityLinks, { href: "/search", label: "Search", icon: Search }].find(
+      (link) => isActive(pathname, link.href),
+    )
     return match?.label ?? "Menu"
   }, [pathname])
 
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="page-shell py-3 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="flex items-center gap-2 group"
-            >
-              <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-card transition-colors group-hover:bg-accent/10">
-                <img src={headerLogos[0].url} alt={headerLogos[0].alt} className="h-full w-full object-contain p-1" />
-              </div>
-              <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
-            </Link>
-            <Link
-              href="/"
-              className="hidden sm:inline text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-accent"
-            >
-              Back to Home
-            </Link>
-          </div>
+        <div className="page-shell flex h-14 items-center justify-between gap-3">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-card transition-colors group-hover:bg-accent/10">
+              <img
+                src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
+                alt="Philippine Olympic Committee logo"
+                className="h-full w-full object-contain p-1"
+              />
+            </div>
+            <span className="hidden sm:inline text-sm font-semibold text-foreground">Philippine Athletics</span>
+          </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {primaryLinks.map((link) => {
+          <div className="hidden md:flex items-center gap-6">
+            {topLinks.map((link) => {
               const active = isActive(pathname, link.href)
               return (
-                <Button
+                <Link
                   key={link.href}
-                  asChild
-                  variant="ghost"
-                  className={active ? "text-foreground" : "text-muted-foreground hover:text-accent-foreground"}
+                  className={cn(
+                    "text-sm font-semibold transition-colors",
+                    active
+                      ? "text-foreground underline underline-offset-8 decoration-accent/60"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                  aria-current={active ? "page" : undefined}
+                  href={link.href}
                 >
-                  <Link href={link.href} aria-current={active ? "page" : undefined}>
-                    {link.label}
-                  </Link>
-                </Button>
+                  {link.label}
+                </Link>
               )
             })}
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
-            <GlobalSearchForm className="w-56 lg:w-72" buttonVariant="outline" />
-            <Button asChild variant="outline" className="text-muted-foreground hover:text-accent-foreground">
-              <Link href="/signup">Sign Up</Link>
+          <div className="flex items-center gap-1">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground hover:text-foreground"
+              aria-label="Search"
+            >
+              <Link href="/search">
+                <Search className="size-5" aria-hidden="true" />
+              </Link>
             </Button>
-            <Button asChild variant="outline" className="text-muted-foreground hover:text-accent-foreground">
-              <Link href="/profile">Profile</Link>
-            </Button>
-          </div>
 
-          <div className="md:hidden flex items-center gap-2">
-            <span className="text-xs font-medium text-muted-foreground">{activeLabel}</span>
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button type="button" variant="outline" size="icon" aria-label="Open navigation">
@@ -128,61 +130,96 @@ export function Navigation() {
                   <SheetDescription>{activeLabel}</SheetDescription>
                 </SheetHeader>
 
-                <div className="p-4 space-y-4">
+                <div className="p-4 space-y-5">
                   <GlobalSearchForm className="w-full" />
-                  <div className="grid gap-2">
-                    {primaryLinks.map((link) => {
-                      const active = isActive(pathname, link.href)
-                      const Icon = link.icon
-                      return (
-                        <Button
-                          key={link.href}
-                          asChild
-                          variant={active ? "secondary" : "ghost"}
-                          className="w-full justify-start"
-                          onClick={() => setOpen(false)}
-                        >
-                          <Link
-                            href={link.href}
-                            aria-current={active ? "page" : undefined}
-                            className="flex items-center gap-2"
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Explore</p>
+                    <div className="grid gap-2">
+                      {exploreLinks.map((link) => {
+                        const active = isActive(pathname, link.href)
+                        const Icon = link.icon
+                        return (
+                          <Button
+                            key={link.href}
+                            asChild
+                            variant={active ? "secondary" : "ghost"}
+                            className="w-full justify-start"
+                            onClick={() => setOpen(false)}
                           >
-                            <Icon className="size-4 shrink-0" aria-hidden="true" />
-                            {link.label}
-                          </Link>
-                        </Button>
-                      )
-                    })}
+                            <Link
+                              href={link.href}
+                              aria-current={active ? "page" : undefined}
+                              className="flex items-center gap-2"
+                            >
+                              <Icon className="size-4 shrink-0" aria-hidden="true" />
+                              {link.label}
+                            </Link>
+                          </Button>
+                        )
+                      })}
+                    </div>
                   </div>
 
                   <Separator />
 
-                  <div className="grid gap-2">
-                    {actionLinks.map((link) => {
-                      const active = isActive(pathname, link.href)
-                      const Icon = link.icon
-                      const variant = active ? "secondary" : "outline"
-                      return (
-                        <Button
-                          key={link.href}
-                          asChild
-                          variant={variant}
-                          className={`w-full justify-start ${
-                            active ? "text-foreground" : "text-muted-foreground hover:text-accent-foreground"
-                          }`}
-                          onClick={() => setOpen(false)}
-                        >
-                          <Link
-                            href={link.href}
-                            aria-current={active ? "page" : undefined}
-                            className="flex items-center gap-2"
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Account</p>
+                    <div className="grid gap-2">
+                      {accountLinks.map((link) => {
+                        const active = isActive(pathname, link.href)
+                        const Icon = link.icon
+                        return (
+                          <Button
+                            key={link.href}
+                            asChild
+                            variant={active ? "secondary" : "outline"}
+                            className={cn(
+                              "w-full justify-start",
+                              active ? "text-foreground" : "text-muted-foreground hover:text-accent-foreground",
+                            )}
+                            onClick={() => setOpen(false)}
                           >
-                            <Icon className="size-4 shrink-0" aria-hidden="true" />
-                            {link.label}
-                          </Link>
-                        </Button>
-                      )
-                    })}
+                            <Link
+                              href={link.href}
+                              aria-current={active ? "page" : undefined}
+                              className="flex items-center gap-2"
+                            >
+                              <Icon className="size-4 shrink-0" aria-hidden="true" />
+                              {link.label}
+                            </Link>
+                          </Button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">More</p>
+                    <div className="grid gap-2">
+                      {utilityLinks.map((link) => {
+                        const active = isActive(pathname, link.href)
+                        const Icon = link.icon
+                        return (
+                          <Button
+                            key={link.href}
+                            asChild
+                            variant={active ? "secondary" : "ghost"}
+                            className="w-full justify-start"
+                            onClick={() => setOpen(false)}
+                          >
+                            <Link
+                              href={link.href}
+                              aria-current={active ? "page" : undefined}
+                              className="flex items-center gap-2"
+                            >
+                              <Icon className="size-4 shrink-0" aria-hidden="true" />
+                              {link.label}
+                            </Link>
+                          </Button>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
               </SheetContent>
@@ -191,24 +228,14 @@ export function Navigation() {
         </div>
       </nav>
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90 shadow-soft">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2 pb-safe text-[11px] font-semibold text-muted-foreground">
-          {bottomLinks.map((link) => {
-            const active = isActive(pathname, link.href)
-            const Icon = link.icon
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`flex flex-col items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors ${
-                  active ? "bg-accent/10 text-accent" : "hover:bg-muted text-foreground"
-                }`}
-              >
-                <Icon className="size-5" aria-hidden="true" />
-                <span className="text-center leading-tight">{link.label}</span>
-              </Link>
-            )
-          })}
+      <div className="border-b border-border bg-muted/20">
+        <div className="page-shell py-3">
+          <div className="hidden md:block">
+            <DemoAdSlot slotId="global-top-leaderboard" format="leaderboard" />
+          </div>
+          <div className="md:hidden">
+            <DemoAdSlot slotId="global-top-mobile" format="mobile" />
+          </div>
         </div>
       </div>
     </>

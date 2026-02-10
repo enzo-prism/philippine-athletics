@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
@@ -115,6 +116,8 @@ export default async function AthleteProfilePage({
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Athletes
         </Link>
+
+        <DemoAdSlot slotId="athlete-profile-top" format="leaderboard" />
 
         <header className="space-y-6">
           <div className="flex flex-wrap items-center gap-3">

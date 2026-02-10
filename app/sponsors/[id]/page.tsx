@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { getSponsorByIdOrStub, resolveRoster } from "@/lib/data/sponsors"
 import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
@@ -22,6 +23,8 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Sponsors
         </Link>
+
+        <DemoAdSlot slotId="sponsor-profile-top" format="leaderboard" />
 
         <header className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Avatar } from "@/components/avatar"
 import { WeeklySchedule } from "@/components/weekly-schedule"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
@@ -26,6 +27,8 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Clubs
         </Link>
+
+        <DemoAdSlot slotId="club-profile-top" format="leaderboard" />
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">

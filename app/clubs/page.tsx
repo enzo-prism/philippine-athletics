@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -98,6 +99,9 @@ export default function ClubsPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="md:col-span-2 lg:col-span-3">
+            <DemoAdSlot slotId="clubs-inline-1" format="leaderboard" />
+          </div>
           {filteredClubs.map((club) => (
             <ProfileCard
               key={club.id}

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -140,6 +141,8 @@ export default function SearchPage({
             </Button>
           </form>
         </header>
+
+        <DemoAdSlot slotId="search-inline-1" format="leaderboard" />
 
         {!query ? (
           <Card className="shadow-soft py-0 gap-0">

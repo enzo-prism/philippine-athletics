@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -348,28 +349,41 @@ export default function AthletesPage({
 
       <div className="page-shell py-10 space-y-8">
         <div className="space-y-2">
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search Athletes</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground text-balance">Search Athletes</h1>
         </div>
 
         <div className="sticky top-14 z-30 space-y-2">
           <Card className="py-0 gap-0 shadow-soft">
             <CardContent className="p-3 sm:p-4 space-y-4">
-              <form method="get" className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
-                  <div className="relative md:col-span-2">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
-                    <Input
-                      type="text"
-                      name="q"
-                      placeholder="Search name, club, event..."
-                      defaultValue={query}
-                      className="rounded-full pl-9"
-                    />
+              <form method="get" className="space-y-3">
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(220px,1.6fr)_minmax(160px,0.7fr)_minmax(160px,0.7fr)_minmax(220px,1fr)_auto] items-end">
+                  <div className="space-y-1">
+                    <label htmlFor="athlete-search" className="text-xs font-semibold text-muted-foreground uppercase">
+                      Search
+                    </label>
+                    <div className="relative">
+                      <Search
+                        className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                        aria-hidden="true"
+                      />
+                      <Input
+                        id="athlete-search"
+                        type="search"
+                        inputMode="search"
+                        name="q"
+                        placeholder="Search name, club, event…"
+                        defaultValue={query}
+                        autoComplete="off"
+                        className="rounded-full pl-9"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase">Sort</label>
-                    <select name="sort" defaultValue={sortOption} className={selectClassName}>
+                    <label htmlFor="athlete-sort" className="text-xs font-semibold text-muted-foreground uppercase">
+                      Sort
+                    </label>
+                    <select id="athlete-sort" name="sort" defaultValue={sortOption} className={selectClassName}>
                       {sortOptions.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -379,8 +393,10 @@ export default function AthletesPage({
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase">Region</label>
-                    <select name="region" defaultValue={regionFilter} className={selectClassName}>
+                    <label htmlFor="athlete-region" className="text-xs font-semibold text-muted-foreground uppercase">
+                      Region
+                    </label>
+                    <select id="athlete-region" name="region" defaultValue={regionFilter} className={selectClassName}>
                       {regionOptions.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -389,9 +405,11 @@ export default function AthletesPage({
                     </select>
                   </div>
 
-                  <div className="space-y-1 xl:col-span-2">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase">Event</label>
-                    <select name="event" defaultValue={eventFilter} className={selectClassName}>
+                  <div className="space-y-1">
+                    <label htmlFor="athlete-event" className="text-xs font-semibold text-muted-foreground uppercase">
+                      Event
+                    </label>
+                    <select id="athlete-event" name="event" defaultValue={eventFilter} className={selectClassName}>
                       {eventOptions.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -399,17 +417,17 @@ export default function AthletesPage({
                       ))}
                     </select>
                   </div>
-                </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button type="submit" className="rounded-full">
-                    Apply filters
-                  </Button>
-                  {hasActiveFilters ? (
-                    <Button asChild variant="link" className="h-auto p-0 text-accent">
-                      <Link href="/athletes">Reset</Link>
+                  <div className="flex items-end gap-2">
+                    <Button type="submit" className="rounded-full">
+                      Apply Filters
                     </Button>
-                  ) : null}
+                    {hasActiveFilters ? (
+                      <Button asChild variant="link" className="h-auto p-0 text-accent">
+                        <Link href="/athletes">Reset</Link>
+                      </Button>
+                    ) : null}
+                  </div>
                 </div>
               </form>
 
@@ -440,6 +458,9 @@ export default function AthletesPage({
           </Card>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+            <div className="sm:col-span-2 xl:col-span-3">
+              <DemoAdSlot slotId="athletes-inline-1" format="leaderboard" />
+            </div>
             {filteredAthletes.map((athlete) => {
               const badges = getEventTags(athlete).slice(0, 3)
               const rankLabel = [athlete.nationalRank, athlete.asianRank, athlete.globalRank]

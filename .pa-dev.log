@@ -1,0 +1,271 @@
+   ▲ Next.js 16.0.7 (Turbopack)
+   - Local:         http://localhost:3000
+   - Network:       http://10.0.0.63:3000
+
+ ✓ Starting...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Ready in 544ms
+Error: Route "/athletes" used `searchParams.q`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:280:17)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.region`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:281:23)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.event`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:282:22)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.sort`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:283:21)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+ GET /athletes 200 in 1883ms (compile: 1279ms, render: 605ms)
+ GET / 200 in 1892ms (compile: 1723ms, render: 170ms)
+ GET / 200 in 131ms (compile: 7ms, render: 124ms)
+ GET /favicon-rounded.png 404 in 582ms (compile: 467ms, render: 115ms)
+ GET / 200 in 67ms (compile: 32ms, render: 35ms)
+ GET / 200 in 138ms (compile: 1677µs, render: 136ms)
+Error: Route "/rankings" used `searchParams.event`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:20:31)
+    at RankingsPage (app/rankings/page.tsx:47:40)
+  18 |   key: string,
+  19 | ) => {
+> 20 |   const value = searchParams?.[key]
+     |                               ^
+  21 |   if (Array.isArray(value)) return value[0] ?? ""
+  22 |   return value ?? ""
+  23 | }
+Error: Route "/rankings" used `searchParams.gender`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:20:31)
+    at RankingsPage (app/rankings/page.tsx:48:42)
+  18 |   key: string,
+  19 | ) => {
+> 20 |   const value = searchParams?.[key]
+     |                               ^
+  21 |   if (Array.isArray(value)) return value[0] ?? ""
+  22 |   return value ?? ""
+  23 | }
+Error: Route "/rankings" used `searchParams.ageGroup`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:20:31)
+    at RankingsPage (app/rankings/page.tsx:49:46)
+  18 |   key: string,
+  19 | ) => {
+> 20 |   const value = searchParams?.[key]
+     |                               ^
+  21 |   if (Array.isArray(value)) return value[0] ?? ""
+  22 |   return value ?? ""
+  23 | }
+Error: Route "/rankings" used `searchParams.year`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:20:31)
+    at RankingsPage (app/rankings/page.tsx:50:38)
+  18 |   key: string,
+  19 | ) => {
+> 20 |   const value = searchParams?.[key]
+     |                               ^
+  21 |   if (Array.isArray(value)) return value[0] ?? ""
+  22 |   return value ?? ""
+  23 | }
+Error: Route "/rankings" used `searchParams.highlight`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:20:31)
+    at RankingsPage (app/rankings/page.tsx:51:23)
+  18 |   key: string,
+  19 | ) => {
+> 20 |   const value = searchParams?.[key]
+     |                               ^
+  21 |   if (Array.isArray(value)) return value[0] ?? ""
+  22 |   return value ?? ""
+  23 | }
+ GET /rankings 200 in 230ms (compile: 196ms, render: 35ms)
+Error: Route "/athletes" used `searchParams.q`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:280:17)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.region`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:281:23)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.event`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:282:22)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+Error: Route "/athletes" used `searchParams.sort`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:112:31)
+    at AthletesPage (app/athletes/page.tsx:283:21)
+  110 |   key: string,
+  111 | ) => {
+> 112 |   const value = searchParams?.[key]
+      |                               ^
+  113 |   if (Array.isArray(value)) return value[0] ?? ""
+  114 |   return value ?? ""
+  115 | }
+ GET /athletes 200 in 154ms (compile: 8ms, render: 146ms)
+Error: Route "/clubs" used `searchParams.q`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/clubs/page.tsx:13:31)
+    at ClubsPage (app/clubs/page.tsx:23:17)
+  11 |   key: string,
+  12 | ) => {
+> 13 |   const value = searchParams?.[key]
+     |                               ^
+  14 |   if (Array.isArray(value)) return value[0] ?? ""
+  15 |   return value ?? ""
+  16 | }
+ GET /clubs 200 in 187ms (compile: 166ms, render: 20ms)
+ GET /competitions 200 in 177ms (compile: 162ms, render: 15ms)
+ GET /data-portal 200 in 244ms (compile: 230ms, render: 14ms)
+ GET / 200 in 33ms (compile: 6ms, render: 26ms)
+ ✓ Compiled in 54ms
+ ✓ Compiled in 73ms
+ ✓ Compiled in 52ms
+ GET / 200 in 83ms (compile: 45ms, render: 39ms)
+ GET / 200 in 19ms (compile: 1504µs, render: 17ms)
+ ✓ Compiled in 51ms
+ GET / 200 in 18ms (compile: 1226µs, render: 16ms)
+ ✓ Compiled in 31ms
+Error: Route "/athletes" used `searchParams.q`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:113:31)
+    at AthletesPage (app/athletes/page.tsx:281:17)
+  111 |   key: string,
+  112 | ) => {
+> 113 |   const value = searchParams?.[key]
+      |                               ^
+  114 |   if (Array.isArray(value)) return value[0] ?? ""
+  115 |   return value ?? ""
+  116 | }
+Error: Route "/athletes" used `searchParams.region`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:113:31)
+    at AthletesPage (app/athletes/page.tsx:282:23)
+  111 |   key: string,
+  112 | ) => {
+> 113 |   const value = searchParams?.[key]
+      |                               ^
+  114 |   if (Array.isArray(value)) return value[0] ?? ""
+  115 |   return value ?? ""
+  116 | }
+Error: Route "/athletes" used `searchParams.event`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:113:31)
+    at AthletesPage (app/athletes/page.tsx:283:22)
+  111 |   key: string,
+  112 | ) => {
+> 113 |   const value = searchParams?.[key]
+      |                               ^
+  114 |   if (Array.isArray(value)) return value[0] ?? ""
+  115 |   return value ?? ""
+  116 | }
+Error: Route "/athletes" used `searchParams.sort`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/athletes/page.tsx:113:31)
+    at AthletesPage (app/athletes/page.tsx:284:21)
+  111 |   key: string,
+  112 | ) => {
+> 113 |   const value = searchParams?.[key]
+      |                               ^
+  114 |   if (Array.isArray(value)) return value[0] ?? ""
+  115 |   return value ?? ""
+  116 | }
+ GET /athletes 200 in 595ms (compile: 50ms, render: 545ms)
+ GET / 200 in 599ms (compile: 520ms, render: 79ms)
+Error: Route "/clubs" used `searchParams.q`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/clubs/page.tsx:14:31)
+    at ClubsPage (app/clubs/page.tsx:24:17)
+  12 |   key: string,
+  13 | ) => {
+> 14 |   const value = searchParams?.[key]
+     |                               ^
+  15 |   if (Array.isArray(value)) return value[0] ?? ""
+  16 |   return value ?? ""
+  17 | }
+Error: Route "/rankings" used `searchParams.event`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:21:31)
+    at RankingsPage (app/rankings/page.tsx:48:40)
+  19 |   key: string,
+  20 | ) => {
+> 21 |   const value = searchParams?.[key]
+     |                               ^
+  22 |   if (Array.isArray(value)) return value[0] ?? ""
+  23 |   return value ?? ""
+  24 | }
+Error: Route "/rankings" used `searchParams.gender`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:21:31)
+    at RankingsPage (app/rankings/page.tsx:49:42)
+  19 |   key: string,
+  20 | ) => {
+> 21 |   const value = searchParams?.[key]
+     |                               ^
+  22 |   if (Array.isArray(value)) return value[0] ?? ""
+  23 |   return value ?? ""
+  24 | }
+Error: Route "/rankings" used `searchParams.ageGroup`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:21:31)
+    at RankingsPage (app/rankings/page.tsx:50:46)
+  19 |   key: string,
+  20 | ) => {
+> 21 |   const value = searchParams?.[key]
+     |                               ^
+  22 |   if (Array.isArray(value)) return value[0] ?? ""
+  23 |   return value ?? ""
+  24 | }
+Error: Route "/rankings" used `searchParams.year`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:21:31)
+    at RankingsPage (app/rankings/page.tsx:51:38)
+  19 |   key: string,
+  20 | ) => {
+> 21 |   const value = searchParams?.[key]
+     |                               ^
+  22 |   if (Array.isArray(value)) return value[0] ?? ""
+  23 |   return value ?? ""
+  24 | }
+Error: Route "/rankings" used `searchParams.highlight`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at getParam (app/rankings/page.tsx:21:31)
+    at RankingsPage (app/rankings/page.tsx:52:23)
+  19 |   key: string,
+  20 | ) => {
+> 21 |   const value = searchParams?.[key]
+     |                               ^
+  22 |   if (Array.isArray(value)) return value[0] ?? ""
+  23 |   return value ?? ""
+  24 | }
+ GET /clubs 200 in 452ms (compile: 40ms, render: 412ms)
+ GET /rankings 200 in 451ms (compile: 269ms, render: 181ms)

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
 import { sponsors } from "@/lib/data/sponsors"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
@@ -19,6 +20,8 @@ export default function SponsorsPage() {
             Brands actively sponsoring athletes, coaches, and clubs. Tap any sponsor to see their roster and focus areas.
           </p>
         </header>
+
+        <DemoAdSlot slotId="sponsors-inline-1" format="leaderboard" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sponsors.map((sponsor) => (

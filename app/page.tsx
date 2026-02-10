@@ -64,6 +64,48 @@ export default function Home() {
                     <Link href="/competitions">Watch Events</Link>
                   </Button>
                 </div>
+                <div className="relative pt-3">
+                  <div
+                    className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[radial-gradient(circle_at_30%_30%,rgba(56,189,248,0.28),transparent_55%),radial-gradient(circle_at_70%_60%,rgba(168,85,247,0.26),transparent_55%)] blur-2xl"
+                    aria-hidden="true"
+                  />
+                  <div className="relative rounded-3xl border border-white/15 bg-white/5 px-5 py-4 backdrop-blur-xl">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-white/70">
+                        Official partners
+                      </p>
+                      <p className="text-xs text-white/55">Trusted by the Philippine athletics ecosystem.</p>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                        <img
+                          src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/FAS_LOGO_SQUARE_WHITE_iprxox.png"
+                          alt="FAS logo"
+                          className="h-10 w-auto opacity-95 sm:h-14"
+                        />
+                      </div>
+
+                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                        <div className="rounded-2xl bg-white/90 p-2 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]">
+                          <img
+                            src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697128/PSC_POC_LOGO_tjd8qv.jpg"
+                            alt="PSC and POC logo"
+                            className="h-9 w-auto sm:h-12"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex h-16 items-center justify-center rounded-2xl border border-white/10 bg-black/25 px-4 py-3 sm:h-20">
+                        <img
+                          src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770697127/MASIV_LOGO_pf1sgn.png"
+                          alt="MASIV logo"
+                          className="h-10 w-auto opacity-95 sm:h-14"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
             </div>

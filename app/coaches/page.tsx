@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { coaches } from "@/lib/data/coaches"
 
 export default function CoachesPage() {
@@ -13,6 +14,9 @@ export default function CoachesPage() {
           </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="md:col-span-2 lg:col-span-3">
+            <DemoAdSlot slotId="coaches-inline-1" format="leaderboard" />
+          </div>
           {coaches.map((coach) => (
             <ProfileCard
               key={coach.id}
