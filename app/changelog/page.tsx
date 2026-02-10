@@ -11,8 +11,19 @@ import { commitLog } from "@/lib/data/commit-log"
 import { productUpdates } from "@/lib/data/changelog-updates"
 import { normalizeKey } from "@/lib/data/utils"
 
+const DATE_ONLY_VALUE = /^\d{4}-\d{2}-\d{2}$/
+
+const parseChangelogDate = (value: string) => {
+  if (DATE_ONLY_VALUE.test(value)) {
+    const [year, month, day] = value.split("-").map(Number)
+    return new Date(year, month - 1, day)
+  }
+
+  return new Date(value)
+}
+
 const formatDate = (value: string) => {
-  const parsed = new Date(value)
+  const parsed = parseChangelogDate(value)
   if (Number.isNaN(parsed.getTime())) return value
   return parsed.toLocaleString(undefined, {
     month: "short",
@@ -24,7 +35,7 @@ const formatDate = (value: string) => {
 }
 
 const formatDay = (value: string) => {
-  const parsed = new Date(value)
+  const parsed = parseChangelogDate(value)
   if (Number.isNaN(parsed.getTime())) return value
   return parsed.toLocaleDateString(undefined, {
     month: "long",
@@ -86,8 +97,8 @@ export default function ChangelogPage() {
   }, [activeCategory, query])
 
   const lastUpdated = useMemo(() => {
-    const latestProductDate = productUpdates[0]?.date ? new Date(productUpdates[0].date).getTime() : 0
-    const latestCommitDate = commitLog[0]?.date ? new Date(commitLog[0].date).getTime() : 0
+    const latestProductDate = productUpdates[0]?.date ? parseChangelogDate(productUpdates[0].date).getTime() : 0
+    const latestCommitDate = commitLog[0]?.date ? parseChangelogDate(commitLog[0].date).getTime() : 0
     const latest = Math.max(latestProductDate, latestCommitDate)
     return latest ? new Date(latest).toISOString() : ""
   }, [])
