@@ -43,10 +43,10 @@ export default function Home() {
                   Philippine Athletics
                 </div>
                 <h1 className="max-w-[12ch] text-5xl font-black leading-[0.95] sm:text-6xl lg:text-7xl">
-                  Run the Future.
+                  Where Every Filipino Athlete Belongs
                 </h1>
                 <p className="max-w-md text-sm text-white/80 sm:text-base">
-                  Elite visuals. Real athletes. One national movement. Discover clubs, coaches, and competitions in one place.
+                  From grassroots clubs to national champions, find coaches, track competitions, and join the movement pushing Philippine athletics forward.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild size="lg" className="rounded-full bg-white px-8 text-black hover:bg-white/85">
