@@ -146,7 +146,7 @@ export default function Home() {
         </section>
 
         <section className="mt-6 grid gap-3">
-          <DemoAdSlot slotId="home-inline-leaderboard-1" format="leaderboard" />
+          <DemoAdSlot slotId="home-inline-leaderboard-1" format="leaderboard" preferBannerCreative />
           <div className="sm:hidden">
             <DemoAdSlot slotId="home-inline-mobile-1" format="mobile" />
           </div>

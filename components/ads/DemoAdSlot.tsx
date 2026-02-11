@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { demoAdCreatives } from "@/lib/data/demo-ad-creatives"
+import { demoAdCreatives, demoBannerAdCreatives } from "@/lib/data/demo-ad-creatives"
 import { cn } from "@/lib/utils"
 
 type DemoAdFormat = "leaderboard" | "mrec" | "mobile"
@@ -12,6 +12,7 @@ type DemoAdSlotProps = {
   className?: string
   href?: string
   label?: string
+  preferBannerCreative?: boolean
 }
 
 const hashString = (value: string) => {
@@ -24,9 +25,10 @@ const hashString = (value: string) => {
   return hash >>> 0
 }
 
-const pickCreative = (slotId: string) => {
-  const idx = demoAdCreatives.length ? hashString(slotId) % demoAdCreatives.length : 0
-  return demoAdCreatives[idx]
+const pickCreative = (slotId: string, preferBannerCreative = false) => {
+  const creativePool = preferBannerCreative ? demoBannerAdCreatives : demoAdCreatives
+  const idx = creativePool.length ? hashString(slotId) % creativePool.length : 0
+  return creativePool[idx]
 }
 
 const formatClassName: Record<DemoAdFormat, string> = {
@@ -41,8 +43,9 @@ export function DemoAdSlot({
   className,
   href = "/sponsors",
   label = "Ad",
+  preferBannerCreative = false,
 }: DemoAdSlotProps) {
-  const creative = pickCreative(slotId)
+  const creative = pickCreative(slotId, preferBannerCreative)
 
   return (
     <div
