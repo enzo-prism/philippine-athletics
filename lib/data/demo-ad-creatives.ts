@@ -4,9 +4,38 @@ export type DemoAdCreative = {
   alt: string
 }
 
+export const demoBannerAdCreatives: DemoAdCreative[] = [
+  {
+    name: "Ayala banner ad (variant 1)",
+    imageUrl: "https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770787887/ayala_dgcjmj.jpg",
+    alt: "Ayala banner advertisement",
+  },
+  {
+    name: "Ayala banner ad (variant 2)",
+    imageUrl: "https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770787887/ayala_dgcjmj.jpg",
+    alt: "Ayala banner advertisement",
+  },
+  {
+    name: "320x56 mobile banner",
+    imageUrl: "https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770787883/320x56_vusf3k.png",
+    alt: "320 by 56 mobile banner ad",
+  },
+  {
+    name: "728x90 leaderboard banner",
+    imageUrl: "https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770787883/728x90_ortvd8.png",
+    alt: "728 by 90 leaderboard banner ad",
+  },
+  {
+    name: "300x250 MREC banner",
+    imageUrl: "https://res.cloudinary.com/dhqpqfw6w/image/upload/v1770787882/300x250_sz7mt8.png",
+    alt: "300 by 250 medium rectangle banner ad",
+  },
+]
+
 // Demo-only sponsor creatives for sampling ad placements across the site.
 // Sources provided by the user; many are SVG via Wikimedia Commons Special:FilePath.
 export const demoAdCreatives: DemoAdCreative[] = [
+  ...demoBannerAdCreatives,
   {
     name: "Jollibee Foods Corporation",
     imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Jollibee_Foods_Corporation_logo.svg",
@@ -158,4 +187,3 @@ export const demoAdCreatives: DemoAdCreative[] = [
     alt: "Coca-Cola Europacific Aboitiz Philippines logo",
   },
 ]
-
