@@ -8,7 +8,17 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
-## 2026-02-11 — Changelog visual simplification
+## 2026-02-10 — Membership and homepage messaging refinement
+- Refreshed membership and membership benefits page copy to better explain package value, eligibility, and expected outcomes for athletes, clubs, and coaches.
+- Updated membership pricing details and renamed the key membership CTA from “Join” to “Register” so language is more direct and action-oriented.
+- Revised homepage hero headline and supporting copy so first-time visitors immediately understand the platform purpose and next actions.
+
+## 2026-02-10 — Homepage ad creative + club map reliability improvements
+- Added demo banner ad creatives on the homepage so sponsor inventory appears in-context with actual visual assets instead of placeholder blocks.
+- Fixed club practice map embeds to use embeddable Google Maps URLs, preventing broken map rendering on club profile pages.
+- Improved demo credibility by making monetization placements and location details both presentable and consistently functional.
+
+## 2026-02-10 — Changelog visual simplification
 - Refocused `/changelog` on product updates only by removing the engineering commit feed toggle and dense status summary cards.
 - Redesigned update cards with significantly more internal spacing so the title, date, tags, description, and key takeaways are easier to scan.
 - Simplified supporting UI copy and styling to reduce visual noise and create cleaner breathing room around the most important release information.
