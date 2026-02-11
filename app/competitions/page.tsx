@@ -22,12 +22,13 @@ const getParam = (
 const normalizeStatus = (value: string): StatusFilter =>
   statusOptions.includes(value as StatusFilter) ? (value as StatusFilter) : "Upcoming"
 
-export default function CompetitionsPage({
+export default async function CompetitionsPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const statusFilter = normalizeStatus(getParam(searchParams, "status"))
+  const resolvedSearchParams = await searchParams
+  const statusFilter = normalizeStatus(getParam(resolvedSearchParams, "status"))
   const filtered = statusFilter === "All" ? competitions : competitions.filter((c) => c.status === statusFilter)
 
   return (

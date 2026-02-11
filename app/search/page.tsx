@@ -35,12 +35,13 @@ const getParam = (
   return value ?? ""
 }
 
-export default function SearchPage({
+export default async function SearchPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const query = getParam(searchParams, "q").trim()
+  const resolvedSearchParams = await searchParams
+  const query = getParam(resolvedSearchParams, "q").trim()
   const normalizedQuery = normalizeKey(query)
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean)
 
