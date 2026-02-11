@@ -124,6 +124,8 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
               address={club.locationDetail.address}
               name={club.locationDetail.name}
               notes={club.locationDetail.notes}
+              lat={club.locationDetail.lat}
+              lng={club.locationDetail.lng}
             />
           </div>
         ) : null}
