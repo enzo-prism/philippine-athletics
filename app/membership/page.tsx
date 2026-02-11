@@ -20,10 +20,10 @@ type MembershipType = {
 const membershipTypes: MembershipType[] = [
   {
     key: "youth",
-    name: "Individual Youth Membership",
-    audience: "For athletes and supporters 18 years old and younger",
+    name: "Youth Membership",
+    audience: "For athletes and supporters 18 and under",
     description:
-      "Designed for the next generation of Filipino athletes. Youth members can compete in recognized competitions and build official profiles from the start of their journey.",
+      "Start your journey with an official profile from day one. Youth members gain access to sanctioned competitions, age-group rankings, and a growing network of programs built for the next generation.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -31,7 +31,7 @@ const membershipTypes: MembershipType[] = [
       total: "$10 / month",
     },
     highlights: [
-      "Eligible for youth-sanctioned competitions",
+      "Compete in youth-sanctioned events nationwide",
       "Official athlete profile with verified results",
       "Age-group rankings and season progress tracking",
     ],
@@ -39,10 +39,10 @@ const membershipTypes: MembershipType[] = [
   },
   {
     key: "adult",
-    name: "Individual Adult Membership",
+    name: "Adult Membership",
     audience: "For athletes, coaches, officials, volunteers, and supporters 19+",
     description:
-      "The most popular membership for active participation in Philippine Athletics. Adult members can compete, coach, officiate, volunteer, and support the sport nationwide.",
+      "The core membership for anyone actively involved in Philippine athletics. Compete, coach, officiate, volunteer, or simply stay connected to the sport you care about.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -50,18 +50,18 @@ const membershipTypes: MembershipType[] = [
       total: "$10 / month",
     },
     highlights: [
-      "Eligible for adult-sanctioned competitions",
-      "Access to coach and official pathway resources",
-      "Priority member updates, clinics, and announcements",
+      "Compete in adult-sanctioned events nationwide",
+      "Coach and official development resources",
+      "Priority updates on clinics, meets, and announcements",
     ],
     headerClassName: "bg-red-700 text-white",
   },
   {
     key: "vip",
     name: "VIP Membership",
-    audience: "For members who want premium access and added perks",
+    audience: "For members who want to go further",
     description:
-      "Built for members who want to support Philippine Athletics at a deeper level while receiving elevated access to events, experiences, and partner offers.",
+      "Everything in the Adult Membership plus elevated access. VIP members get priority entry to select events, exclusive partner offers, and recognition as premium supporters of the sport.",
     pricing: {
       base: "$20 / month",
       processing: "$0",
@@ -69,9 +69,9 @@ const membershipTypes: MembershipType[] = [
       total: "$20 / month",
     },
     highlights: [
-      "Includes all Adult Membership benefits",
-      "Priority access to select ticketed athletics events",
-      "Exclusive partner discounts and VIP updates",
+      "All Adult Membership benefits included",
+      "Priority access to ticketed athletics events",
+      "Exclusive partner discounts and VIP communications",
     ],
     headerClassName: "bg-slate-900 text-white",
   },
@@ -82,12 +82,8 @@ const topActions = [
   { label: "Current Member Login", href: "/login" },
 ]
 
-const reasonsToJoin = [
-  "Compete in recognized meets with official results",
-  "Build a trusted athlete, coach, or club profile",
-  "Get updates on events, rankings, and member programs",
-  "Help strengthen Philippine Athletics nationwide",
-]
+const reasonsToJoin =
+  "Membership is how you become part of the official Philippine athletics community. It's your access to compete in recognized meets, build a verified profile, stay informed on what's happening across the sport, and contribute to something that's growing every year."
 
 export default function MembershipPage() {
   return (
@@ -97,14 +93,14 @@ export default function MembershipPage() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
         <section className="max-w-4xl mx-auto text-center space-y-5">
           <p className="text-4xl sm:text-5xl font-extrabold tracking-[0.16em] text-red-700 uppercase">Membership</p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Welcome to the Sport, the Team, the Journey</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Be Part of Something Bigger Than the Finish Line</h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Philippine Athletics brings together athletes, coaches, event directors, officials, volunteers, clubs, and supporters to grow
-            track &amp; field, road running, and race walking across the country.
+            Philippine Athletics is the official home for athletes, coaches, officials, volunteers, clubs, and supporters of track and
+            field, road running, and race walking nationwide.
           </p>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Join Team Philippine Athletics today by becoming a member. Whether you want to compete, contribute locally, or support high-
-            performance goals, membership connects you to the official ecosystem of our sport.
+            Membership gives you a place in the ecosystem. Compete in sanctioned events, build your official profile, and connect with the
+            community growing the sport from every corner of the country.
           </p>
 
           <div className="flex flex-wrap gap-3 justify-center pt-2">
@@ -197,16 +193,9 @@ export default function MembershipPage() {
         <section className="rounded-lg border border-border bg-card p-5 space-y-4">
           <div className="flex items-center gap-2">
             <BadgeCheck className="w-5 h-5 text-accent" />
-            <h2 className="text-lg font-semibold text-foreground">Why membership matters</h2>
+            <h2 className="text-lg font-semibold text-foreground">Why Membership Matters</h2>
           </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-muted-foreground">
-            {reasonsToJoin.map((reason) => (
-              <li key={reason} className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 mt-0.5 text-accent" />
-                <span>{reason}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="text-sm text-muted-foreground">{reasonsToJoin}</p>
         </section>
       </main>
     </div>
