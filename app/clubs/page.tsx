@@ -16,12 +16,13 @@ const getParam = (
   return value ?? ""
 }
 
-export default function ClubsPage({
+export default async function ClubsPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const query = getParam(searchParams, "q").trim()
+  const resolvedSearchParams = await searchParams
+  const query = getParam(resolvedSearchParams, "q").trim()
   const featuredClub = clubs.find((club) => club.slug === "manila-striders-track-club") ?? clubs[0]
 
   const filteredClubs = (() => {

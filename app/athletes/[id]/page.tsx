@@ -58,7 +58,7 @@ export default async function AthleteProfilePage({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams?: { event?: string; year?: string }
+  searchParams?: Promise<{ event?: string; year?: string }>
 }) {
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
@@ -74,8 +74,9 @@ export default async function AthleteProfilePage({
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   )
   const latestCompetition = sortedCompetitions[0]
-  const targetEvent = searchParams?.event ? normalizeKey(searchParams.event) : null
-  const targetYear = searchParams?.year ? Number.parseInt(searchParams.year, 10) : null
+  const resolvedSearchParams = await searchParams
+  const targetEvent = resolvedSearchParams?.event ? normalizeKey(resolvedSearchParams.event) : null
+  const targetYear = resolvedSearchParams?.year ? Number.parseInt(resolvedSearchParams.year, 10) : null
   const yearBest = targetEvent && targetYear
     ? sortedCompetitions
         .filter(
@@ -88,7 +89,7 @@ export default async function AthleteProfilePage({
           if (!parsed) return null
           return { competition, parsed }
         })
-        .filter(Boolean)
+        .filter((entry): entry is { competition: (typeof athlete.competitions)[number]; parsed: { value: number; higherIsBetter: boolean } } => Boolean(entry))
         .reduce((current, next) => {
           if (!current) return next
           const currentParsed = current.parsed

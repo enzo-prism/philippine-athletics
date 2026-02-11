@@ -273,15 +273,16 @@ const parsePerformance = (perf: string | undefined) => {
   return { value: numeric, higherIsBetter }
 }
 
-export default function AthletesPage({
+export default async function AthletesPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const query = getParam(searchParams, "q").trim()
-  const regionParam = getParam(searchParams, "region")
-  const eventParam = getParam(searchParams, "event")
-  const sortParam = getParam(searchParams, "sort")
+  const resolvedSearchParams = await searchParams
+  const query = getParam(resolvedSearchParams, "q").trim()
+  const regionParam = getParam(resolvedSearchParams, "region")
+  const eventParam = getParam(resolvedSearchParams, "event")
+  const sortParam = getParam(resolvedSearchParams, "sort")
 
   const regionFilter = isValidOption(regionParam, regionOptions) ? regionParam : "All"
   const eventFilter = isValidOption(eventParam, eventOptions) ? eventParam : "All"

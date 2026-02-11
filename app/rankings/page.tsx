@@ -40,16 +40,17 @@ const normalizeYear = (yearParam: string) => {
 
 const formatRank = (rank: number) => `#${rank}`
 
-export default function RankingsPage({
+export default async function RankingsPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const selectedEvent = normalizeEvent(getParam(searchParams, "event"))
-  const selectedGender = normalizeGender(getParam(searchParams, "gender"))
-  const selectedAgeGroup = normalizeAgeGroup(getParam(searchParams, "ageGroup"))
-  const selectedYear = normalizeYear(getParam(searchParams, "year"))
-  const highlightId = getParam(searchParams, "highlight").trim()
+  const resolvedSearchParams = await searchParams
+  const selectedEvent = normalizeEvent(getParam(resolvedSearchParams, "event"))
+  const selectedGender = normalizeGender(getParam(resolvedSearchParams, "gender"))
+  const selectedAgeGroup = normalizeAgeGroup(getParam(resolvedSearchParams, "ageGroup"))
+  const selectedYear = normalizeYear(getParam(resolvedSearchParams, "year"))
+  const highlightId = getParam(resolvedSearchParams, "highlight").trim()
 
   const rankings =
     selectedEvent === "Select an event"
@@ -99,8 +100,10 @@ export default function RankingsPage({
             </div>
             <form method="get" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Event</label>
-                <select name="event" defaultValue={selectedEvent} className={selectClassName} data-testid="rankings-filter-event">
+                <label htmlFor="event" className="text-xs font-semibold text-foreground uppercase">
+                  Event
+                </label>
+                <select id="event" name="event" defaultValue={selectedEvent} className={selectClassName} data-testid="rankings-filter-event">
                   {eventOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -110,8 +113,10 @@ export default function RankingsPage({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Gender</label>
-                <select name="gender" defaultValue={selectedGender} className={selectClassName} data-testid="rankings-filter-gender">
+                <label htmlFor="gender" className="text-xs font-semibold text-foreground uppercase">
+                  Gender
+                </label>
+                <select id="gender" name="gender" defaultValue={selectedGender} className={selectClassName} data-testid="rankings-filter-gender">
                   {genderOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -121,8 +126,10 @@ export default function RankingsPage({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Age group</label>
-                <select name="ageGroup" defaultValue={selectedAgeGroup} className={selectClassName} data-testid="rankings-filter-age">
+                <label htmlFor="ageGroup" className="text-xs font-semibold text-foreground uppercase">
+                  Age group
+                </label>
+                <select id="ageGroup" name="ageGroup" defaultValue={selectedAgeGroup} className={selectClassName} data-testid="rankings-filter-age">
                   {ageGroupOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -132,8 +139,10 @@ export default function RankingsPage({
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-foreground uppercase">Year</label>
-                <select name="year" defaultValue={String(selectedYear)} className={selectClassName} data-testid="rankings-filter-year">
+                <label htmlFor="year" className="text-xs font-semibold text-foreground uppercase">
+                  Year
+                </label>
+                <select id="year" name="year" defaultValue={String(selectedYear)} className={selectClassName} data-testid="rankings-filter-year">
                   {yearOptions.map((year) => (
                     <option key={year} value={String(year)}>
                       {year}

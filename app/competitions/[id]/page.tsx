@@ -11,13 +11,14 @@ export default async function CompetitionProfilePage({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams?: { event?: string }
+  searchParams?: Promise<{ event?: string }>
 }) {
   const { id: rawId } = await params
   const param = decodeIdParam(rawId)
   const competition = getCompetitionByIdOrStub(param)
   const isStub = competition.isStub
-  const selectedEvent = searchParams?.event?.trim() ?? ""
+  const resolvedSearchParams = await searchParams
+  const selectedEvent = resolvedSearchParams?.event?.trim() ?? ""
   const normalizedSelected = selectedEvent ? normalizeKey(selectedEvent) : null
   const results = competition.results ?? []
   const isUpcoming = competition.status === "Upcoming"
