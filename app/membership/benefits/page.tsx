@@ -18,8 +18,9 @@ type MembershipBenefit = {
 const benefitTiers: MembershipBenefit[] = [
   {
     id: "youth",
-    title: "Individual Youth Membership",
-    summary: "For athletes and supporters 18 years old and younger.",
+    title: "Youth Membership",
+    summary:
+      "Built for student-athletes, young competitors, and the families supporting them. Youth membership is the starting point for anyone under 18 who wants to compete, get ranked, and grow within the sport.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -27,18 +28,19 @@ const benefitTiers: MembershipBenefit[] = [
       total: "$10 / month",
     },
     details: [
-      "Eligible for youth-sanctioned competitions",
-      "Official athlete profile with verified results",
-      "Age-group rankings and season progress tracking",
-      "Member updates on youth meets, camps, and training opportunities",
+      "Compete in youth-sanctioned events with official results",
+      "Verified athlete profile visible in national rankings",
+      "Age-group season tracking so progress is never lost",
+      "Updates on youth meets, development camps, and training programs",
       "Support pathways for young athletes and their families",
     ],
     bestFor: ["Student-athletes", "Parents and guardians", "School and club development programs"],
   },
   {
     id: "adult",
-    title: "Individual Adult Membership",
-    summary: "For athletes, coaches, officials, volunteers, and supporters 19+.",
+    title: "Adult Membership",
+    summary:
+      "The go-to membership for anyone actively contributing to Philippine athletics. Whether you're on the track, behind the clipboard, or in the stands volunteering, this is where you plug in.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -46,18 +48,19 @@ const benefitTiers: MembershipBenefit[] = [
       total: "$10 / month",
     },
     details: [
-      "Eligible for adult-sanctioned competitions",
-      "Access to coach and official pathway resources",
-      "Priority member updates, clinics, and announcements",
-      "Official member profile for athlete, coach, official, or volunteer pathways",
-      "Participation opportunities that support Philippine Athletics nationwide",
+      "Compete in adult-sanctioned events with official results",
+      "Access coach and official certification pathways",
+      "Priority updates on clinics, meets, and member programs",
+      "Official profile as an athlete, coach, official, or volunteer",
+      "Direct participation in initiatives strengthening the sport nationwide",
     ],
     bestFor: ["Competitive athletes", "Coaches and officials", "Volunteers and sport advocates"],
   },
   {
     id: "vip",
     title: "VIP Membership",
-    summary: "For members who want premium access and added perks.",
+    summary:
+      "For members who want the full experience. VIP membership includes everything in the Adult tier plus priority event access, exclusive partner perks, and recognition as a premium supporter of Philippine athletics.",
     pricing: {
       base: "$20 / month",
       processing: "$0",
@@ -65,13 +68,13 @@ const benefitTiers: MembershipBenefit[] = [
       total: "$20 / month",
     },
     details: [
-      "Includes all Adult Membership benefits",
-      "Priority access to select ticketed athletics events",
-      "Exclusive partner discounts and VIP updates",
-      "Elevated access to select experiences and member opportunities",
-      "Additional recognition as a premium supporter of Philippine Athletics",
+      "Everything in the Adult Membership",
+      "Priority access to select ticketed events and experiences",
+      "Exclusive discounts from official partners",
+      "Early access to select member opportunities",
+      "Recognized as a premium supporter of the sport",
     ],
-    bestFor: ["High-engagement supporters", "Corporate and community partners", "Members seeking premium access"],
+    bestFor: ["High-engagement supporters", "Corporate and community partners", "Members who want premium access"],
   },
 ]
 
@@ -133,10 +136,10 @@ export default function MembershipBenefitsPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to membership overview
           </a>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Membership Benefits</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Membership Benefits at a Glance</h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
-            Compare membership tiers and review detailed benefits before you join or renew. These details mirror the latest membership overview,
-            including monthly pricing and updated feature highlights for each tier.
+            See exactly what each tier includes before you join or renew. All memberships give you access to the official Philippine athletics
+            ecosystem. The tier you choose determines how deep that access goes.
           </p>
         </section>
 
