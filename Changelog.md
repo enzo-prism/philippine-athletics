@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-11 — Changelog visual simplification
+- Refocused `/changelog` on product updates only by removing the engineering commit feed toggle and dense status summary cards.
+- Redesigned update cards with significantly more internal spacing so the title, date, tags, description, and key takeaways are easier to scan.
+- Simplified supporting UI copy and styling to reduce visual noise and create cleaner breathing room around the most important release information.
+
 ## 2026-02-10 — Homepage CTA and membership packages update
 - Updated the homepage hero CTA buttons to “Become a Member” and “View Events,” with direct links to membership and competitions for clearer next actions.
 - Added a dedicated membership packages section with Starter, Performance, and Club Plus tiers, including pricing and included benefits.
