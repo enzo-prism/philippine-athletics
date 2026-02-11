@@ -20,6 +20,32 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-02-10-membership-homepage-messaging",
+    date: "2026-02-10",
+    title: "Membership and homepage messaging refinement",
+    category: ["Membership", "Experience"],
+    summary: "Clarified conversion messaging across membership and homepage entry points.",
+    highlights: [
+      "Refreshed membership and benefits page copy to better explain package value, eligibility, and expected outcomes.",
+      "Updated displayed membership pricing details and renamed the primary CTA from “Join” to “Register” for clearer action language.",
+      "Revised homepage hero headline and supporting copy to improve first-time visitor comprehension.",
+    ],
+    whyItMatters: "Improves message clarity so users understand offerings faster and are more likely to take the intended next step.",
+  },
+  {
+    id: "2026-02-10-homepage-ads-maps",
+    date: "2026-02-10",
+    title: "Homepage ad creative + club map reliability improvements",
+    category: ["Monetization", "Reliability", "Experience"],
+    summary: "Improved demo realism with visual ad creatives and fixed map embed behavior.",
+    highlights: [
+      "Added banner-style ad creatives on the homepage to make sponsor inventory feel production-like instead of placeholder-only.",
+      "Fixed club practice map rendering by switching to embeddable Google Maps URLs on club profile pages.",
+      "Improved overall demo trust by ensuring monetization surfaces and location details both look complete and function correctly.",
+    ],
+    whyItMatters: "Strengthens presentation quality while removing a visible reliability issue in core club profile content.",
+  },
+  {
     id: "2026-02-10-ad-placements",
     date: "2026-02-10",
     title: "Expanded demo display ad placements",
