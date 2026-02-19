@@ -8,10 +8,27 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-19 — UI/UX consistency pass (in-progress local updates)
+- Added shared UI shell primitives (`AppShell`, `SectionHeader`, `StatePanel`, `PrimaryActionsBar`) to align list and detail page structure.
+- Introduced shared navigation/filter types and helpers for consistent list query parsing and reusable list-state behavior.
+- Centralized ad-slot placement rules into a single policy for cleaner, predictable ad rendering across pages.
+- Refined global navigation and search interactions with stronger hierarchy and improved state behavior.
+- Updated docs (`docs/STATUS.md`, `docs/TESTING.md`, `Changelog.md`) to match current implementation and validation tracking.
+
 ## 2026-02-10 — Membership and homepage messaging refinement
 - Refreshed membership and membership benefits page copy to better explain package value, eligibility, and expected outcomes for athletes, clubs, and coaches.
 - Updated membership pricing details and renamed the key membership CTA from “Join” to “Register” so language is more direct and action-oriented.
 - Revised homepage hero headline and supporting copy so first-time visitors immediately understand the platform purpose and next actions.
+
+## 2026-02-09 — Homepage and visual iteration
+- Iterated on homepage structure and interaction rhythm with simplified hero/footer card patterns to improve scan and selection.
+- Added animated hero progression work culminating in the Unicorn Studio-centered presentation and cleaner action blocks.
+- Standardized Cloudinary logo/brand asset usage across layout, membership, and footer surfaces.
+
+## 2026-02-08 — Membership, sponsor, and documentation polish
+- Refreshed membership and sponsor areas with updated content structure and stronger storytelling.
+- Added and cleaned up changelog/status documentation language for non-technical readability and better planning context.
+- Improved flow around documentation browsing and commit-history context within the app.
 
 ## 2026-02-10 — Homepage ad creative + club map reliability improvements
 - Added demo banner ad creatives on the homepage so sponsor inventory appears in-context with actual visual assets instead of placeholder blocks.
