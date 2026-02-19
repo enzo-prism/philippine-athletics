@@ -29,9 +29,98 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-19T16:13:51.096Z"
+export const commitLogUpdatedAt = "2026-02-19T16:18:56.715Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "2eda61bec24d73c855377a43b06fae9e5df0ba95",
+    "shortHash": "2eda61b",
+    "subject": "feat: restore changelog commit feed and enforce sync",
+    "author": "enzo-prism",
+    "date": "2026-02-19T08:17:56-08:00",
+    "stats": {
+      "files": 9,
+      "insertions": 1780,
+      "deletions": 425,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "docs",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Docs",
+      "Demo Data",
+      "Config",
+      "Tooling"
+    ],
+    "summary": "Added General updates, Core screens, Guides & notes, Sample data, Tools.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Improved the sample data used in the demo.",
+      "Updated guides so everyone stays aligned."
+    ],
+    "plainSummary": "Added update timeline, core screens, and guides & notes.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Added clearer guidance for teammates and stakeholders.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 190,
+        "deletions": 47
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 1522,
+        "deletions": 9
+      },
+      {
+        "path": "package.json",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "scripts/check-changelog-sync.mjs",
+        "additions": 16,
+        "deletions": 0
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 29,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.ts",
+        "additions": 0,
+        "deletions": 368
+      }
+    ]
+  },
   {
     "hash": "1722165f2772422555e48c2f149bc8e62256c96c",
     "shortHash": "1722165",

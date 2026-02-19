@@ -345,11 +345,31 @@ if (isCheck) {
   if (!existingHashes.length) {
     throw new Error("commit-log file is missing hash entries for validation.")
   }
-  if (existingHashes.length !== generatedHashes.length || !generatedHashes.every((hash, index) => existingHashes[index] === hash)) {
+
+  if (existingHashes[0] !== generatedHashes[0]) {
     throw new Error(
       `Commit log snapshot is stale.\n` +
         `Expected head: ${generatedHashes[0]}\n` +
-        `File head: ${existingHashes[0] ?? "missing"}\n` +
+        `File head: ${existingHashes[0]}\n` +
+        "Run: pnpm data:commits"
+    )
+  }
+
+  const sharedCount = Math.min(existingHashes.length, generatedHashes.length)
+  const sharedMatch = generatedHashes.slice(0, sharedCount).every((hash, index) => existingHashes[index] === hash)
+  if (!sharedMatch) {
+    throw new Error(
+      `Commit log snapshot is stale.\n` +
+        `Expected first ${sharedCount} commits to match.\n` +
+        `Generated[0..${sharedCount - 1}] starts: ${generatedHashes.slice(0, 3).join(", ")}\n` +
+        `File[0..${sharedCount - 1}] starts: ${existingHashes.slice(0, 3).join(", ")}\n` +
+        "Run: pnpm data:commits"
+    )
+  }
+
+  if (existingHashes.length < generatedHashes.length) {
+    throw new Error(
+      `Commit log snapshot is missing ${generatedHashes.length - existingHashes.length} commit entries.\n` +
         `Expected count: ${generatedHashes.length}\n` +
         `File count: ${existingHashes.length}\n` +
         "Run: pnpm data:commits"
