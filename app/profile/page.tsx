@@ -564,7 +564,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="md:hidden sticky top-14 z-30 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="md:hidden profile-sticky">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 space-y-2">
           <div className="flex items-center justify-between gap-3">
             <Badge variant="outline" className="border-dashed bg-muted/60 backdrop-blur">
@@ -587,8 +587,8 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 sm:py-12 space-y-10 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+      <div className="profile-shell page-stack pt-6 pb-12 sm:py-12 relative">
+        <div className="profile-grid">
           <aside className="h-fit">
             <Card className="py-0 gap-0">
               <CardContent className="p-4 space-y-3">
@@ -642,7 +642,7 @@ export default function ProfilePage() {
                 ))}
               </div>
               {profile.stats && profile.stats.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="profile-stats-grid">
                   {profile.stats.map((stat) => (
                     <StatCard key={stat.label} label={stat.label} value={stat.value} hint={stat.hint} />
                   ))}
@@ -688,7 +688,7 @@ export default function ProfilePage() {
                 </div>
 
                 <aside className="space-y-6">
-                  <Card className="py-0 gap-0 bg-muted/40">
+                  <Card className="ui-panel py-0 gap-0 bg-muted/40">
                     <CardContent className="p-6 space-y-2">
                       <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
                       <p className="text-sm text-foreground">{profile.email}</p>
@@ -696,7 +696,7 @@ export default function ProfilePage() {
                   </Card>
 
                   {selectedRole === "admin" ? (
-                    <Card className="py-0 gap-0 border-accent/30 bg-accent/5">
+                    <Card className="ui-panel py-0 gap-0 border-accent/30 bg-accent/5">
                       <CardContent className="p-6 space-y-2">
                         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
                           <ShieldCheck className="w-4 h-4 text-accent" />

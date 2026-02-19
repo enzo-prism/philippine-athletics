@@ -25,3 +25,6 @@ playwright-report/
 
 # Editor
 .DS_Store
+
+# Codex runtime metadata
+.codex/

@@ -119,7 +119,7 @@ export default async function SearchPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-10 space-y-8">
+      <div className="page-shell page-stack py-10">
         <header className="space-y-3">
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">
@@ -146,7 +146,7 @@ export default async function SearchPage({
         <DemoAdSlot slotId="search-inline-1" format="leaderboard" />
 
         {!query ? (
-          <Card className="shadow-soft py-0 gap-0">
+          <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-6 space-y-3 text-sm text-muted-foreground">
               <p>Start typing a name to search across athletes, coaches, and clubs.</p>
               <div className="flex flex-wrap gap-2">
@@ -163,15 +163,15 @@ export default async function SearchPage({
             </CardContent>
           </Card>
         ) : !hasResults ? (
-          <Card className="shadow-soft py-0 gap-0">
+          <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-6 text-sm text-muted-foreground">
               No results found for "{query}". Try another name or check spelling.
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-8" data-testid="search-results">
+          <div className="section-stack" data-testid="search-results">
             {topResult ? (
-              <Card className="py-0 gap-0 border-accent/40 bg-accent/5">
+              <Card className="ui-panel py-0 gap-0 border-accent/40 bg-accent/5">
                 <CardContent className="p-5 space-y-3">
                   <div className="flex items-center gap-2 text-xs font-semibold uppercase text-accent">
                     Top result
@@ -192,11 +192,11 @@ export default async function SearchPage({
 
             {grouped.athletes.length > 0 ? (
               <section className="space-y-3">
-                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Athletes</h2>
                   <span className="text-xs text-muted-foreground">{grouped.athletes.length} results</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="results-grid">
                   {grouped.athletes.map((athlete) => (
                     <ProfileCard
                       key={athlete.href}
@@ -213,11 +213,11 @@ export default async function SearchPage({
 
             {grouped.coaches.length > 0 ? (
               <section className="space-y-3">
-                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Coaches</h2>
                   <span className="text-xs text-muted-foreground">{grouped.coaches.length} results</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="results-grid">
                   {grouped.coaches.map((coach) => (
                     <ProfileCard
                       key={coach.href}
@@ -234,11 +234,11 @@ export default async function SearchPage({
 
             {grouped.clubs.length > 0 ? (
               <section className="space-y-3">
-                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Clubs</h2>
                   <span className="text-xs text-muted-foreground">{grouped.clubs.length} results</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="results-grid">
                   {grouped.clubs.map((club) => (
                     <ProfileCard
                       key={club.href}

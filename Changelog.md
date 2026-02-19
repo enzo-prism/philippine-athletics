@@ -8,12 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
-## 2026-02-19 — UI/UX consistency pass (in-progress local updates)
-- Added shared UI shell primitives (`AppShell`, `SectionHeader`, `StatePanel`, `PrimaryActionsBar`) to align list and detail page structure.
-- Introduced shared navigation/filter types and helpers for consistent list query parsing and reusable list-state behavior.
-- Centralized ad-slot placement rules into a single policy for cleaner, predictable ad rendering across pages.
-- Refined global navigation and search interactions with stronger hierarchy and improved state behavior.
-- Updated docs (`docs/STATUS.md`, `docs/TESTING.md`, `Changelog.md`) to match current implementation and validation tracking.
+## 2026-02-19 — Shadcn UI design-system migration and page cohesion refresh
+- Migrated remaining in-scope UI primitives to the unified `radix-ui` package and updated shadcn-registered components to current New York styles while preserving APIs.
+- Removed old `@radix-ui/react-*` package dependencies and ensured dropdown/select surfaces include `data-[side=inline-start|inline-end]` direction-safe class hooks.
+- Refreshed homepage, athletes, search, and profile surfaces with shared utility classes in `app/globals.css` for consistent card rhythm, filter panels, and section spacing.
+- Updated project documentation (`docs/STATUS.md`, `Changelog.md`) so the current visual-system state and follow-up expectations are recorded with exact date context.
 
 ## 2026-02-10 — Membership and homepage messaging refinement
 - Refreshed membership and membership benefits page copy to better explain package value, eligibility, and expected outcomes for athletes, clubs, and coaches.

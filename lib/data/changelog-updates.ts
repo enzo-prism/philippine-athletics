@@ -7,6 +7,8 @@ export type ProductUpdateCategory =
   | "Membership"
   | "Reliability"
   | "Tooling"
+  | "Components"
+  | "Styling"
 
 export type ProductUpdateEntry = {
   id: string
@@ -19,6 +21,20 @@ export type ProductUpdateEntry = {
 }
 
 export const productUpdates: ProductUpdateEntry[] = [
+  {
+    id: "2026-02-19-shadcn-design-system-refresh",
+    date: "2026-02-19",
+    title: "Shadcn UI design-system migration and page cohesion refresh",
+    category: ["Components", "Tooling", "Styling", "Experience"],
+    summary: "Refreshed core UI primitives to the unified Radix baseline and aligned major screens to shared page-level utility patterns.",
+    highlights: [
+      "Consolidated UI dependencies from multiple `@radix-ui/react-*` packages into `radix-ui` for consistent imports and reduced package churn.",
+      "Updated in-scope primitives (`avatar`, `badge`, `button`, `label`, `select`, `separator`, `sheet`, `tabs`, `dropdown-menu`) and direction-safe dropdown/select behavior with inline-side classes.",
+      "Introduced reusable `app/globals.css` utility sections and applied them to homepage, athletes, search, and profile routes for consistent spacing and card rhythm.",
+      "Synced repo status and changelog documentation entries so the design-system baseline is recorded clearly for the next sprint handoff.",
+    ],
+    whyItMatters: "A single, coherent UI baseline reduces visual drift and makes future screen work faster, safer, and easier to keep consistent.",
+  },
   {
     id: "2026-02-10-membership-homepage-messaging",
     date: "2026-02-10",

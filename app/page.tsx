@@ -29,14 +29,14 @@ export default function Home() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_35%),radial-gradient(circle_at_90%_15%,rgba(168,85,247,0.13),transparent_32%),#040714] text-white">
       <Navigation />
 
-      <main className="page-shell py-6 sm:py-8 lg:py-10">
-        <section className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-black/40 shadow-2xl">
+      <main className="page-shell page-stack py-6 sm:py-8 lg:py-10">
+        <section className="home-hero-shell relative overflow-hidden">
           <div className="absolute inset-0">
             <UnicornHomeScene />
           </div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.25),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(168,85,247,0.3),transparent_40%),linear-gradient(to_top,rgba(3,7,18,0.96),rgba(3,7,18,0.4))]" />
 
-          <div className="relative z-10 flex min-h-[76vh] flex-col justify-between gap-12 p-6 sm:p-10 lg:p-14">
+          <div className="home-hero-content">
             <div className="grid items-end gap-10">
               <div className="space-y-5">
                 <div className="inline-flex items-center rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-100 backdrop-blur">
@@ -113,8 +113,8 @@ export default function Home() {
             <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
               <Card className="rounded-3xl border-white/20 bg-black/45 py-0 text-white backdrop-blur-xl">
                 <CardContent className="grid grid-cols-2 gap-4 p-5 sm:grid-cols-4">
-                  {quickStats.map((stat) => (
-                    <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/5 p-4 text-center">
+                    {quickStats.map((stat) => (
+                    <div key={stat.label} className="home-stat-chip">
                       <p className="text-3xl font-extrabold tracking-tight">{stat.value}</p>
                       <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/65">{stat.label}</p>
                     </div>
@@ -122,7 +122,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="rounded-3xl border-white/20 bg-black/45 py-0 text-white backdrop-blur-xl">
+              <Card className="home-panel-dark">
                 <CardContent className="space-y-3 p-5">
                   <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/75">
                     <Zap className="h-3.5 w-3.5" />
@@ -133,7 +133,7 @@ export default function Home() {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="rounded-xl border border-white/20 bg-white/10 px-3 py-4 text-center text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-white/20"
+                        className="home-action-card"
                       >
                         {item.label}
                       </Link>
@@ -152,7 +152,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-6 grid gap-4 sm:grid-cols-3">
+        <section className="home-feature-grid">
           {[
             { icon: Medal, title: "National rankings", href: "/rankings", description: "Follow top performers and season leaders." },
             { icon: Sparkles, title: "Featured athletes", href: "/athletes", description: "Discover standout talent from every region." },

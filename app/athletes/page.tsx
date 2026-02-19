@@ -348,18 +348,18 @@ export default async function AthletesPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-10 space-y-8">
+      <div className="page-shell page-stack py-10">
         <div className="space-y-2">
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground text-balance">Search Athletes</h1>
         </div>
 
         <div className="sticky top-14 z-30 space-y-2">
-          <Card className="py-0 gap-0 shadow-soft">
+          <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-3 sm:p-4 space-y-4">
               <form method="get" className="space-y-3">
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(220px,1.6fr)_minmax(160px,0.7fr)_minmax(160px,0.7fr)_minmax(220px,1fr)_auto] items-end">
+                <div className="athlete-filter-grid items-end">
                   <div className="space-y-1">
-                    <label htmlFor="athlete-search" className="text-xs font-semibold text-muted-foreground uppercase">
+                    <label htmlFor="athlete-search" className="ui-section-label">
                       Search
                     </label>
                     <div className="relative">
@@ -381,7 +381,7 @@ export default async function AthletesPage({
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="athlete-sort" className="text-xs font-semibold text-muted-foreground uppercase">
+                    <label htmlFor="athlete-sort" className="ui-section-label">
                       Sort
                     </label>
                     <select id="athlete-sort" name="sort" defaultValue={sortOption} className={selectClassName}>
@@ -394,7 +394,7 @@ export default async function AthletesPage({
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="athlete-region" className="text-xs font-semibold text-muted-foreground uppercase">
+                    <label htmlFor="athlete-region" className="ui-section-label">
                       Region
                     </label>
                     <select id="athlete-region" name="region" defaultValue={regionFilter} className={selectClassName}>
@@ -407,7 +407,7 @@ export default async function AthletesPage({
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="athlete-event" className="text-xs font-semibold text-muted-foreground uppercase">
+                    <label htmlFor="athlete-event" className="ui-section-label">
                       Event
                     </label>
                     <select id="athlete-event" name="event" defaultValue={eventFilter} className={selectClassName}>
@@ -458,7 +458,7 @@ export default async function AthletesPage({
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+          <div className="results-grid">
             <div className="sm:col-span-2 xl:col-span-3">
               <DemoAdSlot slotId="athletes-inline-1" format="leaderboard" />
             </div>

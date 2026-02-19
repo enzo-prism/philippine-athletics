@@ -1,9 +1,10 @@
 # TrackPH Status Snapshot
 
-Date: 2026-02-03
+Date: 2026-02-19
 
 ## Current State
 
+- Shadcn UI system is now in a consolidated refresh state: all in-scope primitives in `components/ui/*` are on the `radix-ui` baseline, with inline direction-safe dropdown/select side classes and updated variants.
 - Core public experience is live in the App Router: Athletes, Rankings, Clubs, Competitions, Recognition, Sponsors, Search, and How It Works.
 - Demo data lives in `lib/data/*` with helper lookups and integrity checks (`pnpm data:check`).
 - The Results Intake portal exists at `/data-portal` with a multi-step upload → map → validate → review flow.
