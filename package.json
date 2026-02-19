@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "pnpm changelog:verify && next build",
     "data:commits": "node scripts/generate-commit-log.mjs",
     "data:check": "tsx lib/data/validate.ts",
     "dev": "next dev",
-    "lint": "eslint .",
+    "lint": "pnpm changelog:verify && eslint .",
     "start": "next start",
     "test:flows": "bash scripts/test-flows.sh tests/flows --project=Desktop",
     "test:flows:full": "bash scripts/test-flows.sh tests/flows",
@@ -15,7 +15,8 @@
     "test:flows:codegen": "pnpm exec playwright codegen $PLAYWRIGHT_BASE_URL",
     "test:design": "bash scripts/test-design.sh",
     "test:design:update": "bash scripts/test-design.sh --update-snapshots",
-    "changelog:verify": "node scripts/check-changelog-sync.mjs"
+    "changelog:verify": "node scripts/check-changelog-sync.mjs",
+    "push:main": "pnpm changelog:verify && git push origin main"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
