@@ -300,6 +300,7 @@ const commits = logRaw
   })
 
 const isCheck = process.argv.includes("--check")
+const isStrict = process.env.CHANGELOG_STRICT_CHECK === "1"
 const output = `export type CommitFile = {
   path: string
   additions: number | null
@@ -346,22 +347,44 @@ if (isCheck) {
     throw new Error("commit-log file is missing hash entries for validation.")
   }
 
-  if (existingHashes[0] !== generatedHashes[0]) {
+  const existingHead = existingHashes[0]
+  const fileHeadIndex = generatedHashes.indexOf(existingHead)
+
+  if (fileHeadIndex === -1) {
     throw new Error(
       `Commit log snapshot is stale.\n` +
-        `Expected head: ${generatedHashes[0]}\n` +
-        `File head: ${existingHashes[0]}\n` +
+        `File head: ${existingHead}\n` +
+        `Cannot be matched to generated commit history.\n` +
         "Run: pnpm data:commits"
     )
   }
 
-  const sharedCount = Math.min(existingHashes.length, generatedHashes.length)
-  const sharedMatch = generatedHashes.slice(0, sharedCount).every((hash, index) => existingHashes[index] === hash)
+  const maxAllowedLag = isStrict ? 0 : 1
+  if (fileHeadIndex > maxAllowedLag) {
+    throw new Error(
+      `Commit log snapshot is stale.\n` +
+        `Expected head: ${generatedHashes[0]}\n` +
+        `File head: ${existingHead}\n` +
+        `${isStrict ? "Strict mode" : "Non-strict mode"} allows at most ${maxAllowedLag} commit(s) behind.\\n` +
+        "Run: pnpm data:commits"
+    )
+  }
+
+  if (fileHeadIndex > 0) {
+    console.warn(
+      `Commit log snapshot is ${fileHeadIndex} commit(s) behind HEAD. Run pnpm data:commits before pushing to include ${generatedHashes[0]}.`
+    )
+  }
+
+  const sharedCount = Math.min(existingHashes.length, generatedHashes.length - fileHeadIndex)
+  const sharedMatch = generatedHashes
+    .slice(fileHeadIndex, fileHeadIndex + sharedCount)
+    .every((hash, index) => existingHashes[index] === hash)
   if (!sharedMatch) {
     throw new Error(
       `Commit log snapshot is stale.\n` +
-        `Expected first ${sharedCount} commits to match.\n` +
-        `Generated[0..${sharedCount - 1}] starts: ${generatedHashes.slice(0, 3).join(", ")}\n` +
+        `Expected snapshot alignment at ${fileHeadIndex} to match.\n` +
+        `Generated[${fileHeadIndex}..${fileHeadIndex + sharedCount - 1}] starts: ${generatedHashes.slice(fileHeadIndex, fileHeadIndex + 3).join(", ")}\n` +
         `File[0..${sharedCount - 1}] starts: ${existingHashes.slice(0, 3).join(", ")}\n` +
         "Run: pnpm data:commits"
     )

@@ -17,7 +17,8 @@
     "test:design": "bash scripts/test-design.sh",
     "test:design:update": "bash scripts/test-design.sh --update-snapshots",
     "changelog:verify": "node scripts/check-changelog-sync.mjs",
-    "push:main": "pnpm changelog:verify && git push origin main"
+    "changelog:verify:strict": "CHANGELOG_STRICT_CHECK=1 pnpm changelog:verify",
+    "push:main": "pnpm data:commits && git add lib/data/commit-log.ts && (git diff --cached --quiet -- lib/data/commit-log.ts || git commit -m \"chore: sync changelog commit log snapshot\" lib/data/commit-log.ts) && pnpm changelog:verify:strict && git push origin main"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
