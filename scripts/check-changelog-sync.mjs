@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs"
+import { execSync } from "node:child_process"
 import { resolve } from "node:path"
 
 const changelogPath = resolve(process.cwd(), "Changelog.md")
@@ -30,6 +31,21 @@ if (changelogDate !== updatesDate || changelogTitle.trim() !== updatesTitle.trim
       `changelog-updates.ts: ${updatesDate} — ${updatesTitle}\n` +
       "Keep these top entries aligned before building or releasing."
   )
+}
+
+try {
+  execSync("node scripts/generate-commit-log.mjs --check", {
+    encoding: "utf8",
+    stdio: "pipe",
+  })
+} catch (error) {
+  const message =
+    error instanceof Error && "stdout" in error
+      ? `${error.stdout}\n${error.stderr}`.trim()
+      : error instanceof Error
+        ? error.message
+        : String(error)
+  throw new Error(`Commit log snapshot is out of sync. ${message}\nRun: pnpm data:commits`)
 }
 
 console.log(`Changelog sync OK: ${changelogDate} — ${changelogTitle}`)

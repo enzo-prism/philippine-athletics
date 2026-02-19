@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-19 — Changelog commit feed and sync hardening
+- Restored `/changelog` dual-mode navigation with both product highlights and per-commit cards so every engineering change is visible again.
+- Added per-commit card details (author, short hash, tags, impact summary, file-change signal) and improved filtering/search behavior in commit mode.
+- Added self-checking commit-log freshness enforcement in `pnpm changelog:verify` so stale generated commit snapshots must be regenerated before build/lint/push.
+
 ## 2026-02-19 — Shadcn UI design-system migration and page cohesion refresh
 - Migrated remaining in-scope UI primitives to the unified `radix-ui` package and updated shadcn-registered components to current New York styles while preserving APIs.
 - Removed old `@radix-ui/react-*` package dependencies and ensured dropdown/select surfaces include `data-[side=inline-start|inline-end]` direction-safe class hooks.

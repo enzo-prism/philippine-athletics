@@ -5,6 +5,7 @@
   "scripts": {
     "build": "pnpm changelog:verify && next build",
     "data:commits": "node scripts/generate-commit-log.mjs",
+    "data:commits:check": "node scripts/generate-commit-log.mjs --check",
     "data:check": "tsx lib/data/validate.ts",
     "dev": "next dev",
     "lint": "pnpm changelog:verify && eslint .",

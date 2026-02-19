@@ -11,6 +11,7 @@ Date: 2026-02-19
 - Intake submissions are stored locally in the browser and can be exported as JSON. No backend writes exist yet.
 - Preview tooling now shows impact on competition pages, athlete pages, and rankings based on uploaded results.
 - A demo Changelog page exists at `/changelog` backed by a generated commit log dataset.
+- The `/changelog` page now supports dual mode: curated product highlights and a full commit feed with per-commit cards.
 - Changelog entries now surface plain-English summaries and non-technical notes by default.
 - Weekly digest mode groups updates by week with “why it matters” impact lines.
 - Design regression tests use Playwright snapshots across key routes and device sizes (`pnpm test:design` auto-installs deps/browsers on first run).
@@ -40,6 +41,7 @@ Date: 2026-02-19
 - No persistent server storage; local storage can be cleared by the browser.
 - Rankings and athlete updates in preview are computed from demo data, not real federation feeds.
 - Changelog data must be regenerated with `pnpm data:commits` to stay in sync with git history.
+- Commit feed freshness is now enforced by `pnpm changelog:verify`; use `pnpm changelog:verify` before release/push workflows.
 
 ## Recommended Next Steps
 

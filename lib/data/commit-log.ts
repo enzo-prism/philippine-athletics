@@ -29,9 +29,1522 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-10T16:02:57.505Z"
+export const commitLogUpdatedAt = "2026-02-19T16:13:51.096Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "1722165f2772422555e48c2f149bc8e62256c96c",
+    "shortHash": "1722165",
+    "subject": "chore: guard changelog sync in build/lint and push workflow",
+    "author": "enzo-prism",
+    "date": "2026-02-19T08:10:51-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 4,
+      "deletions": 3,
+      "summary": ""
+    },
+    "areas": [
+      "other"
+    ],
+    "tags": [
+      "Config"
+    ],
+    "summary": "Updated General updates.",
+    "notes": [],
+    "plainSummary": "Updated app setup.",
+    "plainNotes": [
+      "Kept the app setup reliable and current."
+    ],
+    "plainImpact": "Keeps the app stable and reliable.",
+    "files": [
+      {
+        "path": "package.json",
+        "additions": 4,
+        "deletions": 3
+      }
+    ]
+  },
+  {
+    "hash": "b03c39e97da4c816e1594030b8c7bd76a66b1430",
+    "shortHash": "b03c39e",
+    "subject": "chore: sync changelog and apply shadcn ui migration",
+    "author": "enzo-prism",
+    "date": "2026-02-19T08:10:33-08:00",
+    "stats": {
+      "files": 21,
+      "insertions": 1190,
+      "deletions": 578,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "docs",
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Athletes",
+      "App Pages",
+      "Accounts",
+      "Search",
+      "Components",
+      "Docs",
+      "Demo Data",
+      "Config",
+      "Tooling"
+    ],
+    "summary": "Updated General updates, Core screens, Shared interface, Guides & notes, Sample data, Tools.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo.",
+      "Updated guides so everyone stays aligned."
+    ],
+    "plainSummary": "Updated athlete profiles, core screens, and profiles & sign-up.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved core screens and layouts.",
+      "Smoothed sign-up and profile steps.",
+      "Made it quicker to find people and results."
+    ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Makes finding people and clubs faster.",
+    "files": [
+      {
+        "path": ".gitignore",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 6
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 8,
+        "deletions": 8
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 66,
+        "deletions": 0
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 8,
+        "deletions": 8
+      },
+      {
+        "path": "app/profile/page.tsx",
+        "additions": 6,
+        "deletions": 6
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 11,
+        "deletions": 11
+      },
+      {
+        "path": "components/ui/avatar.tsx",
+        "additions": 103,
+        "deletions": 41
+      },
+      {
+        "path": "components/ui/badge.tsx",
+        "additions": 11,
+        "deletions": 9
+      },
+      {
+        "path": "components/ui/button.tsx",
+        "additions": 4,
+        "deletions": 2
+      },
+      {
+        "path": "components/ui/dropdown-menu.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "components/ui/label.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/select.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "components/ui/separator.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/sheet.tsx",
+        "additions": 9,
+        "deletions": 5
+      },
+      {
+        "path": "components/ui/tabs.tsx",
+        "additions": 34,
+        "deletions": 9
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 16,
+        "deletions": 0
+      },
+      {
+        "path": "package.json",
+        "additions": 3,
+        "deletions": 28
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "additions": 858,
+        "deletions": 436
+      },
+      {
+        "path": "scripts/check-changelog-sync.mjs",
+        "additions": 35,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "4cd3b0a16c636dc677b92305c3bed77778380c66",
+    "shortHash": "4cd3b0a",
+    "subject": "docs: add missing changelog entries through Feb 2026",
+    "author": "enzo-prism",
+    "date": "2026-02-19T08:01:06-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 17,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "other"
+    ],
+    "tags": [],
+    "summary": "Added General updates.",
+    "notes": [],
+    "plainSummary": "Added the app.",
+    "plainNotes": [],
+    "plainImpact": "Keeps the product moving forward.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 17,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "09a494331b5e4db10cd76504a27a450cbb71073c",
+    "shortHash": "09a4943",
+    "subject": "Merge pull request #32 from enzo-prism/codex/test-searching,-filtering,-and-sorting-features",
+    "body": "fix: await async searchParams for search/filter pages and restore Playwright webServer",
+    "author": "enzo",
+    "date": "2026-02-10T22:49:00-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 52,
+      "deletions": 37,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "other"
+    ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Competitions",
+      "Rankings",
+      "Search"
+    ],
+    "summary": "Updated Core screens, General updates.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated athlete profiles, club pages, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Highlighted meet results and how to explore them."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 5,
+        "deletions": 4
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 7,
+        "deletions": 6
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 24,
+        "deletions": 15
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "playwright.config.ts",
+        "additions": 1,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "26dbe40e77d8da611114f1fbdd18ef4398fb3fed",
+    "shortHash": "26dbe40",
+    "subject": "fix: restore app search/filter routes and flow test server startup",
+    "author": "enzo",
+    "date": "2026-02-10T22:48:48-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 52,
+      "deletions": 37,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "other"
+    ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Competitions",
+      "Rankings",
+      "Search"
+    ],
+    "summary": "Fixed Core screens, General updates.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed athlete profiles, club pages, and core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 5,
+        "deletions": 4
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 7,
+        "deletions": 6
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 24,
+        "deletions": 15
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "playwright.config.ts",
+        "additions": 1,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "7846c2e71e9f7ae95848135ffb345ffdf71bacdd",
+    "shortHash": "7846c2e",
+    "subject": "Merge pull request #31 from enzo-prism/codex/update-and-detail-changelog",
+    "body": "Codex-generated pull request",
+    "author": "enzo",
+    "date": "2026-02-10T22:35:43-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 37,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "data"
+    ],
+    "tags": [
+      "Demo Data"
+    ],
+    "summary": "Updated General updates, Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated sample data.",
+    "plainNotes": [
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 11,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 26,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "89d3c4326445a42bd9ff5d06e71d87a40459864c",
+    "shortHash": "89d3c43",
+    "subject": "docs: update changelog with latest product updates",
+    "author": "enzo",
+    "date": "2026-02-10T22:35:30-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 37,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "data"
+    ],
+    "tags": [
+      "Demo Data"
+    ],
+    "summary": "Updated General updates, Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated sample data.",
+    "plainNotes": [
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 11,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 26,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "c5c822997d50f0877295dcabf145bacdabe5ab34",
+    "shortHash": "c5c8229",
+    "subject": "Merge pull request #30 from enzo-prism/codex/replace-join-button-text-with-register",
+    "body": "fix: rename membership Join button to Register",
+    "author": "enzo",
+    "date": "2026-02-10T22:22:26-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 1,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "2e164b6604a8bce5cfaeda347c72fcaadec6e47e",
+    "shortHash": "2e164b6",
+    "subject": "fix: rename membership join button to register",
+    "author": "enzo",
+    "date": "2026-02-10T22:22:14-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 1,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "1bd47183aeaaab40aa02a0d158465106b8985237",
+    "shortHash": "1bd4718",
+    "subject": "Merge pull request #29 from enzo-prism/codex/update-membership-and-benefits-page-text",
+    "body": "Update membership and benefits page copy",
+    "author": "enzo",
+    "date": "2026-02-10T22:13:55-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 49,
+      "deletions": 57,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/benefits/page.tsx",
+        "additions": 26,
+        "deletions": 23
+      },
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 23,
+        "deletions": 34
+      }
+    ]
+  },
+  {
+    "hash": "3a0e004c2997c850e110901cd3834a491a079202",
+    "shortHash": "3a0e004",
+    "subject": "feat: refresh membership page copy",
+    "author": "enzo",
+    "date": "2026-02-10T22:13:43-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 49,
+      "deletions": 57,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Added Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Added core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/benefits/page.tsx",
+        "additions": 26,
+        "deletions": 23
+      },
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 23,
+        "deletions": 34
+      }
+    ]
+  },
+  {
+    "hash": "cf46e64ee1359065506d25ba6253d6dd41d807be",
+    "shortHash": "cf46e64",
+    "subject": "Merge pull request #28 from enzo-prism/codex/update-homepage-h1-and-sub-text",
+    "body": "Update homepage hero messaging",
+    "author": "enzo",
+    "date": "2026-02-10T22:10:37-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 2,
+      "deletions": 2,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      }
+    ]
+  },
+  {
+    "hash": "d571facae7a2d8bd564899eacbbb2e62a9a8cb62",
+    "shortHash": "d571fac",
+    "subject": "feat: update homepage hero messaging",
+    "author": "enzo",
+    "date": "2026-02-10T22:10:28-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 2,
+      "deletions": 2,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Added Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Added core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      }
+    ]
+  },
+  {
+    "hash": "005ce979581ae58e6393ab05c73d52c7991b10e1",
+    "shortHash": "005ce97",
+    "subject": "Merge pull request #27 from enzo-prism/codex/add-banner-ads-to-demo",
+    "body": "feat: add demo banner ad creatives and use one as homepage default",
+    "author": "enzo",
+    "date": "2026-02-10T22:00:36-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 38,
+      "deletions": 7,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Demo Data"
+    ],
+    "summary": "Updated Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated core screens, shared interface pieces, and sample data.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes the demo feel more complete and realistic. Improves consistency across shared interface pieces.",
+    "files": [
+      {
+        "path": "app/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 8,
+        "deletions": 5
+      },
+      {
+        "path": "lib/data/demo-ad-creatives.ts",
+        "additions": 29,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "fe17a4ef37a2230c3abc5f311cbdb9e0f742b3e9",
+    "shortHash": "fe17a4e",
+    "subject": "feat: add demo banner ad creatives on homepage",
+    "author": "enzo",
+    "date": "2026-02-10T22:00:27-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 38,
+      "deletions": 7,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Demo Data"
+    ],
+    "summary": "Added Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added core screens, shared interface pieces, and sample data.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes the demo feel more complete and realistic. Improves consistency across shared interface pieces.",
+    "files": [
+      {
+        "path": "app/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 8,
+        "deletions": 5
+      },
+      {
+        "path": "lib/data/demo-ad-creatives.ts",
+        "additions": 29,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "0663e6259ab14deb8e2c0ae06a925a0101e57440",
+    "shortHash": "0663e62",
+    "subject": "Merge pull request #26 from enzo-prism/codex/overhaul-/changelog-design-for-clarity",
+    "body": "feat: simplify and declutter /changelog design",
+    "author": "enzo",
+    "date": "2026-02-10T19:31:36-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 57,
+      "deletions": 175,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages"
+    ],
+    "summary": "Updated General updates, Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Refreshed update timeline and core screens.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 52,
+        "deletions": 175
+      }
+    ]
+  },
+  {
+    "hash": "d6322be4ade4917df89de1104adaabaaa5e5beab",
+    "shortHash": "d6322be",
+    "subject": "feat: simplify changelog layout and update card spacing",
+    "author": "enzo",
+    "date": "2026-02-10T19:31:24-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 57,
+      "deletions": 175,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages"
+    ],
+    "summary": "Added General updates, Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Added update timeline and core screens.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 52,
+        "deletions": 175
+      }
+    ]
+  },
+  {
+    "hash": "15988b0dfc1ef07d99a3358fc1ffa1806b1154f7",
+    "shortHash": "15988b0",
+    "subject": "Merge pull request #25 from enzo-prism/codex/fix-sample-map-for-club-profile-pages",
+    "body": "fix: render club practice maps using embeddable URLs",
+    "author": "enzo",
+    "date": "2026-02-10T19:25:22-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 48,
+      "deletions": 27,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components"
+    ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Components"
+    ],
+    "summary": "Fixed Core screens, Shared interface.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainSummary": "Fixed club pages, core screens, and shared interface pieces.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainImpact": "Helps families evaluate clubs and training options. Improves consistency across shared interface pieces.",
+    "files": [
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "components/map-embed.tsx",
+        "additions": 46,
+        "deletions": 27
+      }
+    ]
+  },
+  {
+    "hash": "bbb9ff7154c0c98babcb08bc23d8a3251d66f160",
+    "shortHash": "bbb9ff7",
+    "subject": "fix: render club practice maps using embeddable google url",
+    "author": "enzo",
+    "date": "2026-02-10T19:25:12-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 48,
+      "deletions": 27,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components"
+    ],
+    "tags": [
+      "Clubs",
+      "App Pages",
+      "Components"
+    ],
+    "summary": "Fixed Core screens, Shared interface.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainSummary": "Fixed club pages, core screens, and shared interface pieces.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainImpact": "Helps families evaluate clubs and training options. Improves consistency across shared interface pieces.",
+    "files": [
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "components/map-embed.tsx",
+        "additions": 46,
+        "deletions": 27
+      }
+    ]
+  },
+  {
+    "hash": "c6687009a8d722a22b043437c0f02049f7cc19a1",
+    "shortHash": "c668700",
+    "subject": "Merge pull request #24 from enzo-prism/codex/update-benefits-page-information",
+    "body": "fix: align membership benefits page content with overview",
+    "author": "enzo",
+    "date": "2026-02-10T11:00:41-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 57,
+      "deletions": 26,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/benefits/page.tsx",
+        "additions": 57,
+        "deletions": 26
+      }
+    ]
+  },
+  {
+    "hash": "88d9bff3fb6e432d1c25823f72826e593c3fbf31",
+    "shortHash": "88d9bff",
+    "subject": "fix: align membership benefits page content with overview",
+    "author": "enzo",
+    "date": "2026-02-10T11:00:31-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 57,
+      "deletions": 26,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/benefits/page.tsx",
+        "additions": 57,
+        "deletions": 26
+      }
+    ]
+  },
+  {
+    "hash": "62c811abfdd93f9e24a7c12df3f770ed0553dfb3",
+    "shortHash": "62c811a",
+    "subject": "Merge pull request #23 from enzo-prism/codex/update-membership-pricing",
+    "body": "fix: update membership monthly pricing tiers",
+    "author": "enzo",
+    "date": "2026-02-10T08:19:27-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 12,
+      "deletions": 12,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 12,
+        "deletions": 12
+      }
+    ]
+  },
+  {
+    "hash": "22c244ab126a15265fe86a22a22af3d15a58a9e1",
+    "shortHash": "22c244a",
+    "subject": "fix: update membership monthly pricing tiers",
+    "author": "enzo",
+    "date": "2026-02-10T08:19:01-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 12,
+      "deletions": 12,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 12,
+        "deletions": 12
+      }
+    ]
+  },
+  {
+    "hash": "fbd6d10afe72d7744e125a21e3bc8405968646cb",
+    "shortHash": "fbd6d10",
+    "subject": "Merge pull request #22 from enzo-prism/codex/fix-build-error-in-layout.tsx",
+    "body": "fix: close malformed metadata object in app layout",
+    "author": "enzo",
+    "date": "2026-02-10T08:12:16-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 1,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/layout.tsx",
+        "additions": 1,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "72852d543800132bedae3e76fd5c559398794c7d",
+    "shortHash": "72852d5",
+    "subject": "fix: close metadata icons object in root layout",
+    "author": "enzo",
+    "date": "2026-02-10T08:12:04-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 1,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/layout.tsx",
+        "additions": 1,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "141cb2c9e606e595dcf4806ac812a2c0725e5f3d",
+    "shortHash": "141cb2c",
+    "subject": "Merge pull request #21 from enzo-prism/codex/update-favicon-images-for-all-pages",
+    "body": "fix: switch favicon implementation to text-only SVG assets",
+    "author": "enzo",
+    "date": "2026-02-10T08:07:11-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 9,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/apple-icon.svg",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "app/icon.svg",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "app/layout.tsx",
+        "additions": 3,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "1add0daf26ed47cdbb7d129a731decaed8e5b102",
+    "shortHash": "1add0da",
+    "subject": "Merge branch 'main' into codex/update-favicon-images-for-all-pages",
+    "author": "enzo",
+    "date": "2026-02-10T08:07:04-08:00",
+    "stats": {
+      "files": 4,
+      "insertions": 1607,
+      "deletions": 13,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Demo Data"
+    ],
+    "summary": "Updated Core screens, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline, core screens, and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 15,
+        "deletions": 4
+      },
+      {
+        "path": "app/layout.tsx",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "path": "app/opengraph-image.tsx",
+        "additions": 39,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 1547,
+        "deletions": 9
+      }
+    ]
+  },
+  {
+    "hash": "439cd9f7b0ef68ceea3ea68f522df63cea9372c8",
+    "shortHash": "439cd9f",
+    "subject": "fix: switch favicon assets to text-based svg files",
+    "author": "enzo",
+    "date": "2026-02-10T08:06:29-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 10,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/apple-icon.svg",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "app/icon.svg",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "app/layout.tsx",
+        "additions": 4,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "155140ff8d80a2df6402d83721143a859aef3310",
+    "shortHash": "155140f",
+    "subject": "Merge pull request #20 from enzo-prism/codex/set-open-graph-image-for-all-pages",
+    "body": "fix: replace binary Open Graph asset with generated opengraph route",
+    "author": "enzo",
+    "date": "2026-02-10T08:06:04-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 46,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Updated Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Updated core screens.",
+    "plainNotes": [
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/layout.tsx",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "app/opengraph-image.tsx",
+        "additions": 39,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "d2d53a5788fcf7e42dcf137a8f44cf9c59ae98c5",
+    "shortHash": "d2d53a5",
+    "subject": "fix: use generated global opengraph image route",
+    "author": "enzo",
+    "date": "2026-02-10T08:05:52-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 46,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "app"
+    ],
+    "tags": [
+      "App Pages"
+    ],
+    "summary": "Fixed Core screens.",
+    "notes": [
+      "Updated core screens and key flows."
+    ],
+    "plainSummary": "Fixed core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes core pages feel more complete.",
+    "files": [
+      {
+        "path": "app/layout.tsx",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "app/opengraph-image.tsx",
+        "additions": 39,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "c767451aa5181a458e25f11c0205ee705fd6d381",
+    "shortHash": "c767451",
+    "subject": "Merge pull request #19 from enzo-prism/codex/fix-changelog-date-capture-issue",
+    "body": "fix: correct changelog date rendering and refresh commit feed",
+    "author": "enzo",
+    "date": "2026-02-10T08:05:22-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 1562,
+      "deletions": 13,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Demo Data"
+    ],
+    "summary": "Fixed Core screens, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Fixed update timeline, core screens, and sample data.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 15,
+        "deletions": 4
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 1547,
+        "deletions": 9
+      }
+    ]
+  },
+  {
+    "hash": "ad89a52ba7a8ef926ddea7560a47caa43bdb3a9e",
+    "shortHash": "ad89a52",
+    "subject": "fix: correct changelog date rendering and refresh commit feed",
+    "author": "enzo",
+    "date": "2026-02-10T08:05:05-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 1562,
+      "deletions": 13,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "App Pages",
+      "Demo Data"
+    ],
+    "summary": "Fixed Core screens, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Fixed update timeline, core screens, and sample data.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 15,
+        "deletions": 4
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 1547,
+        "deletions": 9
+      }
+    ]
+  },
   {
     "hash": "3f40c1dd4d4697a2a48b60f825135e2693782bc5",
     "shortHash": "3f40c1d",
@@ -5263,7 +6776,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes to project",
     "body": "Update project files and assets from main branch\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-06T15:03:36+00:00",
+    "date": "2025-12-06T15:03:36Z",
     "stats": {
       "files": 2,
       "insertions": 337,
@@ -5472,7 +6985,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch.\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-06T14:39:39+00:00",
+    "date": "2025-12-06T14:39:39Z",
     "stats": {
       "files": 0,
       "insertions": 0,
@@ -5581,7 +7094,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch.\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T20:30:54+00:00",
+    "date": "2025-12-01T20:30:54Z",
     "stats": {
       "files": 0,
       "insertions": 0,
@@ -5603,7 +7116,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch.\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T20:11:28+00:00",
+    "date": "2025-12-01T20:11:28Z",
     "stats": {
       "files": 0,
       "insertions": 0,
@@ -5625,7 +7138,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch.\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T20:08:25+00:00",
+    "date": "2025-12-01T20:08:25Z",
     "stats": {
       "files": 0,
       "insertions": 0,
@@ -5647,7 +7160,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch.\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T20:07:07+00:00",
+    "date": "2025-12-01T20:07:07Z",
     "stats": {
       "files": 1,
       "insertions": 5,
@@ -6000,7 +7513,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "chore: sync main changes into project",
     "body": "Update project files and assets from main branch\n\n#VERCEL_SKIP\n\nCo-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T15:36:49+00:00",
+    "date": "2025-12-01T15:36:49Z",
     "stats": {
       "files": 4,
       "insertions": 4,
@@ -6049,7 +7562,7 @@ export const commitLog: CommitLogEntry[] = [
     "subject": "Initialized repository for chat Philippine Athletics design",
     "body": "Co-authored-by: enzo <215033440+enzo-prism@users.noreply.github.com>",
     "author": "v0",
-    "date": "2025-12-01T15:36:24+00:00",
+    "date": "2025-12-01T15:36:24Z",
     "stats": {
       "files": 32,
       "insertions": 11620,

@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process"
-import { writeFileSync } from "node:fs"
+import { readFileSync, writeFileSync } from "node:fs"
 import { resolve } from "node:path"
 
 const LOG_FORMAT = "%H%x1f%an%x1f%ad%x1f%s%x1f%b%x1e"
@@ -259,6 +259,10 @@ const buildPlainImpact = (tags) => {
   return impacts.length === 1 ? impacts[0] : `${impacts[0]} ${impacts[1]}`
 }
 
+const getHashesFromCommitLogFile = (contents) => {
+  return Array.from(contents.matchAll(/"hash": "([0-9a-f]{40})"/g), (match) => match[1])
+}
+
 const commits = logRaw
   .split("\x1e")
   .map((entry) => entry.trim())
@@ -295,6 +299,7 @@ const commits = logRaw
     }
   })
 
+const isCheck = process.argv.includes("--check")
 const output = `export type CommitFile = {
   path: string
   additions: number | null
@@ -332,6 +337,29 @@ export const commitLog: CommitLogEntry[] = ${JSON.stringify(commits, null, 2)}
 `
 
 const outputPath = resolve("lib/data/commit-log.ts")
+
+if (isCheck) {
+  const existing = readFileSync(outputPath, "utf8")
+  const generatedHashes = commits.map((commit) => commit.hash)
+  const existingHashes = getHashesFromCommitLogFile(existing)
+  if (!existingHashes.length) {
+    throw new Error("commit-log file is missing hash entries for validation.")
+  }
+  if (existingHashes.length !== generatedHashes.length || !generatedHashes.every((hash, index) => existingHashes[index] === hash)) {
+    throw new Error(
+      `Commit log snapshot is stale.\n` +
+        `Expected head: ${generatedHashes[0]}\n` +
+        `File head: ${existingHashes[0] ?? "missing"}\n` +
+        `Expected count: ${generatedHashes.length}\n` +
+        `File count: ${existingHashes.length}\n` +
+        "Run: pnpm data:commits"
+    )
+  }
+
+  console.log(`Commit log is current: ${generatedHashes[0]} (${generatedHashes.length} commits).`)
+  process.exit(0)
+}
+
 writeFileSync(outputPath, output, "utf8")
 
 console.log(`Wrote ${commits.length} commits to ${outputPath}`)

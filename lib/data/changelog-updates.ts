@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-02-19-changelog-commit-feed-and-sync-hardening",
+    date: "2026-02-19",
+    title: "Changelog commit feed and sync hardening",
+    category: ["Tooling", "Components", "Data"],
+    summary:
+      "Restored dual-mode changelog browsing with engineering commit cards and added automated checks so commit-feed data cannot drift silently.",
+    highlights: [
+      "Reintroduced commit-mode cards so users can explore every commit with summary, tags, and impact context.",
+      "Updated commit log sync verification so stale snapshot data is detected during build/lint/push checks.",
+      "Added a deterministic generator check and explicit update workflow (`pnpm data:commits`) to reduce manual drift.",
+    ],
+    whyItMatters:
+      "Maintaining a trustworthy changelog improves release confidence and makes engineering history visible to the whole team.",
+  },
+  {
     id: "2026-02-19-shadcn-design-system-refresh",
     date: "2026-02-19",
     title: "Shadcn UI design-system migration and page cohesion refresh",
