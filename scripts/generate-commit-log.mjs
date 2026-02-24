@@ -390,10 +390,11 @@ if (isCheck) {
     )
   }
 
-  if (existingHashes.length < generatedHashes.length) {
+  const minimumExpectedCount = generatedHashes.length - fileHeadIndex
+  if (existingHashes.length < minimumExpectedCount) {
     throw new Error(
-      `Commit log snapshot is missing ${generatedHashes.length - existingHashes.length} commit entries.\n` +
-        `Expected count: ${generatedHashes.length}\n` +
+      `Commit log snapshot is missing ${minimumExpectedCount - existingHashes.length} commit entries.\n` +
+        `Expected count: ${minimumExpectedCount} (accounting for ${fileHeadIndex} commit lag)\n` +
         `File count: ${existingHashes.length}\n` +
         "Run: pnpm data:commits"
     )
