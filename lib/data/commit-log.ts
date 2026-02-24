@@ -29,9 +29,92 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-24T16:36:44.588Z"
+export const commitLogUpdatedAt = "2026-02-24T17:48:41.402Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "f3e16750fa1c2deebe9efc455bf396d0923960ba",
+    "shortHash": "f3e1675",
+    "subject": "docs: record homepage directory redesign and ICTSI banner behavior",
+    "author": "enzo-prism",
+    "date": "2026-02-24T09:48:35-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 21,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "data"
+    ],
+    "tags": [
+      "Demo Data"
+    ],
+    "summary": "Updated General updates, Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Updated sample data.",
+    "plainNotes": [
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "README.md",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "f276aa8d859ee63e36b03dc65024ce32688877ac",
+    "shortHash": "f276aa8",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-02-24T08:37:03-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 110,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 110,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "b0c19578dd027dd3091699433f422c1e362fe5db",
     "shortHash": "b0c1957",
