@@ -29,9 +29,118 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-19T16:25:54.023Z"
+export const commitLogUpdatedAt = "2026-02-24T16:36:44.588Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "b0c19578dd027dd3091699433f422c1e362fe5db",
+    "shortHash": "b0c1957",
+    "subject": "feat: redesign home directory card and set ICTSI top banner",
+    "author": "enzo-prism",
+    "date": "2026-02-24T08:24:24-08:00",
+    "stats": {
+      "files": 4,
+      "insertions": 40,
+      "deletions": 17,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components"
+    ],
+    "tags": [
+      "App Pages",
+      "Components",
+      "Navigation"
+    ],
+    "summary": "Added Core screens, Shared interface.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainSummary": "Added core screens, shared interface pieces, and navigation.",
+    "plainNotes": [
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Made navigation easier to follow."
+    ],
+    "plainImpact": "Improves discoverability of key areas. Improves consistency across shared interface pieces.",
+    "files": [
+      {
+        "path": "app/globals.css",
+        "additions": 6,
+        "deletions": 2
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 21,
+        "deletions": 10
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 9,
+        "deletions": 2
+      }
+    ]
+  },
+  {
+    "hash": "5ca3b0030fe50446e3b2640e1a463134fd609013",
+    "shortHash": "5ca3b00",
+    "subject": "chore: harden changelog sync and add fallback lag tolerance",
+    "author": "enzo-prism",
+    "date": "2026-02-19T08:26:10-08:00",
+    "stats": {
+      "files": 3,
+      "insertions": 78,
+      "deletions": 8,
+      "summary": ""
+    },
+    "areas": [
+      "data",
+      "other",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data",
+      "Config",
+      "Tooling"
+    ],
+    "summary": "Added Sample data, General updates, Tools.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added update timeline, sample data, and app setup.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing.",
+      "Kept the app setup reliable and current.",
+      "Improved internal tools for upkeep."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 47,
+        "deletions": 1
+      },
+      {
+        "path": "package.json",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 29,
+        "deletions": 6
+      }
+    ]
+  },
   {
     "hash": "50acf0e1f57fe52654404ec0f30704c16cb82212",
     "shortHash": "50acf0e",
