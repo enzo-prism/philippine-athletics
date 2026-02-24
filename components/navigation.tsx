@@ -27,6 +27,12 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 
+const ictsiTopBanner = {
+  name: "ICTSI Foundation",
+  imageUrl: "https://cdnweb.ictsi.com/users/user56/ICTSI%20Foundation%20unveils%20a%20fresh%20identity%20with%20new%20logo.jpg",
+  alt: "ICTSI Foundation banner",
+}
+
 type NavLink = { href: string; label: string; icon: LucideIcon }
 
 // Keep the top bar intentionally minimal; everything else lives in the menu sheet.
@@ -62,6 +68,7 @@ const isActive = (pathname: string, href: string) => {
 export function Navigation() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const topAdOverride = pathname === "/" ? ictsiTopBanner : undefined
 
   const activeLabel = useMemo(() => {
     if (pathname === "/") return "Home"
@@ -239,10 +246,10 @@ export function Navigation() {
       <div className="border-b border-border bg-muted/20">
         <div className="page-shell py-3">
           <div className="hidden md:block">
-            <DemoAdSlot slotId="global-top-leaderboard" format="leaderboard" />
+            <DemoAdSlot slotId="global-top-leaderboard" format="leaderboard" creativeOverride={topAdOverride} />
           </div>
           <div className="md:hidden">
-            <DemoAdSlot slotId="global-top-mobile" format="mobile" />
+            <DemoAdSlot slotId="global-top-mobile" format="mobile" creativeOverride={topAdOverride} />
           </div>
         </div>
       </div>

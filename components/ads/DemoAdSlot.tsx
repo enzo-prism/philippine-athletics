@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { demoAdCreatives, demoBannerAdCreatives } from "@/lib/data/demo-ad-creatives"
+import { demoAdCreatives, demoBannerAdCreatives, type DemoAdCreative } from "@/lib/data/demo-ad-creatives"
 import { cn } from "@/lib/utils"
 
 type DemoAdFormat = "leaderboard" | "mrec" | "mobile"
@@ -13,6 +13,7 @@ type DemoAdSlotProps = {
   href?: string
   label?: string
   preferBannerCreative?: boolean
+  creativeOverride?: DemoAdCreative
 }
 
 const hashString = (value: string) => {
@@ -44,8 +45,9 @@ export function DemoAdSlot({
   href = "/sponsors",
   label = "Ad",
   preferBannerCreative = false,
+  creativeOverride,
 }: DemoAdSlotProps) {
-  const creative = pickCreative(slotId, preferBannerCreative)
+  const creative = creativeOverride ?? pickCreative(slotId, preferBannerCreative)
 
   return (
     <div
@@ -80,4 +82,3 @@ export function DemoAdSlot({
     </div>
   )
 }
-

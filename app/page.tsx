@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Medal, Sparkles, Zap } from "lucide-react"
+import { ArrowRight, Building2, CalendarDays, Dumbbell, Footprints, Medal, Sparkles, Zap } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { UnicornHomeScene } from "@/components/unicorn-home-scene"
@@ -18,10 +18,10 @@ const quickStats = [
 ]
 
 const quickLinks = [
-  { href: "/athletes", label: "Athletes" },
-  { href: "/coaches", label: "Coaches" },
-  { href: "/clubs", label: "Clubs" },
-  { href: "/competitions", label: "Competitions" },
+  { href: "/athletes", label: "Athletes", description: "Records, rankings, and profiles", icon: Footprints },
+  { href: "/coaches", label: "Coaches", description: "Mentors and training specialists", icon: Dumbbell },
+  { href: "/clubs", label: "Clubs", description: "Local teams across the country", icon: Building2 },
+  { href: "/competitions", label: "Competitions", description: "Upcoming meets and fixtures", icon: CalendarDays },
 ]
 
 export default function Home() {
@@ -124,18 +124,29 @@ export default function Home() {
 
               <Card className="home-panel-dark">
                 <CardContent className="space-y-3 p-5">
-                  <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/75">
+                  <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
                     <Zap className="h-3.5 w-3.5" />
-                    Quick access
+                    Explore the network
                   </p>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <h2 className="text-lg font-bold tracking-tight text-white">Athletics Directory</h2>
+                    <p className="text-xs text-white/60">Jump straight to the teams, people, and events shaping the season.</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {quickLinks.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="home-action-card"
+                        className="home-action-card group"
                       >
-                        {item.label}
+                        <span className="home-action-icon" aria-hidden="true">
+                          <item.icon className="h-4 w-4" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-white">{item.label}</span>
+                          <span className="mt-1 block text-[11px] leading-snug text-white/65">{item.description}</span>
+                        </span>
+                        <ArrowRight className="h-4 w-4 shrink-0 text-white/50 transition group-hover:translate-x-0.5 group-hover:text-white/85" />
                       </Link>
                     ))}
                   </div>
