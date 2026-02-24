@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-02-24-homepage-directory-ictsi-banner",
+    date: "2026-02-24",
+    title: "Homepage directory card redesign and ICTSI top-banner pin",
+    category: ["Experience", "Styling", "Monetization"],
+    summary:
+      "Refined homepage section cohesion by redesigning the quick directory card and pinning ICTSI as the top homepage ad creative.",
+    highlights: [
+      "Reworked the quick-access card into a clearer directory panel with icon-led links, richer metadata, and stronger interaction states.",
+      "Updated lower homepage panel styling so card depth and color treatment better align with the hero’s glass aesthetic.",
+      "Pinned the ICTSI Foundation banner in the top homepage ad slot while preserving existing ad behavior for non-homepage routes.",
+    ],
+    whyItMatters:
+      "Improves homepage visual consistency and readability while keeping sponsor visibility intentional and predictable in the primary landing experience.",
+  },
+  {
     id: "2026-02-19-changelog-commit-feed-and-sync-hardening",
     date: "2026-02-19",
     title: "Changelog commit feed and sync hardening",

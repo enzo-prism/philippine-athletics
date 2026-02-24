@@ -82,3 +82,4 @@ Continue building your app on:
 - **Stubs instead of 404s:** `get*OrStub` helpers fall back to placeholder content if a record is missing. When adding new IDs/slugs, update the shared data modules so stubs are rarely used.
 - **Validation & build:** Run `pnpm data:check` for referential sanity (IDs/slugs) and `pnpm build` for Next.js compilation. Install deps via `pnpm install` first to ensure `tsx` is available.
 - **UI conventions:** Tailwind-first, App Router, `@/` imports, and slugs in hrefs (`/athletes/{slug}` etc.) for consistent routing.
+- **Homepage ad override:** The top ad strip supports `creativeOverride` via `DemoAdSlot`; homepage-specific ICTSI pinning is configured in `components/navigation.tsx` (`ictsiTopBanner` + `pathname === "/"` guard).

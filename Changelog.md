@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-24 — Homepage directory card redesign and ICTSI top-banner pin
+- Redesigned the homepage “Athletes / Coaches / Clubs / Competitions” quick-access card into a richer directory panel with stronger hierarchy, icon-led link tiles, and improved hover/focus behavior.
+- Updated homepage panel styling to better match the hero section’s blue-purple glass language so the lower cards feel cohesive with the top storytelling surface.
+- Pinned the ICTSI Foundation creative in the top homepage ad slot while keeping existing ad-slot behavior unchanged on non-homepage routes.
+
 ## 2026-02-19 — Changelog commit feed and sync hardening
 - Restored `/changelog` dual-mode navigation with both product highlights and per-commit cards so every engineering change is visible again.
 - Added per-commit card details (author, short hash, tags, impact summary, file-change signal) and improved filtering/search behavior in commit mode.
