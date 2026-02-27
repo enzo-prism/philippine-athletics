@@ -8,16 +8,21 @@ import {
   CalendarDays,
   ClipboardList,
   Dumbbell,
+  Facebook,
   FileText,
   Footprints,
   House,
+  Instagram,
   Menu,
+  Network,
   Search,
   ShieldCheck,
+  Twitter,
   Trophy,
   type LucideIcon,
   UserPlus,
   UserRound,
+  Youtube,
 } from "lucide-react"
 import { GlobalSearchForm } from "@/components/global-search"
 import { headerLogos } from "@/lib/data/logo-assets"
@@ -57,7 +62,19 @@ const accountLinks: NavLink[] = [
 
 const utilityLinks: NavLink[] = [
   { href: "/data-portal", label: "Data Portal", icon: ClipboardList },
+  { href: "/how-it-works", label: "How It Works", icon: Network },
   { href: "/changelog", label: "Updates", icon: FileText },
+]
+
+const socialLinks: Array<{
+  label: string
+  icon: LucideIcon
+  href?: string
+}> = [
+  { label: "Facebook", icon: Facebook },
+  { label: "Instagram", icon: Instagram },
+  { label: "X", icon: Twitter },
+  { label: "YouTube", icon: Youtube },
 ]
 
 const isActive = (pathname: string, href: string) => {
@@ -83,7 +100,7 @@ export function Navigation() {
       <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="page-shell flex h-14 items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-card transition-colors group-hover:bg-accent/10">
+            <div className="size-9 shrink-0 overflow-hidden rounded-none border border-border bg-card transition-colors group-hover:bg-accent/10">
               <img
                 src="https://res.cloudinary.com/dhqpqfw6w/image/upload/v1765124410/Philippine_Olympic_Committee.svg_eqska6.png"
                 alt="Philippine Olympic Committee logo"
@@ -115,6 +132,38 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1 border-l border-border pl-3">
+              {socialLinks.map((item) => {
+                const Icon = item.icon
+                if (item.href) {
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex size-8 items-center justify-center border border-border text-muted-foreground transition-colors hover:text-foreground"
+                      title={`${item.label} official channel`}
+                      aria-label={`${item.label} official channel`}
+                    >
+                      <Icon className="size-4" aria-hidden="true" />
+                    </Link>
+                  )
+                }
+
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    className="inline-flex size-8 items-center justify-center border border-dashed border-border text-muted-foreground transition-colors hover:text-foreground"
+                    title={`${item.label} link coming soon`}
+                    aria-label={`${item.label} link coming soon`}
+                  >
+                    <Icon className="size-4" aria-hidden="true" />
+                  </button>
+                )
+              })}
+            </div>
             <Button
               asChild
               variant="ghost"
@@ -236,6 +285,41 @@ export function Navigation() {
                       })}
                     </div>
                   </div>
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Social</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      {socialLinks.map((item) => {
+                        const Icon = item.icon
+                        if (item.href) {
+                          return (
+                            <Link
+                              key={item.label}
+                              href={item.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex h-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:text-foreground"
+                              aria-label={`${item.label} official channel`}
+                              onClick={() => setOpen(false)}
+                            >
+                              <Icon className="size-4" aria-hidden="true" />
+                            </Link>
+                          )
+                        }
+                        return (
+                          <div
+                            key={item.label}
+                            className="inline-flex h-9 items-center justify-center border border-dashed border-border text-muted-foreground"
+                            title={`${item.label} link coming soon`}
+                            aria-label={`${item.label} link coming soon`}
+                          >
+                            <Icon className="size-4" aria-hidden="true" />
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <p className="text-xs text-muted-foreground">Official social links are being finalized for this demo.</p>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -245,10 +329,10 @@ export function Navigation() {
 
       <div className="border-b border-border bg-muted/20">
         <div className="page-shell py-3">
-          <div className="hidden md:block">
+          <div className="hidden min-h-[90px] md:block">
             <DemoAdSlot slotId="global-top-leaderboard" format="leaderboard" creativeOverride={topAdOverride} />
           </div>
-          <div className="md:hidden">
+          <div className="min-h-[56px] md:hidden">
             <DemoAdSlot slotId="global-top-mobile" format="mobile" creativeOverride={topAdOverride} />
           </div>
         </div>

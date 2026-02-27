@@ -35,7 +35,7 @@ export default async function CompetitionsPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="page-shell py-12">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-2">Search Competitions</h1>
           <p className="text-muted-foreground">Track and field competitions across the Philippines and beyond</p>
@@ -96,7 +96,7 @@ export default async function CompetitionsPage({
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

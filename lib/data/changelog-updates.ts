@@ -22,6 +22,22 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-02-26-spec-complete-demo-overhaul",
+    date: "2026-02-26",
+    title: "Spec-complete demo overhaul and controlled presentation flows",
+    category: ["Experience", "Branding", "Styling", "Data", "Competition", "Reliability"],
+    summary:
+      "Delivered the Philippine Athletics spec update across visual design, demo controls, architecture storytelling, and results-intake reliability constraints.",
+    highlights: [
+      "Migrated demo-critical routes to the new institutional visual language with full-width shells, sharp-corner styling, updated palette tokens, social header placeholders, and a Safe Sport homepage section.",
+      "Implemented strict audience demo flow controls with route allowlists, dedicated audience entry routes, and off-script redirection for predictable live presentations.",
+      "Added membership-number support across athlete data/search and upgraded results intake with CSV-only policy, sanctioned-event gating, and explicit demo-local publish scope messaging.",
+      "Added a dedicated system architecture infographic route with inline SVG rendering and a static exported asset for presentations and print handoffs.",
+    ],
+    whyItMatters:
+      "Creates a tighter, stakeholder-ready demo experience while reducing presentation risk and improving data-intake integrity without introducing backend complexity in this phase.",
+  },
+  {
     id: "2026-02-24-homepage-directory-ictsi-banner",
     date: "2026-02-24",
     title: "Homepage directory card redesign and ICTSI top-banner pin",

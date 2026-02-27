@@ -53,7 +53,7 @@ Run `pnpm data:check` after modifying data modules.
 
 ### Results Intake (Demo)
 The Results Intake portal at `/data-portal` is front-end only:
-- Uploads are parsed client-side and stored in local browser storage (`trackph:results-intake`).
+- Uploads are parsed client-side and stored in local browser storage (`philippine-athletics:results-intake`).
 - Previews show competition, athlete, and rankings impacts without mutating `lib/data/*`.
 - Exported JSON payloads are intended for manual merge in a future workflow.
 

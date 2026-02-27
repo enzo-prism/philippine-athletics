@@ -59,7 +59,7 @@ export function GlobalSearchForm({
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder="Search athletes, coaches, clubs..."
-          className={cn("pl-9", isCompact ? "h-9 text-sm" : "h-12 text-base rounded-full", inputClassName)}
+          className={cn("pl-9", isCompact ? "h-9 text-sm" : "h-12 text-base", inputClassName)}
         />
       </div>
       <Button
@@ -67,7 +67,7 @@ export function GlobalSearchForm({
         size={isCompact ? "icon" : "lg"}
         variant={resolvedButtonVariant}
         className={cn(
-          isCompact ? "h-9 w-9" : "rounded-full px-6",
+          isCompact ? "h-9 w-9" : "px-6",
           !isCompact && "shadow-soft",
           resolvedButtonVariant === "outline" && "text-muted-foreground hover:text-accent-foreground",
           buttonClassName,

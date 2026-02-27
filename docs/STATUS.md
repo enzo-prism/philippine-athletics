@@ -1,4 +1,4 @@
-# TrackPH Status Snapshot
+# Philippine Athletics Status Snapshot
 
 Date: 2026-02-19
 
@@ -19,7 +19,7 @@ Date: 2026-02-19
 ## What Was Built Recently
 
 - Added a full Results Intake portal for manual results submission with role toggles (Contributor vs Certified Steward).
-- Implemented CSV/TSV parsing with header auto-mapping, validation, and warnings for missing wind data or unknown athletes.
+- Implemented CSV parsing with header auto-mapping, validation, and warnings for missing wind data or unknown athletes.
 - Added impact previews that calculate athlete PB/SB updates and ranking shifts from uploaded results.
 - Added competition, athlete, and rankings sandbox previews to demonstrate how new results would look in production pages.
 - Documented the research basis and workflow rationale in `docs/research/results-intake.md`.

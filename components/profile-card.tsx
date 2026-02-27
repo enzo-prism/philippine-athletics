@@ -52,7 +52,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
 
           <div className="flex items-center gap-1 text-accent text-sm font-medium opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity pt-2">
             {type === "club" ? "View club details" : "View Profile"}
-            <Emoji symbol="➡️" className="text-base" />
+            <Emoji symbol={emojiIcons.forward} className="text-base" />
           </div>
         </CardContent>
       </Card>

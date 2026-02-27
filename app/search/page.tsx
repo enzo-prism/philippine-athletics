@@ -1,8 +1,11 @@
 import Link from "next/link"
+import { cookies } from "next/headers"
 import { Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
+import { demoAthleteSpotlights, demoAthleteSummaries } from "@/lib/data/demo-athletes"
+import { DEMO_FLOW_COOKIE, getDemoFlowConfig } from "@/lib/demo/flows"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -17,15 +20,6 @@ type SearchResult =
   | { type: "coach"; name: string; href: string; details: string[]; score: number }
   | { type: "club"; name: string; href: string; details: string[]; score: number }
 
-const suggestionLinks = ["Lauren Hoffman", "Mia Santos", "Manila Striders Track Club"]
-
-const formatRank = (rank?: number | string) => {
-  if (rank === undefined || rank === null || rank === "") return "—"
-  if (typeof rank === "number") return `#${rank}`
-  const trimmed = rank.trim()
-  return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
-}
-
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
   key: string,
@@ -33,6 +27,13 @@ const getParam = (
   const value = searchParams?.[key]
   if (Array.isArray(value)) return value[0] ?? ""
   return value ?? ""
+}
+
+const formatRank = (rank?: number | string) => {
+  if (rank === undefined || rank === null || rank === "") return "—"
+  if (typeof rank === "number") return `#${rank}`
+  const trimmed = rank.trim()
+  return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
 }
 
 export default async function SearchPage({
@@ -45,6 +46,15 @@ export default async function SearchPage({
   const normalizedQuery = normalizeKey(query)
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean)
 
+  const cookieStore = await cookies()
+  const activeDemoFlow = getDemoFlowConfig(cookieStore.get(DEMO_FLOW_COOKIE)?.value)
+  const isDemoMode = Boolean(activeDemoFlow)
+
+  const athleteSource = isDemoMode ? demoAthleteSummaries : athleteSummaries
+  const suggestionLinks = isDemoMode
+    ? demoAthleteSummaries.map((athlete) => athlete.membershipNumber).slice(0, 3)
+    : ["Lauren Hoffman", "Mia Santos", "PA-JCDELACRUZ"]
+
   let topResult: SearchResult | null = null
   let grouped: { athletes: SearchResult[]; coaches: SearchResult[]; clubs: SearchResult[] } = {
     athletes: [],
@@ -53,54 +63,67 @@ export default async function SearchPage({
   }
 
   if (normalizedQuery) {
-    const scoreName = (name: string) => {
-      const normalized = normalizeKey(name)
-      if (normalized === normalizedQuery) return 0
-      if (normalized.startsWith(normalizedQuery)) return 1
-      if (tokens.every((token) => normalized.includes(token))) return 2
-      if (normalized.includes(normalizedQuery)) return 3
+    const scoreAthlete = (name: string, membershipNumber: string) => {
+      const normalizedName = normalizeKey(name)
+      const normalizedMembership = normalizeKey(membershipNumber)
+
+      if (normalizedMembership === normalizedQuery || normalizedName === normalizedQuery) return 0
+      if (normalizedMembership.startsWith(normalizedQuery) || normalizedName.startsWith(normalizedQuery)) return 1
+
+      const tokenMatch = tokens.every(
+        (token) => normalizedName.includes(token) || normalizedMembership.includes(token),
+      )
+      if (tokenMatch) return 2
+
+      if (normalizedName.includes(normalizedQuery) || normalizedMembership.includes(normalizedQuery)) return 3
       return 4
     }
 
-    const athletes = athleteSummaries
+    const athletes = athleteSource
       .filter((athlete) => {
-        const normalized = normalizeKey(athlete.name)
-        return tokens.every((token) => normalized.includes(token))
+        const normalizedName = normalizeKey(athlete.name)
+        const normalizedMembership = normalizeKey(athlete.membershipNumber)
+        return tokens.every((token) => normalizedName.includes(token) || normalizedMembership.includes(token))
       })
       .map((athlete) => ({
         type: "athlete" as const,
         name: athlete.name,
         href: athlete.href,
         details: [
+          `Membership: ${athlete.membershipNumber}`,
           `Club: ${athlete.club}`,
           athlete.pb ? `PB: ${athlete.pb}` : undefined,
           athlete.nationalRank ? `PH Rank: ${formatRank(athlete.nationalRank)}` : undefined,
         ].filter(Boolean) as string[],
-        score: scoreName(athlete.name),
+        score: scoreAthlete(athlete.name, athlete.membershipNumber),
       }))
       .sort((a, b) => a.score - b.score)
 
-    const coachResults = coaches
-      .filter((coach) => tokens.every((token) => normalizeKey(coach.name).includes(token)))
-      .map((coach) => ({
-        type: "coach" as const,
-        name: coach.name,
-        href: `/coaches/${coach.slug ?? coach.id}`,
-        details: [`Club: ${coach.club}`, coach.specialty].filter(Boolean) as string[],
-        score: scoreName(coach.name),
-      }))
-      .sort((a, b) => a.score - b.score)
+    const coachResults = isDemoMode
+      ? []
+      : coaches
+          .filter((coach) => tokens.every((token) => normalizeKey(coach.name).includes(token)))
+          .map((coach) => ({
+            type: "coach" as const,
+            name: coach.name,
+            href: `/coaches/${coach.slug ?? coach.id}`,
+            details: [`Club: ${coach.club}`, coach.specialty].filter(Boolean) as string[],
+            score: normalizeKey(coach.name) === normalizedQuery ? 0 : 3,
+          }))
+          .sort((a, b) => a.score - b.score)
 
-    const clubResults = clubs
-      .filter((club) => tokens.every((token) => normalizeKey(club.name).includes(token)))
-      .map((club) => ({
-        type: "club" as const,
-        name: club.name,
-        href: `/clubs/${club.slug ?? club.id}`,
-        details: [`Focus: ${club.focus}`, `Location: ${club.location}`].filter(Boolean) as string[],
-        score: scoreName(club.name),
-      }))
-      .sort((a, b) => a.score - b.score)
+    const clubResults = isDemoMode
+      ? []
+      : clubs
+          .filter((club) => tokens.every((token) => normalizeKey(club.name).includes(token)))
+          .map((club) => ({
+            type: "club" as const,
+            name: club.name,
+            href: `/clubs/${club.slug ?? club.id}`,
+            details: [`Focus: ${club.focus}`, `Location: ${club.location}`].filter(Boolean) as string[],
+            score: normalizeKey(club.name) === normalizedQuery ? 0 : 3,
+          }))
+          .sort((a, b) => a.score - b.score)
 
     const combined = [...athletes, ...coachResults, ...clubResults].sort((a, b) => {
       if (a.score !== b.score) return a.score - b.score
@@ -121,10 +144,16 @@ export default async function SearchPage({
 
       <div className="page-shell page-stack py-10">
         <header className="space-y-3">
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Search</h1>
+          <h1 className="text-4xl sm:text-5xl font-semibold text-foreground font-accent">Search</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">
-            Find athletes, coaches, and clubs in one place. Search by full name for the fastest match.
+            Find athletes, coaches, and clubs in one place. Athlete lookup supports full name and membership number.
           </p>
+          {isDemoMode ? (
+            <div className="border-l-4 border-l-accent bg-accent/5 px-4 py-3 text-xs text-foreground">
+              <p className="font-semibold">Demo route lock active: {activeDemoFlow?.label}</p>
+              <p className="text-muted-foreground">Search is limited to five curated athletes for this guided demo flow.</p>
+            </div>
+          ) : null}
           <form method="get" className="flex flex-col sm:flex-row gap-2 max-w-2xl">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
@@ -132,14 +161,12 @@ export default async function SearchPage({
                 type="text"
                 name="q"
                 defaultValue={query}
-                placeholder="Search by name"
-                className="rounded-full pl-9"
+                placeholder="Search by name or membership number"
+                className="pl-9"
                 data-testid="search-input"
               />
             </div>
-            <Button type="submit" className="rounded-full">
-              Search
-            </Button>
+            <Button type="submit">Search</Button>
           </form>
         </header>
 
@@ -148,7 +175,7 @@ export default async function SearchPage({
         {!query ? (
           <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-6 space-y-3 text-sm text-muted-foreground">
-              <p>Start typing a name to search across athletes, coaches, and clubs.</p>
+              <p>Start typing a name or membership number to search across the directory.</p>
               <div className="flex flex-wrap gap-2">
                 {suggestionLinks.map((suggestion) => (
                   <Link
@@ -156,16 +183,36 @@ export default async function SearchPage({
                     href={`/search?q=${encodeURIComponent(suggestion)}`}
                     className="text-accent font-semibold hover:text-accent/80"
                   >
-                    Try "{suggestion}"
+                    {`Try "${suggestion}"`}
                   </Link>
                 ))}
               </div>
+              {isDemoMode ? (
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {demoAthleteSummaries.map((athlete) => {
+                    const spotlight = demoAthleteSpotlights.find((item) => item.id === athlete.id)
+                    return (
+                      <Link
+                        key={athlete.id}
+                        href={`/search?q=${encodeURIComponent(athlete.membershipNumber)}`}
+                        className="border border-border bg-background px-3 py-2"
+                      >
+                        <p className="text-xs font-semibold text-foreground">{athlete.name}</p>
+                        <p className="text-[11px] text-muted-foreground">{athlete.membershipNumber}</p>
+                        <p className="text-[11px] text-muted-foreground">{spotlight?.eventCategory ?? athlete.specialty}</p>
+                      </Link>
+                    )
+                  })}
+                </div>
+              ) : null}
             </CardContent>
           </Card>
         ) : !hasResults ? (
           <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-6 text-sm text-muted-foreground">
-              No results found for "{query}". Try another name or check spelling.
+              {isDemoMode
+                ? `No results found for "${query}" in the current demo pack. Try one of the five curated athlete membership numbers.`
+                : `No results found for "${query}". Try another name or membership number.`}
             </CardContent>
           </Card>
         ) : (
@@ -192,7 +239,7 @@ export default async function SearchPage({
 
             {grouped.athletes.length > 0 ? (
               <section className="space-y-3">
-                  <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Athletes</h2>
                   <span className="text-xs text-muted-foreground">{grouped.athletes.length} results</span>
                 </div>
@@ -213,7 +260,7 @@ export default async function SearchPage({
 
             {grouped.coaches.length > 0 ? (
               <section className="space-y-3">
-                  <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Coaches</h2>
                   <span className="text-xs text-muted-foreground">{grouped.coaches.length} results</span>
                 </div>
@@ -234,7 +281,7 @@ export default async function SearchPage({
 
             {grouped.clubs.length > 0 ? (
               <section className="space-y-3">
-                  <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-foreground">Clubs</h2>
                   <span className="text-xs text-muted-foreground">{grouped.clubs.length} results</span>
                 </div>

@@ -1,5 +1,5 @@
 import { getCompetitionResultsByAthleteId } from "./competitions"
-import { matchesIdOrSlug, slugify } from "./utils"
+import { matchesIdOrSlug, normalizeKey, slugify } from "./utils"
 
 // Shared athlete data and helpers
 export type EventPerformance = {
@@ -47,6 +47,7 @@ export type Sponsor = {
 export type AthleteProfile = {
   id: string
   slug: string
+  membershipNumber: string
   firstName: string
   lastName: string
   gender?: "Women" | "Men"
@@ -72,6 +73,7 @@ export type AthleteProfile = {
 export type AthleteSummary = {
   id: string
   slug: string
+  membershipNumber: string
   name: string
   specialty: string
   club: string
@@ -93,6 +95,7 @@ function toSummary(profile: AthleteProfile): AthleteSummary {
   return {
     id: profile.id,
     slug: profile.slug,
+    membershipNumber: profile.membershipNumber,
     name: `${profile.firstName} ${profile.lastName}`,
     specialty: profile.specialty,
     club: profile.club,
@@ -110,7 +113,7 @@ function toSummary(profile: AthleteProfile): AthleteSummary {
   }
 }
 
-export const athleteProfiles: AthleteProfile[] = [
+const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
   {
     id: "athlete-jc-dela-cruz",
     slug: "jc-dela-cruz",
@@ -1456,13 +1459,38 @@ export const athleteProfiles: AthleteProfile[] = [
   },
 ]
 
+const buildMembershipNumber = (id: string) =>
+  `PA-${id
+    .replace(/^athlete-/, "")
+    .replace(/[^a-z0-9]/gi, "")
+    .toUpperCase()
+    .slice(0, 10)
+    .padEnd(10, "0")}`
+
+export const athleteProfiles: AthleteProfile[] = rawAthleteProfiles.map((profile) => ({
+  ...profile,
+  membershipNumber: buildMembershipNumber(profile.id),
+}))
+
 export const athleteSummaries: AthleteSummary[] = athleteProfiles.map(toSummary)
 
 export const getAthleteProfile = (idOrSlug: string): AthleteProfile | undefined =>
   athleteProfiles.find((athlete) => matchesIdOrSlug(athlete, idOrSlug))
 
+export const getAthleteProfileByMembershipNumber = (membershipNumber: string): AthleteProfile | undefined => {
+  const normalized = normalizeKey(membershipNumber)
+  if (!normalized) return undefined
+  return athleteProfiles.find((athlete) => normalizeKey(athlete.membershipNumber) === normalized)
+}
+
 export const getAthleteSummary = (idOrSlug: string): AthleteSummary | undefined =>
   athleteSummaries.find((athlete) => matchesIdOrSlug(athlete, idOrSlug))
+
+export const getAthleteSummaryByMembershipNumber = (membershipNumber: string): AthleteSummary | undefined => {
+  const normalized = normalizeKey(membershipNumber)
+  if (!normalized) return undefined
+  return athleteSummaries.find((athlete) => normalizeKey(athlete.membershipNumber) === normalized)
+}
 
 const buildStubProfile = (summary: AthleteSummary): AthleteProfile => {
   const parts = summary.name.split(" ")
@@ -1474,6 +1502,7 @@ const buildStubProfile = (summary: AthleteSummary): AthleteProfile => {
   return {
     id: summary.id,
     slug: summary.slug,
+    membershipNumber: summary.membershipNumber,
     firstName,
     lastName,
     specialty: summary.specialty,
@@ -1513,6 +1542,7 @@ const buildUnknownStub = (idOrSlug: string): AthleteProfile => {
   return {
     id: idOrSlug,
     slug: slugify(idOrSlug),
+    membershipNumber: buildMembershipNumber(idOrSlug),
     firstName,
     lastName,
     specialty: "Track and field",

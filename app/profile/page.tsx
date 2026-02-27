@@ -220,6 +220,7 @@ export default function ProfilePage() {
   ])
 
   // Reset form when role/profile changes
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const [fn = "", ...restName] = profile.name.split(" ")
     setFirstName(fn)
@@ -248,6 +249,7 @@ export default function ProfilePage() {
       { channel: "LinkedIn", value: "LinkedIn: your-url" },
     ])
   }, [profile, selectedRole])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const addRow = <T,>(setter: Dispatch<SetStateAction<T[]>>, empty: T) => () => setter((prev) => [...prev, empty])
 

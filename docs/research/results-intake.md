@@ -1,4 +1,4 @@
-# Results Intake Research + Plan (TrackPH)
+# Results Intake Research + Plan (Philippine Athletics)
 
 Date: 2026-02-03
 
@@ -19,7 +19,7 @@ RFC 4180 and the Library of Congress format description define CSV expectations:
 ### 5) Validation UX should be explicit and non‑destructive
 Government design guidance emphasizes clear error messages and keeping user input intact when validation fails. This motivates an intake flow that surfaces issues without losing the upload.
 
-## What This Means for TrackPH
+## What This Means for Philippine Athletics
 
 We will build a front-end-only “Results Intake” portal that supports two roles:
 - **Contributor**: can submit results for review (demo flow).
@@ -29,7 +29,7 @@ Because this is a demo, “publish” will write to local browser storage and sh
 
 ## Implementation Status (as of 2026-02-03)
 - Results Intake portal exists at `/data-portal`.
-- CSV/TSV upload, header mapping, validation, and review flows are implemented.
+- CSV upload, header mapping, validation, and review flows are implemented.
 - Local-only submissions are stored in browser storage with a JSON export option.
 - Preview tooling shows competition, athlete, and rankings sandbox views.
 
@@ -64,7 +64,7 @@ Because this is a demo, “publish” will write to local browser storage and sh
 ## Intake Flow (Demo UX)
 
 1. **Upload**
-   - Upload CSV or paste a table.
+   - Upload CSV only or paste CSV text.
    - Provide a template and a “Use sample data” button.
 
 2. **Map fields**
@@ -86,7 +86,7 @@ Because this is a demo, “publish” will write to local browser storage and sh
 
 ### Phase 1 — Results Intake Portal (Done)
 - `/data-portal` route with a multi-step intake wizard.
-- Local parsing (CSV/TSV) using an RFC 4180‑style parser.
+- Local parsing (CSV) using an RFC 4180‑style parser.
 - Validation + preview + local “publish” (browser storage).
 - Audit list of previous submissions.
 

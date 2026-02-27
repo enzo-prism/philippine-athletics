@@ -8,6 +8,12 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-02-26 — Spec-complete demo overhaul and controlled presentation flows
+- Completed the Philippine Athletics visual system migration for demo-critical routes, including full-width layouts, institutional palette tokens, sharp-corner styling, social header placeholders, and a new Safe Sport homepage section.
+- Added strict audience demo controls with route guard rails (`/demo/governance`, `/demo/institutions`, `/demo/lgus`) plus off-script redirection to keep live presentations on-script and predictable.
+- Upgraded athlete and results workflows with membership-number support, demo-scoped search behavior, sanctioned-event upload gating, CSV-only intake enforcement, and explicit demo-local publish scope messaging.
+- Added a new “How It Works” architecture infographic with inline SVG rendering and a matching static export for presentation portability.
+
 ## 2026-02-24 — Homepage directory card redesign and ICTSI top-banner pin
 - Redesigned the homepage “Athletes / Coaches / Clubs / Competitions” quick-access card into a richer directory panel with stronger hierarchy, icon-led link tiles, and improved hover/focus behavior.
 - Updated homepage panel styling to better match the hero section’s blue-purple glass language so the lower cards feel cohesive with the top storytelling surface.

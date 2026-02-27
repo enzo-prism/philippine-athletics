@@ -22,7 +22,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <div className="page-shell py-12 space-y-8">
         <Link href="/clubs" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Clubs
@@ -32,17 +32,17 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
               Club
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
               <Emoji symbol={emojiIcons.location} className="text-sm" />
               {club.location}
             </span>
-            <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+            <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
               Founded: {club.founded}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
               <Emoji symbol={emojiIcons.users} className="text-sm" />
               {club.spots}
             </span>
@@ -55,26 +55,26 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         </div>
 
         {isStub ? (
-          <div className="p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+          <div className="p-3 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
             Club details are coming soon. Basic placeholder shown to avoid broken links.
           </div>
         ) : null}
 
         {!isStub ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="p-4 rounded-lg border border-border bg-card">
+            <div className="p-4 rounded-none border border-border bg-card">
               <p className="text-xs text-muted-foreground uppercase font-semibold">Athletes</p>
               <p className="text-2xl font-bold text-foreground mt-1">{roster.length}</p>
             </div>
-            <div className="p-4 rounded-lg border border-border bg-card">
+            <div className="p-4 rounded-none border border-border bg-card">
               <p className="text-xs text-muted-foreground uppercase font-semibold">Coaches</p>
               <p className="text-2xl font-bold text-foreground mt-1">{staff.length}</p>
             </div>
-            <div className="p-4 rounded-lg border border-border bg-card">
+            <div className="p-4 rounded-none border border-border bg-card">
               <p className="text-xs text-muted-foreground uppercase font-semibold">Founded</p>
               <p className="text-2xl font-bold text-foreground mt-1">{club.founded}</p>
             </div>
-            <div className="p-4 rounded-lg border border-border bg-card">
+            <div className="p-4 rounded-none border border-border bg-card">
               <p className="text-xs text-muted-foreground uppercase font-semibold">Athlete spots</p>
               <p className="text-2xl font-bold text-foreground mt-1">{club.spots}</p>
             </div>
@@ -83,20 +83,20 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
 
         {!isStub ? (
           <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="outline" size="sm" className="rounded-full">
+            <Button asChild variant="outline" size="sm" className="rounded-none">
               <Link href="#roster">View roster</Link>
             </Button>
-            <Button asChild variant="outline" size="sm" className="rounded-full">
+            <Button asChild variant="outline" size="sm" className="rounded-none">
               <Link href="#coaches">View coaches</Link>
             </Button>
-            <Button asChild variant="outline" size="sm" className="rounded-full">
+            <Button asChild variant="outline" size="sm" className="rounded-none">
               <Link href="#contact">Contact club</Link>
             </Button>
           </div>
         ) : null}
 
         {!isStub ? (
-          <div className="p-4 rounded-lg border border-accent/30 bg-accent/5">
+          <div className="p-4 rounded-none border border-accent/30 bg-accent/5">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Emoji symbol={emojiIcons.check} className="text-base" />
               Demo callout: roster + coaches
@@ -108,7 +108,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         {club.bio ? (
-          <div className="p-4 rounded-lg border border-border bg-card">
+          <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-sm text-foreground leading-relaxed">{club.bio}</p>
           </div>
         ) : null}
@@ -133,7 +133,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         {club.schedule && club.schedule.length > 0 ? (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Emoji symbol="📅" className="text-base" />
+              <Emoji symbol={emojiIcons.calendar} className="text-base" />
               <h2 className="text-lg font-semibold text-foreground">Practice Schedule</h2>
             </div>
             <WeeklySchedule sessions={club.schedule} />
@@ -154,7 +154,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             {club.recognitionDetails && club.recognitionDetails.length ? (
               <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
                 {club.recognitionDetails.map((detail) => (
-                  <div key={`${detail.label}-${detail.issuer}`} className="rounded-md border border-border bg-muted/40 px-3 py-2">
+                  <div key={`${detail.label}-${detail.issuer}`} className="rounded-none border border-border bg-muted/40 px-3 py-2">
                     <p className="font-semibold text-foreground">{detail.label}</p>
                     <p className="text-xs text-muted-foreground">Issuer: {detail.issuer}</p>
                     {detail.validThrough ? (
@@ -167,7 +167,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             {club.safety && club.safety.length ? (
               <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
                 {club.safety.map((item) => (
-                  <div key={item} className="rounded-md border border-border bg-muted/40 px-3 py-2">
+                  <div key={item} className="rounded-none border border-border bg-muted/40 px-3 py-2">
                     {item}
                   </div>
                 ))}
@@ -184,7 +184,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
             <div className="space-y-2">
               {club.achievements.map((item, idx) => (
-                <div key={idx} className="p-3 rounded-lg border border-accent/20 bg-accent/5 text-sm text-foreground">
+                <div key={idx} className="p-3 rounded-none border border-accent/20 bg-accent/5 text-sm text-foreground">
                   {item}
                 </div>
               ))}
@@ -201,7 +201,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                 const primaryEvent = athlete.events?.[0] || athlete.specialty
                 const pbLabel = athlete.pb ? `PB: ${athlete.pb}` : null
                 const content = (
-                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-roster-item">
+                  <div className="p-3 rounded-none border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-roster-item">
                     <Avatar name={athlete.name} size="md" />
                     <div className="space-y-0.5">
                       <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
@@ -230,7 +230,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
               {staff.map((coach) => {
                 const href = coach.id ? `/coaches/${coach.id}` : undefined
                 const inner = (
-                  <div className="p-3 rounded-lg border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-coach-item">
+                  <div className="p-3 rounded-none border border-border bg-card flex items-center gap-3 hover:border-accent transition-colors" data-testid="club-coach-item">
                     <Avatar name={coach.name} size="sm" />
                     <span className="text-sm text-foreground">{coach.name}</span>
                   </div>
@@ -249,7 +249,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
         ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="contact">
-          <div className="p-4 rounded-lg border border-border bg-card space-y-3">
+          <div className="p-4 rounded-none border border-border bg-card space-y-3">
             <div className="flex items-center gap-2">
               <Emoji symbol={emojiIcons.mail} className="text-base" />
               <h2 className="text-sm font-semibold text-foreground">Contact</h2>
@@ -273,14 +273,14 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             </div>
           </div>
 
-          <div className="p-4 rounded-lg border border-border bg-card space-y-3">
+          <div className="p-4 rounded-none border border-border bg-card space-y-3">
             <div className="flex items-center gap-2">
               <Emoji symbol={emojiIcons.users} className="text-base" />
               <h2 className="text-sm font-semibold text-foreground">Team Contacts</h2>
             </div>
             <div className="space-y-2 text-sm text-foreground">
               {(club.contact?.people ?? []).map((person) => (
-                <div key={`${person.name}-${person.role}`} className="p-2 rounded-md bg-muted/60 border border-border">
+                <div key={`${person.name}-${person.role}`} className="p-2 rounded-none bg-muted/60 border border-border">
                   <p className="font-semibold text-foreground">{person.name}</p>
                   <p className="text-xs text-muted-foreground">{person.role}</p>
                   <div className="flex flex-wrap items-center gap-3 text-xs mt-1">

@@ -5,12 +5,12 @@ import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
 import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import { type EmojiSymbol, Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export const dynamic = "force-dynamic"
 export const dynamicParams = true
 
-const ContactItem = ({ emoji, label, value }: { emoji: string; label: string; value: string }) => (
+const ContactItem = ({ emoji, label, value }: { emoji: EmojiSymbol; label: string; value: string }) => (
   <div className="flex items-center gap-2 text-sm text-foreground">
     <Emoji symbol={emoji} className="text-base" />
     <span className="font-medium">{label}:</span>
@@ -112,7 +112,7 @@ export default async function AthleteProfilePage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <div className="page-shell py-12 space-y-10">
         <Link href="/athletes" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Athletes
@@ -122,14 +122,14 @@ export default async function AthleteProfilePage({
 
         <header className="space-y-6">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
               Athlete
             </span>
-            <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+            <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
               <Emoji symbol={emojiIcons.location} className="text-sm" />
               {athlete.location}
             </span>
-            <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
+            <span className="text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
               Club: {athlete.club}
             </span>
           </div>
@@ -145,18 +145,18 @@ export default async function AthleteProfilePage({
           </div>
 
           {isStub ? (
-            <div className="p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+            <div className="p-3 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
               Athlete details are coming soon. Basic placeholder shown to avoid broken links.
             </div>
           ) : null}
         </header>
 
         <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="p-4 rounded-lg border border-border bg-card">
+          <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">Primary event</p>
             <p className="text-base font-semibold text-foreground mt-1">{primaryEvent?.name ?? "—"}</p>
           </div>
-          <div className="p-4 rounded-lg border border-border bg-card">
+          <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">Personal best</p>
             <p className="text-base font-semibold text-foreground mt-1">{primaryEvent?.personalBest ?? "—"}</p>
             <Badge
@@ -170,7 +170,7 @@ export default async function AthleteProfilePage({
               {primaryEventSource}
             </Badge>
           </div>
-          <div className="p-4 rounded-lg border border-border bg-card">
+          <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">Philippines rank</p>
             <p className="text-base font-semibold text-foreground mt-1">{formatRank(primaryEvent?.nationalRank)}</p>
             <Badge
@@ -184,7 +184,7 @@ export default async function AthleteProfilePage({
               {primaryEventSource}
             </Badge>
           </div>
-          <div className="p-4 rounded-lg border border-border bg-card">
+          <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">{focusLabel}</p>
             <p className="text-sm font-semibold text-foreground mt-1">
               {focusResult ? `${focusResult.event} ${focusResult.result}` : "—"}
@@ -226,10 +226,10 @@ export default async function AthleteProfilePage({
 
                   return (
                     <Link key={evt.name} href={`/rankings?${query.toString()}`} className="block group">
-                      <div className="p-4 rounded-lg border border-border bg-card space-y-2 group-hover:border-accent group-hover:bg-accent/5 transition-colors">
+                      <div className="p-4 rounded-none border border-border bg-card space-y-2 group-hover:border-accent group-hover:bg-accent/5 transition-colors">
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-foreground">{evt.name}</p>
-                          <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-full">
+                          <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-none">
                             PB: {evt.personalBest}
                           </span>
                         </div>
@@ -248,7 +248,7 @@ export default async function AthleteProfilePage({
 
             <section className="space-y-3">
               <div className="flex items-center gap-2">
-                <Emoji symbol="📅" className="text-base" />
+                <Emoji symbol={emojiIcons.calendar} className="text-base" />
                 <h2 className="text-xl font-semibold text-foreground">Recent Competitions</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -262,7 +262,7 @@ export default async function AthleteProfilePage({
                   return (
                     <div
                       key={`${comp.meet}-${i}`}
-                      className={`p-4 rounded-lg border space-y-1 ${isHighlight ? "border-accent bg-accent/5" : "border-border bg-card"}`}
+                      className={`p-4 rounded-none border space-y-1 ${isHighlight ? "border-accent bg-accent/5" : "border-border bg-card"}`}
                     >
                     <p className="text-sm font-semibold text-foreground">{comp.meet}</p>
                     <p className="text-xs text-muted-foreground">
@@ -289,7 +289,7 @@ export default async function AthleteProfilePage({
 
             <section className="space-y-3">
               <div className="flex items-center gap-2">
-                <Emoji symbol="🗓️" className="text-base" />
+                <Emoji symbol={emojiIcons.calendar} className="text-base" />
                 <h2 className="text-xl font-semibold text-foreground">Upcoming Competitions</h2>
               </div>
               {athlete.upcoming.length === 0 ? (
@@ -297,7 +297,7 @@ export default async function AthleteProfilePage({
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {athlete.upcoming.map((up, i) => (
-                    <div key={`${up.meet}-${i}`} className="p-4 rounded-lg border border-border bg-card space-y-1">
+                    <div key={`${up.meet}-${i}`} className="p-4 rounded-none border border-border bg-card space-y-1">
                       <p className="text-sm font-semibold text-foreground">{up.meet}</p>
                       <p className="text-xs text-muted-foreground">
                         {up.date} • {up.location}
@@ -311,7 +311,7 @@ export default async function AthleteProfilePage({
           </div>
 
           <aside className="space-y-6">
-            <div className="p-6 rounded-lg border border-border bg-card space-y-4">
+            <div className="p-6 rounded-none border border-border bg-card space-y-4">
               <p className="text-xs text-muted-foreground font-semibold uppercase">Profile</p>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
@@ -359,7 +359,7 @@ export default async function AthleteProfilePage({
               </div>
             </div>
 
-            <div className="p-6 rounded-lg border border-border bg-card space-y-3">
+            <div className="p-6 rounded-none border border-border bg-card space-y-3">
               <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
               <div className="space-y-2">
                 {athlete.contact.sms ? <ContactItem emoji={emojiIcons.phone} label="Text" value={athlete.contact.sms} /> : null}
@@ -376,7 +376,7 @@ export default async function AthleteProfilePage({
               </div>
             </div>
 
-            <div className="p-6 rounded-lg border border-border bg-muted/40 space-y-3">
+            <div className="p-6 rounded-none border border-border bg-muted/40 space-y-3">
               <p className="text-xs text-muted-foreground font-semibold uppercase">Sponsors</p>
               {athlete.sponsors.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No sponsors listed.</p>
@@ -385,7 +385,7 @@ export default async function AthleteProfilePage({
                   {athlete.sponsors.map((sponsor) => (
                     <span
                       key={sponsor.name}
-                      className="text-xs font-semibold px-2 py-1 rounded-md bg-white text-accent border border-accent/30"
+                      className="text-xs font-semibold px-2 py-1 rounded-none bg-white text-accent border border-accent/30"
                       title={sponsor.note}
                     >
                       {sponsor.name} • {sponsor.category}
@@ -399,7 +399,7 @@ export default async function AthleteProfilePage({
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

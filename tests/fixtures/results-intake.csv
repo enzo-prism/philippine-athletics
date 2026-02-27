@@ -1,3 +1,3 @@
-competition,event,round,athleteName,athleteId,result,place,wind,note
-2025 SEA Games,400m hurdles,Final,Lauren Hoffman,athlete-lauren-hoffman,56.80,3,+1.2,PB
-2025 SEA Games,200m,Final,Kristina Knott,athlete-kristina-knott,23.45,3,+1.7,
+competition,event,round,athleteName,membershipNumber,athleteId,result,place,wind,note
+2025 Southeast Asian Games,400m hurdles,Final,Lauren Hoffman,PA-LAURENHOFF,athlete-lauren-hoffman,56.80,3,+1.2,PB
+2025 Southeast Asian Games,200m,Final,Kristina Knott,PA-KRISTINAKN,athlete-kristina-knott,23.45,3,+1.7,

@@ -52,7 +52,7 @@ export function DemoAdSlot({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft",
+        "group relative overflow-hidden rounded-none border border-border bg-card shadow-soft transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:shadow-[0_16px_28px_-18px_rgba(15,39,69,0.45)]",
         formatClassName[format],
         className,
       )}
@@ -60,12 +60,19 @@ export function DemoAdSlot({
       aria-label="Advertisement"
       data-testid={`demo-ad-${slotId}`}
     >
-      <div className="absolute left-3 top-2 z-10 rounded-full border border-border bg-background/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
+      <div className="absolute left-3 top-2 z-10 rounded-none border border-border bg-background/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground backdrop-blur transition-colors duration-300 group-hover:border-accent/50 group-hover:bg-background group-hover:text-primary">
         {label}
       </div>
 
-      <Link href={href} className="flex h-full w-full items-center justify-center p-3">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.08),transparent_55%),radial-gradient(circle_at_80%_60%,rgba(168,85,247,0.06),transparent_55%)]" />
+      <Link
+        href={href}
+        className="flex h-full w-full items-center justify-center p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-inset"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,39,69,0.08)_0%,rgba(181,18,43,0.04)_65%,transparent_100%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
+        <div
+          className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.28)_50%,transparent_100%)] opacity-0 transition-[opacity,transform] duration-700 group-hover:translate-x-[280%] group-hover:opacity-100"
+          aria-hidden="true"
+        />
         <div className="relative flex h-full w-full items-center justify-center">
           <img
             src={creative.imageUrl}
@@ -73,7 +80,7 @@ export function DemoAdSlot({
             loading="lazy"
             decoding="async"
             className={cn(
-              "max-w-full object-contain",
+              "max-w-full object-contain transition duration-300 group-hover:scale-[1.02] group-hover:brightness-105",
               format === "leaderboard" ? "max-h-[58px]" : format === "mrec" ? "max-h-[140px]" : "max-h-[32px]",
             )}
           />

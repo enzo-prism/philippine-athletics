@@ -12,18 +12,19 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { athleteProfiles, athleteSummaries } from "@/lib/data/athletes"
 import { getCompetitionResultsByAthleteId } from "@/lib/data/competitions"
+import { getSanctionedEventByName } from "@/lib/data/sanctioned-events"
 import { normalizeKey } from "@/lib/data/utils"
 
-const SAMPLE_CSV = `competition,event,round,athleteName,athleteId,result,place,wind,note
-2025 SEA Games,400m hurdles,Final,Lauren Hoffman,athlete-lauren-hoffman,56.80,3,+1.2,PB
-2025 SEA Games,400m hurdles,Final,Nguyen Thi Lan,,55.92,1,+1.2,
-2025 SEA Games,400m hurdles,Final,Siti Aisyah,,56.40,2,+1.2,
-2025 SEA Games,200m,Final,Kristina Knott,athlete-kristina-knott,23.45,3,+1.7,
-2025 SEA Games,200m,Final,Suphawadee Thongchai,,23.10,1,+1.7,
-2025 SEA Games,200m,Final,Nguyen Minh Anh,,23.32,2,+1.7,
+const SAMPLE_CSV = `competition,event,round,athleteName,membershipNumber,athleteId,result,place,wind,note
+2025 Southeast Asian Games,400m hurdles,Final,Lauren Hoffman,PA-LAURENHOFF,athlete-lauren-hoffman,56.80,3,+1.2,PB
+2025 Southeast Asian Games,400m hurdles,Final,Nguyen Thi Lan,EXT-SEA-400H-01,,55.92,1,+1.2,
+2025 Southeast Asian Games,400m hurdles,Final,Siti Aisyah,EXT-SEA-400H-02,,56.40,2,+1.2,
+2025 Southeast Asian Games,200m,Final,Kristina Knott,PA-KRISTINAKN,athlete-kristina-knott,23.45,3,+1.7,
+2025 Southeast Asian Games,200m,Final,Suphawadee Thongchai,EXT-SEA-200M-01,,23.10,1,+1.7,
+2025 Southeast Asian Games,200m,Final,Nguyen Minh Anh,EXT-SEA-200M-02,,23.32,2,+1.7,
 `
 
-const STORAGE_KEY = "trackph:results-intake"
+const STORAGE_KEY = "philippine-athletics:results-intake"
 
 type IngestionRole = "contributor" | "certified"
 
@@ -43,6 +44,7 @@ type FieldKey =
   | "event"
   | "round"
   | "athleteName"
+  | "membershipNumber"
   | "athleteId"
   | "result"
   | "place"
@@ -54,6 +56,7 @@ const FIELD_DEFS: { key: FieldKey; label: string; required?: boolean }[] = [
   { key: "event", label: "Event", required: true },
   { key: "round", label: "Round" },
   { key: "athleteName", label: "Athlete name", required: true },
+  { key: "membershipNumber", label: "Membership number", required: true },
   { key: "athleteId", label: "Athlete ID" },
   { key: "result", label: "Result", required: true },
   { key: "place", label: "Place", required: true },
@@ -81,6 +84,7 @@ type MappedRow = {
   event?: string
   round?: string
   athleteName?: string
+  membershipNumber?: string
   athleteId?: string
   result?: string
   place?: string
@@ -253,6 +257,7 @@ const autoMapHeaders = (headers: string[]) => {
     event: "",
     round: "",
     athleteName: "",
+    membershipNumber: "",
     athleteId: "",
     result: "",
     place: "",
@@ -267,6 +272,7 @@ const autoMapHeaders = (headers: string[]) => {
     event: ["event", "discipline"],
     round: ["round", "stage"],
     athleteName: ["athletename", "name", "athlete"],
+    membershipNumber: ["membershipnumber", "membershipno", "memberid", "patafanumber", "license"],
     athleteId: ["athleteid", "id"],
     result: ["result", "mark", "time"],
     place: ["place", "rank", "position"],
@@ -494,6 +500,7 @@ export default function DataPortalPage() {
   const [activeTab, setActiveTab] = useState("upload")
   const [rawText, setRawText] = useState("")
   const [fileName, setFileName] = useState<string | null>(null)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const [previewEvent, setPreviewEvent] = useState("All events")
   const [parsed, setParsed] = useState<ParsedData | null>(null)
   const [mapping, setMapping] = useState<Record<FieldKey, string>>({
@@ -501,6 +508,7 @@ export default function DataPortalPage() {
     event: "",
     round: "",
     athleteName: "",
+    membershipNumber: "",
     athleteId: "",
     result: "",
     place: "",
@@ -508,18 +516,16 @@ export default function DataPortalPage() {
     note: "",
   })
   const [meta, setMeta] = useState<CompetitionMeta>(defaultMeta)
-  const [submissions, setSubmissions] = useState<Submission[]>([])
-
-  useEffect(() => {
+  const [submissions, setSubmissions] = useState<Submission[]>(() => {
     const stored = safeLocalStorage.get(STORAGE_KEY)
-    if (!stored) return
+    if (!stored) return []
     try {
       const parsedStored = JSON.parse(stored) as Submission[]
-      if (Array.isArray(parsedStored)) setSubmissions(parsedStored)
+      return Array.isArray(parsedStored) ? parsedStored : []
     } catch {
-      return
+      return []
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (!submissions.length) return
@@ -527,7 +533,21 @@ export default function DataPortalPage() {
   }, [submissions])
 
   const parseInput = (text: string) => {
+    const cleaned = text.trim()
+    if (!cleaned) {
+      setUploadError(null)
+      setParsed(null)
+      return
+    }
+
+    if (detectDelimiter(cleaned) !== ",") {
+      setParsed(null)
+      setUploadError("Only CSV data is accepted in this demo phase. TSV and spreadsheet tab-delimited formats are blocked.")
+      return
+    }
+
     const result = parseDelimited(text)
+    setUploadError(null)
     setParsed(result)
     if (result) {
       setMapping(autoMapHeaders(result.headers))
@@ -536,6 +556,16 @@ export default function DataPortalPage() {
   }
 
   const handleFile = (file: File) => {
+    const looksLikeCsv =
+      file.name.toLowerCase().endsWith(".csv") ||
+      file.type === "text/csv" ||
+      file.type === "application/vnd.ms-excel"
+
+    if (!looksLikeCsv) {
+      setUploadError("Only .csv files are accepted for sanctioned event intake in this phase.")
+      return
+    }
+
     const reader = new FileReader()
     reader.onload = () => {
       const content = String(reader.result || "")
@@ -563,6 +593,7 @@ export default function DataPortalPage() {
         event: valueFor("event"),
         round: valueFor("round"),
         athleteName: valueFor("athleteName"),
+        membershipNumber: valueFor("membershipNumber"),
         athleteId: valueFor("athleteId"),
         result: valueFor("result"),
         place: valueFor("place"),
@@ -576,8 +607,11 @@ export default function DataPortalPage() {
     if (!mappedRows.length) return { issues: [], errors: 0, warnings: 0 }
     const issues: ValidationIssue[] = []
     const seen = new Set<string>()
-    const athleteIndex = new Map(
-      athleteSummaries.map((athlete) => [normalizeKey(athlete.name), athlete.id])
+    const athleteByName = new Map(
+      athleteSummaries.map((athlete) => [normalizeKey(athlete.name), athlete]),
+    )
+    const athleteByMembership = new Map(
+      athleteSummaries.map((athlete) => [normalizeKey(athlete.membershipNumber), athlete]),
     )
     const athleteIds = new Set(athleteSummaries.map((athlete) => athlete.id))
 
@@ -609,15 +643,45 @@ export default function DataPortalPage() {
         })
       }
 
+      const mappedByMembership = row.membershipNumber
+        ? athleteByMembership.get(normalizeKey(row.membershipNumber))
+        : undefined
+
+      if (row.membershipNumber && !mappedByMembership) {
+        issues.push({
+          level: "warning",
+          row: row.row,
+          message: `Membership number not found in demo data: ${row.membershipNumber}.`,
+        })
+      }
+
       if (row.athleteId && !athleteIds.has(row.athleteId)) {
         issues.push({
           level: "warning",
           row: row.row,
           message: `Unknown athlete ID: ${row.athleteId}.`,
         })
-      } else if (!row.athleteId && row.athleteName) {
-        const lookup = athleteIndex.get(normalizeKey(row.athleteName))
-        if (!lookup) {
+      }
+
+      if (mappedByMembership && row.athleteId && row.athleteId !== mappedByMembership.id) {
+        issues.push({
+          level: "warning",
+          row: row.row,
+          message: `Athlete ID (${row.athleteId}) does not match membership number (${mappedByMembership.membershipNumber}).`,
+        })
+      }
+
+      if (mappedByMembership && row.athleteName && normalizeKey(row.athleteName) !== normalizeKey(mappedByMembership.name)) {
+        issues.push({
+          level: "warning",
+          row: row.row,
+          message: `Athlete name does not match membership number record (${mappedByMembership.name}).`,
+        })
+      }
+
+      if (!mappedByMembership && !row.athleteId && row.athleteName) {
+        const byName = athleteByName.get(normalizeKey(row.athleteName))
+        if (!byName) {
           issues.push({
             level: "warning",
             row: row.row,
@@ -626,7 +690,7 @@ export default function DataPortalPage() {
         }
       }
 
-      const key = `${row.event}|${row.athleteName}|${row.result}|${row.round}`
+      const key = `${row.event}|${row.membershipNumber}|${row.athleteName}|${row.result}|${row.round}`
       if (row.event && row.athleteName && row.result) {
         if (seen.has(key)) {
           issues.push({
@@ -652,6 +716,9 @@ export default function DataPortalPage() {
     }
 
     const athleteById = new Map(athleteProfiles.map((athlete) => [athlete.id, athlete]))
+    const athleteByMembership = new Map(
+      athleteProfiles.map((athlete) => [normalizeKey(athlete.membershipNumber), athlete]),
+    )
     const athleteByName = new Map(
       athleteProfiles.map((athlete) => [
         normalizeKey(`${athlete.firstName} ${athlete.lastName}`),
@@ -687,6 +754,7 @@ export default function DataPortalPage() {
       if (!event || !result) return
 
       const athlete =
+        (row.membershipNumber && athleteByMembership.get(normalizeKey(row.membershipNumber))) ||
         (row.athleteId && athleteById.get(row.athleteId)) ||
         (row.athleteName ? athleteByName.get(normalizeKey(row.athleteName)) : undefined)
 
@@ -810,6 +878,9 @@ export default function DataPortalPage() {
 
   const athletePagePreview = useMemo(() => {
     const athleteById = new Map(athleteProfiles.map((athlete) => [athlete.id, athlete]))
+    const athleteByMembership = new Map(
+      athleteProfiles.map((athlete) => [normalizeKey(athlete.membershipNumber), athlete]),
+    )
     const athleteByName = new Map(
       athleteProfiles.map((athlete) => [
         normalizeKey(`${athlete.firstName} ${athlete.lastName}`),
@@ -824,6 +895,7 @@ export default function DataPortalPage() {
 
     mappedRows.forEach((row) => {
       const athlete =
+        (row.membershipNumber && athleteByMembership.get(normalizeKey(row.membershipNumber))) ||
         (row.athleteId && athleteById.get(row.athleteId)) ||
         (row.athleteName ? athleteByName.get(normalizeKey(row.athleteName)) : undefined)
       if (!athlete) return
@@ -939,7 +1011,7 @@ export default function DataPortalPage() {
     ) as string[]
 
     const uniqueAthletes = new Set(
-      mappedRows.map((row) => row.athleteId || row.athleteName || "").filter(Boolean),
+      mappedRows.map((row) => row.membershipNumber || row.athleteId || row.athleteName || "").filter(Boolean),
     )
 
     const parsePlaceValue = (place?: string) => {
@@ -981,17 +1053,15 @@ export default function DataPortalPage() {
     }
   }, [mappedRows, meta])
 
-  const filteredPreviewBlocks = useMemo(() => {
-    if (previewEvent === "All events") return competitionPreview.resultBlocks
-    return competitionPreview.resultBlocks.filter((block) => block.event === previewEvent)
-  }, [competitionPreview.resultBlocks, previewEvent])
+  const resolvedPreviewEvent =
+    previewEvent === "All events" || competitionPreview.events.includes(previewEvent)
+      ? previewEvent
+      : "All events"
 
-  useEffect(() => {
-    const options = ["All events", ...competitionPreview.events]
-    if (!options.includes(previewEvent)) {
-      setPreviewEvent("All events")
-    }
-  }, [competitionPreview.events, previewEvent])
+  const filteredPreviewBlocks = useMemo(() => {
+    if (resolvedPreviewEvent === "All events") return competitionPreview.resultBlocks
+    return competitionPreview.resultBlocks.filter((block) => block.event === resolvedPreviewEvent)
+  }, [competitionPreview.resultBlocks, resolvedPreviewEvent])
 
   const groupedPreview = useMemo(() => {
     const groups = new Map<string, MappedRow[]>()
@@ -1004,6 +1074,11 @@ export default function DataPortalPage() {
   }, [mappedRows])
 
   const handleSubmit = () => {
+    if (!canPublish) {
+      setActiveTab("review")
+      return
+    }
+
     const submission: Submission = {
       id: buildId(),
       status: role === "certified" ? "published" : "pending",
@@ -1022,7 +1097,7 @@ export default function DataPortalPage() {
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement("a")
     anchor.href = url
-    anchor.download = `trackph-submission-${submission.id}.json`
+    anchor.download = `philippine-athletics-submission-${submission.id}.json`
     anchor.click()
     URL.revokeObjectURL(url)
   }
@@ -1030,6 +1105,9 @@ export default function DataPortalPage() {
   const canMap = Boolean(parsed?.headers?.length)
   const canValidate = mappedRows.length > 0
   const canReview = validation.errors === 0 && mappedRows.length > 0
+  const submissionCompetitionName = (meta.name || mappedRows[0]?.competition?.trim() || "").trim()
+  const sanctionedEvent = submissionCompetitionName ? getSanctionedEventByName(submissionCompetitionName) : undefined
+  const isSanctionedEvent = Boolean(sanctionedEvent)
   const metaComplete = Boolean(
     meta.name &&
       meta.location &&
@@ -1038,13 +1116,13 @@ export default function DataPortalPage() {
       meta.organizer &&
       meta.type
   )
-  const canPublish = canReview && metaComplete
+  const canPublish = canReview && metaComplete && isSanctionedEvent
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <div className="page-shell py-12 space-y-10">
         <header className="space-y-3">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
             <ShieldCheck className="size-4" />
@@ -1052,8 +1130,8 @@ export default function DataPortalPage() {
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Results Intake Portal</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">
-            Upload competition results, validate entries, and stage updates for TrackPH. Certified stewards can publish
-            directly in this demo.
+            Upload sanctioned competition results, validate entries, and stage updates for Philippine Athletics.
+            Publishing remains demo-local in this phase.
           </p>
         </header>
 
@@ -1080,11 +1158,11 @@ export default function DataPortalPage() {
                 </Button>
               </div>
               <Badge variant="outline" className="border-border text-foreground">
-                {role === "certified" ? "Can publish" : "Review required"}
+                {role === "certified" ? "Can publish (sanctioned only)" : "Review required"}
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground">
-              Demo note: submissions are stored in your browser only. This does not modify live data across the site.
+              Demo note: publish actions are stored in your browser only. No durable backend publishing is included in this phase.
             </p>
           </CardContent>
         </Card>
@@ -1113,10 +1191,10 @@ export default function DataPortalPage() {
             <Card className="py-0 gap-0">
               <CardContent className="p-6 space-y-4">
                 <div className="flex flex-wrap items-center gap-3">
-                  <Label className="text-sm font-semibold">Upload CSV</Label>
+                  <Label className="text-sm font-semibold">Upload CSV (required)</Label>
                   <Input
                     type="file"
-                    accept=".csv,.tsv,text/csv,text/tab-separated-values"
+                    accept=".csv,text/csv"
                     data-testid="results-upload-input"
                     onChange={(event) => {
                       const file = event.target.files?.[0]
@@ -1125,12 +1203,17 @@ export default function DataPortalPage() {
                   />
                 </div>
                 {fileName ? <p className="text-xs text-muted-foreground">Loaded: {fileName}</p> : null}
+                {uploadError ? (
+                  <div className="rounded-none border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                    {uploadError}
+                  </div>
+                ) : null}
                 <Separator />
                 <div className="space-y-2">
-                  <Label className="text-sm font-semibold">Paste data</Label>
+                  <Label className="text-sm font-semibold">Paste CSV data</Label>
                   <textarea
-                    className="min-h-[180px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    placeholder="Paste CSV or TSV data here"
+                    className="min-h-[180px] w-full rounded-none border border-input bg-background px-3 py-2 text-sm"
+                    placeholder="Paste CSV data here"
                     data-testid="results-paste-input"
                     value={rawText}
                     onChange={(event) => setRawText(event.target.value)}
@@ -1153,7 +1236,8 @@ export default function DataPortalPage() {
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Recommended columns: competition, event, round, athleteName, athleteId, result, place, wind, note.
+                    Required columns: competition, event, athleteName, membershipNumber, result, place. Optional:
+                    round, athleteId, wind, note.
                   </p>
                 </div>
               </CardContent>
@@ -1166,7 +1250,7 @@ export default function DataPortalPage() {
                 <div className="space-y-2">
                   <p className="text-sm font-semibold text-foreground">Field mapping</p>
                   <p className="text-xs text-muted-foreground">
-                    Map each TrackPH field to a column in your file. Required fields must be mapped.
+                    Map each Philippine Athletics field to a column in your file. Required fields must be mapped.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1176,7 +1260,7 @@ export default function DataPortalPage() {
                         {field.label} {field.required ? "*" : ""}
                       </Label>
                       <select
-                        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                        className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
                         value={mapping[field.key]}
                         data-testid={`map-field-${field.key}`}
                         onChange={(event) =>
@@ -1228,7 +1312,7 @@ export default function DataPortalPage() {
                     validation.issues.slice(0, 8).map((issue, idx) => (
                       <div
                         key={`${issue.message}-${idx}`}
-                        className={`rounded-md border px-3 py-2 text-xs ${
+                        className={`rounded-none border px-3 py-2 text-xs ${
                           issue.level === "error"
                             ? "border-red-200 bg-red-50 text-red-700"
                             : "border-amber-200 bg-amber-50 text-amber-700"
@@ -1271,8 +1355,11 @@ export default function DataPortalPage() {
                     { key: "type", label: "Type" },
                   ].map((field) => (
                     <div key={field.key} className="space-y-2">
-                      <Label className="text-xs font-semibold uppercase">{field.label}</Label>
+                      <Label htmlFor={`meta-field-${field.key}`} className="text-xs font-semibold uppercase">
+                        {field.label}
+                      </Label>
                       <Input
+                        id={`meta-field-${field.key}`}
                         value={meta[field.key as keyof CompetitionMeta] as string}
                         data-testid={`meta-${field.key}`}
                         onChange={(event) =>
@@ -1285,9 +1372,12 @@ export default function DataPortalPage() {
                     </div>
                   ))}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase">Status</Label>
+                    <Label htmlFor="meta-field-status" className="text-xs font-semibold uppercase">
+                      Status
+                    </Label>
                     <select
-                      className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                      id="meta-field-status"
+                      className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
                       value={meta.status}
                       data-testid="meta-status"
                       onChange={(event) =>
@@ -1302,9 +1392,12 @@ export default function DataPortalPage() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold uppercase">Source</Label>
+                    <Label htmlFor="meta-field-source" className="text-xs font-semibold uppercase">
+                      Source
+                    </Label>
                     <select
-                      className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                      id="meta-field-source"
+                      className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
                       value={meta.source}
                       data-testid="meta-source"
                       onChange={(event) =>
@@ -1319,12 +1412,36 @@ export default function DataPortalPage() {
                     </select>
                   </div>
                 </div>
+                <div className="rounded-none border border-border bg-muted/30 p-4 space-y-2" data-testid="sanction-check">
+                  <p className="text-xs font-semibold uppercase text-muted-foreground">Sanction status</p>
+                  {isSanctionedEvent && sanctionedEvent ? (
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-foreground">{sanctionedEvent.competitionName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Sanctioning body: {sanctionedEvent.sanctioningBody} • Status: {sanctionedEvent.status}
+                      </p>
+                      <Badge variant="outline" className="border-emerald-400/50 bg-emerald-50 text-emerald-700">
+                        Sanctioned upload path enabled
+                      </Badge>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-foreground">Competition not found in sanctioned registry</p>
+                      <p className="text-xs text-muted-foreground">
+                        Publishing is blocked until the competition name matches a sanctioned event in this demo phase.
+                      </p>
+                      <Badge variant="outline" className="border-destructive/30 bg-destructive/10 text-destructive">
+                        Unsanctioned event blocked
+                      </Badge>
+                    </div>
+                  )}
+                </div>
                 <Separator />
                 <div className="space-y-4">
                   <p className="text-sm font-semibold text-foreground">Preview</p>
                   <div className="space-y-4">
                     {groupedPreview.map(([event, rows]) => (
-                      <div key={event} className="rounded-md border border-border p-4 space-y-2">
+                      <div key={event} className="rounded-none border border-border p-4 space-y-2">
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-foreground">{event}</p>
                           <Badge variant="outline">{rows.length} entries</Badge>
@@ -1334,6 +1451,7 @@ export default function DataPortalPage() {
                             <div key={`${row.row}-${row.athleteName}`} className="text-xs text-muted-foreground">
                               {row.place ? `${row.place}. ` : ""}
                               {row.athleteName ?? "Unknown athlete"} — {row.result}
+                              {row.membershipNumber ? ` • ${row.membershipNumber}` : ""}
                               {row.wind ? ` (${row.wind} wind)` : ""}
                             </div>
                           ))}
@@ -1349,7 +1467,7 @@ export default function DataPortalPage() {
                     <Badge variant="outline">Year {impactPreview.year}</Badge>
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div className="rounded-md border border-border p-4 space-y-3">
+                    <div className="rounded-none border border-border p-4 space-y-3">
                       <p className="text-sm font-semibold text-foreground">Athlete page updates</p>
                       {impactPreview.athletes.length === 0 ? (
                         <p className="text-xs text-muted-foreground">
@@ -1358,7 +1476,7 @@ export default function DataPortalPage() {
                       ) : (
                         <div className="space-y-2">
                           {impactPreview.athletes.map((athlete) => (
-                            <div key={athlete.id} className="rounded-md border border-border bg-background p-3 space-y-1">
+                            <div key={athlete.id} className="rounded-none border border-border bg-background p-3 space-y-1">
                               <div className="flex items-center justify-between gap-2">
                                 <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
                                 <span className="text-xs text-muted-foreground">{athlete.club}</span>
@@ -1394,21 +1512,21 @@ export default function DataPortalPage() {
                         </div>
                       )}
                       {impactPreview.unknownAthletes.length > 0 ? (
-                        <div className="rounded-md border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
+                        <div className="rounded-none border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
                           Unmatched athletes: {impactPreview.unknownAthletes.join(", ")}.
                         </div>
                       ) : null}
                     </div>
-                    <div className="rounded-md border border-border p-4 space-y-3">
+                    <div className="rounded-none border border-border p-4 space-y-3">
                       <p className="text-sm font-semibold text-foreground">Ranking shifts</p>
                       {impactPreview.rankingImpacts.length === 0 ? (
                         <p className="text-xs text-muted-foreground">
-                          No ranking impact detected yet. Add athlete IDs to compare against existing rankings.
+                          No ranking impact detected yet. Add membership numbers to compare against existing rankings.
                         </p>
                       ) : (
                         <div className="space-y-3">
                           {impactPreview.rankingImpacts.map((impact, idx) => (
-                            <div key={`${impact.event}-${impact.gender}-${idx}`} className="rounded-md border border-border bg-background p-3 space-y-2">
+                            <div key={`${impact.event}-${impact.gender}-${idx}`} className="rounded-none border border-border bg-background p-3 space-y-2">
                               <div className="flex items-center justify-between gap-2">
                                 <p className="text-xs font-semibold text-foreground">{impact.event}</p>
                                 <span className="text-[11px] text-muted-foreground">
@@ -1466,7 +1584,7 @@ export default function DataPortalPage() {
                     <p className="text-sm font-semibold text-foreground">Competition page preview</p>
                     <Badge variant="outline">{meta.status}</Badge>
                   </div>
-                  <div className="rounded-2xl border border-border bg-card p-6 space-y-6">
+                  <div className="rounded-none border border-border bg-card p-6 space-y-6">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="space-y-2">
                         <p className="text-xs font-semibold text-accent uppercase tracking-widest">Preview</p>
@@ -1488,19 +1606,19 @@ export default function DataPortalPage() {
                       </Badge>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="p-3 rounded-lg border border-border bg-background">
+                      <div className="p-3 rounded-none border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Participants</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.participantCount}</p>
                       </div>
-                      <div className="p-3 rounded-lg border border-border bg-background">
+                      <div className="p-3 rounded-none border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Events</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.events.length}</p>
                       </div>
-                      <div className="p-3 rounded-lg border border-border bg-background">
+                      <div className="p-3 rounded-none border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Results</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.resultCount}</p>
                       </div>
-                      <div className="p-3 rounded-lg border border-border bg-background">
+                      <div className="p-3 rounded-none border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Organizer</p>
                         <p className="text-xs font-semibold text-foreground">{meta.organizer || "TBD"}</p>
                       </div>
@@ -1509,13 +1627,13 @@ export default function DataPortalPage() {
                       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                         <span className="font-semibold text-foreground">Filter:</span>
                         {["All events", ...competitionPreview.events].map((event) => {
-                          const active = previewEvent === event
+                          const active = resolvedPreviewEvent === event
                           return (
                             <button
                               key={event}
                               type="button"
                               onClick={() => setPreviewEvent(event)}
-                              className={`rounded-full border px-3 py-1 ${
+                              className={`rounded-none border px-3 py-1 ${
                                 active ? "border-accent text-accent" : "border-border text-foreground"
                               }`}
                             >
@@ -1526,7 +1644,7 @@ export default function DataPortalPage() {
                       </div>
 
                       {meta.status === "Upcoming" ? (
-                        <div className="rounded-md border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
+                        <div className="rounded-none border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
                           Public view hides results for upcoming competitions. Set status to “Past” to preview results.
                         </div>
                       ) : (
@@ -1537,7 +1655,7 @@ export default function DataPortalPage() {
                             {filteredPreviewBlocks.map((block) => (
                                 <div
                                   key={`${block.event}-${block.round ?? "all"}`}
-                                  className="rounded-lg border border-border bg-background p-4 space-y-2"
+                                  className="rounded-none border border-border bg-background p-4 space-y-2"
                                 >
                                   <div className="flex items-center justify-between">
                                     <p className="text-sm font-semibold text-foreground">{block.event}</p>
@@ -1550,6 +1668,10 @@ export default function DataPortalPage() {
                                   <div className="space-y-2">
                                     {block.entries.map((entry, idx) => {
                                       const athlete =
+                                        (entry.membershipNumber &&
+                                          athleteProfiles.find(
+                                            (ath) => normalizeKey(ath.membershipNumber) === normalizeKey(entry.membershipNumber ?? ""),
+                                          )) ||
                                         (entry.athleteId &&
                                           athleteProfiles.find((ath) => ath.id === entry.athleteId)) ||
                                         (entry.athleteName
@@ -1643,7 +1765,7 @@ export default function DataPortalPage() {
                   </div>
                   {athletePagePreview.length === 0 ? (
                     <p className="text-xs text-muted-foreground">
-                      No athlete matches yet. Add athlete IDs or known names to preview profile updates.
+                      No athlete matches yet. Add membership numbers or known names to preview profile updates.
                     </p>
                   ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -1691,7 +1813,7 @@ export default function DataPortalPage() {
                                 {athlete.recentResults.map((result, idx) => (
                                   <div
                                     key={`${athlete.id}-recent-${idx}`}
-                                    className={`rounded-md border px-3 py-2 text-xs ${
+                                    className={`rounded-none border px-3 py-2 text-xs ${
                                       result.isNew
                                         ? "border-accent/40 bg-accent/5 text-foreground"
                                         : "border-border text-muted-foreground"
@@ -1724,7 +1846,7 @@ export default function DataPortalPage() {
                   </div>
                   {rankingPreview.length === 0 ? (
                     <p className="text-xs text-muted-foreground">
-                      No ranking impacts detected yet. Add athlete IDs to see updated top‑3 cards.
+                      No ranking impacts detected yet. Add membership numbers to see updated top‑3 cards.
                     </p>
                   ) : (
                     <div className="space-y-4">
@@ -1743,7 +1865,7 @@ export default function DataPortalPage() {
                                 return (
                                   <div
                                     key={`${entry.id}-${entry.rank}`}
-                                    className={`rounded-md border p-3 space-y-1 ${
+                                    className={`rounded-none border p-3 space-y-1 ${
                                       isImpacted ? "border-accent bg-accent/5" : "border-border"
                                     }`}
                                   >
@@ -1775,7 +1897,7 @@ export default function DataPortalPage() {
                 </div>
                 {!canPublish ? (
                   <p className="text-xs text-muted-foreground">
-                    Complete competition metadata and resolve validation errors before submitting.
+                    Complete metadata, resolve validation errors, and use a sanctioned competition name before submitting.
                   </p>
                 ) : null}
               </CardContent>

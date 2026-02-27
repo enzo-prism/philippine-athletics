@@ -44,6 +44,8 @@ const formatDay = (value: string) => {
   })
 }
 
+const sanitizeBrandCopy = (value: string) => value.replace(/\btrack\s*ph\b/gi, "Philippine Athletics")
+
 export default function ChangelogPage() {
   const [query, setQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState("All")
@@ -112,7 +114,7 @@ export default function ChangelogPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="mx-auto max-w-6xl space-y-8 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="page-shell space-y-8 py-12">
         <header className="space-y-5">
           <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent">
             <FileText className="size-4" />
@@ -165,7 +167,7 @@ export default function ChangelogPage() {
               <button
                 type="button"
                 onClick={() => setViewMode("highlights")}
-                className={`rounded-full border px-3 py-1 ${
+                className={`rounded-none border px-3 py-1 ${
                   viewMode === "highlights" ? "border-accent text-accent" : "border-border text-foreground"
                 }`}
               >
@@ -174,7 +176,7 @@ export default function ChangelogPage() {
               <button
                 type="button"
                 onClick={() => setViewMode("commits")}
-                className={`rounded-full border px-3 py-1 ${
+                className={`rounded-none border px-3 py-1 ${
                   viewMode === "commits" ? "border-accent text-accent" : "border-border text-foreground"
                 }`}
               >
@@ -191,7 +193,7 @@ export default function ChangelogPage() {
                     key={category}
                     type="button"
                     onClick={() => setActiveCategory(category)}
-                    className={`rounded-full border px-3 py-1 ${
+                    className={`rounded-none border px-3 py-1 ${
                       active ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
                   >
@@ -238,7 +240,7 @@ export default function ChangelogPage() {
                     <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
                       {update.highlights.map((point) => (
                         <li key={`${update.id}-${point}`} className="flex gap-3">
-                          <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                          <span className="mt-2 size-1.5 shrink-0 rounded-none bg-accent" aria-hidden="true" />
                           <span>{point}</span>
                         </li>
                       ))}
@@ -260,17 +262,17 @@ export default function ChangelogPage() {
                 <CardContent className="space-y-3 p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="space-y-2">
-                      <p className="text-sm font-semibold leading-tight text-foreground">{commit.subject}</p>
-                      <p className="text-xs text-muted-foreground">{commit.plainSummary}</p>
+                      <p className="text-sm font-semibold leading-tight text-foreground">{sanitizeBrandCopy(commit.subject)}</p>
+                      <p className="text-xs text-muted-foreground">{sanitizeBrandCopy(commit.plainSummary)}</p>
                       {commit.plainNotes.length ? (
                         <ul className="list-inside list-disc space-y-1 text-xs text-muted-foreground">
                           {commit.plainNotes.map((note) => (
-                            <li key={`${commit.hash}-${note}`}>{note}</li>
+                            <li key={`${commit.hash}-${note}`}>{sanitizeBrandCopy(note)}</li>
                           ))}
                         </ul>
                       ) : null}
                       <p className="text-xs text-muted-foreground">
-                        <span className="font-semibold text-foreground">Why it matters:</span> {commit.plainImpact}
+                        <span className="font-semibold text-foreground">Why it matters:</span> {sanitizeBrandCopy(commit.plainImpact)}
                       </p>
                     </div>
                     <Badge variant="outline" className="text-xs">
@@ -293,7 +295,7 @@ export default function ChangelogPage() {
                       </Badge>
                     ))}
                   </div>
-                  <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-muted/40 p-2 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-2 rounded-none border border-border bg-muted/40 p-2 text-xs text-muted-foreground">
                     <Sparkles className="size-3 text-accent" />
                     <span>
                       Commit changed {commit.stats.files} file{commit.stats.files === 1 ? "" : "s"} and touched{" "}

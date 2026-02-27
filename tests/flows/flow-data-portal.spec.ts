@@ -24,7 +24,7 @@ test("Flow 6: Results intake", async ({ page }) => {
   })
 
   await test.step("Complete metadata", async () => {
-    await page.getByTestId("meta-name").fill("2025 SEA Games")
+    await page.getByTestId("meta-name").fill("2025 Southeast Asian Games")
     await page.getByTestId("meta-location").fill("Bangkok, Thailand")
     await page.getByTestId("meta-startDate").fill("2025-12-11")
     await page.getByTestId("meta-endDate").fill("2025-12-20")
@@ -36,6 +36,6 @@ test("Flow 6: Results intake", async ({ page }) => {
 
   await test.step("Submit for review", async () => {
     await page.getByTestId("review-submit").click()
-    await expect(page.getByTestId("submission-log")).toContainText("2025 SEA Games")
+    await expect(page.getByTestId("submission-log")).toContainText("2025 Southeast Asian Games")
   })
 })

@@ -46,7 +46,7 @@ export default async function CompetitionProfilePage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="page-shell py-12">
         <Link href="/competitions" className="flex items-center gap-2 text-accent hover:text-accent/80 mb-8 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Competitions
@@ -61,24 +61,24 @@ export default async function CompetitionProfilePage({
             </div>
           </div>
           {isStub ? (
-            <div className="mt-4 p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+            <div className="mt-4 p-3 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
               Competition details are coming soon. Basic placeholder shown to avoid broken links.
             </div>
           ) : null}
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-lg bg-accent/10">
+            <div className="p-4 rounded-none bg-accent/10">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Participants</p>
               <p className="text-2xl font-bold text-accent">{competition.participants}</p>
             </div>
-            <div className="p-4 rounded-lg bg-accent/10">
+            <div className="p-4 rounded-none bg-accent/10">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Countries</p>
               <p className="text-2xl font-bold text-accent">{competition.countries}</p>
             </div>
-            <div className="p-4 rounded-lg bg-accent/10">
+            <div className="p-4 rounded-none bg-accent/10">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Records Set</p>
               <p className="text-2xl font-bold text-accent">{competition.records}</p>
             </div>
-            <div className="p-4 rounded-lg bg-accent/10">
+            <div className="p-4 rounded-none bg-accent/10">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Location</p>
               <p className="text-sm font-bold text-foreground">{competition.location}</p>
             </div>
@@ -89,11 +89,11 @@ export default async function CompetitionProfilePage({
           <div className="lg:col-span-2 space-y-8">
             <div>
               <h2 className="text-xl font-bold text-foreground mb-4">About</h2>
-              <p className="p-6 rounded-lg border border-border text-foreground leading-relaxed">{competition.about}</p>
+              <p className="p-6 rounded-none border border-border text-foreground leading-relaxed">{competition.about}</p>
             </div>
 
             {isUpcoming ? (
-              <div className="p-4 rounded-lg border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+              <div className="p-4 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
                 Results will be posted after the competition concludes. Check back for official times and placements.
               </div>
             ) : results.length ? (
@@ -108,7 +108,7 @@ export default async function CompetitionProfilePage({
                   <span className="font-semibold text-foreground">Filter:</span>
                   <Link
                     href={baseHref}
-                    className={`rounded-full border px-3 py-1 ${
+                    className={`rounded-none border px-3 py-1 ${
                       !normalizedSelected ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
                     data-testid="competition-event-filter"
@@ -119,7 +119,7 @@ export default async function CompetitionProfilePage({
                     <Link
                       key={eventBlock.event}
                       href={`${baseHref}?event=${encodeURIComponent(eventBlock.event)}`}
-                      className={`rounded-full border px-3 py-1 ${
+                      className={`rounded-none border px-3 py-1 ${
                         normalizedSelected && normalizeKey(eventBlock.event) === normalizedSelected
                           ? "border-accent text-accent"
                           : "border-border text-foreground"
@@ -132,7 +132,7 @@ export default async function CompetitionProfilePage({
                 </div>
                 <div className="space-y-4" data-testid="competition-results">
                   {filteredResults.map((eventBlock) => (
-                    <div key={eventBlock.event} className="p-4 rounded-lg border border-border bg-card space-y-3">
+                    <div key={eventBlock.event} className="p-4 rounded-none border border-border bg-card space-y-3">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-semibold text-foreground">{eventBlock.event}</p>
                         {eventBlock.round ? (
@@ -184,7 +184,7 @@ export default async function CompetitionProfilePage({
                             <Link
                               key={`${entry.athleteName}-${idx}`}
                               href={href}
-                              className="block rounded-md border border-border bg-background px-3 py-2 hover:border-accent transition-colors"
+                              className="block rounded-none border border-border bg-background px-3 py-2 hover:border-accent transition-colors"
                               data-testid="competition-result-entry"
                             >
                               {content}
@@ -192,7 +192,7 @@ export default async function CompetitionProfilePage({
                           ) : (
                             <div
                               key={`${entry.athleteName}-${idx}`}
-                              className="rounded-md border border-border bg-background px-3 py-2"
+                              className="rounded-none border border-border bg-background px-3 py-2"
                               data-testid="competition-result-entry"
                             >
                               {content}
@@ -210,8 +210,8 @@ export default async function CompetitionProfilePage({
               <h2 className="text-xl font-bold text-foreground mb-4">Events</h2>
               <div className="grid grid-cols-2 gap-2">
                 {competition.events.map((event, i) => (
-                  <div key={i} className="flex gap-2 p-3 rounded-lg border border-border">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
+                  <div key={i} className="flex gap-2 p-3 rounded-none border border-border">
+                    <div className="w-1.5 h-1.5 rounded-none bg-accent mt-1.5 flex-shrink-0" />
                     <p className="text-foreground text-sm">{event}</p>
                   </div>
                 ))}
@@ -222,8 +222,8 @@ export default async function CompetitionProfilePage({
               <h2 className="text-xl font-bold text-foreground mb-4">Highlights</h2>
               <div className="space-y-2">
                 {competition.highlights.map((highlight, i) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-lg border border-accent/20 bg-accent/5">
-                    <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
+                  <div key={i} className="flex gap-3 p-3 rounded-none border border-accent/20 bg-accent/5">
+                    <div className="w-2 h-2 rounded-none bg-accent mt-1.5 flex-shrink-0" />
                     <p className="text-foreground text-sm">{highlight}</p>
                   </div>
                 ))}
@@ -233,13 +233,13 @@ export default async function CompetitionProfilePage({
             <div>
               <h2 className="text-xl font-bold text-foreground mb-4">Medal Winners (Philippines)</h2>
               {isUpcoming ? (
-                <div className="p-4 rounded-lg border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+                <div className="p-4 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
                   Medal winners will be updated after the competition ends.
                 </div>
               ) : (
                 <div className="space-y-2">
                   {competition.medalists.map((medalist, i) => (
-                    <div key={i} className="p-3 rounded-lg border border-border hover:bg-muted transition-colors">
+                    <div key={i} className="p-3 rounded-none border border-border hover:bg-muted transition-colors">
                       <p className="text-foreground text-sm">{medalist}</p>
                     </div>
                   ))}
@@ -249,7 +249,7 @@ export default async function CompetitionProfilePage({
           </div>
 
           <div className="space-y-6">
-            <div className="p-6 rounded-lg border border-border">
+            <div className="p-6 rounded-none border border-border">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-4">Key Information</p>
               <div className="space-y-4">
                 <div>
@@ -269,7 +269,7 @@ export default async function CompetitionProfilePage({
               </div>
             </div>
 
-            <div className="p-6 rounded-lg border border-border">
+            <div className="p-6 rounded-none border border-border">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Logistics</p>
               <div className="space-y-3">
                 <div>
@@ -284,7 +284,7 @@ export default async function CompetitionProfilePage({
               </div>
             </div>
 
-            <div className="p-6 rounded-lg border border-accent/30 bg-accent/5">
+            <div className="p-6 rounded-none border border-accent/30 bg-accent/5">
               <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Competition Type</p>
               <div className="space-y-2">
                 <p className="text-sm font-medium text-foreground">{competition.type}</p>
@@ -297,7 +297,7 @@ export default async function CompetitionProfilePage({
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

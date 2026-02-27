@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { clubs } from "@/lib/data/clubs"
+import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -40,7 +41,7 @@ export default async function ClubsPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <div className="page-shell py-12 space-y-8">
         {featuredClub ? (
           <Card className="py-0 gap-0 border-accent/30 bg-accent/5 shadow-soft">
             <CardContent className="p-6 sm:p-8 space-y-4">
@@ -50,17 +51,17 @@ export default async function ClubsPage({
                 <p className="text-sm text-muted-foreground max-w-2xl">{featuredClub.focus}</p>
               </div>
               <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                <span className="inline-flex items-center rounded-none border border-border bg-background px-3 py-1">
                   {featuredClub.location}
                 </span>
-                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                <span className="inline-flex items-center rounded-none border border-border bg-background px-3 py-1">
                   Founded: {featuredClub.founded}
                 </span>
-                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1">
+                <span className="inline-flex items-center rounded-none border border-border bg-background px-3 py-1">
                   Athlete spots: {featuredClub.spots}
                 </span>
               </div>
-              <Button asChild className="rounded-full">
+              <Button asChild className="rounded-none">
                 <Link href={`/clubs/${featuredClub.slug ?? featuredClub.id}`}>View club profile</Link>
               </Button>
             </CardContent>
@@ -75,17 +76,17 @@ export default async function ClubsPage({
           <form method="get" className="flex flex-col sm:flex-row gap-3">
             <div className="relative w-full sm:w-96">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-base text-muted-foreground" aria-hidden>
-                🔍
+                <Emoji symbol={emojiIcons.search} className="text-base" />
               </span>
               <Input
                 type="text"
                 name="q"
                 defaultValue={query}
                 placeholder="Search by club, city, or focus..."
-                className="rounded-full pl-9 shadow-soft"
+                className="rounded-none pl-9 shadow-soft"
               />
             </div>
-            <Button type="submit" className="rounded-full">
+            <Button type="submit" className="rounded-none">
               Search
             </Button>
             {query ? (
@@ -118,7 +119,7 @@ export default async function ClubsPage({
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

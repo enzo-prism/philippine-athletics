@@ -12,7 +12,7 @@ const genderOptions: Gender[] = ["Women", "Men"]
 const ageGroupOptions: AgeGroup[] = ["Open", "Youth"]
 
 const selectClassName =
-  "h-9 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+  "h-9 w-full rounded-none border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -68,7 +68,7 @@ export default async function RankingsPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <div className="page-shell py-12 space-y-10">
         <header className="space-y-2">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
             <Emoji symbol={emojiIcons.trophy} className="text-base" />
@@ -156,7 +156,7 @@ export default async function RankingsPage({
               <div className="lg:col-span-4 flex items-center gap-2">
                 <button
                   type="submit"
-                  className="h-9 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
+                  className="h-9 rounded-none bg-primary px-4 text-sm font-semibold text-primary-foreground"
                   data-testid="rankings-apply"
                 >
                   Apply filters
@@ -194,7 +194,7 @@ export default async function RankingsPage({
                       href={`${entry.href}?event=${encodeURIComponent(selectedEvent)}&year=${selectedYear}`}
                       className="block"
                     >
-                      <div className="p-4 rounded-lg border border-border bg-card hover:border-accent transition-colors">
+                      <div className="p-4 rounded-none border border-border bg-card hover:border-accent transition-colors">
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-foreground">{entry.name}</p>
                           <Badge variant="outline" className="border-accent/40 text-accent">
@@ -280,7 +280,7 @@ export default async function RankingsPage({
       </div>
 
       <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="page-shell py-8">
           <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>

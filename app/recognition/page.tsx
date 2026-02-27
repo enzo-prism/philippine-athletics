@@ -15,7 +15,7 @@ export default function RecognitionPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <div className="page-shell py-12 space-y-10">
         <header className="space-y-3">
           <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
             <Emoji symbol={emojiIcons.shield} className="text-base" />

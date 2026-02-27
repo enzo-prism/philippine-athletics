@@ -104,7 +104,7 @@ const categoryByEvent: Record<string, string> = {
 const athletes: AthleteSummary[] = athleteSummaries
 
 const selectClassName =
-  "h-9 w-full rounded-full border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+  "h-9 w-full rounded-none border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -375,7 +375,7 @@ export default async function AthletesPage({
                         placeholder="Search name, club, event…"
                         defaultValue={query}
                         autoComplete="off"
-                        className="rounded-full pl-9"
+                        className="rounded-none pl-9"
                       />
                     </div>
                   </div>
@@ -420,7 +420,7 @@ export default async function AthletesPage({
                   </div>
 
                   <div className="flex items-end gap-2">
-                    <Button type="submit" className="rounded-full">
+                    <Button type="submit" className="rounded-none">
                       Apply Filters
                     </Button>
                     {hasActiveFilters ? (
