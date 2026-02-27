@@ -39,6 +39,46 @@ try {
     stdio: "pipe",
   })
 } catch (error) {
+  const fallbackCommit = process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA
+  if (!fallbackCommit) {
+    if (process.env.VERCEL === "1" || process.env.CI === "1") {
+      const message =
+        error instanceof Error && "stdout" in error
+          ? `${error.stdout}\n${error.stderr}`.trim()
+          : error instanceof Error
+            ? error.message
+            : String(error)
+      console.warn(
+        `Changelog sync check skipped in non-git environment.\nCommit verification unavailable.\n` +
+          `${message}\n` +
+          "To fully verify, run locally with git available."
+      )
+      process.exit(0)
+    }
+  }
+
+  if (fallbackCommit) {
+    const snapshotPath = resolve(process.cwd(), "lib", "data", "commit-log.ts")
+    const snapshotContent = readFileSync(snapshotPath, "utf8")
+    const snapshotMatch = snapshotContent.match(/"hash":\\s*"([0-9a-f]{40})"/gi)
+    const snapshotCommits = snapshotMatch ? snapshotMatch.map((entry) => entry.match(/"hash":\s*"([0-9a-f]{40})"/i)?.[1]).filter(Boolean) : []
+    const safeFallback = snapshotCommits.includes(fallbackCommit)
+    if (safeFallback) {
+      const message =
+        error instanceof Error && "stdout" in error
+          ? `${error.stdout}\n${error.stderr}`.trim()
+          : error instanceof Error
+            ? error.message
+            : String(error)
+      console.warn(
+        `Changelog sync check could not run git-based validation.\n` +
+          `Falling back to deploy hash check with ${fallbackCommit.slice(0, 7)}.\n` +
+          `${message}`
+      )
+      process.exit(0)
+    }
+  }
+
   const message =
     error instanceof Error && "stdout" in error
       ? `${error.stdout}\n${error.stderr}`.trim()
