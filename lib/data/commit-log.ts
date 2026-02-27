@@ -29,9 +29,412 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-24T17:50:19.220Z"
+export const commitLogUpdatedAt = "2026-02-27T04:51:11.783Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "43398ac3babdee11d1b6c279cbb87f395c1ebe11",
+    "shortHash": "43398ac",
+    "subject": "feat: implement spec-complete demo overhaul and visual refresh",
+    "author": "enzo-prism",
+    "date": "2026-02-26T20:46:39-08:00",
+    "stats": {
+      "files": 60,
+      "insertions": 4235,
+      "deletions": 647,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "docs",
+      "data",
+      "lib",
+      "public"
+    ],
+    "tags": [
+      "Athletes",
+      "Changelog",
+      "App Pages",
+      "Clubs",
+      "Competitions",
+      "Results Intake",
+      "Accounts",
+      "Rankings",
+      "Recognition",
+      "Search",
+      "Components",
+      "Navigation",
+      "Docs",
+      "Demo Data",
+      "Config",
+      "Assets"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Guides & notes, Sample data, Behind the scenes, Images & media.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo.",
+      "Updated guides so everyone stays aligned."
+    ],
+    "plainSummary": "Added athlete profiles, update timeline, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Improved club pages and roster visibility."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "CLAUDE.md",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "Changelog.md",
+        "additions": 6,
+        "deletions": 0
+      },
+      {
+        "path": "DemoFlows.md",
+        "additions": 17,
+        "deletions": 135
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 22,
+        "deletions": 22
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 12,
+        "deletions": 10
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 24,
+        "deletions": 24
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 10,
+        "deletions": 9
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 23,
+        "deletions": 23
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/data-portal/page.tsx",
+        "additions": 196,
+        "deletions": 74
+      },
+      {
+        "path": "app/demo/governance/page.tsx",
+        "additions": 53,
+        "deletions": 0
+      },
+      {
+        "path": "app/demo/institutions/page.tsx",
+        "additions": 34,
+        "deletions": 0
+      },
+      {
+        "path": "app/demo/lgus/page.tsx",
+        "additions": 34,
+        "deletions": 0
+      },
+      {
+        "path": "app/demo/off-script/page.tsx",
+        "additions": 54,
+        "deletions": 0
+      },
+      {
+        "path": "app/demo/page.tsx",
+        "additions": 37,
+        "deletions": 0
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 83,
+        "deletions": 74
+      },
+      {
+        "path": "app/how-it-works/page.tsx",
+        "additions": 23,
+        "deletions": 0
+      },
+      {
+        "path": "app/layout.tsx",
+        "additions": 22,
+        "deletions": 4
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 60,
+        "deletions": 88
+      },
+      {
+        "path": "app/profile/page.tsx",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "app/recognition/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 99,
+        "deletions": 52
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 12,
+        "deletions": 5
+      },
+      {
+        "path": "components/avatar.tsx",
+        "additions": 9,
+        "deletions": 9
+      },
+      {
+        "path": "components/global-search.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "components/home/OfficialPartnersPanel.tsx",
+        "additions": 75,
+        "deletions": 0
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 87,
+        "deletions": 3
+      },
+      {
+        "path": "components/profile-card.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/system-architecture-infographic.tsx",
+        "additions": 114,
+        "deletions": 0
+      },
+      {
+        "path": "components/ui/avatar.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "components/ui/badge.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/button.tsx",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "components/ui/card.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/dropdown-menu.tsx",
+        "additions": 6,
+        "deletions": 6
+      },
+      {
+        "path": "components/ui/input.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/select.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "components/ui/tabs.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "docs/demo/flow-1-governance.md",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "docs/demo/flow-2-institutions.md",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "docs/demo/flow-3-lgus.md",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "docs/research/results-intake.md",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "eslint.config.mjs",
+        "additions": 9,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/athletes.ts",
+        "additions": 32,
+        "deletions": 2
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 16,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/demo-athletes.ts",
+        "additions": 40,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/sanctioned-events.ts",
+        "additions": 47,
+        "deletions": 0
+      },
+      {
+        "path": "lib/demo/flows.ts",
+        "additions": 144,
+        "deletions": 0
+      },
+      {
+        "path": "lib/ui/emoji.tsx",
+        "additions": 93,
+        "deletions": 31
+      },
+      {
+        "path": "middleware.ts",
+        "additions": 62,
+        "deletions": 0
+      },
+      {
+        "path": "package.json",
+        "additions": 3,
+        "deletions": 0
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "additions": 2476,
+        "deletions": 27
+      },
+      {
+        "path": "public/infographics/system-architecture.svg",
+        "additions": 64,
+        "deletions": 0
+      },
+      {
+        "path": "tests/fixtures/results-intake.csv",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "tests/flows/flow-athlete-search.spec.ts",
+        "additions": 6,
+        "deletions": 5
+      },
+      {
+        "path": "tests/flows/flow-data-portal-sanctioning.spec.ts",
+        "additions": 20,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-data-portal.spec.ts",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "tests/flows/flow-demo-guardrails.spec.ts",
+        "additions": 11,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "79401885f1a25880e4486f2943b3031d4f894c0b",
+    "shortHash": "7940188",
+    "subject": "fix: honor allowed commit-log lag in changelog verification",
+    "author": "enzo-prism",
+    "date": "2026-02-24T09:50:23-08:00",
+    "stats": {
+      "files": 2,
+      "insertions": 42,
+      "deletions": 4,
+      "summary": ""
+    },
+    "areas": [
+      "data",
+      "scripts"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data",
+      "Tooling"
+    ],
+    "summary": "Fixed Sample data, Tools.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Fixed update timeline, sample data, and behind the scenes.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing.",
+      "Improved internal tools for upkeep."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 38,
+        "deletions": 1
+      },
+      {
+        "path": "scripts/generate-commit-log.mjs",
+        "additions": 4,
+        "deletions": 3
+      }
+    ]
+  },
   {
     "hash": "b4c050f1ae9123b845ee4b5cee9c81fcb5f27b50",
     "shortHash": "b4c050f",
