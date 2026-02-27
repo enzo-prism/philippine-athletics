@@ -1,46 +1,68 @@
-import Link from "next/link"
-import { Navigation } from "@/components/navigation"
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { competitions } from "@/lib/data/competitions"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
+import Link from "next/link";
+import { Navigation } from "@/components/navigation";
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { competitions } from "@/lib/data/competitions";
+import { Emoji, emojiIcons } from "@/lib/ui/emoji";
+import { SectionBackground } from "@/components/SectionBackground";
+import { TRACK_IMAGES } from "@/components/track-images";
 
-const statusOptions = ["Upcoming", "Past", "All"] as const
+const statusOptions = ["Upcoming", "Past", "All"] as const;
 
-type StatusFilter = (typeof statusOptions)[number]
+type StatusFilter = (typeof statusOptions)[number];
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
   key: string,
 ) => {
-  const value = searchParams?.[key]
-  if (Array.isArray(value)) return value[0] ?? ""
-  return value ?? ""
-}
+  const value = searchParams?.[key];
+  if (Array.isArray(value)) return value[0] ?? "";
+  return value ?? "";
+};
 
 const normalizeStatus = (value: string): StatusFilter =>
-  statusOptions.includes(value as StatusFilter) ? (value as StatusFilter) : "Upcoming"
+  statusOptions.includes(value as StatusFilter)
+    ? (value as StatusFilter)
+    : "Upcoming";
 
 export default async function CompetitionsPage({
   searchParams,
 }: {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const resolvedSearchParams = await searchParams
-  const statusFilter = normalizeStatus(getParam(resolvedSearchParams, "status"))
-  const filtered = statusFilter === "All" ? competitions : competitions.filter((c) => c.status === statusFilter)
+  const resolvedSearchParams = await searchParams;
+  const statusFilter = normalizeStatus(
+    getParam(resolvedSearchParams, "status"),
+  );
+  const filtered =
+    statusFilter === "All"
+      ? competitions
+      : competitions.filter((c) => c.status === statusFilter);
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Search Competitions</h1>
-          <p className="text-muted-foreground">Track and field competitions across the Philippines and beyond</p>
+      <div className="relative overflow-hidden border-b border-border">
+        <SectionBackground
+          imageUrl={TRACK_IMAGES.hurdlesYouth}
+          opacity={12}
+          position="object-center"
+          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+        />
+        <div className="relative z-10 page-shell py-12 sm:py-16">
+          <p className="institutional-kicker mb-3">Competition Calendar</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            Search Competitions
+          </h1>
+          <p className="text-muted-foreground">
+            Track and field competitions across the Philippines and beyond
+          </p>
         </div>
+      </div>
 
+      <div className="page-shell py-12">
         <Card className="py-0 gap-0 mb-6">
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
@@ -49,8 +71,11 @@ export default async function CompetitionsPage({
             </div>
             <div className="flex flex-wrap gap-3 text-sm">
               {statusOptions.map((status) => {
-                const active = statusFilter === status
-                const href = status === "Upcoming" ? "/competitions" : `/competitions?status=${encodeURIComponent(status)}`
+                const active = statusFilter === status;
+                const href =
+                  status === "Upcoming"
+                    ? "/competitions"
+                    : `/competitions?status=${encodeURIComponent(status)}`;
                 return (
                   <Button
                     key={status}
@@ -67,22 +92,39 @@ export default async function CompetitionsPage({
                   >
                     <Link href={href}>{status}</Link>
                   </Button>
-                )
+                );
               })}
             </div>
           </CardContent>
         </Card>
 
-        <DemoAdSlot slotId="competitions-inline-leaderboard-1" format="leaderboard" className="mb-6" />
+        <DemoAdSlot
+          slotId="competitions-inline-leaderboard-1"
+          format="leaderboard"
+          className="mb-6"
+        />
 
         <div className="space-y-3" data-testid="competition-list">
           {filtered.map((comp) => (
-            <Link key={comp.id} href={`/competitions/${comp.slug}`} className="block">
-              <Card className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors" data-testid="competition-item">
+            <Link
+              key={comp.id}
+              href={`/competitions/${comp.slug}`}
+              className="block"
+            >
+              <Card
+                className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors"
+                data-testid="competition-item"
+              >
                 <CardContent className="p-4">
-                  <p className="text-sm font-semibold text-foreground">{comp.name}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{comp.location}</p>
-                  <p className="text-xs text-muted-foreground">{comp.dateLabel}</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {comp.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {comp.location}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {comp.dateLabel}
+                  </p>
                 </CardContent>
               </Card>
             </Link>
@@ -91,15 +133,21 @@ export default async function CompetitionsPage({
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           <DemoAdSlot slotId="competitions-inline-mrec-1" format="mrec" />
-          <DemoAdSlot slotId="competitions-inline-mrec-2" format="mrec" className="hidden sm:block" />
+          <DemoAdSlot
+            slotId="competitions-inline-mrec-2"
+            format="mrec"
+            className="hidden sm:block"
+          />
         </div>
       </div>
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="text-sm text-muted-foreground">
+            &copy; 2025 Philippine Athletics
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

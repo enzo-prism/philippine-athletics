@@ -1,6 +1,8 @@
-import { Navigation } from "@/components/navigation"
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
-import { Card, CardContent } from "@/components/ui/card"
+import { Navigation } from "@/components/navigation";
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
+import { Card, CardContent } from "@/components/ui/card";
+import { SectionBackground } from "@/components/SectionBackground";
+import { TRACK_IMAGES } from "@/components/track-images";
 
 const sanctionedEvents = [
   {
@@ -31,27 +33,43 @@ const sanctionedEvents = [
     status: "Sanctioned",
     director: "Vermosa Sports Hub",
   },
-]
+];
 
 export default function EventsPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        <header className="space-y-3">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest">Sanctioned Events</p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Sanctioned Events Calendar</h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            A Sport:80-style view of PATAFA-sanctioned competitions. Browse upcoming meets, directors, and permit status.
+      <div className="relative overflow-hidden border-b border-border">
+        <SectionBackground
+          imageUrl={TRACK_IMAGES.javelin30s}
+          opacity={12}
+          position="object-center"
+          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+        />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <p className="text-xs font-semibold text-accent uppercase tracking-widest">
+            Sanctioned Events
           </p>
-        </header>
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mt-2">
+            Sanctioned Events Calendar
+          </h1>
+          <p className="text-sm text-muted-foreground max-w-2xl mt-2">
+            A Sport:80-style view of PATAFA-sanctioned competitions. Browse
+            upcoming meets, directors, and permit status.
+          </p>
+        </div>
+      </div>
 
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <Card className="py-0 gap-0 border-accent/30 bg-accent/5">
           <CardContent className="p-6 space-y-2">
-            <p className="text-sm font-semibold text-foreground">Widget preview</p>
+            <p className="text-sm font-semibold text-foreground">
+              Widget preview
+            </p>
             <p className="text-sm text-muted-foreground">
-              This demo mirrors the Sport:80 sanctioned events widget layout with filters and quick status tags.
+              This demo mirrors the Sport:80 sanctioned events widget layout
+              with filters and quick status tags.
             </p>
           </CardContent>
         </Card>
@@ -63,11 +81,17 @@ export default function EventsPage() {
             <Card key={event.name} className="py-0 gap-0 shadow-soft">
               <CardContent className="p-5 space-y-3">
                 <div>
-                  <p className="text-lg font-semibold text-foreground">{event.name}</p>
+                  <p className="text-lg font-semibold text-foreground">
+                    {event.name}
+                  </p>
                   <p className="text-sm text-muted-foreground">{event.date}</p>
                 </div>
-                <div className="text-sm text-muted-foreground">{event.location}</div>
-                <div className="text-xs text-muted-foreground">Director: {event.director}</div>
+                <div className="text-sm text-muted-foreground">
+                  {event.location}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Director: {event.director}
+                </div>
                 <span className="inline-flex w-fit rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[11px] font-semibold text-accent">
                   {event.status}
                 </span>
@@ -78,9 +102,13 @@ export default function EventsPage() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <DemoAdSlot slotId="events-inline-mrec-1" format="mrec" />
-          <DemoAdSlot slotId="events-inline-mrec-2" format="mrec" className="hidden sm:block" />
+          <DemoAdSlot
+            slotId="events-inline-mrec-2"
+            format="mrec"
+            className="hidden sm:block"
+          />
         </div>
       </div>
     </div>
-  )
+  );
 }
