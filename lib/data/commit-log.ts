@@ -29,9 +29,541 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-03-01T16:03:39.761Z"
+export const commitLogUpdatedAt = "2026-03-01T17:10:03.110Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "c4a4a56d1211127c28aa84a3cbafb4023e15a1b3",
+    "shortHash": "c4a4a56",
+    "subject": "fix: unify rankings and athlete profile evidence consistency",
+    "author": "enzo-prism",
+    "date": "2026-03-01T09:05:24-08:00",
+    "stats": {
+      "files": 18,
+      "insertions": 972,
+      "deletions": 574,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "docs",
+      "data"
+    ],
+    "tags": [
+      "Athletes",
+      "Competitions",
+      "Results Intake",
+      "App Pages",
+      "Rankings",
+      "Docs",
+      "Demo Data"
+    ],
+    "summary": "Fixed General updates, Core screens, Guides & notes, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Improved the sample data used in the demo.",
+      "Updated guides so everyone stays aligned."
+    ],
+    "plainSummary": "Fixed athlete profiles, meet results, and result submissions.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Made athlete profiles clearer and easier to browse.",
+      "Highlighted meet results and how to explore them.",
+      "Refined the result submission and preview flow."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 188,
+        "deletions": 109
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 3,
+        "deletions": 1
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 15,
+        "deletions": 11
+      },
+      {
+        "path": "app/data-portal/page.tsx",
+        "additions": 36,
+        "deletions": 194
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 42,
+        "deletions": 2
+      },
+      {
+        "path": "docs/STATUS.md",
+        "additions": 2,
+        "deletions": 0
+      },
+      {
+        "path": "docs/demo/flow-1-governance.md",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "docs/demo/flow-3-lgus.md",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/athletes.ts",
+        "additions": 103,
+        "deletions": 72
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/competitions.ts",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "lib/data/performance-evidence.ts",
+        "additions": 306,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/rankings.ts",
+        "additions": 28,
+        "deletions": 174
+      },
+      {
+        "path": "lib/data/utils.ts",
+        "additions": 81,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/validate.ts",
+        "additions": 89,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-ranking-profile-consistency.spec.ts",
+        "additions": 42,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-rankings.spec.ts",
+        "additions": 8,
+        "deletions": 2
+      }
+    ]
+  },
+  {
+    "hash": "dc313d96c11528f5683f3b065da27e9866f79b6a",
+    "shortHash": "dc313d9",
+    "subject": "feat: harden ad creatives and add subtle brand typography",
+    "author": "enzo-prism",
+    "date": "2026-03-01T08:06:22-08:00",
+    "stats": {
+      "files": 69,
+      "insertions": 1023,
+      "deletions": 246,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data",
+      "public"
+    ],
+    "tags": [
+      "Athletes",
+      "Changelog",
+      "App Pages",
+      "Clubs",
+      "Coaches",
+      "Competitions",
+      "Results Intake",
+      "Accounts",
+      "Rankings",
+      "Recognition",
+      "Search",
+      "Components",
+      "Navigation",
+      "Demo Data",
+      "Assets"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data, Images & media.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added athlete profiles, update timeline, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved how updates are shared in plain language.",
+      "Improved core screens and layouts.",
+      "Improved club pages and roster visibility."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "BBTMartiresFree/BBTMartiresFree-ExtraBold.otf",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "BBTMartiresFree/BBTMartiresFree-Regular.otf",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "BBTMartiresFree/BBTMartiresFree-Thin.otf",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "Changelog.md",
+        "additions": 11,
+        "deletions": 0
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "app/changelog/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "app/coaches/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/coaches/page.tsx",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "app/competitions/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "app/data-portal/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/demo/governance/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/demo/institutions/page.tsx",
+        "additions": 1,
+        "deletions": 2
+      },
+      {
+        "path": "app/demo/lgus/page.tsx",
+        "additions": 1,
+        "deletions": 2
+      },
+      {
+        "path": "app/demo/off-script/page.tsx",
+        "additions": 1,
+        "deletions": 2
+      },
+      {
+        "path": "app/demo/page.tsx",
+        "additions": 1,
+        "deletions": 2
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 30,
+        "deletions": 0
+      },
+      {
+        "path": "app/how-it-works/page.tsx",
+        "additions": 1,
+        "deletions": 2
+      },
+      {
+        "path": "app/layout.tsx",
+        "additions": 21,
+        "deletions": 1
+      },
+      {
+        "path": "app/membership/benefits/page.tsx",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 3,
+        "deletions": 2
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 8,
+        "deletions": 8
+      },
+      {
+        "path": "app/profile/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "app/recognition/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/search/page.tsx",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "app/signup/page.tsx",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "app/sponsors/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/sponsors/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "components/SectionBackground.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 87,
+        "deletions": 24
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 186,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/demo-ad-creatives.ts",
+        "additions": 74,
+        "deletions": 163
+      },
+      {
+        "path": "public/sponsor-ads/ayala-foundation.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-ads/bdo.svg",
+        "additions": 72,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-ads/fallback.svg",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-ads/globe.svg",
+        "additions": 19,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-ads/ictsi-foundation.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-ads/metrobank.svg",
+        "additions": 19,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-ads/pldt-home.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-ads/unionbank.svg",
+        "additions": 31,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-assets/ayala-foundation.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-assets/bdo.svg",
+        "additions": 72,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-assets/fallback.svg",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-assets/globe.svg",
+        "additions": 19,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-assets/ictsi-foundation.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-assets/metrobank.svg",
+        "additions": 19,
+        "deletions": 0
+      },
+      {
+        "path": "public/sponsor-assets/pldt-home.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/sponsor-assets/unionbank.svg",
+        "additions": 31,
+        "deletions": 0
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/athlete-profile-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/athletes-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/changelog-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/club-profile-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/clubs-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/coaches-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/competition-profile-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/competitions-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/data-portal-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/home-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/rankings-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/design.spec.ts-snapshots/recognition-Desktop-darwin.png",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/flows/flow-ads-rendering.spec.ts",
+        "additions": 139,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-brand-typography.spec.ts",
+        "additions": 103,
+        "deletions": 0
+      }
+    ]
+  },
   {
     "hash": "c355a6257098665b97b2fbeb8ffb40ec75d3a480",
     "shortHash": "c355a62",

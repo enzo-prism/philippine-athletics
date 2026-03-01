@@ -1,52 +1,54 @@
 # Philippine Athletics Status Snapshot
 
-Date: 2026-02-19
+Date: 2026-03-01
 
 ## Current State
 
-- Shadcn UI system is now in a consolidated refresh state: all in-scope primitives in `components/ui/*` are on the `radix-ui` baseline, with inline direction-safe dropdown/select side classes and updated variants.
-- Core public experience is live in the App Router: Athletes, Rankings, Clubs, Competitions, Recognition, Sponsors, Search, and How It Works.
-- Demo data lives in `lib/data/*` with helper lookups and integrity checks (`pnpm data:check`).
-- Rankings and athlete profile PB/rank surfaces now use a shared competition-evidence engine with strict context deep links (`event`, `year`, `gender`, `ageGroup`).
-- The Results Intake portal exists at `/data-portal` with a multi-step upload → map → validate → review flow.
-- Intake submissions are stored locally in the browser and can be exported as JSON. No backend writes exist yet.
-- Preview tooling now shows impact on competition pages, athlete pages, and rankings based on uploaded results.
-- A demo Changelog page exists at `/changelog` backed by a generated commit log dataset.
-- The `/changelog` page now supports dual mode: curated product highlights and a full commit feed with per-commit cards.
-- Changelog entries now surface plain-English summaries and non-technical notes by default.
-- Weekly digest mode groups updates by week with “why it matters” impact lines.
-- Design regression tests use Playwright snapshots across key routes and device sizes (`pnpm test:design` auto-installs deps/browsers on first run).
+- Core public routes are live on App Router: Athletes, Rankings, Clubs, Competitions, Recognition, Sponsors, Search, Membership, and demo routes.
+- Ranking-facing metrics now use a single competition-evidence source of truth via `lib/data/performance-evidence.ts`.
+- Rankings and athlete profile links now carry strict context parameters: `event`, `year`, `gender`, `ageGroup`.
+- Consistency contract details are documented in `docs/data/ranking-profile-consistency.md`.
+- Athlete profile PB/rank cards now derive from evidence logic; static `athlete.events[]` values are fallback-only for missing parseable evidence.
+- Results Intake (`/data-portal`) preview logic now reuses the same ranking/evidence helpers as live ranking pages.
+- Data integrity checks include PB/rank consistency and event normalization guardrails in `lib/data/validate.ts`.
+- Ad surfaces are responsive and logo-safe across tested viewports, and brand accent typography is rolled out with route-level usage limits.
+- Demo flow guardrails remain active through `/demo` launch routes and middleware route locks.
 
-## What Was Built Recently
+## Verification Snapshot (2026-03-01)
 
-- Added a full Results Intake portal for manual results submission with role toggles (Contributor vs Certified Steward).
-- Implemented CSV parsing with header auto-mapping, validation, and warnings for missing wind data or unknown athletes.
-- Added impact previews that calculate athlete PB/SB updates and ranking shifts from uploaded results.
-- Added competition, athlete, and rankings sandbox previews to demonstrate how new results would look in production pages.
-- Added consistency guardrails and event canonicalization checks in `pnpm data:check` to prevent ranking/profile drift regressions.
-- Documented the research basis and workflow rationale in `docs/research/results-intake.md`.
-- Added a git-synced changelog browser with search, filters, and per-commit detail panels.
+- `pnpm data:check` passes with zero current `pb_consistency`, `rank_consistency`, and `event_normalization` issues.
+- Ranking/profile consistency flow passes: `tests/flows/flow-ranking-profile-consistency.spec.ts`.
+- Rankings navigation and filters pass: `tests/flows/flow-rankings.spec.ts`.
+- Ad rendering flow passes: `tests/flows/flow-ads-rendering.spec.ts`.
+- Build gate passes: `pnpm build`.
+
+## Recently Landed Focus Areas
+
+- Competition-evidence ranking/profile remediation, including strict deep-link contract and explicit unranked-state handling.
+- Canonical event/date/performance normalization to reduce alias-based mismatches.
+- Data portal ranking parity updates so preview outcomes match live ranking behavior.
+- Route-by-route BBTMartires subtle accent typography contract (`1 required + 1 optional` usage).
+- Sponsor-ad rendering hardening for responsive logo visibility and fallback behavior.
 
 ## Demo-Ready Flows
 
-- Athlete discovery and profile viewing.
-- Rankings with filters and top-3 highlights.
-- Club profiles with rosters and coaches.
-- Competition results with event filtering and PB/SB callouts.
-- Recognition badges for clubs and coaches.
-- Results Intake portal with previews and local submission log.
+- Athlete discovery and profile validation.
+- Rankings filtering and athlete deep-link validation.
+- Club-to-athlete pathway walkthrough for LGU use cases.
+- Competition result browsing with PB/SB evidence badges.
+- Recognition and trust-signal walkthrough.
+- Results Intake upload, mapping, validation, publish-to-local-log, and export.
 
 ## Gaps and Known Limitations
 
-- No real authentication or role enforcement; roles are demo toggles only.
-- Submissions do not mutate `lib/data/*` or the live site; previews are local-only.
-- No persistent server storage; local storage can be cleared by the browser.
-- Rankings and athlete updates in preview are computed from demo data, not real federation feeds.
-- Changelog data must be regenerated with `pnpm data:commits` to stay in sync with git history.
-- Commit feed freshness is now enforced by `pnpm changelog:verify`; use `pnpm changelog:verify` before release/push workflows.
+- No production auth/authorization model; role toggles are demo-only.
+- Results Intake publish remains browser-local and non-persistent.
+- Demo data is static and not connected to federation production feeds.
+- Changelog commit snapshots require regeneration with `pnpm data:commits` when git history changes.
+- Next.js root lockfile warning remains because a second lockfile is detected outside this workspace.
 
 ## Recommended Next Steps
 
-- Add a JSON/TS patch generator that outputs updates for `lib/data/competitions.ts` and `lib/data/athletes.ts`.
-- Add a lightweight admin review queue view (pending vs published) with approval notes.
-- Expand data validation to cover age groups, gender mismatches, and event normalization.
+- Add scheduled consistency audit output (machine-readable report) for CI trend tracking.
+- Add fixture-driven tests for event alias normalization (`4x` vs `4×`, `10,000m` variants, hurdles aliases).
+- Add an internal “data corrections” workflow to generate deterministic patch suggestions for athlete/competition records.

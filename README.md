@@ -12,7 +12,7 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 ## Demo guide
 
-The demo flows and narrative live in `DemoFlows.md`. Use it to keep product decisions aligned with the 5 core flows showcased in demos.
+The demo flows and narrative live in `DemoFlows.md`. Use it to keep product decisions aligned with the required audience scripts and results-intake demo scope.
 
 ## Status snapshot
 
@@ -20,8 +20,10 @@ For a concise view of what is implemented, what is demo-ready, and what gaps rem
 
 ## Documentation index
 
-- `DemoFlows.md` — 5 core demo flows plus the optional results intake flow.
+- `DemoFlows.md` — required audience demo scripts plus results-intake scope.
 - `docs/STATUS.md` — current build status, gaps, and recommended next steps.
+- `docs/data/ranking-profile-consistency.md` — source-of-truth contract for rankings, athlete profile PB/rank cards, deep links, and normalization rules.
+- `docs/TESTING.md` — flow, design, and data-integrity verification commands.
 - `docs/research/results-intake.md` — research basis and workflow rationale for manual results ingestion.
 - `CLAUDE.md` — engineering notes for contributors and agent tooling.
 
@@ -77,9 +79,11 @@ Continue building your app on:
 ## Developer notes (for Codex & contributors)
 
 - **Data sources:** Canonical sample data lives in `lib/data/athletes.ts`, `lib/data/coaches.ts`, and `lib/data/clubs.ts`. Each record is keyed by `id` and `slug`; detail pages accept either. `lib/data/legacy-athlete-records.ts` is a stub kept only for import stability.
+- **Ranking/PB source of truth:** Use `lib/data/performance-evidence.ts` for ranking-facing metrics. Profile PB/rank, rankings pages, athlete summaries, and data-portal preview logic are expected to use this shared evidence engine.
+- **Ranking context contract:** Deep links between rankings and athlete profiles should preserve `event`, `year`, `gender`, and `ageGroup`. Keep `highlight` optional and UI-only.
 - **Cross-links:** Use `clubId`/`coachId` (preferred) or `club`/`coach` names for relationships. Helpers `getClubAthletes`, `getClubCoaches`, and `getAthletesByCoach` resolve rosters using these keys.
 - **Contact & map blocks:** Clubs include `contact.people` and `locationDetail` (name, address, lat/lng, mapUrl, notes). Coaches/athletes expose `contact` fields directly; keep emails/phones populated to avoid placeholder UI.
 - **Stubs instead of 404s:** `get*OrStub` helpers fall back to placeholder content if a record is missing. When adding new IDs/slugs, update the shared data modules so stubs are rarely used.
-- **Validation & build:** Run `pnpm data:check` for referential sanity (IDs/slugs) and `pnpm build` for Next.js compilation. Install deps via `pnpm install` first to ensure `tsx` is available.
+- **Validation & build:** Run `pnpm data:check` for referential + PB/rank consistency checks, run the consistency flow (`pnpm exec playwright test tests/flows/flow-ranking-profile-consistency.spec.ts --project=Desktop`), then run `pnpm build`.
 - **UI conventions:** Tailwind-first, App Router, `@/` imports, and slugs in hrefs (`/athletes/{slug}` etc.) for consistent routing.
 - **Homepage ad override:** The top ad strip supports `creativeOverride` via `DemoAdSlot`; homepage-specific ICTSI pinning is configured in `components/navigation.tsx` (`ictsiTopBanner` + `pathname === "/"` guard).
