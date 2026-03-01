@@ -7,6 +7,7 @@ Date: 2026-02-19
 - Shadcn UI system is now in a consolidated refresh state: all in-scope primitives in `components/ui/*` are on the `radix-ui` baseline, with inline direction-safe dropdown/select side classes and updated variants.
 - Core public experience is live in the App Router: Athletes, Rankings, Clubs, Competitions, Recognition, Sponsors, Search, and How It Works.
 - Demo data lives in `lib/data/*` with helper lookups and integrity checks (`pnpm data:check`).
+- Rankings and athlete profile PB/rank surfaces now use a shared competition-evidence engine with strict context deep links (`event`, `year`, `gender`, `ageGroup`).
 - The Results Intake portal exists at `/data-portal` with a multi-step upload → map → validate → review flow.
 - Intake submissions are stored locally in the browser and can be exported as JSON. No backend writes exist yet.
 - Preview tooling now shows impact on competition pages, athlete pages, and rankings based on uploaded results.
@@ -22,6 +23,7 @@ Date: 2026-02-19
 - Implemented CSV parsing with header auto-mapping, validation, and warnings for missing wind data or unknown athletes.
 - Added impact previews that calculate athlete PB/SB updates and ranking shifts from uploaded results.
 - Added competition, athlete, and rankings sandbox previews to demonstrate how new results would look in production pages.
+- Added consistency guardrails and event canonicalization checks in `pnpm data:check` to prevent ranking/profile drift regressions.
 - Documented the research basis and workflow rationale in `docs/research/results-intake.md`.
 - Added a git-synced changelog browser with search, filters, and per-commit detail panels.
 

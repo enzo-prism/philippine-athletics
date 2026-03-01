@@ -47,7 +47,7 @@ export const competitions: Competition[] = [
     organizer: "Philippine Athletics Track & Field Association (PATFA)",
     about:
       "The National Championships is the premier track and field competition in the Philippines. Athletes compete for national titles across all track and field events.",
-    events: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "High Jump", "Triple Jump", "Shot Put", "Discus Throw", "Javelin Throw", "Hammer Throw", "Relays"],
+    events: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long jump", "High jump", "Triple jump", "Shot put", "Discus throw", "Javelin throw", "Hammer throw", "Relays"],
     results: [
       {
         event: "400m hurdles",
@@ -105,7 +105,7 @@ export const competitions: Competition[] = [
       "Maria Santos - 400m (Gold)",
       "Juan Dela Cruz - 5000m (Gold)",
       "Rafael Gomez - 100m (Gold)",
-      "Ana Reyes - Long Jump (Gold)",
+      "Ana Reyes - Long jump (Gold)",
     ],
     ticketInfo: "Free admission",
     sponsor: "Philippine Sports Commission, Local Government Units",
@@ -144,7 +144,7 @@ export const competitions: Competition[] = [
         ],
       },
       {
-        event: "4x100m relay",
+        event: "4×100m relay",
         round: "Final",
         entries: [
           { athleteName: "Thailand Relay Team", result: "39.20", place: "1st", source: "Demo data" },
@@ -164,7 +164,7 @@ export const competitions: Competition[] = [
     medalists: [
       "Lauren Hoffman - 400m hurdles (Bronze)",
       "Kristina Knott - 200m (Bronze)",
-      "Philippines - 4x100m relay (Silver)",
+      "Philippines - 4×100m relay (Silver)",
     ],
     ticketInfo: "Ticketed sessions by venue",
     sponsor: "Host Country Government, Corporate Sponsors",
@@ -211,7 +211,7 @@ export const competitions: Competition[] = [
     medalists: [
       "Juan Dela Cruz - 5000m (Top 8)",
       "Philippines - 4×400m Relay (Finalist)",
-      "Ana Reyes - Long Jump (Finalist)",
+      "Ana Reyes - Long jump (Finalist)",
     ],
     ticketInfo: "Paid admission to most sessions",
     sponsor: "Korean Athletics Federation, Partners",

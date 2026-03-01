@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-03-01 — Ranking/profile consistency remediation (competition evidence source)
+- Introduced a shared performance evidence engine so rankings, athlete profile cards, and directory summary PB/rank values all derive from the same competition-linked logic.
+- Added strict context deep-linking between rankings and athlete profiles (`event`, `year`, `gender`, `ageGroup`) and a profile “back to this ranking slice” affordance.
+- Unified ranking preview logic in the Data Portal with production ranking builders and expanded data integrity checks for PB/rank consistency and event normalization.
+
 ## 2026-03-01 — BBTMartires subtle accent typography system
 - Added local `BBTMartiresFree` font loading (Regular + Thin) through `next/font/local` and exposed brand typography utility classes for controlled accent usage.
 - Introduced a deterministic `brand-eyebrow` and `brand-subtext` contract across public routes to keep accent typography subtle (1–2 placements per page) and avoid body-text overuse.

@@ -25,6 +25,7 @@ const eventOptions = [
   { label: "10,000m", value: "10,000m" },
   { label: "Hurdles", value: "Hurdles" },
   { label: "110m hurdles (men)", value: "110m hurdles (men)" },
+  { label: "100m hurdles", value: "100m hurdles" },
   { label: "100m hurdles (women)", value: "100m hurdles (women)" },
   { label: "400m hurdles", value: "400m hurdles" },
   { label: "Steeplechase", value: "Steeplechase" },
@@ -79,6 +80,7 @@ const categoryByEvent: Record<string, string> = {
   "10,000m": "Long Distance",
   Hurdles: "Hurdles",
   "110m hurdles (men)": "Hurdles",
+  "100m hurdles": "Hurdles",
   "100m hurdles (women)": "Hurdles",
   "400m hurdles": "Hurdles",
   Steeplechase: "Steeplechase",
@@ -129,7 +131,7 @@ const deriveEventsFromSpecialty = (specialty: string): string[] => {
 
   if (lower.includes("110m hurdle")) events.push("110m hurdles (men)");
   if (lower.includes("100m hurdle") && !lower.includes("110m"))
-    events.push("100m hurdles (women)");
+    events.push("100m hurdles");
   if (lower.includes("400m hurdle")) events.push("400m hurdles");
   if (lower.includes("steeple"))
     events.push("3000m steeplechase", "Steeplechase");

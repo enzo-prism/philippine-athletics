@@ -10,9 +10,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { athleteProfiles, athleteSummaries } from "@/lib/data/athletes"
-import { getCompetitionResultsByAthleteId } from "@/lib/data/competitions"
+import { athleteProfiles, athleteSummaries, type CompetitionResult } from "@/lib/data/athletes"
 import { getSanctionedEventByName } from "@/lib/data/sanctioned-events"
+import {
+  buildCompetitionResultKey,
+  buildRankingsForAthletes,
+  getAgeGroup,
+  getCompetitionYear,
+  getMergedCompetitionResults,
+  parsePerformanceValue,
+  type AgeGroup,
+  type Gender,
+  type RankingEntry,
+} from "@/lib/data/performance-evidence"
 import { normalizeKey } from "@/lib/data/utils"
 
 const SAMPLE_CSV = `competition,event,round,athleteName,membershipNumber,athleteId,result,place,wind,note
@@ -100,25 +110,6 @@ type ValidationIssue = {
   row?: number
 }
 
-type AgeGroup = "Youth" | "Open"
-
-type Gender = "Women" | "Men"
-
-type PerformanceValue = {
-  value: number
-  higherIsBetter: boolean
-}
-
-type CompetitionResult = {
-  meet: string
-  date: string
-  location: string
-  event: string
-  result: string
-  place: string
-  source?: CompetitionMeta["source"]
-}
-
 type AthleteImpact = {
   id: string
   name: string
@@ -130,22 +121,6 @@ type AthleteImpact = {
     isPB: boolean
     isSB: boolean
   }>
-}
-
-type RankingEntry = {
-  id: string
-  name: string
-  event: string
-  result: string
-  date: string
-  meet: string
-  location: string
-  club: string
-  gender: Gender
-  ageGroup: AgeGroup
-  year: number
-  rank: number
-  source?: CompetitionMeta["source"]
 }
 
 type RankingImpact = {
@@ -289,103 +264,25 @@ const autoMapHeaders = (headers: string[]) => {
 }
 
 const parsePerformance = (performance?: string) => {
-  if (!performance) return null
-  const raw = performance.trim()
-  if (!raw || raw === "—") return null
-  const lower = raw.toLowerCase()
-  const hasColon = lower.includes(":")
-  const endsWithSeconds = /\d?s\b/.test(lower) || lower.endsWith("s")
-  const isTime = hasColon || endsWithSeconds
-
-  if (isTime) {
-    if (hasColon) {
-      const parts = raw.split(":").map((part) => parseFloat(part))
-      if (parts.some((value) => Number.isNaN(value))) return null
-      return parts
-    }
-    const value = parseFloat(raw)
-    if (Number.isNaN(value)) return null
-    return [value]
-  }
-
-  const numeric = parseFloat(raw)
-  if (Number.isNaN(numeric)) return null
-  return [numeric]
-}
-
-const parsePerformanceDetailed = (performance?: string): PerformanceValue | null => {
-  if (!performance) return null
-  const raw = performance.trim()
-  if (!raw || raw === "—") return null
-  const lower = raw.toLowerCase()
-  const hasColon = lower.includes(":")
-  const endsWithSeconds = /\d?s\b/.test(lower) || lower.endsWith("s")
-  const isTime = hasColon || endsWithSeconds
-
-  if (isTime) {
-    if (hasColon) {
-      const parts = raw.split(":").map((part) => parseFloat(part))
-      if (parts.some((value) => Number.isNaN(value))) return null
-      const [first, second = 0, third = 0] = parts
-      const totalSeconds = parts.length === 3 ? first * 3600 + second * 60 + third : first * 60 + second
-      return { value: totalSeconds, higherIsBetter: false }
-    }
-    const value = parseFloat(raw)
-    if (Number.isNaN(value)) return null
-    return { value, higherIsBetter: false }
-  }
-
-  const numeric = parseFloat(raw)
-  if (Number.isNaN(numeric)) return null
-  const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
-  return { value: numeric, higherIsBetter }
-}
-
-const getAgeGroup = (birthDate: string | undefined, year: number): AgeGroup => {
-  if (!birthDate || birthDate === "—") return "Open"
-  const birthYear = Number.parseInt(birthDate.slice(0, 4), 10)
-  if (!birthYear || Number.isNaN(birthYear)) return "Open"
-  const age = year - birthYear
-  return age <= 19 ? "Youth" : "Open"
+  const parsed = parsePerformanceValue(performance)
+  if (!parsed) return null
+  return [parsed.value]
 }
 
 const getYearFromDate = (value?: string) => {
-  if (!value) return new Date().getFullYear()
-  const parsed = new Date(value)
-  if (Number.isNaN(parsed.getTime())) return new Date().getFullYear()
-  return parsed.getFullYear()
+  return getCompetitionYear(value) ?? new Date().getFullYear()
 }
 
-const buildResultKey = (result: CompetitionResult) =>
-  `${result.meet}|${result.date}|${normalizeKey(result.event)}|${result.result}`
+const buildResultKey = (result: CompetitionResult) => buildCompetitionResultKey(result)
 
 const mergeCompetitionsWithExtras = (
   athleteId: string,
   base: CompetitionResult[],
   extrasByAthlete: Map<string, CompetitionResult[]>,
 ) => {
-  const competitionResults = getCompetitionResultsByAthleteId(athleteId)
-  const seen = new Set(base.map(buildResultKey))
-  const merged = [
-    ...base,
-    ...competitionResults.filter((result) => {
-      const key = buildResultKey(result)
-      if (seen.has(key)) return false
-      seen.add(key)
-      return true
-    }),
-  ]
-
-  const extras = extrasByAthlete.get(athleteId) ?? []
-  extras.forEach((result) => {
-    const key = buildResultKey(result)
-    if (!seen.has(key)) {
-      seen.add(key)
-      merged.push(result)
-    }
-  })
-
-  return merged
+  const athlete = athleteProfiles.find((entry) => entry.id === athleteId)
+  if (!athlete) return base
+  return getMergedCompetitionResults(athlete, extrasByAthlete.get(athleteId) ?? [])
 }
 
 const buildRankingForEvent = ({
@@ -401,68 +298,13 @@ const buildRankingForEvent = ({
   year: number
   extrasByAthlete: Map<string, CompetitionResult[]>
 }) => {
-  const normalizedEvent = normalizeKey(event)
-  const entries = athleteProfiles.flatMap((athlete) => {
-    if (!athlete.gender || athlete.gender !== gender) return []
-    if (getAgeGroup(athlete.birthDate, year) !== ageGroup) return []
-
-    const merged = mergeCompetitionsWithExtras(athlete.id, athlete.competitions, extrasByAthlete)
-    const matching = merged
-      .filter((competition) => normalizeKey(competition.event) === normalizedEvent)
-      .filter((competition) => new Date(competition.date).getFullYear() === year)
-      .map((competition) => {
-        const parsed = parsePerformanceDetailed(competition.result)
-        if (!parsed) return null
-        return { competition, parsed }
-      })
-      .filter(Boolean) as Array<{ competition: CompetitionResult; parsed: PerformanceValue }>
-
-    if (!matching.length) return []
-
-    const best = matching.reduce((current, next) => {
-      if (!current) return next
-      if (current.parsed.higherIsBetter !== next.parsed.higherIsBetter) return current
-      if (current.parsed.higherIsBetter) {
-        if (next.parsed.value > current.parsed.value) return next
-      } else if (next.parsed.value < current.parsed.value) {
-        return next
-      }
-      const currentDate = new Date(current.competition.date).getTime()
-      const nextDate = new Date(next.competition.date).getTime()
-      return nextDate > currentDate ? next : current
-    })
-
-    return [
-      {
-        id: athlete.id,
-        name: `${athlete.firstName} ${athlete.lastName}`.trim(),
-        event,
-        result: best.competition.result,
-        date: best.competition.date,
-        meet: best.competition.meet,
-        location: best.competition.location,
-        club: athlete.club,
-        gender,
-        ageGroup,
-        year,
-        rank: 0,
-        source: best.competition.source,
-        _parsed: best.parsed,
-      },
-    ]
-  })
-
-  const sorted = entries.sort((a, b) => {
-    const perfA = a._parsed as PerformanceValue
-    const perfB = b._parsed as PerformanceValue
-    if (perfA.higherIsBetter !== perfB.higherIsBetter) return 0
-    if (perfA.higherIsBetter) return perfB.value - perfA.value
-    return perfA.value - perfB.value
-  })
-
-  return sorted.map((entry, index) => {
-    const { _parsed, ...rest } = entry as RankingEntry & { _parsed: PerformanceValue }
-    return { ...rest, rank: index + 1 }
+  return buildRankingsForAthletes({
+    athletes: athleteProfiles,
+    event,
+    gender,
+    ageGroup,
+    year,
+    extrasByAthlete,
   })
 }
 
@@ -777,9 +619,9 @@ export default function DataPortalPage() {
       })
 
       const matchingEvent = athlete.events.find((evt) => normalizeKey(evt.name) === normalizeKey(event))
-      const newPerf = parsePerformanceDetailed(result)
-      const pbPerf = matchingEvent?.personalBest ? parsePerformanceDetailed(matchingEvent.personalBest) : null
-      const sbPerf = matchingEvent?.seasonBest ? parsePerformanceDetailed(matchingEvent.seasonBest) : null
+      const newPerf = parsePerformanceValue(result)
+      const pbPerf = matchingEvent?.personalBest ? parsePerformanceValue(matchingEvent.personalBest) : null
+      const sbPerf = matchingEvent?.seasonBest ? parsePerformanceValue(matchingEvent.seasonBest) : null
 
       const isPB =
         Boolean(
@@ -942,9 +784,9 @@ export default function DataPortalPage() {
           const event = row.event ?? ""
           const result = row.result ?? ""
           const matchingEvent = athlete.events.find((evt) => normalizeKey(evt.name) === normalizeKey(event))
-          const newPerf = parsePerformanceDetailed(result)
-          const pbPerf = matchingEvent?.personalBest ? parsePerformanceDetailed(matchingEvent.personalBest) : null
-          const sbPerf = matchingEvent?.seasonBest ? parsePerformanceDetailed(matchingEvent.seasonBest) : null
+          const newPerf = parsePerformanceValue(result)
+          const pbPerf = matchingEvent?.personalBest ? parsePerformanceValue(matchingEvent.personalBest) : null
+          const sbPerf = matchingEvent?.seasonBest ? parsePerformanceValue(matchingEvent.seasonBest) : null
           const isPB =
             Boolean(
               newPerf &&
@@ -1684,12 +1526,12 @@ export default function DataPortalPage() {
                                       const matchingEvent = athlete?.events.find(
                                         (evt) => normalizeKey(evt.name) === normalizeKey(block.event),
                                       )
-                                      const newPerf = parsePerformanceDetailed(entry.result)
+                                      const newPerf = parsePerformanceValue(entry.result)
                                       const pbPerf = matchingEvent?.personalBest
-                                        ? parsePerformanceDetailed(matchingEvent.personalBest)
+                                        ? parsePerformanceValue(matchingEvent.personalBest)
                                         : null
                                       const sbPerf = matchingEvent?.seasonBest
-                                        ? parsePerformanceDetailed(matchingEvent.seasonBest)
+                                        ? parsePerformanceValue(matchingEvent.seasonBest)
                                         : null
                                       const isPB =
                                         Boolean(

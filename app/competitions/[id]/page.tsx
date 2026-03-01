@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfile } from "@/lib/data/athletes"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
+import { getAgeGroup, getBestResultForEvent, getCompetitionYear, toCanonicalEventKey } from "@/lib/data/performance-evidence"
 import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
@@ -26,15 +27,15 @@ export default async function CompetitionProfilePage({
     ? results.filter((eventBlock) => normalizeKey(eventBlock.event) === normalizedSelected)
     : results
   const baseHref = `/competitions/${competition.slug ?? param}`
+  const competitionYear = getCompetitionYear(competition.startDate) ?? new Date().getFullYear()
 
   const getResultFlags = (athleteId: string | undefined, event: string, result: string) => {
     if (!athleteId) return { isPB: false, isSB: false }
     const athlete = getAthleteProfile(athleteId)
     if (!athlete) return { isPB: false, isSB: false }
-    const eventMatch = athlete.events.find((evt) => normalizeKey(evt.name) === normalizeKey(event))
-    if (!eventMatch) return { isPB: false, isSB: false }
-    const pb = eventMatch.personalBest?.trim()
-    const sb = eventMatch.seasonBest?.trim()
+    const eventKey = toCanonicalEventKey(event)
+    const pb = getBestResultForEvent({ athlete, eventKey, scope: "all-time" })?.competition.result?.trim()
+    const sb = getBestResultForEvent({ athlete, eventKey, scope: "year", year: competitionYear })?.competition.result?.trim()
     const normalizedResult = result.trim()
     return {
       isPB: Boolean(pb && pb !== "—" && pb === normalizedResult),
@@ -172,13 +173,16 @@ export default async function CompetitionProfilePage({
                             </div>
                           )
 
-                          const yearParam = new Date(competition.startDate).getFullYear()
-                          const href = entry.athleteId
-                            ? `/athletes/${entry.athleteId}?${new URLSearchParams({
-                                event: eventBlock.event,
-                                year: String(yearParam),
-                              }).toString()}`
-                            : null
+                          const linkedAthlete = entry.athleteId ? getAthleteProfile(entry.athleteId) : undefined
+                          const linkQuery = new URLSearchParams({
+                            event: eventBlock.event,
+                            year: String(competitionYear),
+                          })
+                          if (linkedAthlete?.gender) {
+                            linkQuery.set("gender", linkedAthlete.gender)
+                            linkQuery.set("ageGroup", getAgeGroup(linkedAthlete.birthDate, competitionYear))
+                          }
+                          const href = entry.athleteId ? `/athletes/${entry.athleteId}?${linkQuery.toString()}` : null
 
                           return href ? (
                             <Link

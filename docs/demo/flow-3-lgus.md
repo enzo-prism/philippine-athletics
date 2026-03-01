@@ -8,7 +8,7 @@ Show local discovery, athlete pathway visibility, and safe-sport confidence for 
 ## Route Script
 1. Open `/demo/lgus`.
 2. Explore `/clubs` and open one club profile.
-3. Move to athlete roster links and confirm profile consistency.
+3. Move to athlete roster links and confirm profile PB/rank values remain consistent with ranking context filters.
 4. Open `/recognition` and highlight safe-sport and trust signals.
 5. Return to `/search` and run one membership-number query.
 

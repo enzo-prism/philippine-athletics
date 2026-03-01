@@ -52,6 +52,31 @@ const normalizeYear = (yearParam: string) => {
 
 const formatRank = (rank: number) => `#${rank}`;
 
+const buildProfileContextHref = ({
+  href,
+  event,
+  year,
+  gender,
+  ageGroup,
+  highlight,
+}: {
+  href: string;
+  event: string;
+  year: number;
+  gender: Gender;
+  ageGroup: AgeGroup;
+  highlight?: string;
+}) => {
+  const query = new URLSearchParams({
+    event,
+    year: String(year),
+    gender,
+    ageGroup,
+  });
+  if (highlight?.trim()) query.set("highlight", highlight.trim());
+  return `${href}?${query.toString()}`;
+};
+
 export default async function RankingsPage({
   searchParams,
 }: {
@@ -272,7 +297,14 @@ export default async function RankingsPage({
                   {topThree.map((entry) => (
                     <Link
                       key={entry.id}
-                      href={`${entry.href}?event=${encodeURIComponent(selectedEvent)}&year=${selectedYear}`}
+                      href={buildProfileContextHref({
+                        href: entry.href,
+                        event: selectedEvent,
+                        year: selectedYear,
+                        gender: selectedGender,
+                        ageGroup: selectedAgeGroup,
+                        highlight: entry.name,
+                      })}
                       className="block"
                     >
                       <div className="p-4 rounded-none border border-border bg-card hover:border-accent transition-colors">
@@ -323,8 +355,16 @@ export default async function RankingsPage({
                 return (
                   <Link
                     key={`${entry.id}-${entry.rank}`}
-                    href={`${entry.href}?event=${encodeURIComponent(selectedEvent)}&year=${selectedYear}`}
+                    href={buildProfileContextHref({
+                      href: entry.href,
+                      event: selectedEvent,
+                      year: selectedYear,
+                      gender: selectedGender,
+                      ageGroup: selectedAgeGroup,
+                      highlight: entry.name,
+                    })}
                     className="block"
+                    data-testid="rankings-row-link"
                   >
                     <Card
                       className={`py-0 gap-0 transition-colors hover:border-accent ${

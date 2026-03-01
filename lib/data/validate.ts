@@ -2,9 +2,16 @@ import { athleteProfiles, athleteSummaries } from "./athletes"
 import { clubs } from "./clubs"
 import { coaches } from "./coaches"
 import { competitions } from "./competitions"
+import { buildRankingsForAthletes, getAgeGroup, getBestResultForEvent, getRankingYearsFromAthletes, toCanonicalEventKey } from "./performance-evidence"
 import { resolveRoster, sponsors } from "./sponsors"
+import { formatEventLabel, normalizeEventKey } from "./utils"
 
 export type ValidationIssue = { kind: "missing" | "warning"; message: string }
+
+const normalizeRank = (rank?: string | number) => {
+  if (rank === undefined || rank === null || rank === "") return null
+  return Number.parseInt(String(rank).replace("#", "").trim(), 10)
+}
 
 export const validateDataIntegrity = (): ValidationIssue[] => {
   const issues: ValidationIssue[] = []
@@ -64,6 +71,88 @@ export const validateDataIntegrity = (): ValidationIssue[] => {
   competitions.forEach((competition) => {
     if (!competition.events.length) {
       issues.push({ kind: "warning", message: `Competition ${competition.name} has no events listed` })
+    }
+  })
+
+  // Event normalization checks
+  const checkedEvents = new Set<string>()
+  const checkNormalization = (eventLabel: string, source: string) => {
+    const canonical = formatEventLabel(eventLabel)
+    const key = `${source}|${eventLabel}`
+    if (checkedEvents.has(key)) return
+    checkedEvents.add(key)
+    if (canonical !== eventLabel && normalizeEventKey(eventLabel) !== normalizeEventKey(canonical)) {
+      issues.push({ kind: "warning", message: `event_normalization: ${source} uses non-canonical event label "${eventLabel}"` })
+    }
+  }
+
+  athleteProfiles.forEach((athlete) => {
+    athlete.events.forEach((event) => checkNormalization(event.name, `athlete ${athlete.slug}`))
+    athlete.competitions.forEach((competition) => checkNormalization(competition.event, `athlete ${athlete.slug} competitions`))
+  })
+  competitions.forEach((competition) => {
+    competition.events.forEach((event) => checkNormalization(event, `competition ${competition.slug}`))
+    ;(competition.results ?? []).forEach((resultBlock) => checkNormalization(resultBlock.event, `competition ${competition.slug} results`))
+  })
+
+  const latestYear = getRankingYearsFromAthletes(athleteProfiles)[0] ?? new Date().getFullYear()
+  const rankingCache = new Map<string, ReturnType<typeof buildRankingsForAthletes>>()
+
+  // PB and rank consistency checks for non-stub athletes
+  athleteProfiles.filter((athlete) => !athlete.isStub).forEach((athlete) => {
+    athlete.events.forEach((event) => {
+      const eventKey = toCanonicalEventKey(event.name)
+      const bestEvidence = getBestResultForEvent({ athlete, eventKey, scope: "all-time" })
+
+      if (event.personalBest && event.personalBest !== "—" && !bestEvidence) {
+        issues.push({
+          kind: "missing",
+          message: `pb_consistency: ${athlete.slug} ${event.name} has profile PB (${event.personalBest}) without supporting competition evidence`,
+        })
+      }
+
+      if (event.personalBest && event.personalBest !== "—" && bestEvidence && event.personalBest !== bestEvidence.competition.result) {
+        issues.push({
+          kind: "warning",
+          message: `pb_consistency: ${athlete.slug} ${event.name} profile PB (${event.personalBest}) differs from evidence best (${bestEvidence.competition.result})`,
+        })
+      }
+    })
+
+    const primaryEvent = athlete.events[0]
+    if (!primaryEvent || !athlete.gender) return
+
+    const ageGroup = getAgeGroup(athlete.birthDate, latestYear)
+    const cacheKey = `${toCanonicalEventKey(primaryEvent.name)}|${athlete.gender}|${ageGroup}|${latestYear}`
+    if (!rankingCache.has(cacheKey)) {
+      rankingCache.set(
+        cacheKey,
+        buildRankingsForAthletes({
+          athletes: athleteProfiles,
+          event: primaryEvent.name,
+          gender: athlete.gender,
+          ageGroup,
+          year: latestYear,
+        }),
+      )
+    }
+
+    const rankingEntry = rankingCache.get(cacheKey)?.find((entry) => entry.id === athlete.id)
+    const profileRank = normalizeRank(primaryEvent.nationalRank)
+
+    if (!rankingEntry && profileRank !== null) {
+      issues.push({
+        kind: "warning",
+        message: `rank_consistency: ${athlete.slug} has profile rank #${profileRank} but is unranked in ${latestYear} ${primaryEvent.name} (${athlete.gender}/${ageGroup})`,
+      })
+      return
+    }
+
+    if (rankingEntry && profileRank !== null && rankingEntry.rank !== profileRank) {
+      issues.push({
+        kind: "warning",
+        message: `rank_consistency: ${athlete.slug} profile rank #${profileRank} differs from computed rank #${rankingEntry.rank} in ${latestYear} ${primaryEvent.name} (${athlete.gender}/${ageGroup})`,
+      })
     }
   })
 

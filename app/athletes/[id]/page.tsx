@@ -4,7 +4,15 @@ import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileAvatar } from "@/components/ProfileAvatar"
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
-import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
+import {
+  buildCompetitionResultKey,
+  getAgeGroup,
+  getBestResultForEvent,
+  getMergedCompetitionResults,
+  toCanonicalEventKey,
+} from "@/lib/data/performance-evidence"
+import { buildRankings, getRankingYears, type AgeGroup, type Gender } from "@/lib/data/rankings"
+import { decodeIdParam, formatEventLabel, parseDateToTimestamp } from "@/lib/data/utils"
 import { type EmojiSymbol, Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 export const dynamic = "force-dynamic"
@@ -25,88 +33,150 @@ const formatRank = (rank?: string | number) => {
   return trimmed.startsWith("#") ? trimmed : `#${trimmed}`
 }
 
-const parsePerformance = (performance?: string) => {
-  if (!performance) return null
-  const raw = performance.trim()
-  if (!raw || raw === "—") return null
-  const lower = raw.toLowerCase()
-  const hasColon = lower.includes(":")
-  const endsWithSeconds = /\ds\b/.test(lower) || lower.endsWith("s")
-  const isTime = hasColon || endsWithSeconds
+const parseGender = (value?: string): Gender | undefined =>
+  value === "Women" || value === "Men" ? value : undefined
 
-  if (isTime) {
-    if (hasColon) {
-      const parts = raw.split(":").map((part) => parseFloat(part))
-      if (parts.some((value) => Number.isNaN(value))) return null
-      const [first, second = 0, third = 0] = parts
-      const totalSeconds = parts.length === 3 ? first * 3600 + second * 60 + third : first * 60 + second
-      return { value: totalSeconds, higherIsBetter: false }
-    }
-    const value = parseFloat(raw)
-    if (Number.isNaN(value)) return null
-    return { value, higherIsBetter: false }
-  }
-
-  const numeric = parseFloat(raw)
-  if (Number.isNaN(numeric)) return null
-  const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
-  return { value: numeric, higherIsBetter }
-}
+const parseAgeGroup = (value?: string): AgeGroup | undefined =>
+  value === "Open" || value === "Youth" ? value : undefined
 
 export default async function AthleteProfilePage({
   params,
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams?: Promise<{ event?: string; year?: string }>
+  searchParams?: Promise<{ event?: string; year?: string; gender?: string; ageGroup?: string; highlight?: string }>
 }) {
   const { id: rawId } = await params
+  const resolvedSearchParams = await searchParams
   const id = decodeIdParam(rawId)
   const athlete = getAthleteProfileOrStub(id)
   const isStub = athlete.isStub
   const primaryEvent = athlete.events[0]
-  const primaryEventSource = primaryEvent
-    ? athlete.competitions.find(
-        (competition) => normalizeKey(competition.event) === normalizeKey(primaryEvent.name) && competition.source,
-      )?.source ?? "Demo data"
-    : "Demo data"
-  const sortedCompetitions = [...athlete.competitions].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  const fullName = `${athlete.firstName} ${athlete.lastName}`.trim()
+
+  const rankingYears = getRankingYears()
+  const latestRankingYear = rankingYears[0] ?? new Date().getFullYear()
+
+  const requestedEvent = resolvedSearchParams?.event?.trim() ?? ""
+  const requestedYear = Number.parseInt(resolvedSearchParams?.year ?? "", 10)
+  const requestedGender = parseGender(resolvedSearchParams?.gender)
+  const requestedAgeGroup = parseAgeGroup(resolvedSearchParams?.ageGroup)
+
+  const hasStrictRankingContext = Boolean(
+    requestedEvent &&
+      Number.isFinite(requestedYear) &&
+      requestedGender &&
+      requestedAgeGroup,
+  )
+
+  const activeEvent = formatEventLabel(requestedEvent || primaryEvent?.name || "")
+  const activeYear = Number.isFinite(requestedYear) ? requestedYear : latestRankingYear
+  const activeGender = requestedGender ?? athlete.gender
+  const activeAgeGroup = requestedAgeGroup ?? getAgeGroup(athlete.birthDate, activeYear)
+  const activeEventKey = toCanonicalEventKey(activeEvent)
+
+  const mergedCompetitions = getMergedCompetitionResults(athlete)
+  const sortedCompetitions = [...mergedCompetitions].sort(
+    (a, b) => (parseDateToTimestamp(b.date) ?? 0) - (parseDateToTimestamp(a.date) ?? 0),
   )
   const latestCompetition = sortedCompetitions[0]
-  const resolvedSearchParams = await searchParams
-  const targetEvent = resolvedSearchParams?.event ? normalizeKey(resolvedSearchParams.event) : null
-  const targetYear = resolvedSearchParams?.year ? Number.parseInt(resolvedSearchParams.year, 10) : null
-  const yearBest = targetEvent && targetYear
-    ? sortedCompetitions
-        .filter(
-          (competition) =>
-            normalizeKey(competition.event) === targetEvent &&
-            new Date(competition.date).getFullYear() === targetYear,
-        )
-        .map((competition) => {
-          const parsed = parsePerformance(competition.result)
-          if (!parsed) return null
-          return { competition, parsed }
-        })
-        .filter((entry): entry is { competition: (typeof athlete.competitions)[number]; parsed: { value: number; higherIsBetter: boolean } } => Boolean(entry))
-        .reduce((current, next) => {
-          if (!current) return next
-          const currentParsed = current.parsed
-          const nextParsed = next.parsed
-          if (currentParsed.higherIsBetter !== nextParsed.higherIsBetter) return current
-          if (currentParsed.higherIsBetter) {
-            if (nextParsed.value > currentParsed.value) return next
-          } else if (nextParsed.value < currentParsed.value) {
-            return next
-          }
-          const currentDate = new Date(current.competition.date).getTime()
-          const nextDate = new Date(next.competition.date).getTime()
-          return nextDate > currentDate ? next : current
-        }, null as null | { competition: (typeof athlete.competitions)[number]; parsed: { value: number; higherIsBetter: boolean } })
+
+  const allTimeBest = activeEventKey
+    ? getBestResultForEvent({
+        athlete,
+        eventKey: activeEventKey,
+        scope: "all-time",
+      })
     : null
+
+  const yearBest = activeEventKey
+    ? getBestResultForEvent({
+        athlete,
+        eventKey: activeEventKey,
+        scope: "year",
+        year: activeYear,
+      })
+    : null
+
   const focusResult = yearBest?.competition ?? latestCompetition
-  const focusLabel = yearBest && targetYear ? `Year best (${targetYear})` : "Most recent result"
+  const focusLabel = yearBest ? `Year best (${activeYear})` : "Most recent result"
+
+  const strictRankingEntry =
+    activeEvent && activeGender
+      ? buildRankings({
+          event: activeEvent,
+          gender: activeGender,
+          ageGroup: activeAgeGroup,
+          year: activeYear,
+        }).find((entry) => entry.id === athlete.id)
+      : undefined
+
+  const perEventRankingCache = new Map<string, ReturnType<typeof buildRankings>>()
+
+  const deriveEventStats = (eventName: string) => {
+    const eventKey = toCanonicalEventKey(eventName)
+    const best = eventKey
+      ? getBestResultForEvent({
+          athlete,
+          eventKey,
+          scope: "all-time",
+        })
+      : null
+
+    let rank: number | undefined
+    if (athlete.gender) {
+      const cacheKey = `${eventKey}|${athlete.gender}|${activeAgeGroup}|${activeYear}`
+      if (!perEventRankingCache.has(cacheKey)) {
+        perEventRankingCache.set(
+          cacheKey,
+          buildRankings({
+            event: eventName,
+            gender: athlete.gender,
+            ageGroup: activeAgeGroup,
+            year: activeYear,
+          }),
+        )
+      }
+      rank = perEventRankingCache.get(cacheKey)?.find((entry) => entry.id === athlete.id)?.rank
+    }
+
+    return {
+      pb: best?.competition.result,
+      pbSource: best?.competition.source ?? "Demo data",
+      rank,
+      bestCompetition: best?.competition,
+    }
+  }
+
+  const primaryStats = primaryEvent ? deriveEventStats(primaryEvent.name) : null
+  const primaryPbDisplay = primaryStats?.pb ?? primaryEvent?.personalBest ?? "—"
+  const primaryRankDisplay = strictRankingEntry
+    ? formatRank(strictRankingEntry.rank)
+    : hasStrictRankingContext
+      ? "Unranked in selected context"
+      : formatRank(primaryStats?.rank ?? primaryEvent?.nationalRank)
+
+  const primarySource =
+    strictRankingEntry?.source ??
+    primaryStats?.pbSource ??
+    (primaryEvent
+      ? mergedCompetitions.find(
+          (competition) => toCanonicalEventKey(competition.event) === toCanonicalEventKey(primaryEvent.name) && competition.source,
+        )?.source ?? "Demo data"
+      : "Demo data")
+
+  const highlightedResultKey = yearBest ? buildCompetitionResultKey(yearBest.competition) : null
+
+  const rankingSliceHref =
+    hasStrictRankingContext && requestedGender && requestedAgeGroup
+      ? `/rankings?${new URLSearchParams({
+          event: requestedEvent,
+          year: String(activeYear),
+          gender: requestedGender,
+          ageGroup: requestedAgeGroup,
+          highlight: fullName,
+        }).toString()}`
+      : null
 
   return (
     <div className="min-h-screen bg-background">
@@ -117,6 +187,13 @@ export default async function AthleteProfilePage({
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Athletes
         </Link>
+
+        {rankingSliceHref ? (
+          <Link href={rankingSliceHref} className="flex items-center gap-2 text-xs font-semibold text-accent w-fit">
+            <Emoji symbol={emojiIcons.filter} className="text-sm" />
+            Back to this ranking slice
+          </Link>
+        ) : null}
 
         <DemoAdSlot slotId="athlete-profile-top" format="leaderboard" />
 
@@ -158,36 +235,38 @@ export default async function AthleteProfilePage({
           </div>
           <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">Personal best</p>
-            <p className="text-base font-semibold text-foreground mt-1">{primaryEvent?.personalBest ?? "—"}</p>
+            <p className="text-base font-semibold text-foreground mt-1">{primaryPbDisplay}</p>
             <Badge
               variant="outline"
               className={
-                primaryEventSource === "World Athletics"
+                primarySource === "World Athletics"
                   ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
                   : "mt-2 border-border text-foreground bg-muted"
               }
             >
-              {primaryEventSource}
+              {primarySource}
             </Badge>
           </div>
           <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">Philippines rank</p>
-            <p className="text-base font-semibold text-foreground mt-1">{formatRank(primaryEvent?.nationalRank)}</p>
-            <Badge
-              variant="outline"
-              className={
-                primaryEventSource === "World Athletics"
-                  ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
-                  : "mt-2 border-border text-foreground bg-muted"
-              }
-            >
-              {primaryEventSource}
-            </Badge>
+            <p className="text-base font-semibold text-foreground mt-1">{primaryRankDisplay}</p>
+            {strictRankingEntry?.source ? (
+              <Badge
+                variant="outline"
+                className={
+                  strictRankingEntry.source === "World Athletics"
+                    ? "mt-2 border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                    : "mt-2 border-border text-foreground bg-muted"
+                }
+              >
+                {strictRankingEntry.source}
+              </Badge>
+            ) : null}
           </div>
           <div className="p-4 rounded-none border border-border bg-card">
             <p className="text-xs text-muted-foreground uppercase font-semibold">{focusLabel}</p>
             <p className="text-sm font-semibold text-foreground mt-1">
-              {focusResult ? `${focusResult.event} ${focusResult.result}` : "—"}
+              {focusResult ? `${formatEventLabel(focusResult.event)} ${focusResult.result}` : "—"}
             </p>
             {focusResult ? (
               <p className="text-xs text-muted-foreground">
@@ -218,11 +297,15 @@ export default async function AthleteProfilePage({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {athlete.events.map((evt) => {
+                  const derived = deriveEventStats(evt.name)
                   const query = new URLSearchParams({
-                    event: evt.name,
-                    level: "National",
-                    highlight: `${athlete.firstName} ${athlete.lastName}`,
+                    event: formatEventLabel(evt.name),
+                    year: String(activeYear),
+                    highlight: fullName,
                   })
+
+                  if (athlete.gender) query.set("gender", athlete.gender)
+                  query.set("ageGroup", getAgeGroup(athlete.birthDate, activeYear))
 
                   return (
                     <Link key={evt.name} href={`/rankings?${query.toString()}`} className="block group">
@@ -230,11 +313,11 @@ export default async function AthleteProfilePage({
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-foreground">{evt.name}</p>
                           <span className="text-xs font-semibold text-accent bg-accent/10 border border-accent/30 px-2 py-1 rounded-none">
-                            PB: {evt.personalBest}
+                            PB: {derived.pb ?? evt.personalBest}
                           </span>
                         </div>
                         <div className="text-xs text-muted-foreground space-y-1">
-                          <p>National: {formatRank(evt.nationalRank)}</p>
+                          <p>National: {formatRank(derived.rank ?? evt.nationalRank)}</p>
                           <p>Asian: {formatRank(evt.asianRank)}</p>
                           <p>Global: {formatRank(evt.globalRank)}</p>
                           {evt.seasonBest ? <p>Season: {evt.seasonBest}</p> : null}
@@ -253,35 +336,31 @@ export default async function AthleteProfilePage({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {sortedCompetitions.map((comp, i) => {
-                  const isHighlight =
-                    yearBest &&
-                    comp.event === yearBest.competition.event &&
-                    comp.result === yearBest.competition.result &&
-                    comp.date === yearBest.competition.date
+                  const isHighlight = highlightedResultKey !== null && buildCompetitionResultKey(comp) === highlightedResultKey
 
                   return (
                     <div
                       key={`${comp.meet}-${i}`}
                       className={`p-4 rounded-none border space-y-1 ${isHighlight ? "border-accent bg-accent/5" : "border-border bg-card"}`}
                     >
-                    <p className="text-sm font-semibold text-foreground">{comp.meet}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {comp.date} • {comp.location}
-                    </p>
-                    <p className="text-xs text-foreground">
-                      {comp.event} — {comp.result} ({comp.place})
-                    </p>
-                    <Badge
-                      variant="outline"
-                      className={
-                        comp.source === "World Athletics"
-                          ? "border-emerald-300/60 text-emerald-700 bg-emerald-50"
-                          : "border-border text-foreground bg-muted"
-                      }
-                    >
-                      {comp.source ?? "Demo data"}
-                    </Badge>
-                  </div>
+                      <p className="text-sm font-semibold text-foreground">{comp.meet}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {comp.date} • {comp.location}
+                      </p>
+                      <p className="text-xs text-foreground">
+                        {formatEventLabel(comp.event)} — {comp.result} ({comp.place})
+                      </p>
+                      <Badge
+                        variant="outline"
+                        className={
+                          comp.source === "World Athletics"
+                            ? "border-emerald-300/60 text-emerald-700 bg-emerald-50"
+                            : "border-border text-foreground bg-muted"
+                        }
+                      >
+                        {comp.source ?? "Demo data"}
+                      </Badge>
+                    </div>
                   )
                 })}
               </div>

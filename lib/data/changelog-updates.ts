@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-03-01-ranking-profile-consistency-remediation-competition-evidence-source",
+    date: "2026-03-01",
+    title: "Ranking/profile consistency remediation (competition evidence source)",
+    category: ["Data", "Competition", "Reliability", "Experience"],
+    summary:
+      "Unified rankings and athlete profile PB/rank rendering around a shared competition-evidence engine with strict context deep-linking.",
+    highlights: [
+      "Added a canonical performance evidence layer used by rankings, profile PB/rank cards, athlete summaries, and data-portal previews.",
+      "Standardized ranking/profile deep links with strict context params (`event`, `year`, `gender`, `ageGroup`) and explicit unranked handling.",
+      "Expanded data integrity checks to hard-fail PB/rank mismatches and event normalization drift for non-stub athletes.",
+    ],
+    whyItMatters:
+      "Eliminates cross-page stat drift so users see the same PB/rank values wherever they navigate, increasing trust in ranking outputs.",
+  },
+  {
     id: "2026-03-01-bbtmartires-subtle-accent-typography-system",
     date: "2026-03-01",
     title: "BBTMartires subtle accent typography system",

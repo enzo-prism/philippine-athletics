@@ -16,13 +16,19 @@ test("Flow 2: Rankings filters", async ({ page }) => {
     await page.getByTestId("rankings-filter-gender").selectOption("Women")
     await page.getByTestId("rankings-filter-age").selectOption("Open")
     await page.getByTestId("rankings-filter-year").selectOption({ index: 0 })
-    await page.getByTestId("rankings-apply").click()
+    await Promise.all([
+      page.waitForURL(/\/rankings\?/),
+      page.getByTestId("rankings-apply").click(),
+    ])
     await expect(page.getByTestId("rankings-list")).toBeVisible()
     await expect(page.getByTestId("rankings-row").first()).toBeVisible()
   })
 
   await test.step("Open a ranked athlete", async () => {
-    await page.getByTestId("rankings-row").first().click()
+    await Promise.all([
+      page.waitForURL(/\/athletes\//),
+      page.getByTestId("rankings-row-link").first().click(),
+    ])
     await expect(page.getByText("Personal best", { exact: false })).toBeVisible()
   })
 })

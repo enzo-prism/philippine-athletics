@@ -1,4 +1,11 @@
-import { getCompetitionResultsByAthleteId } from "./competitions"
+import {
+  buildRankingsForAthletes,
+  getAgeGroup,
+  getBestResultForEvent,
+  getMergedCompetitionResults,
+  getRankingYearsFromAthletes,
+  toCanonicalEventKey,
+} from "./performance-evidence"
 import { matchesIdOrSlug, normalizeKey, slugify } from "./utils"
 
 // Shared athlete data and helpers
@@ -90,29 +97,6 @@ export type AthleteSummary = {
   isStub?: boolean
 }
 
-function toSummary(profile: AthleteProfile): AthleteSummary {
-  const primaryEvent = profile.events[0]
-  return {
-    id: profile.id,
-    slug: profile.slug,
-    membershipNumber: profile.membershipNumber,
-    name: `${profile.firstName} ${profile.lastName}`,
-    specialty: profile.specialty,
-    club: profile.club,
-    coach: profile.coach,
-    clubId: profile.clubId,
-    coachId: profile.coachId,
-    pb: primaryEvent?.personalBest,
-    location: profile.location,
-    nationalRank: primaryEvent?.nationalRank,
-    asianRank: primaryEvent?.asianRank,
-    globalRank: primaryEvent?.globalRank,
-    events: profile.events.map((evt) => evt.name),
-    href: `/athletes/${profile.slug}`,
-    isStub: profile.isStub,
-  }
-}
-
 const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
   {
     id: "athlete-jc-dela-cruz",
@@ -128,7 +112,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Ana Reyes",
     coachId: "coach-ana-reyes",
     events: [
-      { name: "100m", personalBest: "10.68", seasonBest: "10.74", nationalRank: 5 },
+      { name: "100m", personalBest: "10.68", seasonBest: "10.74", nationalRank: 1 },
       { name: "200m", personalBest: "21.45", seasonBest: "21.70", nationalRank: 7 },
     ],
     birthDate: "2002-03-15",
@@ -136,7 +120,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     achievements: [
       "Bronze medalist, Philippine National Open 100m (2025)",
       "Gold medalist, NCR Regional Meet 200m (2024)",
-      "National team pool member for 4x100m relay",
+      "National team pool member for 4×100m relay",
     ],
     competitions: [
       { meet: "Philippine National Open", date: "2025-04-15", location: "Pasig, NCR", event: "100m", result: "10.74", place: "3rd in Final" },
@@ -171,8 +155,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Mark Villanueva",
     coachId: "coach-mark-villanueva",
     events: [
-      { name: "100m", personalBest: "11.92", seasonBest: "12.01", nationalRank: 4 },
-      { name: "200m", personalBest: "24.45", seasonBest: "24.70", nationalRank: 6 },
+      { name: "100m", personalBest: "11.98", seasonBest: "12.01", nationalRank: 1 },
+      { name: "200m", personalBest: "24.70", seasonBest: "24.70", nationalRank: 2 },
     ],
     birthDate: "2003-07-02",
     joinedYear: 2023,
@@ -187,7 +171,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
       { meet: "NCR Regional Championships", date: "2023-02-12", location: "Manila, NCR", event: "100m", result: "12.10", place: "2nd in Final" },
     ],
     upcoming: [
-      { meet: "Philippine National Open", date: "2026-04-10", location: "Pasig, NCR", events: ["100m", "200m", "4x100m relay"] },
+      { meet: "Philippine National Open", date: "2026-04-10", location: "Pasig, NCR", events: ["100m", "200m", "4×100m relay"] },
     ],
     bio: "One of the top emerging women’s sprinters in the country, Mia is known for her fast starts and strong relay performances.",
     contact: {
@@ -213,7 +197,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     events: [
       {
         name: "400m hurdles",
-        personalBest: "55.47",
+        personalBest: "56.10",
         seasonBest: "55.72",
         nationalRank: 1,
       },
@@ -258,8 +242,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Ana Reyes",
     coachId: "coach-ana-reyes",
     events: [
-      { name: "400m", personalBest: "47.85", seasonBest: "48.10", nationalRank: 6 },
-      { name: "400m hurdles", personalBest: "51.90", seasonBest: "52.30", nationalRank: 3 },
+      { name: "400m", personalBest: "48.10", seasonBest: "48.10" },
+      { name: "400m hurdles", personalBest: "52.30", seasonBest: "52.30", nationalRank: 3 },
     ],
     birthDate: "2001-11-08",
     joinedYear: 2021,
@@ -298,8 +282,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Liza Tan",
     coachId: "coach-liza-tan",
     events: [
-      { name: "800m", personalBest: "2:09.50", seasonBest: "2:10.80", nationalRank: 3 },
-      { name: "1500m", personalBest: "4:27.90", seasonBest: "4:30.20", nationalRank: 4 },
+      { name: "800m", personalBest: "2:10.80", seasonBest: "2:10.80", nationalRank: 1 },
+      { name: "1500m", personalBest: "4:30.20", seasonBest: "4:30.20", nationalRank: 4 },
     ],
     birthDate: "2004-01-21",
     joinedYear: 2023,
@@ -329,7 +313,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     firstName: "Carlo",
     lastName: "Mendoza",
     gender: "Men",
-    specialty: "5000m, 10000m",
+    specialty: "5000m, 10,000m",
     location: "Cebu City, Central Visayas",
     hometown: "Toledo City, Cebu",
     club: "Cebu Distance Project",
@@ -337,18 +321,18 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Joel Mercado",
     coachId: "coach-joel-mercado",
     events: [
-      { name: "5000m", personalBest: "14:35.00", seasonBest: "14:40.20", nationalRank: 4 },
-      { name: "10000m", personalBest: "30:25.50", seasonBest: "30:40.00", nationalRank: 3 },
+      { name: "5000m", personalBest: "14:45.10", seasonBest: "14:40.20" },
+      { name: "10,000m", personalBest: "30:40.00", seasonBest: "30:40.00" },
     ],
     birthDate: "2000-09-12",
     joinedYear: 2020,
     achievements: [
-      "Bronze medalist, Philippine National Open 10000m (2024)",
+      "Bronze medalist, Philippine National Open 10,000m (2024)",
       "Top Filipino finisher in Cebu City Marathon 21K (2023)",
       "Multiple wins in local 5K and 10K road races",
     ],
     competitions: [
-      { meet: "Philippine National Open", date: "2024-04-13", location: "Pasig, NCR", event: "10000m", result: "30:40.00", place: "3rd in Final" },
+      { meet: "Philippine National Open", date: "2024-04-13", location: "Pasig, NCR", event: "10,000m", result: "30:40.00", place: "3rd in Final" },
       { meet: "Cebu City Marathon", date: "2023-01-08", location: "Cebu City, Cebu", event: "21K road race", result: "1:10:30", place: "Top Filipino, 5th overall" },
       { meet: "Visayas Regional Championships", date: "2022-07-02", location: "Bacolod City, Negros Occidental", event: "5000m", result: "14:45.10", place: "2nd in Final" },
     ],
@@ -374,8 +358,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Joel Mercado",
     coachId: "coach-joel-mercado",
     events: [
-      { name: "3000m steeplechase", personalBest: "9:03.20", seasonBest: "9:06.50", nationalRank: 2 },
-      { name: "5000m", personalBest: "14:50.00", seasonBest: "14:55.40" },
+      { name: "3000m steeplechase", personalBest: "9:06.50", seasonBest: "9:06.50", nationalRank: 2 },
+      { name: "5000m", personalBest: "14:55.40", seasonBest: "14:55.40" },
     ],
     birthDate: "2002-05-05",
     joinedYear: 2022,
@@ -413,8 +397,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: "Liza Tan",
     coachId: "coach-liza-tan",
     events: [
-      { name: "400m", personalBest: "55.20", seasonBest: "55.60", nationalRank: 5 },
-      { name: "800m", personalBest: "2:11.80", seasonBest: "2:12.50", nationalRank: 6 },
+      { name: "400m", personalBest: "55.60", seasonBest: "55.60" },
+      { name: "800m", personalBest: "2:12.50", seasonBest: "2:12.50" },
     ],
     birthDate: "2005-02-18",
     joinedYear: 2024,
@@ -449,11 +433,10 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: 'Ramon "Mon" Castillo',
     coachId: "coach-ramon-castillo",
     events: [
-      { name: "Long jump", personalBest: "7.45m", seasonBest: "7.38m", nationalRank: 2 },
-      { name: "Triple jump", personalBest: "15.65m", seasonBest: "15.40m", nationalRank: 3 },
+      { name: "Long jump", personalBest: "7.38m", seasonBest: "7.38m", nationalRank: 2 },
+      { name: "Triple jump", personalBest: "15.40m", seasonBest: "15.40m", nationalRank: 3 },
     ],
     birthDate: "2001-06-09",
-    hometown: "Tagum City, Davao del Norte",
     joinedYear: 2021,
     achievements: [
       "Silver medalist, Philippine National Open long jump (2025)",
@@ -487,7 +470,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     clubId: "club-davao-field-jumps",
     coach: 'Ramon "Mon" Castillo',
     coachId: "coach-ramon-castillo",
-    events: [{ name: "Javelin throw", personalBest: "51.20m", seasonBest: "50.90m", nationalRank: 3 }],
+    events: [{ name: "Javelin throw", personalBest: "50.90m", seasonBest: "50.90m", nationalRank: 3 }],
     birthDate: "2002-10-30",
     joinedYear: 2022,
     achievements: [
@@ -521,8 +504,8 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     coach: 'Ramon "Mon" Castillo',
     coachId: "coach-ramon-castillo",
     events: [
-      { name: "Shot put", personalBest: "16.80m", seasonBest: "16.45m", nationalRank: 4 },
-      { name: "Discus throw", personalBest: "50.10m", seasonBest: "49.80m", nationalRank: 5 },
+      { name: "Shot put", personalBest: "16.45m", seasonBest: "16.45m", nationalRank: 4 },
+      { name: "Discus throw", personalBest: "49.80m", seasonBest: "49.80m", nationalRank: 5 },
     ],
     birthDate: "2000-01-05",
     joinedYear: 2019,
@@ -676,7 +659,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     hometown: "Philippines",
     club: "Philippine Athletics National Team",
     coach: "National Team Staff",
-    events: [{ name: "400m hurdles", personalBest: "56.44", seasonBest: "56.93", nationalRank: 2 }],
+    events: [{ name: "400m hurdles", personalBest: "57.40", seasonBest: "56.93", nationalRank: 2 }],
     birthDate: "1994-07-27",
     joinedYear: 2016,
     achievements: [
@@ -710,7 +693,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     hometown: "Philippines",
     club: "Philippine Athletics Development Pool",
     coach: "National Team Staff",
-    events: [{ name: "400m hurdles", personalBest: "1:00.49", seasonBest: "1:00.53", nationalRank: 3 }],
+    events: [{ name: "400m hurdles", personalBest: "1:00.53", seasonBest: "1:00.53", nationalRank: 3 }],
     birthDate: "2001-09-01",
     joinedYear: 2022,
     achievements: ["Top 3 Philippines 400m hurdles season list (2024)"],
@@ -741,7 +724,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     hometown: "Philippines",
     club: "Philippine Athletics Development Pool",
     coach: "National Team Staff",
-    events: [{ name: "400m hurdles", personalBest: "1:02.44", seasonBest: "1:02.44", nationalRank: 4 }],
+    events: [{ name: "400m hurdles", personalBest: "1:02.44", seasonBest: "1:02.44" }],
     birthDate: "2001-03-18",
     joinedYear: 2021,
     achievements: ["Consistent finalist in national open hurdles events"],
@@ -772,7 +755,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     hometown: "Philippines",
     club: "Philippine Athletics Development Pool",
     coach: "National Team Staff",
-    events: [{ name: "400m hurdles", personalBest: "1:02.92", seasonBest: "1:02.92", nationalRank: 5 }],
+    events: [{ name: "400m hurdles", personalBest: "1:02.92", seasonBest: "1:02.92" }],
     birthDate: "2001-08-13",
     joinedYear: 2022,
     achievements: ["National-level 400m hurdles competitor"],
@@ -803,7 +786,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     hometown: "Philippines",
     club: "Philippine Athletics Youth Program",
     coach: "National Team Staff",
-    events: [{ name: "400m hurdles", personalBest: "1:02.99", seasonBest: "1:02.99", nationalRank: 6 }],
+    events: [{ name: "400m hurdles", personalBest: "1:02.99", seasonBest: "1:02.99" }],
     birthDate: "2007-05-17",
     joinedYear: 2023,
     achievements: ["Youth division standout in 400m hurdles"],
@@ -1012,7 +995,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     firstName: "Kyla",
     lastName: "Richardson",
     gender: "Women",
-    specialty: "100m, 200m sprint, 4x100m relay",
+    specialty: "100m, 200m sprint, 4×100m relay",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
     club: "Manila Striders Track Club",
@@ -1039,7 +1022,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     firstName: "Anfernee",
     lastName: "Lopena",
     gender: "Men",
-    specialty: "100m sprint, 4x100m relay",
+    specialty: "100m sprint, 4×100m relay",
     location: "Manila, NCR",
     hometown: "Manila, NCR",
     club: "Manila Striders Track Club",
@@ -1224,7 +1207,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     slug: "sonny-wagdos",
     firstName: "Sonny",
     lastName: "Wagdos",
-    specialty: "5000m, 10000m",
+    specialty: "5000m, 10,000m",
     location: "Cebu City, Central Visayas",
     hometown: "Cebu City, Central Visayas",
     club: "Cebu Distance Project",
@@ -1249,7 +1232,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     slug: "arlan-arbois",
     firstName: "Arlan",
     lastName: "Arbois",
-    specialty: "Marathon, 10000m",
+    specialty: "Marathon, 10,000m",
     location: "Cebu City, Central Visayas",
     hometown: "Cebu City, Central Visayas",
     club: "Cebu Distance Project",
@@ -1274,7 +1257,7 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     slug: "richard-salano",
     firstName: "Richard",
     lastName: "Salano",
-    specialty: "Marathon, 10000m",
+    specialty: "Marathon, 10,000m",
     location: "Cebu City, Central Visayas",
     hometown: "Cebu City, Central Visayas",
     club: "Cebu Distance Project",
@@ -1472,6 +1455,65 @@ export const athleteProfiles: AthleteProfile[] = rawAthleteProfiles.map((profile
   membershipNumber: buildMembershipNumber(profile.id),
 }))
 
+const latestRankingYear =
+  getRankingYearsFromAthletes(athleteProfiles)[0] ?? new Date().getFullYear()
+
+const rankingCache = new Map<string, ReturnType<typeof buildRankingsForAthletes>>()
+
+const getDefaultRankingForEvent = (profile: AthleteProfile, eventName: string) => {
+  if (!profile.gender) return undefined
+  const ageGroup = getAgeGroup(profile.birthDate, latestRankingYear)
+  const cacheKey = `${toCanonicalEventKey(eventName)}|${profile.gender}|${ageGroup}|${latestRankingYear}`
+
+  if (!rankingCache.has(cacheKey)) {
+    rankingCache.set(
+      cacheKey,
+      buildRankingsForAthletes({
+        athletes: athleteProfiles,
+        event: eventName,
+        gender: profile.gender,
+        ageGroup,
+        year: latestRankingYear,
+      }),
+    )
+  }
+
+  return rankingCache.get(cacheKey)?.find((entry) => entry.id === profile.id)
+}
+
+function toSummary(profile: AthleteProfile): AthleteSummary {
+  const primaryEvent = profile.events[0]
+  const eventName = primaryEvent?.name
+  const bestEvidence = eventName
+    ? getBestResultForEvent({
+        athlete: profile,
+        eventKey: toCanonicalEventKey(eventName),
+        scope: "all-time",
+      })
+    : null
+  const derivedRanking = eventName ? getDefaultRankingForEvent(profile, eventName) : undefined
+
+  return {
+    id: profile.id,
+    slug: profile.slug,
+    membershipNumber: profile.membershipNumber,
+    name: `${profile.firstName} ${profile.lastName}`,
+    specialty: profile.specialty,
+    club: profile.club,
+    coach: profile.coach,
+    clubId: profile.clubId,
+    coachId: profile.coachId,
+    pb: bestEvidence?.competition.result ?? primaryEvent?.personalBest,
+    location: profile.location,
+    nationalRank: derivedRanking?.rank ?? primaryEvent?.nationalRank,
+    asianRank: primaryEvent?.asianRank,
+    globalRank: primaryEvent?.globalRank,
+    events: profile.events.map((evt) => evt.name),
+    href: `/athletes/${profile.slug}`,
+    isStub: profile.isStub,
+  }
+}
+
 export const athleteSummaries: AthleteSummary[] = athleteProfiles.map(toSummary)
 
 export const getAthleteProfile = (idOrSlug: string): AthleteProfile | undefined =>
@@ -1566,19 +1608,8 @@ const buildUnknownStub = (idOrSlug: string): AthleteProfile => {
 export const getAthleteProfileOrStub = (idOrSlug: string): AthleteProfile => {
   const profile = getAthleteProfile(idOrSlug)
   if (profile) {
-    const competitionResults = getCompetitionResultsByAthleteId(profile.id)
-    if (!competitionResults.length) return profile
-
-    const seen = new Set(profile.competitions.map((comp) => `${comp.meet}|${comp.date}|${comp.event}|${comp.result}`))
-    const merged = [
-      ...profile.competitions,
-      ...competitionResults.filter((comp) => {
-        const key = `${comp.meet}|${comp.date}|${comp.event}|${comp.result}`
-        if (seen.has(key)) return false
-        seen.add(key)
-        return true
-      }),
-    ]
+    const merged = getMergedCompetitionResults(profile)
+    if (merged.length === profile.competitions.length) return profile
 
     return {
       ...profile,
