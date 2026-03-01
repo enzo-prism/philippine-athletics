@@ -29,9 +29,194 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-02-27T15:27:32.534Z"
+export const commitLogUpdatedAt = "2026-03-01T16:03:39.761Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "c355a6257098665b97b2fbeb8ffb40ec75d3a480",
+    "shortHash": "c355a62",
+    "subject": "fix: skip changelog git check when verifier runs without repo",
+    "author": "enzo-prism",
+    "date": "2026-02-27T07:32:21-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 32,
+      "deletions": 39,
+      "summary": ""
+    },
+    "areas": [
+      "scripts"
+    ],
+    "tags": [
+      "Tooling"
+    ],
+    "summary": "Fixed Tools.",
+    "notes": [],
+    "plainSummary": "Fixed behind the scenes.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved internal tools for upkeep."
+    ],
+    "plainImpact": "Makes maintenance and updates easier.",
+    "files": [
+      {
+        "path": "scripts/check-changelog-sync.mjs",
+        "additions": 32,
+        "deletions": 39
+      }
+    ]
+  },
+  {
+    "hash": "ce79edec958b8293384265d146dda269aa90064c",
+    "shortHash": "ce79ede",
+    "subject": "fix: make changelog verification CI-safe without git history",
+    "author": "enzo-prism",
+    "date": "2026-02-27T07:31:55-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 40,
+      "deletions": 0,
+      "summary": ""
+    },
+    "areas": [
+      "scripts"
+    ],
+    "tags": [
+      "Tooling"
+    ],
+    "summary": "Fixed Tools.",
+    "notes": [],
+    "plainSummary": "Fixed behind the scenes.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Improved internal tools for upkeep."
+    ],
+    "plainImpact": "Makes maintenance and updates easier.",
+    "files": [
+      {
+        "path": "scripts/check-changelog-sync.mjs",
+        "additions": 40,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "5d72edb3d40f52bcfe4466d4288fa0fc14c35a42",
+    "shortHash": "5d72edb",
+    "subject": "chore: sync commit log snapshot to latest head",
+    "author": "enzo-prism",
+    "date": "2026-02-27T07:28:16-08:00",
+    "stats": {
+      "files": 1,
+      "insertions": 38,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 38,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "7222264a20c03d13bd6533485f31be1ed1fd6eb1",
+    "shortHash": "7222264",
+    "subject": "feat: integrate Cloudinary track & field background images across pages",
+    "body": "- Add SectionBackground component for reusable background image sections\n- Add track-images.ts with all 8 Cloudinary image URLs\n- Home: sprinter hero bg, shotput safe sport bg, discus feature grid bg\n- Athletes: relay teens hero banner\n- Competitions: hurdles youth hero banner\n- Rankings: pole vault hero banner\n- Events: javelin hero banner\n- Membership: distance runner hero banner\n- All backgrounds use Cloudinary auto-optimization (w_1920,q_auto,f_auto)\n- Subtle opacity + gradient overlays for text readability",
+    "author": "enzo",
+    "date": "2026-02-26T22:44:30-08:00",
+    "stats": {
+      "files": 8,
+      "insertions": 911,
+      "deletions": 399,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components"
+    ],
+    "tags": [
+      "Athletes",
+      "Competitions",
+      "App Pages",
+      "Rankings",
+      "Components"
+    ],
+    "summary": "Added Core screens, Shared interface.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency."
+    ],
+    "plainSummary": "Added athlete profiles, meet results, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Highlighted meet results and how to explore them.",
+      "Improved core screens and layouts.",
+      "Clarified how rankings and comparisons are shown."
+    ],
+    "plainImpact": "Helps people trust rankings and compare performances. Makes competition results easier to find after a meet.",
+    "files": [
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 259,
+        "deletions": 162
+      },
+      {
+        "path": "app/competitions/page.tsx",
+        "additions": 82,
+        "deletions": 34
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 46,
+        "deletions": 18
+      },
+      {
+        "path": "app/membership/page.tsx",
+        "additions": 68,
+        "deletions": 38
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 204,
+        "deletions": 73
+      },
+      {
+        "path": "app/rankings/page.tsx",
+        "additions": 190,
+        "deletions": 74
+      },
+      {
+        "path": "components/SectionBackground.tsx",
+        "additions": 44,
+        "deletions": 0
+      },
+      {
+        "path": "components/track-images.ts",
+        "additions": 18,
+        "deletions": 0
+      }
+    ]
+  },
   {
     "hash": "2f5fdfa6e0af08e4182a80537204da89e83bd019",
     "shortHash": "2f5fdfa",

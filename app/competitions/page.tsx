@@ -47,12 +47,12 @@ export default async function CompetitionsPage({
       <div className="relative overflow-hidden border-b border-border">
         <SectionBackground
           imageUrl={TRACK_IMAGES.hurdlesYouth}
-          opacity={12}
+          opacity={24}
           position="object-center"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
         />
         <div className="relative z-10 page-shell py-12 sm:py-16">
-          <p className="institutional-kicker mb-3">Competition Calendar</p>
+          <p className="institutional-kicker brand-eyebrow mb-3">Competition Calendar</p>
           <h1 className="text-4xl font-bold text-foreground mb-2">
             Search Competitions
           </h1>
@@ -143,7 +143,7 @@ export default async function CompetitionsPage({
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">
+          <p className="brand-subtext">
             &copy; 2025 Philippine Athletics
           </p>
         </div>

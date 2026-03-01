@@ -32,7 +32,7 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
+            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
               Club
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">

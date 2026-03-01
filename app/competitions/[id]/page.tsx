@@ -55,7 +55,7 @@ export default async function CompetitionProfilePage({
         <div className="mb-12 pb-8 border-b border-border">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-2">Competition</p>
+              <p className="brand-eyebrow mb-2">Competition</p>
               <h1 className="text-5xl font-bold text-foreground">{competition.name}</h1>
               <p className="text-lg text-muted-foreground mt-2">{competition.type}</p>
             </div>
@@ -298,7 +298,7 @@ export default async function CompetitionProfilePage({
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

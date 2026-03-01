@@ -626,7 +626,7 @@ export default function ProfilePage() {
                   <User className="w-6 h-6 text-accent" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold text-accent uppercase tracking-widest">{profile.roleLabel}</p>
+                  <p className="brand-eyebrow">{profile.roleLabel}</p>
                   <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{profile.name}</h1>
                   <p className="text-sm text-muted-foreground">{profile.email}</p>
                 </div>
@@ -736,7 +736,7 @@ export default function ProfilePage() {
 
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

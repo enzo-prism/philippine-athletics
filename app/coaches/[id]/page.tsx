@@ -29,7 +29,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
               Coach
             </span>
             {coach.badges?.map((badge) => (

@@ -144,6 +144,7 @@ export default async function SearchPage({
 
       <div className="page-shell page-stack py-10">
         <header className="space-y-3">
+          <p className="brand-eyebrow">Directory Search</p>
           <h1 className="text-4xl sm:text-5xl font-semibold text-foreground font-accent">Search</h1>
           <p className="text-sm text-muted-foreground max-w-2xl">
             Find athletes, coaches, and clubs in one place. Athlete lookup supports full name and membership number.

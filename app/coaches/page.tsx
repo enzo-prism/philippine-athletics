@@ -10,6 +10,7 @@ export default function CoachesPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-12">
+            <p className="brand-eyebrow mb-2">Coach Directory</p>
             <h1 className="text-4xl font-bold text-foreground mb-2">Search Coaches</h1>
           </div>
 
@@ -34,7 +35,7 @@ export default function CoachesPage() {
 
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

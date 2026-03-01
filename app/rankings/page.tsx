@@ -87,12 +87,12 @@ export default async function RankingsPage({
       <div className="relative overflow-hidden border-b border-border">
         <SectionBackground
           imageUrl={TRACK_IMAGES.polevault20s}
-          opacity={12}
+          opacity={24}
           position="object-top"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
         />
         <div className="relative z-10 page-shell py-12 sm:py-16">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
+          <p className="brand-eyebrow flex items-center gap-2">
             <Emoji symbol={emojiIcons.trophy} className="text-base" />
             Rankings
           </p>
@@ -395,7 +395,7 @@ export default async function RankingsPage({
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">
+          <p className="brand-subtext">
             &copy; 2025 Philippine Athletics
           </p>
         </div>

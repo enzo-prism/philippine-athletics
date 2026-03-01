@@ -26,7 +26,7 @@ export default async function OffScriptRedirectPage({
 
       <main className="page-shell page-stack py-10">
         <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Demo Guard Rail</p>
+          <p className="brand-eyebrow">Demo Guard Rail</p>
           <h1 className="text-4xl font-bold text-foreground font-accent">Route Locked</h1>
           <p className="text-sm text-muted-foreground">
             The requested path is outside the current scripted demo flow and has been safely redirected.
@@ -51,4 +51,3 @@ export default async function OffScriptRedirectPage({
     </div>
   )
 }
-

@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-03-01-bbtmartires-subtle-accent-typography-system",
+    date: "2026-03-01",
+    title: "BBTMartires subtle accent typography system",
+    category: ["Branding", "Styling", "Experience", "Tooling"],
+    summary:
+      "Introduced a controlled brand accent typography system using BBTMartires to improve identity consistency without overwhelming content density.",
+    highlights: [
+      "Added local BBTMartires font loading (Regular + Thin) and new utility classes for deterministic accent styling.",
+      "Applied route-by-route accent placements across all public pages with strict 1–2 visible uses per page.",
+      "Added flow-level Playwright checks for accent-count rules, font application, and small-size constraints while keeping ad rendering tests green.",
+    ],
+    whyItMatters:
+      "Strengthens brand personality in subtle, repeatable ways while preserving readability and preventing typography overuse across high-traffic flows.",
+  },
+  {
     id: "2026-02-26-spec-complete-demo-overhaul",
     date: "2026-02-26",
     title: "Spec-complete demo overhaul and controlled presentation flows",

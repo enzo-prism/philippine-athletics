@@ -70,6 +70,7 @@ export default async function ClubsPage({
 
         <div className="space-y-4">
           <div className="space-y-2">
+            <p className="brand-eyebrow">Club Directory</p>
             <h1 className="text-4xl font-bold text-foreground">Search Clubs</h1>
             <p className="text-muted-foreground">Explore track and field clubs across the Philippines</p>
           </div>
@@ -120,7 +121,7 @@ export default async function ClubsPage({
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

@@ -116,7 +116,7 @@ export default function ChangelogPage() {
 
       <div className="page-shell space-y-8 py-12">
         <header className="space-y-5">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent">
+          <p className="brand-eyebrow flex items-center gap-2">
             <FileText className="size-4" />
             Updates
           </p>

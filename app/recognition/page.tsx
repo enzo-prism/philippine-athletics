@@ -17,7 +17,7 @@ export default function RecognitionPage() {
 
       <div className="page-shell py-12 space-y-10">
         <header className="space-y-3">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest flex items-center gap-2">
+          <p className="brand-eyebrow flex items-center gap-2">
             <Emoji symbol={emojiIcons.shield} className="text-base" />
             Recognition
           </p>

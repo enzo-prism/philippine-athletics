@@ -122,7 +122,7 @@ export default async function AthleteProfilePage({
 
         <header className="space-y-6">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
+            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-none">
               Athlete
             </span>
             <span className="flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-none">
@@ -400,7 +400,7 @@ export default async function AthleteProfilePage({
 
       <div className="border-t border-border mt-16">
         <div className="page-shell py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

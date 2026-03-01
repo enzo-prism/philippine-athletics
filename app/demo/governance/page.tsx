@@ -13,7 +13,7 @@ export default function GovernanceDemoPage() {
 
       <main className="page-shell page-stack py-10">
         <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{governanceFlow.label}</p>
+          <p className="brand-eyebrow">{governanceFlow.label}</p>
           <h1 className="text-4xl font-bold text-foreground font-accent">Governance Demo Script</h1>
           <p className="text-sm text-muted-foreground">{governanceFlow.description}</p>
         </header>

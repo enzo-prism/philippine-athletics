@@ -8,6 +8,7 @@ export default function SignupPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
         <div className="space-y-4">
+          <p className="brand-eyebrow">Membership Sign-up</p>
           <h1 className="text-4xl font-bold text-foreground">Create your account</h1>
         </div>
 
@@ -16,7 +17,7 @@ export default function SignupPage() {
 
       <div className="border-t border-border mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-sm text-muted-foreground">&copy; 2025 Philippine Athletics</p>
+          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
         </div>
       </div>
     </div>

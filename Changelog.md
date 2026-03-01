@@ -8,6 +8,17 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-03-01 — BBTMartires subtle accent typography system
+- Added local `BBTMartiresFree` font loading (Regular + Thin) through `next/font/local` and exposed brand typography utility classes for controlled accent usage.
+- Introduced a deterministic `brand-eyebrow` and `brand-subtext` contract across public routes to keep accent typography subtle (1–2 placements per page) and avoid body-text overuse.
+- Added a Playwright flow to enforce route-by-route accent counts, verify applied font family, and ensure accent type remains small and responsive without impacting ad rendering tests.
+
+## 2026-03-01 — Sponsor slot responsiveness and logo-safe rendering hardening
+- Moved sponsor creative files to blocker-safe asset paths (`/sponsor-assets/*`) and updated all ad creative references to reduce runtime image blocking in real browser environments.
+- Hardened ad slot image rendering to preserve full sponsor logos across viewports with explicit contain-only behavior, centered positioning, and intrinsic max sizing.
+- Added inline SVG fallback data-URI handling so sponsor slots can still render a visual fallback even when static image requests fail.
+- Expanded ad flow Playwright assertions to check object-fit safety and slot overflow behavior across desktop, tablet, and mobile routes.
+
 ## 2026-02-26 — Spec-complete demo overhaul and controlled presentation flows
 - Completed the Philippine Athletics visual system migration for demo-critical routes, including full-width layouts, institutional palette tokens, sharp-corner styling, social header placeholders, and a new Safe Sport homepage section.
 - Added strict audience demo controls with route guard rails (`/demo/governance`, `/demo/institutions`, `/demo/lgus`) plus off-script redirection to keep live presentations on-script and predictable.

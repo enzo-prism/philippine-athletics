@@ -34,7 +34,7 @@ import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 
 const ictsiTopBanner = {
   name: "ICTSI Foundation",
-  imageUrl: "https://cdnweb.ictsi.com/users/user56/ICTSI%20Foundation%20unveils%20a%20fresh%20identity%20with%20new%20logo.jpg",
+  imageUrl: "/sponsor-assets/ictsi-foundation.jpg",
   alt: "ICTSI Foundation banner",
 }
 

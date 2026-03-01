@@ -28,7 +28,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
 
         <header className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-accent uppercase tracking-widest bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
+            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
               Sponsor
             </span>
             {sponsor.badges?.map((badge) => (

@@ -136,6 +136,7 @@ export default function MembershipBenefitsPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to membership overview
           </a>
+          <p className="brand-eyebrow">Plan Comparison</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Membership Benefits at a Glance</h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
             See exactly what each tier includes before you join or renew. All memberships give you access to the official Philippine athletics

@@ -65,9 +65,9 @@ export default function Home() {
         <section className="home-hero-shell relative overflow-hidden border-l-4 border-l-accent">
           <SectionBackground
             imageUrl={TRACK_IMAGES.sprinterTeen}
-            opacity={8}
+            opacity={28}
             position="object-top"
-            overlayClassName="absolute inset-0 bg-gradient-to-br from-background/85 via-background/92 to-background/95"
+            overlayClassName="absolute inset-0 bg-gradient-to-br from-background/55 via-background/68 to-background/70"
           />
           <div
             className="absolute inset-0 bg-[linear-gradient(130deg,rgba(15,39,69,0.08)_0%,rgba(15,39,69,0)_42%,rgba(181,18,43,0.06)_100%)]"
@@ -77,7 +77,7 @@ export default function Home() {
           <div className="home-hero-content relative z-10">
             <div className="grid gap-8 xl:grid-cols-[1.25fr_1fr]">
               <div className="space-y-5">
-                <p className="institutional-kicker">
+                <p className="institutional-kicker brand-eyebrow">
                   Philippine Athletics Platform
                 </p>
                 <h1 className="max-w-[13ch] text-5xl font-semibold leading-[0.95] text-primary sm:text-6xl lg:text-7xl font-accent">
@@ -178,13 +178,13 @@ export default function Home() {
         >
           <SectionBackground
             imageUrl={TRACK_IMAGES.shotput30s}
-            opacity={6}
-            overlayClassName="absolute inset-0 bg-gradient-to-r from-card/90 via-card/95 to-card/85"
+            opacity={26}
+            overlayClassName="absolute inset-0 bg-gradient-to-r from-card/68 via-card/76 to-card/70"
           />
           <div className="relative z-10">
             <div className="grid gap-5 lg:grid-cols-[1fr_1.2fr] lg:items-center">
               <div className="space-y-2">
-                <p className="institutional-kicker">Safe Sport</p>
+                <p className="institutional-kicker brand-eyebrow">Safe Sport</p>
                 <h2 className="text-3xl font-semibold text-primary font-accent">
                   Athlete Safety Is Non-Negotiable
                 </h2>
@@ -241,8 +241,8 @@ export default function Home() {
         <section className="home-feature-grid relative overflow-hidden">
           <SectionBackground
             imageUrl={TRACK_IMAGES.discus20s}
-            opacity={5}
-            overlayClassName="absolute inset-0 bg-gradient-to-t from-transparent via-background/95 to-background/90"
+            opacity={24}
+            overlayClassName="absolute inset-0 bg-gradient-to-t from-transparent via-background/84 to-background/78"
           />
           <div className="relative z-10 grid gap-4 grid-cols-1 sm:grid-cols-3">
             {[

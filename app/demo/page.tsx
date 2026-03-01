@@ -10,7 +10,7 @@ export default function DemoLauncherPage() {
 
       <main className="page-shell page-stack py-10">
         <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Scripted Demo Launcher</p>
+          <p className="brand-eyebrow">Scripted Demo Launcher</p>
           <h1 className="text-4xl font-bold text-foreground font-accent">Audience Flows</h1>
           <p className="text-sm text-muted-foreground">
             Choose an audience to enter strict demo mode. Off-script navigation is redirected back to the guided journey.
@@ -34,4 +34,3 @@ export default function DemoLauncherPage() {
     </div>
   )
 }
-

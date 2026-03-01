@@ -13,13 +13,14 @@ export function SectionBackground({
   overlayClassName,
   className = "",
   position = "object-center",
-  opacity = 15,
+  opacity = 25,
 }: SectionBackgroundProps) {
   // Append Cloudinary transforms for optimization
   const optimizedUrl = imageUrl.replace(
     "/upload/",
     "/upload/w_1920,q_auto,f_auto/",
   );
+  const visibleOpacity = Math.min(100, Math.max(opacity, 22));
 
   return (
     <div
@@ -30,13 +31,13 @@ export function SectionBackground({
         src={optimizedUrl}
         alt=""
         className={`absolute inset-0 h-full w-full object-cover ${position}`}
-        style={{ opacity: opacity / 100 }}
+        style={{ opacity: visibleOpacity / 100 }}
         loading="eager"
       />
       <div
         className={
           overlayClassName ??
-          "absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background"
+          "absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
         }
       />
     </div>

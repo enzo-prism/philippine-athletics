@@ -43,12 +43,12 @@ export default function EventsPage() {
       <div className="relative overflow-hidden border-b border-border">
         <SectionBackground
           imageUrl={TRACK_IMAGES.javelin30s}
-          opacity={12}
+          opacity={24}
           position="object-center"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background"
+          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
         />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <p className="text-xs font-semibold text-accent uppercase tracking-widest">
+          <p className="brand-eyebrow">
             Sanctioned Events
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground mt-2">
