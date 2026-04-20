@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { Badge } from "@/components/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { clubs } from "@/lib/data/clubs"
 import { coaches } from "@/lib/data/coaches"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
@@ -15,20 +16,24 @@ export default function RecognitionPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-12 space-y-10">
-        <header className="space-y-3">
-          <p className="brand-eyebrow flex items-center gap-2">
-            <Emoji symbol={emojiIcons.shield} className="text-base" />
-            Recognition
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Official &amp; Trusted</h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            Recognition shows who meets Philippine Athletics standards for safety, coaching, and athlete care.
-            Parents, athletes, and staff can quickly verify which clubs and coaches are officially recognized.
-          </p>
-        </header>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow={
+            <span className="inline-flex items-center gap-2">
+              <Emoji symbol={emojiIcons.shield} className="text-base" />
+              Recognition
+            </span>
+          }
+          title="Official & Trusted"
+          description="Recognition shows who meets Philippine Athletics standards for safety, coaching, and athlete care. Parents, athletes, and staff can quickly verify which clubs and coaches are officially recognized."
+          stats={[
+            { label: "Recognized clubs", value: recognizedClubs.length, note: "Club pathways verified against federation standards" },
+            { label: "Recognized coaches", value: recognizedCoaches.length, note: "Coaching credentials and training stay visible" },
+          ]}
+          aside={<DemoAdSlot slotId="recognition-inline-leaderboard-1" format="mrec" variant="spotlight" />}
+        />
 
-        <Card className="py-0 gap-0 border-accent/30 bg-accent/5">
+        <Card className="page-section-tight gap-0 border-accent/20 bg-accent/5 py-0">
           <CardContent className="p-6 space-y-2">
             <p className="text-sm font-semibold text-foreground">Why this matters</p>
             <p className="text-sm text-muted-foreground">
@@ -37,8 +42,6 @@ export default function RecognitionPage() {
             </p>
           </CardContent>
         </Card>
-
-        <DemoAdSlot slotId="recognition-inline-leaderboard-1" format="leaderboard" />
 
         <section className="space-y-4" data-testid="recognized-clubs">
           <div className="flex items-center justify-between">
@@ -78,8 +81,8 @@ export default function RecognitionPage() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <DemoAdSlot slotId="recognition-inline-mrec-1" format="mrec" />
-          <DemoAdSlot slotId="recognition-inline-mrec-2" format="mrec" className="hidden sm:block" />
+          <DemoAdSlot slotId="recognition-inline-mrec-1" format="mrec" variant="inline" />
+          <DemoAdSlot slotId="recognition-inline-mrec-2" format="mrec" variant="inline" className="hidden sm:block" />
         </div>
 
         <section className="space-y-4" data-testid="recognized-coaches">
@@ -118,7 +121,9 @@ export default function RecognitionPage() {
             ))}
           </div>
         </section>
-      </div>
+      </main>
+
+      <AppFooter />
     </div>
   )
 }

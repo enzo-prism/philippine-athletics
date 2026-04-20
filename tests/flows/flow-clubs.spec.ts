@@ -6,12 +6,12 @@ test("Flow 3: Club roster", async ({ page }) => {
 
   await test.step("Open clubs", async () => {
     await page.goto("/clubs")
-    await expect(page.getByRole("heading", { name: /clubs/i })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /Search clubs/i })).toBeVisible()
   })
 
   await test.step("Open featured club", async () => {
     await page.getByRole("link", { name: /view club profile/i }).click()
-    await expect(page.getByRole("heading", { name: /Manila Striders Track Club/i })).toBeVisible()
+    await expect(page.locator("h1")).toHaveText(/Manila Striders Track Club/i)
   })
 
   await checkA11y(page, testInfo, "club-profile")

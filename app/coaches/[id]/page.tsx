@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileAvatar } from "@/components/ProfileAvatar"
+import { AppFooter, DetailHero } from "@/components/site/page-primitives"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
 import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
@@ -19,55 +20,65 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <main className="page-shell page-stack py-6 sm:py-8">
         <Link href="/coaches" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Coaches
         </Link>
 
-        <DemoAdSlot slotId="coach-profile-top" format="leaderboard" />
-
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
-              Coach
-            </span>
-            {coach.badges?.map((badge) => (
-              <Badge key={badge} text={badge} variant="accent" />
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-            <ProfileAvatar name={coach.name} />
-            <div className="space-y-1">
-              <h1 className="text-4xl font-bold text-foreground">{coach.name}</h1>
-              <p className="text-base text-muted-foreground">{coach.specialty}</p>
-              <p className="text-sm text-muted-foreground">Experience: {coach.experience}</p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted border border-border text-foreground">
-              <Emoji symbol={emojiIcons.location} className="text-sm" />
-              {coach.location}
-            </span>
-            {coach.clubId ? (
-              <Link
-                href={`/clubs/${coach.clubId}`}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted border border-border text-foreground hover:border-accent transition-colors"
-              >
-                Club: {coach.club}
-              </Link>
-            ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted border border-border text-foreground">
-                Club: {coach.club}
+        <DetailHero
+          eyebrow="Coach"
+          title={coach.name}
+          description={coach.specialty}
+          chips={
+            <>
+              <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
+                <Emoji symbol={emojiIcons.location} className="text-sm" />
+                {coach.location}
               </span>
-            )}
-          </div>
-        </div>
+              {coach.clubId ? (
+                <Link
+                  href={`/clubs/${coach.clubId}`}
+                  className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-accent"
+                >
+                  Club: {coach.club}
+                </Link>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
+                  Club: {coach.club}
+                </span>
+              )}
+              {coach.badges?.map((badge) => (
+                <Badge key={badge} text={badge} variant="accent" />
+              ))}
+            </>
+          }
+          notice={
+            isStub ? "Coach details are coming soon. Basic placeholder shown to avoid broken links." : undefined
+          }
+          stats={[
+            { label: "Experience", value: coach.experience, note: "Visible in roster and directory contexts" },
+            { label: "Athletes coached", value: coachedAthletes.length, note: "Linked from club and coach profiles" },
+          ]}
+          aside={
+            <div className="detail-sidebar-card space-y-4">
+              <ProfileAvatar name={coach.name} />
+              <div className="space-y-1">
+                <p className="brand-eyebrow">Coach profile</p>
+                <p className="text-lg font-semibold tracking-tight text-foreground">{coach.name}</p>
+                <p className="text-sm text-muted-foreground">
+                  Experience: {coach.experience}
+                </p>
+              </div>
+              <DemoAdSlot slotId="coach-profile-top" format="mobile" variant="inline" />
+            </div>
+          }
+        />
 
+        <div className="detail-layout">
+          <div className="detail-stack">
         {!isStub && coach.bio ? (
-          <div className="p-4 rounded-lg border border-border bg-card space-y-2">
+          <div className="page-section-tight space-y-2">
             <p className="text-sm text-foreground leading-relaxed">{coach.bio}</p>
             {coach.contact ? (
               <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
@@ -87,13 +98,11 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
             ) : null}
           </div>
         ) : isStub ? (
-          <div className="p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
-            Coach details are coming soon. Basic placeholder shown to avoid broken links.
-          </div>
+          null
         ) : null}
 
         {coach.recognitions && coach.recognitions.length ? (
-          <div className="space-y-3">
+          <div className="page-section-tight space-y-3">
             <div className="flex items-center gap-2">
               <Emoji symbol={emojiIcons.shield} className="text-base" />
               <h2 className="text-lg font-semibold text-foreground">Recognition</h2>
@@ -130,7 +139,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
         ) : null}
 
         {coach.achievements && coach.achievements.length ? (
-          <div className="space-y-2">
+          <div className="page-section-tight space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
             <div className="space-y-2">
               {coach.achievements.map((item, idx) => (
@@ -143,7 +152,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
         ) : null}
 
         {coachedAthletes.length ? (
-          <div className="space-y-2">
+          <div className="page-section-tight space-y-2">
             <h2 className="text-lg font-semibold text-foreground">Athletes coached</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {coachedAthletes.map((athlete) => {
@@ -161,15 +170,25 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
             </div>
           </div>
         ) : null}
+          </div>
 
-        <div className="flex gap-3">
-          <Button asChild>
-            <Link href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}>
-              Contact
-            </Link>
-          </Button>
+          <aside className="detail-stack">
+            <div className="detail-sidebar-card space-y-3">
+              <p className="text-xs font-semibold uppercase text-muted-foreground">Contact</p>
+              <p className="text-sm text-muted-foreground">
+                Reach this coach directly when contact information is available, or route through the coach desk.
+              </p>
+              <Button asChild>
+                <Link href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}>
+                  Contact
+                </Link>
+              </Button>
+            </div>
+          </aside>
         </div>
-      </div>
+      </main>
+
+      <AppFooter />
     </div>
   )
 }

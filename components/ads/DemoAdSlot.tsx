@@ -19,6 +19,7 @@ type DemoAdSlotProps = {
   label?: string
   preferBannerCreative?: boolean
   creativeOverride?: DemoAdCreative
+  variant?: "rail" | "spotlight" | "inline" | "inlinePanel" | "feature"
 }
 
 const hashString = (value: string) => {
@@ -37,10 +38,10 @@ const pickCreative = (slotId: string, format: DemoAdFormat, preferBannerCreative
   return creativePool[idx]
 }
 
-const formatClassName: Record<DemoAdFormat, string> = {
-  leaderboard: "h-[84px] sm:h-[90px] lg:h-[100px]",
-  mrec: "h-[220px] sm:h-[250px] lg:h-[280px]",
-  mobile: "h-[60px] sm:h-[56px]",
+const formatClassName = {
+  rail: "min-h-[74px] sm:min-h-[84px]",
+  spotlight: "min-h-[240px]",
+  inline: "min-h-[132px]",
 }
 
 const ultimateFallbackCreative: DemoAdCreative = {
@@ -87,15 +88,17 @@ function AdSlotCreative({
   }
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center overflow-hidden px-2 py-2 sm:px-3 sm:py-3">
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
       <img
         src={activeCreative.imageUrl}
         alt={activeCreative.alt}
         loading="lazy"
         decoding="async"
+        width="640"
+        height="320"
         onError={handleImageError}
-        className="h-auto w-auto max-h-full max-w-full object-contain transition duration-300 group-hover:brightness-105"
-        style={{ objectFit: "contain", objectPosition: "center center" }}
+        className="h-auto w-auto max-h-full max-w-full object-contain transition duration-300 group-hover:scale-[1.01]"
+        style={{ objectFit: activeCreative.fit ?? "contain", objectPosition: "center center" }}
         draggable={false}
         data-testid={`demo-ad-image-${slotId}`}
       />
@@ -108,46 +111,96 @@ export function DemoAdSlot({
   format,
   className,
   href = "/sponsors",
-  label = "Sponsor",
+  label = "Partner",
   preferBannerCreative = false,
   creativeOverride,
+  variant,
 }: DemoAdSlotProps) {
-  const selectedCreative = useMemo(() => {
-    return creativeOverride ?? pickCreative(slotId, format, preferBannerCreative)
-  }, [creativeOverride, slotId, format, preferBannerCreative])
+  const selectedCreative = useMemo(
+    () => creativeOverride ?? pickCreative(slotId, format, preferBannerCreative),
+    [creativeOverride, slotId, format, preferBannerCreative],
+  )
 
   const fallbackCreative = useMemo(() => getFallbackCreativeForFormat(format), [format])
+  const resolvedVariant = (() => {
+    if (variant === "feature") return "spotlight"
+    if (variant === "inlinePanel") return "inline"
+    if (variant) return variant
+    return format === "mrec" ? "spotlight" : "rail"
+  })()
 
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-none border border-border bg-card shadow-soft transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:shadow-[0_16px_28px_-18px_rgba(15,39,69,0.45)]",
-        formatClassName[format],
+        "partner-module group relative transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-px hover:border-foreground/12",
+        formatClassName[resolvedVariant],
         className,
       )}
       role="complementary"
       aria-label="Sponsor placement"
+      data-variant={resolvedVariant}
       data-testid={`demo-ad-${slotId}`}
     >
-      <div className="absolute left-3 top-2 z-10 rounded-none border border-border bg-background/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground backdrop-blur transition-colors duration-300 group-hover:border-accent/50 group-hover:bg-background group-hover:text-primary">
-        {label}
-      </div>
-
       <Link
         href={href}
-        className="flex h-full w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-inset"
+        className="flex h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/50"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,39,69,0.08)_0%,rgba(181,18,43,0.04)_65%,transparent_100%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
-        <div
-          className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.28)_50%,transparent_100%)] opacity-0 transition-[opacity,transform] duration-700 group-hover:translate-x-[280%] group-hover:opacity-100"
-          aria-hidden="true"
-        />
-        <AdSlotCreative
-          key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
-          slotId={slotId}
-          primaryCreative={selectedCreative}
-          fallbackCreative={fallbackCreative}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.1),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.92),rgba(247,247,245,0.96))]" />
+        <div className="relative z-10 flex h-full w-full flex-col justify-between">
+          {resolvedVariant === "spotlight" ? (
+            <div className="flex h-full flex-col gap-5 p-5 sm:p-6">
+              <div className="space-y-2">
+                <p className="brand-eyebrow">{label}</p>
+                <div className="space-y-1">
+                  <p className="text-xl font-semibold tracking-tight text-foreground">{selectedCreative.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Featured partner supporting athlete pathways, event delivery, and ecosystem growth.
+                  </p>
+                </div>
+              </div>
+              <div className="flex min-h-[156px] flex-1 items-center justify-center rounded-[1.45rem] border border-border/70 bg-background/80 p-4">
+                <AdSlotCreative
+                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  slotId={slotId}
+                  primaryCreative={selectedCreative}
+                  fallbackCreative={fallbackCreative}
+                />
+              </div>
+            </div>
+          ) : resolvedVariant === "inline" ? (
+            <div className="grid h-full w-full gap-3 p-4 sm:grid-cols-[minmax(0,0.95fr)_minmax(220px,1.05fr)] sm:p-5">
+              <div className="space-y-1.5">
+                <p className="brand-eyebrow">{label}</p>
+                <p className="text-base font-semibold tracking-tight text-foreground">{selectedCreative.name}</p>
+                <p className="text-sm text-muted-foreground">Open sponsor details, supported roster, and partnership focus.</p>
+              </div>
+              <div className="flex min-h-[96px] items-center justify-center rounded-[1.35rem] border border-border/70 bg-background/80 p-3">
+                <AdSlotCreative
+                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  slotId={slotId}
+                  primaryCreative={selectedCreative}
+                  fallbackCreative={fallbackCreative}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="grid h-full w-full items-center gap-3 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(180px,0.8fr)] sm:p-4">
+              <div className="min-w-0 space-y-1">
+                <p className="brand-eyebrow">{label}</p>
+                <p className="truncate text-base font-semibold tracking-tight text-foreground sm:text-lg">{selectedCreative.name}</p>
+                <p className="text-sm text-muted-foreground">Explore the partner network backing Philippine Athletics.</p>
+              </div>
+              <div className="flex h-full min-h-[56px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-background/84 p-3">
+                <AdSlotCreative
+                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  slotId={slotId}
+                  primaryCreative={selectedCreative}
+                  fallbackCreative={fallbackCreative}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </Link>
     </div>
   )

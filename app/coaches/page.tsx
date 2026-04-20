@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/navigation"
 import { ProfileCard } from "@/components/profile-card"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { coaches } from "@/lib/data/coaches"
 
 export default function CoachesPage() {
@@ -8,36 +9,41 @@ export default function CoachesPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="mb-12">
-            <p className="brand-eyebrow mb-2">Coach Directory</p>
-            <h1 className="text-4xl font-bold text-foreground mb-2">Search Coaches</h1>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Coach directory"
+          title="Search coaches"
+          description="Browse coaching profiles, specialties, and club affiliations in the same visual system as the athlete and club directories."
+          stats={[{ label: "Coach profiles", value: coaches.length, note: "Searchable across specialties and clubs" }]}
+          aside={<DemoAdSlot slotId="coaches-inline-1" format="mrec" variant="spotlight" />}
+        />
+
+        <section className="page-section">
+          <div className="section-toolbar">
+            <div>
+              <p className="brand-eyebrow">Results</p>
+              <h2 className="section-title">Coaches</h2>
+            </div>
           </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="md:col-span-2 lg:col-span-3">
-            <DemoAdSlot slotId="coaches-inline-1" format="leaderboard" />
+          <div className="mt-6 results-grid">
+            {coaches.map((coach) => (
+              <ProfileCard
+                key={coach.id}
+                name={coach.name}
+                subtitle={coach.specialty}
+                location={coach.location}
+                details={[`Club: ${coach.club}`, `Experience: ${coach.experience}`]}
+                badges={coach.badges}
+                href={`/coaches/${coach.slug ?? coach.id}`}
+                type="coach"
+              />
+            ))}
           </div>
-          {coaches.map((coach) => (
-            <ProfileCard
-              key={coach.id}
-              name={coach.name}
-              subtitle={coach.specialty}
-              location={coach.location}
-              details={[`Club: ${coach.club}`, `Experience: ${coach.experience}`]}
-              badges={coach.badges}
-              href={`/coaches/${coach.slug ?? coach.id}`}
-              type="coach"
-            />
-          ))}
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }

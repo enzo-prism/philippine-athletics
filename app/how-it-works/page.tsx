@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { SystemArchitectureInfographic } from "@/components/system-architecture-infographic"
 
 export default function HowItWorksPage() {
@@ -7,16 +8,18 @@ export default function HowItWorksPage() {
       <Navigation />
 
       <main className="page-shell page-stack py-10">
-        <header className="space-y-2">
-          <p className="brand-eyebrow">How It Works</p>
-          <h1 className="text-4xl font-bold text-foreground font-accent">System Architecture</h1>
-          <p className="text-sm text-muted-foreground">
-            Governance, education, public sector partners, and sponsors connected through one athletics platform.
-          </p>
-        </header>
+        <PageIntro
+          eyebrow="How it works"
+          title="System architecture"
+          description="Governance, education, public sector partners, and sponsors connected through one athletics platform."
+        />
 
-        <SystemArchitectureInfographic />
+        <section className="page-section">
+          <SystemArchitectureInfographic />
+        </section>
       </main>
+
+      <AppFooter />
     </div>
   )
 }

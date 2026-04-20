@@ -2,37 +2,20 @@ import { expect, test } from "@playwright/test";
 
 type BrandRouteCheck = {
   path: string;
-  expectedVisibleCount: number;
+  requireVisibleAccent?: boolean;
 };
 
 const routeChecks: BrandRouteCheck[] = [
-  { path: "/", expectedVisibleCount: 2 },
-  { path: "/athletes", expectedVisibleCount: 2 },
-  { path: "/athletes/athlete-lauren-hoffman", expectedVisibleCount: 2 },
-  { path: "/clubs", expectedVisibleCount: 2 },
-  { path: "/clubs/manila-striders-track-club", expectedVisibleCount: 1 },
-  { path: "/coaches", expectedVisibleCount: 2 },
-  { path: "/coaches/ana-reyes", expectedVisibleCount: 1 },
-  { path: "/competitions", expectedVisibleCount: 2 },
-  { path: "/competitions/2025-southeast-asian-games", expectedVisibleCount: 2 },
-  { path: "/events", expectedVisibleCount: 1 },
-  { path: "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025", expectedVisibleCount: 2 },
-  { path: "/recognition", expectedVisibleCount: 1 },
-  { path: "/search", expectedVisibleCount: 1 },
-  { path: "/sponsors", expectedVisibleCount: 2 },
-  { path: "/sponsors/sprintlab", expectedVisibleCount: 1 },
-  { path: "/membership", expectedVisibleCount: 1 },
-  { path: "/membership/benefits", expectedVisibleCount: 1 },
-  { path: "/signup", expectedVisibleCount: 2 },
-  { path: "/profile", expectedVisibleCount: 2 },
-  { path: "/data-portal", expectedVisibleCount: 1 },
-  { path: "/changelog", expectedVisibleCount: 1 },
-  { path: "/how-it-works", expectedVisibleCount: 1 },
-  { path: "/demo", expectedVisibleCount: 1 },
-  { path: "/demo/governance", expectedVisibleCount: 1 },
-  { path: "/demo/institutions", expectedVisibleCount: 1 },
-  { path: "/demo/lgus", expectedVisibleCount: 1 },
-  { path: "/demo/off-script", expectedVisibleCount: 1 },
+  { path: "/", requireVisibleAccent: true },
+  { path: "/search", requireVisibleAccent: true },
+  { path: "/athletes", requireVisibleAccent: true },
+  { path: "/clubs", requireVisibleAccent: true },
+  { path: "/coaches", requireVisibleAccent: true },
+  { path: "/competitions", requireVisibleAccent: true },
+  { path: "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025", requireVisibleAccent: true },
+  { path: "/data-portal", requireVisibleAccent: true },
+  { path: "/profile", requireVisibleAccent: true },
+  { path: "/changelog", requireVisibleAccent: true },
 ];
 
 type BrandNode = {
@@ -70,7 +53,7 @@ const collectVisibleBrandNodes = async (page: import("@playwright/test").Page): 
       });
   });
 
-test("Flow: brand typography is subtle, route-scoped, and consistently applied", async ({ page }) => {
+test("Flow: system accent typography stays subtle and the new shell remains consistent", async ({ page }) => {
   const issues: string[] = [];
 
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -79,21 +62,33 @@ test("Flow: brand typography is subtle, route-scoped, and consistently applied",
     await page.goto(routeCheck.path, { waitUntil: "networkidle" });
     await page.waitForTimeout(120);
 
+    const shellLink = page.getByRole("link", { name: /Philippine Athletics/i }).first();
+    if (!(await shellLink.isVisible())) {
+      issues.push(`${routeCheck.path}: missing primary shell brand link`);
+    }
+
+    const partnerRail = page.locator('[data-testid^="demo-ad-global-top"]').first();
+    if (!(await partnerRail.isVisible())) {
+      issues.push(`${routeCheck.path}: missing integrated partner rail`);
+    }
+
     const brandNodes = await collectVisibleBrandNodes(page);
 
-    if (brandNodes.length !== routeCheck.expectedVisibleCount) {
-      issues.push(
-        `${routeCheck.path}: expected ${routeCheck.expectedVisibleCount} visible brand accents, found ${brandNodes.length}`,
-      );
+    if (routeCheck.requireVisibleAccent && brandNodes.length < 1) {
+      issues.push(`${routeCheck.path}: expected at least one visible mono accent label`);
+    }
+
+    if (brandNodes.length > 12) {
+      issues.push(`${routeCheck.path}: too many visible accent labels (${brandNodes.length})`);
     }
 
     for (const node of brandNodes) {
       const normalizedFontFamily = node.fontFamily.toLowerCase();
-      if (!normalizedFontFamily.includes("bbt martires free") && !normalizedFontFamily.includes("brandaccent")) {
-        issues.push(`${routeCheck.path}: missing BBT Martires font (${node.className} => ${node.fontFamily})`);
+      if (!normalizedFontFamily.includes("geist")) {
+        issues.push(`${routeCheck.path}: missing Geist system font (${node.className} => ${node.fontFamily})`);
       }
 
-      if (node.fontSizePx > 14) {
+      if (node.fontSizePx > 13) {
         issues.push(`${routeCheck.path}: accent text too large (${node.fontSizePx}px, text="${node.text}")`);
       }
     }

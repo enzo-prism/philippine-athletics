@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { Navigation } from "@/components/navigation";
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
+import { AppFooter, PageIntro } from "@/components/site/page-primitives";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { competitions } from "@/lib/data/competitions";
-import { Emoji, emojiIcons } from "@/lib/ui/emoji";
-import { SectionBackground } from "@/components/SectionBackground";
-import { TRACK_IMAGES } from "@/components/track-images";
 
 const statusOptions = ["Upcoming", "Past", "All"] as const;
 
@@ -44,31 +41,13 @@ export default async function CompetitionsPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="relative overflow-hidden border-b border-border">
-        <SectionBackground
-          imageUrl={TRACK_IMAGES.hurdlesYouth}
-          opacity={24}
-          position="object-center"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
-        />
-        <div className="relative z-10 page-shell py-12 sm:py-16">
-          <p className="institutional-kicker brand-eyebrow mb-3">Competition Calendar</p>
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Search Competitions
-          </h1>
-          <p className="text-muted-foreground">
-            Track and field competitions across the Philippines and beyond
-          </p>
-        </div>
-      </div>
-
-      <div className="page-shell py-12">
-        <Card className="py-0 gap-0 mb-6">
-          <CardContent className="p-4 space-y-3">
-            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <Emoji symbol={emojiIcons.filter} className="text-sm" />
-              Filters
-            </div>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Competition calendar"
+          title="Search competitions"
+          description="Track sanctioned meets, date windows, and profile entry points across the calendar."
+          stats={[{ label: "Current view", value: statusFilter, note: "Filter upcoming, past, or all competitions" }]}
+          actions={
             <div className="flex flex-wrap gap-3 text-sm">
               {statusOptions.map((status) => {
                 const active = statusFilter === status;
@@ -81,13 +60,9 @@ export default async function CompetitionsPage({
                     key={status}
                     asChild
                     type="button"
-                    variant="outline"
+                    variant={active ? "secondary" : "outline"}
                     size="sm"
-                    className={`font-semibold ${
-                      active
-                        ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90"
-                        : "hover:bg-muted hover:text-foreground"
-                    }`}
+                    className="font-semibold"
                     data-testid={`competition-filter-${status.toLowerCase()}`}
                   >
                     <Link href={href}>{status}</Link>
@@ -95,59 +70,58 @@ export default async function CompetitionsPage({
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
-
-        <DemoAdSlot
-          slotId="competitions-inline-leaderboard-1"
-          format="leaderboard"
-          className="mb-6"
+          }
+          aside={<DemoAdSlot slotId="competitions-inline-leaderboard-1" format="mrec" variant="spotlight" />}
         />
 
-        <div className="space-y-3" data-testid="competition-list">
+        <section className="page-section">
+          <div className="section-toolbar">
+            <div>
+              <p className="brand-eyebrow">Results</p>
+              <h2 className="section-title">Competition list</h2>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-3" data-testid="competition-list">
           {filtered.map((comp) => (
             <Link
               key={comp.id}
               href={`/competitions/${comp.slug}`}
               className="block"
+              aria-label={comp.name}
             >
-              <Card
-                className="py-0 gap-0 hover:border-accent hover:bg-accent/5 transition-colors"
+              <article
+                className="directory-card"
                 data-testid="competition-item"
               >
-                <CardContent className="p-4">
-                  <p className="text-sm font-semibold text-foreground">
-                    {comp.name}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {comp.location}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {comp.dateLabel}
-                  </p>
-                </CardContent>
-              </Card>
+                <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-lg font-semibold tracking-tight text-foreground">{comp.name}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">{comp.location}</p>
+                  </div>
+                  <span className="rounded-full border border-border/80 bg-background/84 px-3 py-1 text-xs text-muted-foreground">
+                    {comp.status}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">{comp.dateLabel}</p>
+              </article>
             </Link>
           ))}
-        </div>
+          </div>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-2">
-          <DemoAdSlot slotId="competitions-inline-mrec-1" format="mrec" />
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <DemoAdSlot slotId="competitions-inline-mrec-1" format="mrec" variant="inline" />
           <DemoAdSlot
             slotId="competitions-inline-mrec-2"
             format="mrec"
+            variant="inline"
             className="hidden sm:block"
           />
         </div>
-      </div>
+        </section>
+      </main>
 
-      <div className="border-t border-border mt-16">
-        <div className="page-shell py-8">
-          <p className="brand-subtext">
-            &copy; 2025 Philippine Athletics
-          </p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   );
 }

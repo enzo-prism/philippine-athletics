@@ -28,3 +28,4 @@ playwright-report/
 
 # Codex runtime metadata
 .codex/
+.vercel

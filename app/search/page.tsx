@@ -4,11 +4,11 @@ import { Search } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { demoAthleteSpotlights, demoAthleteSummaries } from "@/lib/data/demo-athletes"
 import { DEMO_FLOW_COOKIE, getDemoFlowConfig } from "@/lib/demo/flows"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { athleteSummaries } from "@/lib/data/athletes"
 import { clubs } from "@/lib/data/clubs"
@@ -137,96 +137,113 @@ export default async function SearchPage({
   }
 
   const hasResults = grouped.athletes.length > 0 || grouped.coaches.length > 0 || grouped.clubs.length > 0
+  const totalResults = grouped.athletes.length + grouped.coaches.length + grouped.clubs.length
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell page-stack py-10">
-        <header className="space-y-3">
-          <p className="brand-eyebrow">Directory Search</p>
-          <h1 className="text-4xl sm:text-5xl font-semibold text-foreground font-accent">Search</h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            Find athletes, coaches, and clubs in one place. Athlete lookup supports full name and membership number.
-          </p>
-          {isDemoMode ? (
-            <div className="border-l-4 border-l-accent bg-accent/5 px-4 py-3 text-xs text-foreground">
-              <p className="font-semibold">Demo route lock active: {activeDemoFlow?.label}</p>
-              <p className="text-muted-foreground">Search is limited to five curated athletes for this guided demo flow.</p>
-            </div>
-          ) : null}
-          <form method="get" className="flex flex-col sm:flex-row gap-2 max-w-2xl">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
-              <Input
-                type="text"
-                name="q"
-                defaultValue={query}
-                placeholder="Search by name or membership number"
-                className="pl-9"
-                data-testid="search-input"
-              />
-            </div>
-            <Button type="submit">Search</Button>
-          </form>
-        </header>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Directory workspace"
+          title="Search"
+          description="Find athletes, coaches, and clubs in one place. Search supports full names, club names, and athlete membership numbers."
+          stats={[
+            { label: "Athletes", value: athleteSource.length, note: "Search by name or membership ID" },
+            { label: "Coaches", value: isDemoMode ? "Guided flow" : coaches.length, note: "Search by coach name" },
+            { label: "Clubs", value: isDemoMode ? "Locked" : clubs.length, note: "Search by club name or focus" },
+          ]}
+          actions={
+            <div className="flex w-full flex-col gap-3">
+              {isDemoMode ? (
+                <div className="rounded-[1.2rem] border border-border/80 bg-background/74 px-4 py-3 text-sm text-foreground">
+                  <p className="font-medium">Demo flow active: {activeDemoFlow?.label}</p>
+                  <p className="mt-1 text-muted-foreground">
+                    Search is limited to five curated athletes for this guided flow.
+                  </p>
+                </div>
+              ) : null}
 
-        <DemoAdSlot slotId="search-inline-1" format="leaderboard" />
+              <form method="get" className="flex w-full flex-col gap-3 sm:flex-row">
+                <div className="relative flex-1">
+                  <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                  <Input
+                    type="text"
+                    name="q"
+                    defaultValue={query}
+                    autoComplete="off"
+                    placeholder="Search by name or membership number…"
+                    className="pl-11"
+                    data-testid="search-input"
+                  />
+                </div>
+                <Button type="submit" size="lg">
+                  Search
+                </Button>
+              </form>
 
-        {!query ? (
-          <Card className="ui-panel py-0 gap-0">
-            <CardContent className="p-6 space-y-3 text-sm text-muted-foreground">
-              <p>Start typing a name or membership number to search across the directory.</p>
               <div className="flex flex-wrap gap-2">
                 {suggestionLinks.map((suggestion) => (
-                  <Link
-                    key={suggestion}
-                    href={`/search?q=${encodeURIComponent(suggestion)}`}
-                    className="text-accent font-semibold hover:text-accent/80"
-                  >
-                    {`Try "${suggestion}"`}
+                  <Link key={suggestion} href={`/search?q=${encodeURIComponent(suggestion)}`}>
+                    <Badge variant="outline">{suggestion}</Badge>
                   </Link>
                 ))}
               </div>
-              {isDemoMode ? (
-                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {demoAthleteSummaries.map((athlete) => {
-                    const spotlight = demoAthleteSpotlights.find((item) => item.id === athlete.id)
-                    return (
-                      <Link
-                        key={athlete.id}
-                        href={`/search?q=${encodeURIComponent(athlete.membershipNumber)}`}
-                        className="border border-border bg-background px-3 py-2"
-                      >
-                        <p className="text-xs font-semibold text-foreground">{athlete.name}</p>
-                        <p className="text-[11px] text-muted-foreground">{athlete.membershipNumber}</p>
-                        <p className="text-[11px] text-muted-foreground">{spotlight?.eventCategory ?? athlete.specialty}</p>
-                      </Link>
-                    )
-                  })}
-                </div>
-              ) : null}
-            </CardContent>
-          </Card>
+            </div>
+          }
+          aside={<DemoAdSlot slotId="search-inline-1" format="mrec" variant="spotlight" />}
+        />
+
+        {!query ? (
+          <section className="page-section">
+            <div className="section-toolbar">
+              <div>
+                <p className="brand-eyebrow">Suggested searches</p>
+                <h2 className="section-title">Start from a known entry point</h2>
+              </div>
+              <p className="section-copy">Use full names for discovery or membership IDs for direct profile lookup.</p>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {(isDemoMode ? demoAthleteSummaries : athleteSummaries.slice(0, 6)).map((athlete) => {
+                const spotlight = demoAthleteSpotlights.find((item) => item.id === athlete.id)
+                return (
+                  <Link
+                    key={athlete.id}
+                    href={`/search?q=${encodeURIComponent(athlete.membershipNumber)}`}
+                    className="directory-card"
+                  >
+                    <div>
+                      <p className="text-lg font-semibold tracking-tight text-foreground">{athlete.name}</p>
+                      <p className="mt-2 text-sm text-muted-foreground">{athlete.membershipNumber}</p>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{spotlight?.eventCategory ?? athlete.specialty}</p>
+                    <div className="mt-auto text-sm font-medium text-muted-foreground">Search this athlete</div>
+                  </Link>
+                )
+              })}
+            </div>
+          </section>
         ) : !hasResults ? (
-          <Card className="ui-panel py-0 gap-0">
-            <CardContent className="p-6 text-sm text-muted-foreground">
-              {isDemoMode
-                ? `No results found for "${query}" in the current demo pack. Try one of the five curated athlete membership numbers.`
-                : `No results found for "${query}". Try another name or membership number.`}
-            </CardContent>
-          </Card>
+          <section className="page-section text-sm text-muted-foreground">
+            {isDemoMode
+              ? `No results found for "${query}" in the current demo pack. Try one of the curated athlete membership numbers.`
+              : `No results found for "${query}". Try another name or membership number.`}
+          </section>
         ) : (
-          <div className="section-stack" data-testid="search-results">
+          <section className="section-stack" data-testid="search-results">
             {topResult ? (
-              <Card className="ui-panel py-0 gap-0 border-accent/40 bg-accent/5">
-                <CardContent className="p-5 space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-semibold uppercase text-accent">
-                    Top result
-                    <Badge variant="outline" className="border-accent/40 text-accent">
-                      {topResult.type}
-                    </Badge>
+              <div className="page-section">
+                <div className="section-toolbar">
+                  <div>
+                    <p className="brand-eyebrow">Top result</p>
+                    <h2 className="section-title">{topResult.name}</h2>
                   </div>
+                  <Badge variant="outline" className="capitalize">
+                    {topResult.type}
+                  </Badge>
+                </div>
+                <div className="mt-5">
                   <ProfileCard
                     name={topResult.name}
                     subtitle=""
@@ -234,75 +251,90 @@ export default async function SearchPage({
                     href={topResult.href}
                     type={topResult.type}
                   />
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ) : null}
 
-            {grouped.athletes.length > 0 ? (
-              <section className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-foreground">Athletes</h2>
-                  <span className="text-xs text-muted-foreground">{grouped.athletes.length} results</span>
+            <div className="page-section">
+              <div className="section-toolbar">
+                <div>
+                  <p className="brand-eyebrow">Results</p>
+                  <h2 className="section-title">
+                    {totalResults} result{totalResults === 1 ? "" : "s"} for “{query}”
+                  </h2>
                 </div>
-                <div className="results-grid">
-                  {grouped.athletes.map((athlete) => (
-                    <ProfileCard
-                      key={athlete.href}
-                      name={athlete.name}
-                      subtitle=""
-                      details={athlete.details}
-                      href={athlete.href}
-                      type="athlete"
-                    />
-                  ))}
-                </div>
-              </section>
-            ) : null}
+              </div>
 
-            {grouped.coaches.length > 0 ? (
-              <section className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-foreground">Coaches</h2>
-                  <span className="text-xs text-muted-foreground">{grouped.coaches.length} results</span>
-                </div>
-                <div className="results-grid">
-                  {grouped.coaches.map((coach) => (
-                    <ProfileCard
-                      key={coach.href}
-                      name={coach.name}
-                      subtitle=""
-                      details={coach.details}
-                      href={coach.href}
-                      type="coach"
-                    />
-                  ))}
-                </div>
-              </section>
-            ) : null}
+              <div className="mt-6 section-stack">
+                {grouped.athletes.length > 0 ? (
+                  <section className="section-stack">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-foreground">Athletes</h3>
+                      <span className="text-xs text-muted-foreground">{grouped.athletes.length}</span>
+                    </div>
+                    <div className="results-grid">
+                      {grouped.athletes.map((athlete) => (
+                        <ProfileCard
+                          key={athlete.href}
+                          name={athlete.name}
+                          subtitle=""
+                          details={athlete.details}
+                          href={athlete.href}
+                          type="athlete"
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
 
-            {grouped.clubs.length > 0 ? (
-              <section className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-foreground">Clubs</h2>
-                  <span className="text-xs text-muted-foreground">{grouped.clubs.length} results</span>
-                </div>
-                <div className="results-grid">
-                  {grouped.clubs.map((club) => (
-                    <ProfileCard
-                      key={club.href}
-                      name={club.name}
-                      subtitle=""
-                      details={club.details}
-                      href={club.href}
-                      type="club"
-                    />
-                  ))}
-                </div>
-              </section>
-            ) : null}
-          </div>
+                {grouped.coaches.length > 0 ? (
+                  <section className="section-stack">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-foreground">Coaches</h3>
+                      <span className="text-xs text-muted-foreground">{grouped.coaches.length}</span>
+                    </div>
+                    <div className="results-grid">
+                      {grouped.coaches.map((coach) => (
+                        <ProfileCard
+                          key={coach.href}
+                          name={coach.name}
+                          subtitle=""
+                          details={coach.details}
+                          href={coach.href}
+                          type="coach"
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
+                {grouped.clubs.length > 0 ? (
+                  <section className="section-stack">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-foreground">Clubs</h3>
+                      <span className="text-xs text-muted-foreground">{grouped.clubs.length}</span>
+                    </div>
+                    <div className="results-grid">
+                      {grouped.clubs.map((club) => (
+                        <ProfileCard
+                          key={club.href}
+                          name={club.name}
+                          subtitle=""
+                          details={club.details}
+                          href={club.href}
+                          type="club"
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+              </div>
+            </div>
+          </section>
         )}
-      </div>
+      </main>
+
+      <AppFooter />
     </div>
   )
 }

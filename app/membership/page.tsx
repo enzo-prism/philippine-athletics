@@ -1,23 +1,24 @@
-import { Navigation } from "@/components/navigation";
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
-import { ArrowRight, BadgeCheck, CheckCircle2 } from "lucide-react";
-import { SectionBackground } from "@/components/SectionBackground";
-import { TRACK_IMAGES } from "@/components/track-images";
+import Link from "next/link"
+import { ArrowRight, BadgeCheck, CheckCircle2 } from "lucide-react"
+
+import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
+import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { Button } from "@/components/ui/button"
 
 type MembershipType = {
-  key: "youth" | "adult" | "vip";
-  name: string;
-  audience: string;
-  description: string;
+  key: "youth" | "adult" | "vip"
+  name: string
+  audience: string
+  description: string
   pricing: {
-    base: string;
-    processing: string;
-    cardFee: string;
-    total: string;
-  };
-  highlights: string[];
-  headerClassName: string;
-};
+    base: string
+    processing: string
+    cardFee: string
+    total: string
+  }
+  highlights: string[]
+}
 
 const membershipTypes: MembershipType[] = [
   {
@@ -25,7 +26,7 @@ const membershipTypes: MembershipType[] = [
     name: "Youth Membership",
     audience: "For athletes and supporters 18 and under",
     description:
-      "Start your journey with an official profile from day one. Youth members gain access to sanctioned competitions, age-group rankings, and a growing network of programs built for the next generation.",
+      "Start with an official profile from day one. Youth members gain access to sanctioned competitions, age-group rankings, and a growing network of programs built for the next generation.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -37,15 +38,13 @@ const membershipTypes: MembershipType[] = [
       "Official athlete profile with verified results",
       "Age-group rankings and season progress tracking",
     ],
-    headerClassName: "bg-slate-500 text-white",
   },
   {
     key: "adult",
     name: "Adult Membership",
-    audience:
-      "For athletes, coaches, officials, volunteers, and supporters 19+",
+    audience: "For athletes, coaches, officials, volunteers, and supporters 19+",
     description:
-      "The core membership for anyone actively involved in Philippine athletics. Compete, coach, officiate, volunteer, or simply stay connected to the sport you care about.",
+      "The core membership for anyone actively involved in Philippine athletics. Compete, coach, officiate, volunteer, or stay connected to the sport you care about.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -57,14 +56,13 @@ const membershipTypes: MembershipType[] = [
       "Coach and official development resources",
       "Priority updates on clinics, meets, and announcements",
     ],
-    headerClassName: "bg-red-700 text-white",
   },
   {
     key: "vip",
     name: "VIP Membership",
     audience: "For members who want to go further",
     description:
-      "Everything in the Adult Membership plus elevated access. VIP members get priority entry to select events, exclusive partner offers, and recognition as premium supporters of the sport.",
+      "Everything in the Adult tier plus elevated access. VIP members get priority entry to select events, exclusive partner offers, and recognition as premium supporters of the sport.",
     pricing: {
       base: "$20 / month",
       processing: "$0",
@@ -76,159 +74,107 @@ const membershipTypes: MembershipType[] = [
       "Priority access to ticketed athletics events",
       "Exclusive partner discounts and VIP communications",
     ],
-    headerClassName: "bg-slate-900 text-white",
   },
-];
+]
 
 const topActions = [
   { label: "Join / Renew", href: "/signup" },
   { label: "Current Member Login", href: "/login" },
-];
+]
 
 const reasonsToJoin =
-  "Membership is how you become part of the official Philippine athletics community. It's your access to compete in recognized meets, build a verified profile, stay informed on what's happening across the sport, and contribute to something that's growing every year.";
+  "Membership is how you become part of the official Philippine athletics community. It gives you access to compete in recognized meets, build a verified profile, stay informed on what is happening across the sport, and contribute to something that is growing every year."
 
 export default function MembershipPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="relative overflow-hidden border-b border-border">
-        <SectionBackground
-          imageUrl={TRACK_IMAGES.distance40s}
-          opacity={24}
-          position="object-center"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Membership access"
+          title="Membership"
+          description="Philippine Athletics is the official home for athletes, coaches, officials, volunteers, clubs, and supporters of track and field, road running, and race walking nationwide."
+          actions={
+            <>
+              {topActions.map((action) => (
+                <Button key={action.label} asChild size="lg">
+                  <Link href={action.href}>{action.label}</Link>
+                </Button>
+              ))}
+              <Button asChild size="lg" variant="outline">
+                <Link href="/membership/benefits">
+                  View benefits
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+            </>
+          }
+          stats={[
+            { label: "Youth", value: "$10 / month", note: "Student-athletes and families" },
+            { label: "Adult", value: "$10 / month", note: "Athletes, coaches, officials, and supporters" },
+            { label: "VIP", value: "$20 / month", note: "Priority access and partner perks" },
+          ]}
+          aside={<DemoAdSlot slotId="membership-hero-leaderboard" format="mrec" variant="spotlight" />}
         />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center space-y-5">
-          <p className="brand-eyebrow">Membership Access</p>
-          <p className="text-4xl sm:text-5xl font-extrabold tracking-[0.16em] text-red-700 uppercase">
-            Membership
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-            Be Part of Something Bigger Than the Finish Line
-          </h1>
-          <p className="text-muted-foreground text-sm sm:text-base">
-            Philippine Athletics is the official home for athletes, coaches,
-            officials, volunteers, clubs, and supporters of track and field,
-            road running, and race walking nationwide.
-          </p>
-          <p className="text-muted-foreground text-sm sm:text-base">
-            Membership gives you a place in the ecosystem. Compete in sanctioned
-            events, build your official profile, and connect with the community
-            growing the sport from every corner of the country.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center pt-2">
-            {topActions.map((action) => (
-              <a
-                key={action.label}
-                href={action.href}
-                className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
-              >
-                {action.label}
-              </a>
-            ))}
+
+        <section className="page-section">
+          <div className="section-toolbar">
+            <div>
+              <p className="brand-eyebrow">Choose your membership</p>
+              <h2 className="section-title">Pick the right level of access</h2>
+            </div>
+            <p className="section-copy">The tier you choose determines how deep your access goes inside the ecosystem.</p>
           </div>
-          <a
-            href="/membership/benefits"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline underline-offset-4"
-          >
-            View detailed membership benefits
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
-      </div>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-        <DemoAdSlot slotId="membership-hero-leaderboard" format="leaderboard" />
-
-        <section className="space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center">
-            Choose Your Membership
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
             {membershipTypes.map((membership) => (
-              <article
-                key={membership.key}
-                className="rounded-lg border border-border bg-card overflow-hidden flex flex-col"
-              >
-                <header className={`px-5 py-4 ${membership.headerClassName}`}>
-                  <p className="text-xl leading-tight font-bold uppercase tracking-wide">
-                    {membership.name}
-                  </p>
-                </header>
+              <article key={membership.key} className="directory-card">
+                <div className="space-y-2">
+                  <p className="brand-eyebrow">{membership.name}</p>
+                  <h3 className="text-lg font-semibold tracking-tight text-foreground">{membership.audience}</h3>
+                  <p className="text-sm leading-6 text-muted-foreground">{membership.description}</p>
+                </div>
 
-                <div className="p-5 space-y-4 flex-1 flex flex-col">
-                  <p className="text-sm font-semibold text-foreground">
-                    {membership.audience}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {membership.description}
-                  </p>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {membership.highlights.map((highlight) => (
+                    <li key={highlight} className="flex items-start gap-2">
+                      <CheckCircle2 className="mt-0.5 size-4 text-accent" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    {membership.highlights.map((highlight) => (
-                      <li key={highlight} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 mt-0.5 text-accent" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="rounded-[1.25rem] border border-border/80 bg-background/74 p-4 text-sm text-muted-foreground">
+                  <p>Base price: {membership.pricing.base}</p>
+                  <p>Processing fee: {membership.pricing.processing}</p>
+                  <p>Card fee: {membership.pricing.cardFee}</p>
+                  <p className="mt-2 font-semibold text-foreground">Total: {membership.pricing.total}</p>
+                </div>
 
-                  <div className="pt-2 border-t border-border text-sm text-muted-foreground space-y-1">
-                    <p>Base Price: {membership.pricing.base}</p>
-                    <p>Processing Fee: {membership.pricing.processing}</p>
-                    <p>Card Fee: {membership.pricing.cardFee}</p>
-                    <p className="font-semibold text-foreground">
-                      Total Cost: {membership.pricing.total}
-                    </p>
-                  </div>
-
-                  <div className="mt-auto space-y-2 pt-2">
-                    <a
-                      href={`/membership/benefits#${membership.key}`}
-                      className="block w-full rounded-md border border-border px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted"
-                    >
-                      Membership details
-                    </a>
-                    <div className="grid grid-cols-2 gap-2">
-                      <a
-                        href="/signup"
-                        className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-xs sm:text-sm font-semibold text-primary-foreground hover:opacity-90"
-                      >
-                        Register
-                      </a>
-                      <a
-                        href="/signup"
-                        className="inline-flex items-center justify-center rounded-md border border-border px-3 py-2 text-xs sm:text-sm font-semibold text-foreground hover:bg-muted"
-                      >
-                        Renew
-                      </a>
-                    </div>
-                    <a
-                      href="/membership/benefits"
-                      className="inline-flex items-center gap-1 text-xs sm:text-sm text-accent font-semibold hover:underline underline-offset-4"
-                    >
-                      Learn more
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  <Button asChild>
+                    <Link href="/signup">Register</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href={`/membership/benefits#${membership.key}`}>Membership details</Link>
+                  </Button>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rounded-lg border border-border bg-card p-5 space-y-4">
+        <section className="page-section-tight">
           <div className="flex items-center gap-2">
-            <BadgeCheck className="w-5 h-5 text-accent" />
-            <h2 className="text-lg font-semibold text-foreground">
-              Why Membership Matters
-            </h2>
+            <BadgeCheck className="size-5 text-accent" />
+            <h2 className="text-lg font-semibold text-foreground">Why membership matters</h2>
           </div>
-          <p className="text-sm text-muted-foreground">{reasonsToJoin}</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">{reasonsToJoin}</p>
         </section>
       </main>
+
+      <AppFooter />
     </div>
-  );
+  )
 }

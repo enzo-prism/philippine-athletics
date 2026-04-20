@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { CheckCircle2, Clipboard, FileText, ShieldCheck, UploadCloud } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -964,20 +965,24 @@ export default function DataPortalPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-12 space-y-10">
-        <header className="space-y-3">
-          <p className="brand-eyebrow flex items-center gap-2">
-            <ShieldCheck className="size-4" />
-            Results intake
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground">Results Intake Portal</h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            Upload sanctioned competition results, validate entries, and stage updates for Philippine Athletics.
-            Publishing remains demo-local in this phase.
-          </p>
-        </header>
+      <div className="page-shell py-6 sm:py-8 space-y-8">
+        <PageIntro
+          eyebrow={
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="size-4" />
+              Results intake
+            </span>
+          }
+          title="Results Intake Portal"
+          description="Upload sanctioned competition results, validate entries, and stage updates for Philippine Athletics. Publishing remains demo-local in this phase."
+          stats={[
+            { label: "Mapped rows", value: mappedRows.length, note: "Loaded from upload or pasted CSV" },
+            { label: "Validation errors", value: validation.errors, note: "Blocking issues before review" },
+            { label: "Submission log", value: submissions.length, note: "Stored in browser for this demo" },
+          ]}
+        />
 
-        <Card className="py-0 gap-0">
+        <Card className="page-section-tight py-0 gap-0">
           <CardContent className="p-6 space-y-4">
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-xs font-semibold uppercase text-muted-foreground">Role</span>
@@ -1054,8 +1059,8 @@ export default function DataPortalPage() {
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold">Paste CSV data</Label>
                   <textarea
-                    className="min-h-[180px] w-full rounded-none border border-input bg-background px-3 py-2 text-sm"
-                    placeholder="Paste CSV data here"
+                    className="min-h-[180px] w-full rounded-[1.15rem] border border-input bg-background px-3 py-2 text-sm"
+                    placeholder="Paste CSV data here…"
                     data-testid="results-paste-input"
                     value={rawText}
                     onChange={(event) => setRawText(event.target.value)}
@@ -1793,6 +1798,8 @@ export default function DataPortalPage() {
           )}
         </section>
       </div>
+
+      <AppFooter />
     </div>
   )
 }

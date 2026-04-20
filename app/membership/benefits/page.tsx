@@ -1,5 +1,9 @@
-import { Navigation } from "@/components/navigation"
+import Link from "next/link"
 import { ArrowLeft, CheckCircle2 } from "lucide-react"
+
+import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { Button } from "@/components/ui/button"
 
 type MembershipBenefit = {
   id: "youth" | "adult" | "vip"
@@ -40,7 +44,7 @@ const benefitTiers: MembershipBenefit[] = [
     id: "adult",
     title: "Adult Membership",
     summary:
-      "The go-to membership for anyone actively contributing to Philippine athletics. Whether you're on the track, behind the clipboard, or in the stands volunteering, this is where you plug in.",
+      "The go-to membership for anyone actively contributing to Philippine athletics. Whether you are on the track, behind the clipboard, or in the stands volunteering, this is where you plug in.",
     pricing: {
       base: "$10 / month",
       processing: "$0",
@@ -79,48 +83,13 @@ const benefitTiers: MembershipBenefit[] = [
 ]
 
 const comparisonRows = [
-  {
-    label: "Official profile + verified results",
-    youth: true,
-    adult: true,
-    vip: true,
-  },
-  {
-    label: "Competition eligibility",
-    youth: true,
-    adult: true,
-    vip: true,
-  },
-  {
-    label: "National ranking visibility",
-    youth: true,
-    adult: true,
-    vip: true,
-  },
-  {
-    label: "Education and member updates",
-    youth: true,
-    adult: true,
-    vip: true,
-  },
-  {
-    label: "Coach and official pathway resources",
-    youth: false,
-    adult: true,
-    vip: true,
-  },
-  {
-    label: "Priority event/ticket access",
-    youth: false,
-    adult: false,
-    vip: true,
-  },
-  {
-    label: "Exclusive partner perks",
-    youth: false,
-    adult: false,
-    vip: true,
-  },
+  { label: "Official profile + verified results", youth: true, adult: true, vip: true },
+  { label: "Competition eligibility", youth: true, adult: true, vip: true },
+  { label: "National ranking visibility", youth: true, adult: true, vip: true },
+  { label: "Education and member updates", youth: true, adult: true, vip: true },
+  { label: "Coach and official pathway resources", youth: false, adult: true, vip: true },
+  { label: "Priority event/ticket access", youth: false, adult: false, vip: true },
+  { label: "Exclusive partner perks", youth: false, adult: false, vip: true },
 ]
 
 const checkCell = (enabled: boolean) => (enabled ? "Included" : "—")
@@ -130,33 +99,39 @@ export default function MembershipBenefitsPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-        <section className="space-y-4">
-          <a href="/membership" className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline underline-offset-4">
-            <ArrowLeft className="w-4 h-4" />
-            Back to membership overview
-          </a>
-          <p className="brand-eyebrow">Plan Comparison</p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Membership Benefits at a Glance</h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
-            See exactly what each tier includes before you join or renew. All memberships give you access to the official Philippine athletics
-            ecosystem. The tier you choose determines how deep that access goes.
-          </p>
-        </section>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Plan comparison"
+          title="Membership benefits at a glance"
+          description="See exactly what each tier includes before you join or renew. All memberships give you access to the official Philippine athletics ecosystem."
+          actions={
+            <Button asChild variant="outline" size="lg">
+              <Link href="/membership">
+                <ArrowLeft className="size-4" />
+                Back to membership overview
+              </Link>
+            </Button>
+          }
+          stats={[
+            { label: "Youth", value: "$10 / month" },
+            { label: "Adult", value: "$10 / month" },
+            { label: "VIP", value: "$20 / month" },
+          ]}
+        />
 
-        <section className="rounded-lg border border-border overflow-x-auto">
+        <section className="page-section overflow-x-auto">
           <table className="w-full min-w-[640px] text-sm">
-            <thead className="bg-muted">
+            <thead className="bg-muted/70">
               <tr>
-                <th className="text-left p-3 font-semibold text-foreground">Benefit</th>
-                <th className="text-left p-3 font-semibold text-foreground">Youth</th>
-                <th className="text-left p-3 font-semibold text-foreground">Adult</th>
-                <th className="text-left p-3 font-semibold text-foreground">VIP</th>
+                <th className="p-3 text-left font-semibold text-foreground">Benefit</th>
+                <th className="p-3 text-left font-semibold text-foreground">Youth</th>
+                <th className="p-3 text-left font-semibold text-foreground">Adult</th>
+                <th className="p-3 text-left font-semibold text-foreground">VIP</th>
               </tr>
             </thead>
             <tbody>
               {comparisonRows.map((row) => (
-                <tr key={row.label} className="border-t border-border">
+                <tr key={row.label} className="border-t border-border/80">
                   <td className="p-3 text-foreground">{row.label}</td>
                   <td className="p-3 text-muted-foreground">{checkCell(row.youth)}</td>
                   <td className="p-3 text-muted-foreground">{checkCell(row.adult)}</td>
@@ -167,17 +142,17 @@ export default function MembershipBenefitsPage() {
           </table>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section className="grid gap-4 md:grid-cols-3">
           {benefitTiers.map((tier) => (
-            <article key={tier.id} id={tier.id} className="rounded-lg border border-border bg-card p-5 space-y-4 scroll-mt-24">
-              <div>
-                <h2 className="text-lg font-semibold text-foreground">{tier.title}</h2>
-                <p className="text-sm text-muted-foreground mt-1">{tier.summary}</p>
-                <div className="pt-3 text-sm text-muted-foreground space-y-1">
-                  <p>Base Price: {tier.pricing.base}</p>
-                  <p>Processing Fee: {tier.pricing.processing}</p>
-                  <p>Card Fee: {tier.pricing.cardFee}</p>
-                  <p className="font-semibold text-foreground">Total Cost: {tier.pricing.total}</p>
+            <article key={tier.id} id={tier.id} className="directory-card scroll-mt-24">
+              <div className="space-y-2">
+                <p className="brand-eyebrow">{tier.title}</p>
+                <p className="text-sm leading-6 text-muted-foreground">{tier.summary}</p>
+                <div className="rounded-[1.25rem] border border-border/80 bg-background/74 p-4 text-sm text-muted-foreground">
+                  <p>Base price: {tier.pricing.base}</p>
+                  <p>Processing fee: {tier.pricing.processing}</p>
+                  <p>Card fee: {tier.pricing.cardFee}</p>
+                  <p className="mt-2 font-semibold text-foreground">Total: {tier.pricing.total}</p>
                 </div>
               </div>
 
@@ -186,7 +161,7 @@ export default function MembershipBenefitsPage() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {tier.details.map((item) => (
                     <li key={item} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 mt-0.5 text-accent" />
+                      <CheckCircle2 className="mt-0.5 size-4 text-accent" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -195,23 +170,24 @@ export default function MembershipBenefitsPage() {
 
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-foreground">Best for</h3>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="space-y-1 text-sm text-muted-foreground">
                   {tier.bestFor.map((item) => (
                     <li key={item}>• {item}</li>
                   ))}
                 </ul>
               </div>
 
-              <a
-                href="/signup"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
-              >
-                Join / Renew
-              </a>
+              <div className="mt-auto">
+                <Button asChild>
+                  <Link href="/signup">Join / Renew</Link>
+                </Button>
+              </div>
             </article>
           ))}
         </section>
       </main>
+
+      <AppFooter />
     </div>
   )
 }

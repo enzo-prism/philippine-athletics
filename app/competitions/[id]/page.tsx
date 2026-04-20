@@ -1,9 +1,16 @@
 import Link from "next/link"
+
 import { Navigation } from "@/components/navigation"
+import { AppFooter, DetailHero } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfile } from "@/lib/data/athletes"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
-import { getAgeGroup, getBestResultForEvent, getCompetitionYear, toCanonicalEventKey } from "@/lib/data/performance-evidence"
+import {
+  getAgeGroup,
+  getBestResultForEvent,
+  getCompetitionYear,
+  toCanonicalEventKey,
+} from "@/lib/data/performance-evidence"
 import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
@@ -35,7 +42,12 @@ export default async function CompetitionProfilePage({
     if (!athlete) return { isPB: false, isSB: false }
     const eventKey = toCanonicalEventKey(event)
     const pb = getBestResultForEvent({ athlete, eventKey, scope: "all-time" })?.competition.result?.trim()
-    const sb = getBestResultForEvent({ athlete, eventKey, scope: "year", year: competitionYear })?.competition.result?.trim()
+    const sb = getBestResultForEvent({
+      athlete,
+      eventKey,
+      scope: "year",
+      year: competitionYear,
+    })?.competition.result?.trim()
     const normalizedResult = result.trim()
     return {
       isPB: Boolean(pb && pb !== "—" && pb === normalizedResult),
@@ -47,69 +59,75 @@ export default async function CompetitionProfilePage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell py-12">
-        <Link href="/competitions" className="flex items-center gap-2 text-accent hover:text-accent/80 mb-8 w-fit">
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <Link href="/competitions" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Competitions
         </Link>
 
-        <div className="mb-12 pb-8 border-b border-border">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <p className="brand-eyebrow mb-2">Competition</p>
-              <h1 className="text-5xl font-bold text-foreground">{competition.name}</h1>
-              <p className="text-lg text-muted-foreground mt-2">{competition.type}</p>
+        <DetailHero
+          eyebrow="Competition"
+          title={competition.name}
+          description={competition.type}
+          chips={
+            <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
+              <Emoji symbol={emojiIcons.location} className="text-sm" />
+              {competition.location}
+            </span>
+          }
+          notice={
+            isStub ? "Competition details are coming soon. Basic placeholder shown to avoid broken links." : undefined
+          }
+          stats={[
+            { label: "Participants", value: competition.participants, note: "Competition scale and field size" },
+            { label: "Countries", value: competition.countries, note: "Regional or international footprint" },
+            { label: "Records set", value: competition.records, note: "Competition performance markers" },
+            { label: "Status", value: competition.status, note: competition.dateLabel },
+          ]}
+          aside={
+            <div className="detail-sidebar-card space-y-3">
+              <p className="brand-eyebrow">Competition context</p>
+              <p className="text-sm text-muted-foreground">{competition.dateLabel}</p>
+              <div className="detail-list-item bg-background/74">
+                <p className="text-xs font-semibold uppercase text-muted-foreground">Organizer</p>
+                <p className="mt-1 text-sm text-foreground">{competition.organizer}</p>
+              </div>
+              <div className="detail-list-item bg-background/74">
+                <p className="text-xs font-semibold uppercase text-muted-foreground">Sponsor</p>
+                <p className="mt-1 text-sm text-foreground">{competition.sponsor}</p>
+              </div>
             </div>
-          </div>
-          {isStub ? (
-            <div className="mt-4 p-3 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
-              Competition details are coming soon. Basic placeholder shown to avoid broken links.
-            </div>
-          ) : null}
-          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-none bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Participants</p>
-              <p className="text-2xl font-bold text-accent">{competition.participants}</p>
-            </div>
-            <div className="p-4 rounded-none bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Countries</p>
-              <p className="text-2xl font-bold text-accent">{competition.countries}</p>
-            </div>
-            <div className="p-4 rounded-none bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Records Set</p>
-              <p className="text-2xl font-bold text-accent">{competition.records}</p>
-            </div>
-            <div className="p-4 rounded-none bg-accent/10">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-1">Location</p>
-              <p className="text-sm font-bold text-foreground">{competition.location}</p>
-            </div>
-          </div>
-        </div>
+          }
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">About</h2>
-              <p className="p-6 rounded-none border border-border text-foreground leading-relaxed">{competition.about}</p>
-            </div>
+        <div className="detail-layout">
+          <div className="detail-stack">
+            <section className="page-section-tight space-y-3">
+              <h2 className="text-xl font-semibold text-foreground">About</h2>
+              <p className="text-sm leading-6 text-foreground">{competition.about}</p>
+            </section>
 
             {isUpcoming ? (
-              <div className="p-4 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+              <section className="page-section-tight text-sm text-muted-foreground">
                 Results will be posted after the competition concludes. Check back for official times and placements.
-              </div>
+              </section>
             ) : results.length ? (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-foreground">Results</h2>
-                  <Badge variant="outline" className="border-border text-foreground bg-muted">
+              <section className="page-section-tight space-y-4">
+                <div className="section-toolbar">
+                  <div className="space-y-1">
+                    <h2 className="text-xl font-semibold text-foreground">Results</h2>
+                    <p className="text-sm text-muted-foreground">Filter event blocks while preserving athlete deep links.</p>
+                  </div>
+                  <Badge variant="outline" className="border-border text-foreground bg-background/78">
                     Demo data
                   </Badge>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 mb-4 text-xs text-muted-foreground">
+
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <span className="font-semibold text-foreground">Filter:</span>
                   <Link
                     href={baseHref}
-                    className={`rounded-none border px-3 py-1 ${
+                    className={`rounded-full border px-3 py-1 ${
                       !normalizedSelected ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
                     data-testid="competition-event-filter"
@@ -120,7 +138,7 @@ export default async function CompetitionProfilePage({
                     <Link
                       key={eventBlock.event}
                       href={`${baseHref}?event=${encodeURIComponent(eventBlock.event)}`}
-                      className={`rounded-none border px-3 py-1 ${
+                      className={`rounded-full border px-3 py-1 ${
                         normalizedSelected && normalizeKey(eventBlock.event) === normalizedSelected
                           ? "border-accent text-accent"
                           : "border-border text-foreground"
@@ -131,15 +149,17 @@ export default async function CompetitionProfilePage({
                     </Link>
                   ))}
                 </div>
+
                 <div className="space-y-4" data-testid="competition-results">
                   {filteredResults.map((eventBlock) => (
-                    <div key={eventBlock.event} className="p-4 rounded-none border border-border bg-card space-y-3">
+                    <div key={eventBlock.event} className="page-section-tight space-y-3 bg-background/78">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-semibold text-foreground">{eventBlock.event}</p>
                         {eventBlock.round ? (
-                          <span className="text-xs font-semibold text-muted-foreground uppercase">{eventBlock.round}</span>
+                          <span className="text-xs font-semibold uppercase text-muted-foreground">{eventBlock.round}</span>
                         ) : null}
                       </div>
+
                       <div className="space-y-2">
                         {eventBlock.entries.map((entry, idx) => {
                           const { isPB, isSB } = getResultFlags(entry.athleteId, eventBlock.event, entry.result)
@@ -154,21 +174,17 @@ export default async function CompetitionProfilePage({
                                     </Badge>
                                   ) : null}
                                   {!isPB && isSB ? (
-                                    <Badge variant="outline" className="border-amber-300/70 text-amber-700 bg-amber-50">
+                                    <Badge variant="outline" className="border-amber-300/70 bg-amber-50 text-amber-700">
                                       SB
                                     </Badge>
                                   ) : null}
                                 </div>
                                 <p className="text-xs text-muted-foreground">{entry.place}</p>
-                                <p className="text-[11px] text-muted-foreground">
-                                  {entry.source ?? "Demo data"}
-                                </p>
+                                <p className="text-[11px] text-muted-foreground">{entry.source ?? "Demo data"}</p>
                               </div>
                               <div className="text-right">
                                 <p className="font-semibold text-foreground">{entry.result}</p>
-                                {entry.note ? (
-                                  <p className="text-xs text-muted-foreground">{entry.note}</p>
-                                ) : null}
+                                {entry.note ? <p className="text-xs text-muted-foreground">{entry.note}</p> : null}
                               </div>
                             </div>
                           )
@@ -188,7 +204,7 @@ export default async function CompetitionProfilePage({
                             <Link
                               key={`${entry.athleteName}-${idx}`}
                               href={href}
-                              className="block rounded-none border border-border bg-background px-3 py-2 hover:border-accent transition-colors"
+                              className="block detail-list-item hover:border-accent transition-colors"
                               data-testid="competition-result-entry"
                             >
                               {content}
@@ -196,7 +212,7 @@ export default async function CompetitionProfilePage({
                           ) : (
                             <div
                               key={`${entry.athleteName}-${idx}`}
-                              className="rounded-none border border-border bg-background px-3 py-2"
+                              className="detail-list-item"
                               data-testid="competition-result-entry"
                             >
                               {content}
@@ -207,104 +223,85 @@ export default async function CompetitionProfilePage({
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
             ) : null}
 
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Events</h2>
-              <div className="grid grid-cols-2 gap-2">
+            <section className="page-section-tight space-y-3">
+              <h2 className="text-xl font-semibold text-foreground">Events</h2>
+              <div className="grid gap-2 sm:grid-cols-2">
                 {competition.events.map((event, i) => (
-                  <div key={i} className="flex gap-2 p-3 rounded-none border border-border">
-                    <div className="w-1.5 h-1.5 rounded-none bg-accent mt-1.5 flex-shrink-0" />
-                    <p className="text-foreground text-sm">{event}</p>
+                  <div key={i} className="detail-list-item flex gap-2 bg-background/74">
+                    <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                    <p className="text-sm text-foreground">{event}</p>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Highlights</h2>
+            <section className="page-section-tight space-y-3">
+              <h2 className="text-xl font-semibold text-foreground">Highlights</h2>
               <div className="space-y-2">
                 {competition.highlights.map((highlight, i) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-none border border-accent/20 bg-accent/5">
-                    <div className="w-2 h-2 rounded-none bg-accent mt-1.5 flex-shrink-0" />
-                    <p className="text-foreground text-sm">{highlight}</p>
+                  <div key={i} className="detail-list-item border-accent/20 bg-accent/5">
+                    {highlight}
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Medal Winners (Philippines)</h2>
+            <section className="page-section-tight space-y-3">
+              <h2 className="text-xl font-semibold text-foreground">Medal winners (Philippines)</h2>
               {isUpcoming ? (
-                <div className="p-4 rounded-none border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                   Medal winners will be updated after the competition ends.
                 </div>
               ) : (
                 <div className="space-y-2">
                   {competition.medalists.map((medalist, i) => (
-                    <div key={i} className="p-3 rounded-none border border-border hover:bg-muted transition-colors">
-                      <p className="text-foreground text-sm">{medalist}</p>
+                    <div key={i} className="detail-list-item bg-background/74">
+                      <p className="text-sm text-foreground">{medalist}</p>
                     </div>
                   ))}
                 </div>
               )}
-            </div>
+            </section>
           </div>
 
-          <div className="space-y-6">
-            <div className="p-6 rounded-none border border-border">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-4">Key Information</p>
+          <aside className="detail-stack">
+            <div className="detail-sidebar-card space-y-4">
+              <p className="text-xs font-semibold uppercase text-muted-foreground">Key information</p>
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Start Date</p>
-                  <p className="text-sm font-medium text-foreground">{competition.startDate}</p>
+                  <p className="text-xs text-muted-foreground">Start date</p>
+                  <p className="mt-1 text-sm font-medium text-foreground">{competition.startDate}</p>
                 </div>
-                <div className="h-px bg-border" />
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">End Date</p>
-                  <p className="text-sm font-medium text-foreground">{competition.endDate}</p>
+                  <p className="text-xs text-muted-foreground">End date</p>
+                  <p className="mt-1 text-sm font-medium text-foreground">{competition.endDate}</p>
                 </div>
-                <div className="h-px bg-border" />
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Organizer</p>
-                  <p className="text-sm font-medium text-foreground">{competition.organizer}</p>
+                  <p className="text-xs text-muted-foreground">Organizer</p>
+                  <p className="mt-1 text-sm font-medium text-foreground">{competition.organizer}</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-6 rounded-none border border-border">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Logistics</p>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Tickets</p>
-                  <p className="text-sm text-foreground">{competition.ticketInfo}</p>
-                </div>
-                <div className="h-px bg-border" />
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Sponsors</p>
-                  <p className="text-xs text-foreground">{competition.sponsor}</p>
-                </div>
+            <div className="detail-sidebar-card space-y-3">
+              <p className="text-xs font-semibold uppercase text-muted-foreground">Logistics</p>
+              <div>
+                <p className="text-xs text-muted-foreground">Tickets</p>
+                <p className="mt-1 text-sm text-foreground">{competition.ticketInfo}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Sponsor</p>
+                <p className="mt-1 text-sm text-foreground">{competition.sponsor}</p>
               </div>
             </div>
-
-            <div className="p-6 rounded-none border border-accent/30 bg-accent/5">
-              <p className="text-xs text-muted-foreground font-semibold uppercase mb-3">Competition Type</p>
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-foreground">{competition.type}</p>
-                <p className="text-xs text-muted-foreground mt-2">Participants: {competition.participants}</p>
-                <p className="text-xs text-muted-foreground">Countries: {competition.countries}</p>
-              </div>
-            </div>
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
 
-      <div className="border-t border-border mt-16">
-        <div className="page-shell py-8">
-          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }

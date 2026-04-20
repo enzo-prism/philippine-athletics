@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { CalendarDays, Clock, FileText, Filter, Search, Sparkles } from "lucide-react"
 import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -114,38 +115,22 @@ export default function ChangelogPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell space-y-8 py-12">
-        <header className="space-y-5">
-          <p className="brand-eyebrow flex items-center gap-2">
-            <FileText className="size-4" />
-            Updates
-          </p>
-          <h1 className="text-4xl font-bold text-foreground sm:text-5xl">Project Updates</h1>
-          <p className="max-w-3xl text-base leading-relaxed text-muted-foreground">
-            A clean, focused timeline of product changes. Explore curated releases and the engineering commit history, each with clear
-            context and impact.
-          </p>
-          <div className="grid gap-3 sm:grid-cols-3">
-            <Card className="py-0">
-              <CardContent className="space-y-1 p-4">
-                <p className="text-xs font-semibold uppercase text-muted-foreground">Last updated</p>
-                <p className="text-sm font-semibold text-foreground">{formatDay(lastUpdated)}</p>
-              </CardContent>
-            </Card>
-            <Card className="py-0">
-              <CardContent className="space-y-1 p-4">
-                <p className="text-xs font-semibold uppercase text-muted-foreground">Product releases logged</p>
-                <p className="text-sm font-semibold text-foreground">{productUpdates.length} major updates</p>
-              </CardContent>
-            </Card>
-            <Card className="py-0">
-              <CardContent className="space-y-1 p-4">
-                <p className="text-xs font-semibold uppercase text-muted-foreground">Engineering changes tracked</p>
-                <p className="text-sm font-semibold text-foreground">{commitLog.length} commits</p>
-              </CardContent>
-            </Card>
-          </div>
-        </header>
+      <div className="page-shell space-y-8 py-6 sm:py-8">
+        <PageIntro
+          eyebrow={
+            <span className="inline-flex items-center gap-2">
+              <FileText className="size-4" />
+              Updates
+            </span>
+          }
+          title="Project updates"
+          description="A clean, focused timeline of product changes. Explore curated releases and the engineering commit history, each with clear context and impact."
+          stats={[
+            { label: "Last updated", value: formatDay(lastUpdated) },
+            { label: "Product releases logged", value: `${productUpdates.length} major updates` },
+            { label: "Engineering changes tracked", value: `${commitLog.length} commits` },
+          ]}
+        />
 
         <Card className="gap-0 py-0">
           <CardContent className="space-y-4 p-6">
@@ -308,6 +293,8 @@ export default function ChangelogPage() {
           </div>
         )}
       </div>
+
+      <AppFooter />
     </div>
   )
 }

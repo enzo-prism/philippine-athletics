@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { sponsors } from "@/lib/data/sponsors"
 import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
@@ -9,21 +10,29 @@ export default function SponsorsPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        <header className="space-y-2">
-          <p className="brand-eyebrow flex items-center gap-2">
-            <Emoji symbol={emojiIcons.sparkles} className="text-base" />
-            Sponsors
-          </p>
-          <h1 className="text-4xl font-bold text-foreground">Search Sponsors</h1>
-          <p className="text-muted-foreground max-w-2xl text-sm">
-            Brands actively sponsoring athletes, coaches, and clubs. Tap any sponsor to see their roster and focus areas.
-          </p>
-        </header>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow={
+            <span className="inline-flex items-center gap-2">
+              <Emoji symbol={emojiIcons.sparkles} className="text-base" />
+              Sponsors
+            </span>
+          }
+          title="Search sponsors"
+          description="Brands actively sponsoring athletes, coaches, and clubs. Open any sponsor to see their roster and focus areas."
+          stats={[{ label: "Active sponsor profiles", value: sponsors.length, note: "Partnerships across athletes, clubs, and events" }]}
+          aside={<DemoAdSlot slotId="sponsors-inline-1" format="mrec" variant="spotlight" />}
+        />
 
-        <DemoAdSlot slotId="sponsors-inline-1" format="leaderboard" />
+        <section className="page-section">
+          <div className="section-toolbar">
+            <div>
+              <p className="brand-eyebrow">Results</p>
+              <h2 className="section-title">Sponsor directory</h2>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {sponsors.map((sponsor) => (
             <ProfileCard
               key={sponsor.id}
@@ -33,17 +42,14 @@ export default function SponsorsPage() {
               details={sponsor.details}
               href={`/sponsors/${sponsor.slug ?? sponsor.id}`}
               badges={sponsor.badges}
-              type="club"
+              type="sponsor"
             />
           ))}
-        </div>
-      </div>
+          </div>
+        </section>
+      </main>
 
-      <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }

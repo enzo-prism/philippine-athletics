@@ -14,7 +14,6 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     colorScheme: "light",
-    reducedMotion: "reduce",
   },
   projects: [
     {

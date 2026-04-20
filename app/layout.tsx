@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import localFont from "next/font/local"
-import { Geist, Geist_Mono, Noto_Serif } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ScrollReset } from "@/components/scroll-reset"
 import "./globals.css"
@@ -16,32 +15,18 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 })
 
-const accentDisplay = Noto_Serif({
-  subsets: ["latin"],
-  variable: "--font-accent-display",
-  weight: ["500", "600", "700"],
-})
+function toAbsoluteUrl(value: string) {
+  return value.startsWith("http://") || value.startsWith("https://") ? value : `https://${value}`
+}
 
-const brandAccent = localFont({
-  src: [
-    {
-      path: "../BBTMartiresFree/BBTMartiresFree-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../BBTMartiresFree/BBTMartiresFree-Thin.otf",
-      weight: "300",
-      style: "normal",
-    },
-  ],
-  variable: "--font-brand-accent-display",
-  display: "swap",
-})
-
-const metadataBase = process.env.NEXT_PUBLIC_SITE_URL
-  ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-  : new URL("https://philippine-athletics.vercel.app")
+const metadataBase = new URL(
+  toAbsoluteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL ||
+      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+      process.env.VERCEL_URL ||
+      "https://v0-philippine-athletics-design.vercel.app",
+  ),
+)
 
 export const metadata: Metadata = {
   metadataBase,
@@ -68,9 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geist.variable} ${geistMono.variable} ${accentDisplay.variable} ${brandAccent.variable} font-sans antialiased`}
-      >
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <ScrollReset />
         {children}
         <Analytics />

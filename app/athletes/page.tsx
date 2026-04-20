@@ -3,13 +3,12 @@ import { Search } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
 import { ProfileCard } from "@/components/profile-card";
+import { AppFooter, PageIntro } from "@/components/site/page-primitives";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { AthleteSummary, athleteSummaries } from "@/lib/data/athletes";
-import { SectionBackground } from "@/components/SectionBackground";
-import { TRACK_IMAGES } from "@/components/track-images";
 
 const eventOptions = [
   { label: "All events", value: "All" },
@@ -396,27 +395,22 @@ export default async function AthletesPage({
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="relative overflow-hidden border-b border-border">
-        <SectionBackground
-          imageUrl={TRACK_IMAGES.relayTeens}
-          opacity={24}
-          position="object-center"
-          overlayClassName="absolute inset-0 bg-gradient-to-b from-background/55 via-background/65 to-background/60"
+      <div className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Athlete directory"
+          title="Search athletes"
+          description="Discover Filipino track and field athletes from grassroots to national champions."
+          stats={[
+            {
+              label: "Showing",
+              value: `${filteredAthletes.length} of ${athletes.length}`,
+              note: "Filter by search, region, event, or ranking context",
+            },
+          ]}
+          aside={<DemoAdSlot slotId="athletes-inline-1" format="mrec" variant="spotlight" />}
         />
-        <div className="relative z-10 page-shell py-12 sm:py-16">
-          <p className="institutional-kicker brand-eyebrow mb-3">Athlete Directory</p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground text-balance">
-            Search Athletes
-          </h1>
-          <p className="mt-3 text-sm text-muted-foreground max-w-2xl">
-            Discover Filipino track and field athletes from grassroots to
-            national champions.
-          </p>
-        </div>
-      </div>
 
-      <div className="page-shell page-stack py-10">
-        <div className="sticky top-14 z-30 space-y-2">
+        <div className="sticky top-[7.2rem] z-30 space-y-2">
           <Card className="ui-panel py-0 gap-0">
             <CardContent className="p-3 sm:p-4 space-y-4">
               <form method="get" className="space-y-3">
@@ -441,7 +435,7 @@ export default async function AthletesPage({
                         placeholder="Search name, club, event…"
                         defaultValue={query}
                         autoComplete="off"
-                        className="rounded-none pl-9"
+                        className="pl-9"
                       />
                     </div>
                   </div>
@@ -504,7 +498,7 @@ export default async function AthletesPage({
                   </div>
 
                   <div className="flex items-end gap-2">
-                    <Button type="submit" className="rounded-none">
+                    <Button type="submit">
                       Apply Filters
                     </Button>
                     {hasActiveFilters ? (
@@ -553,7 +547,7 @@ export default async function AthletesPage({
         ) : (
           <div className="results-grid">
             <div className="sm:col-span-2 xl:col-span-3">
-              <DemoAdSlot slotId="athletes-inline-1" format="leaderboard" />
+              <DemoAdSlot slotId="athletes-inline-break" format="leaderboard" variant="inline" />
             </div>
             {filteredAthletes.map((athlete) => {
               const badges = getEventTags(athlete).slice(0, 3);
@@ -588,13 +582,7 @@ export default async function AthletesPage({
         )}
       </div>
 
-      <div className="border-t border-border mt-16">
-        <div className="page-shell py-8">
-          <p className="brand-subtext">
-            &copy; 2025 Philippine Athletics
-          </p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   );
 }

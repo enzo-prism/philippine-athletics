@@ -95,13 +95,14 @@ type EmojiProps = {
 export function Emoji({ symbol, label, className = "", title }: EmojiProps) {
   const Icon = iconBySymbol[symbol] ?? Circle
   return (
-    <Icon
-      role={label ? "img" : "presentation"}
-      aria-label={label || undefined}
-      aria-hidden={label ? undefined : true}
-      title={title || label || undefined}
-      className={cn("inline-block h-[1em] w-[1em] shrink-0 align-middle text-current", className)}
-      strokeWidth={1.9}
-    />
+    <span title={title || label || undefined}>
+      <Icon
+        role={label ? "img" : "presentation"}
+        aria-label={label || undefined}
+        aria-hidden={label ? undefined : true}
+        className={cn("inline-block h-[1em] w-[1em] shrink-0 align-middle text-current", className)}
+        strokeWidth={1.9}
+      />
+    </span>
   )
 }

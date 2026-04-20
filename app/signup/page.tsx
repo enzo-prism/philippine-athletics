@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { SignupPanel } from "@/components/signup/SignupPanel"
 
 export default function SignupPage() {
@@ -6,20 +7,17 @@ export default function SignupPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-        <div className="space-y-4">
-          <p className="brand-eyebrow">Membership Sign-up</p>
-          <h1 className="text-4xl font-bold text-foreground">Create your account</h1>
-        </div>
+      <main className="page-shell page-stack py-6 sm:py-8">
+        <PageIntro
+          eyebrow="Membership sign-up"
+          title="Create your account"
+          description="Join Philippine Athletics with a calmer, step-by-step sign-up experience designed for athletes, coaches, clubs, supporters, and sponsors."
+        />
 
         <SignupPanel />
-      </div>
+      </main>
 
-      <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }

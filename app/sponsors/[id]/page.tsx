@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
+import { AppFooter, DetailHero } from "@/components/site/page-primitives"
 import { getSponsorByIdOrStub, resolveRoster } from "@/lib/data/sponsors"
 import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
@@ -18,56 +19,54 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <main className="page-shell page-stack py-6 sm:py-8">
         <Link href="/sponsors" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
           <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
           Back to Sponsors
         </Link>
 
-        <DemoAdSlot slotId="sponsor-profile-top" format="leaderboard" />
+        <DetailHero
+          eyebrow="Sponsor"
+          title={sponsor.name}
+          description={sponsor.focus}
+          chips={
+            <>
+              <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
+                <Emoji symbol={emojiIcons.location} className="text-sm" />
+                {sponsor.location}
+              </span>
+              {sponsor.badges?.map((badge) => (
+                <Badge key={badge} text={badge} variant="accent" />
+              ))}
+            </>
+          }
+          notice={
+            isStub ? "Sponsor details are coming soon. Basic placeholder shown to avoid broken links." : undefined
+          }
+          stats={[
+            { label: "Roster entities", value: roster.length, note: "Athletes, coaches, and clubs supported by this sponsor" },
+            { label: "Support areas", value: sponsor.details.length, note: "Partnership benefits and focus areas" },
+          ]}
+          aside={<DemoAdSlot slotId="sponsor-profile-top" format="mrec" variant="spotlight" />}
+        />
 
-        <header className="space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="brand-eyebrow bg-accent/10 border border-accent/30 px-3 py-1 rounded-full">
-              Sponsor
-            </span>
-            {sponsor.badges?.map((badge) => (
-              <Badge key={badge} text={badge} variant="accent" />
-            ))}
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-4xl font-bold text-foreground">{sponsor.name}</h1>
-            <p className="text-base text-muted-foreground">{sponsor.focus}</p>
-            <div className="inline-flex items-center gap-1 text-xs font-semibold text-foreground bg-muted border border-border px-3 py-1 rounded-full">
-              <Emoji symbol={emojiIcons.location} className="text-sm" />
-              {sponsor.location}
-            </div>
-          </div>
-
-          {isStub ? (
-            <div className="p-3 rounded-md border border-dashed border-border bg-muted/40 text-sm text-muted-foreground">
-              Sponsor details are coming soon. Basic placeholder shown to avoid broken links.
-            </div>
-          ) : null}
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="space-y-2">
+        <div className="detail-layout">
+          <div className="detail-stack">
+            <section className="page-section-tight space-y-3">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Emoji symbol={emojiIcons.sponsor} className="text-base" />
                 What they provide
               </h2>
-              <div className="space-y-2">
+              <div className="detail-list">
                 {sponsor.details.map((detail, idx) => (
-                  <div key={idx} className="p-3 rounded-lg border border-border bg-card text-sm text-foreground">
+                  <div key={idx} className="detail-list-item">
                     {detail}
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
-            <div className="space-y-3">
+            <section className="page-section-tight space-y-3">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Emoji symbol={emojiIcons.trophy} className="text-base" />
                 Sponsored roster
@@ -77,7 +76,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
                   <Link
                     key={`${entity.type}-${entity.id}`}
                     href={entity.href}
-                    className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors"
+                    className="detail-list-item hover:border-accent transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <Emoji
@@ -98,11 +97,11 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
 
-          <aside className="space-y-4">
-            <div className="p-4 rounded-lg border border-border bg-card space-y-2">
+          <aside className="detail-stack">
+            <div className="detail-sidebar-card space-y-2">
               <p className="text-xs text-muted-foreground font-semibold uppercase">Contact</p>
               <p className="text-sm text-muted-foreground">
                 Reach out via sponsors@philippineathletics.ph to start a sponsorship conversation.
@@ -116,7 +115,9 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
             </div>
           </aside>
         </div>
-      </div>
+      </main>
+
+      <AppFooter />
     </div>
   )
 }

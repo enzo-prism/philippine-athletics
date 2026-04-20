@@ -32,7 +32,7 @@ export function GlobalSearchForm({
   const inputId = useId()
 
   const isCompact = variant === "compact"
-  const resolvedButtonVariant = buttonVariant ?? (isCompact ? "outline" : "default")
+  const resolvedButtonVariant = buttonVariant ?? (isCompact ? "secondary" : "default")
 
   useEffect(() => {
     setValue(defaultValue)
@@ -46,36 +46,48 @@ export function GlobalSearchForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={cn("flex items-center gap-2", className)}>
+    <form
+      onSubmit={handleSubmit}
+      className={cn(
+        "flex items-center gap-2 rounded-full border border-border/80 bg-background/84 p-1.5 shadow-[var(--shadow-soft)]",
+        className,
+      )}
+    >
       <Label htmlFor={inputId} className="sr-only">
         Search athletes, coaches, and clubs
       </Label>
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+        <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           id={inputId}
           type="search"
+          autoComplete="off"
+          inputMode="search"
+          name="query"
           data-testid="global-search-input"
           value={value}
           onChange={(event) => setValue(event.target.value)}
-          placeholder="Search athletes, coaches, clubs..."
-          className={cn("pl-9", isCompact ? "h-9 text-sm" : "h-12 text-base", inputClassName)}
+          placeholder="Search athletes, clubs, IDs…"
+          className={cn(
+            "border-0 bg-transparent pl-10 shadow-none ring-0 focus-visible:border-transparent focus-visible:ring-0",
+            isCompact ? "h-10 text-sm" : "h-12 text-base",
+            inputClassName,
+          )}
         />
       </div>
       <Button
         type="submit"
-        size={isCompact ? "icon" : "lg"}
+        size={isCompact ? "sm" : "lg"}
         variant={resolvedButtonVariant}
         className={cn(
-          isCompact ? "h-9 w-9" : "px-6",
-          !isCompact && "shadow-soft",
+          isCompact ? "min-w-[5rem] px-3" : "px-6",
           resolvedButtonVariant === "outline" && "text-muted-foreground hover:text-accent-foreground",
           buttonClassName,
         )}
         aria-label="Run search"
         data-testid="global-search-submit"
       >
-        {isCompact ? <Search className="size-4" aria-hidden="true" /> : actionLabel}
+        {isCompact ? actionLabel : actionLabel}
       </Button>
     </form>
   )

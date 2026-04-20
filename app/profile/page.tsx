@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type ComponentProps, type Dispatch, type 
 import { CheckCircle2, MapPin, Medal, ShieldCheck, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Navigation } from "@/components/navigation"
+import { AppFooter } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -399,7 +400,7 @@ export default function ProfilePage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={addRow(setPastComps, "")}
+                    onClick={addRow<string>(setPastComps, "")}
                     className="w-fit"
                   >
                     Add competition
@@ -428,7 +429,7 @@ export default function ProfilePage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={addRow(setUpcomingComps, "")}
+                    onClick={addRow<string>(setUpcomingComps, "")}
                     className="w-fit"
                   >
                     Add upcoming
@@ -485,7 +486,7 @@ export default function ProfilePage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={addRow(setSponsors, "")}
+                    onClick={addRow<string>(setSponsors, "")}
                     className="w-fit"
                   >
                     Add sponsor
@@ -514,7 +515,7 @@ export default function ProfilePage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={addRow(setCoaches, "")}
+                    onClick={addRow<string>(setCoaches, "")}
                     className="w-fit"
                   >
                     Add coach
@@ -734,11 +735,7 @@ export default function ProfilePage() {
         />
       </div>
 
-      <div className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="brand-subtext">&copy; 2025 Philippine Athletics</p>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }
