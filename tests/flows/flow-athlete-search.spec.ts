@@ -6,7 +6,7 @@ test("Flow 1: Athlete search", async ({ page }) => {
 
   await test.step("Open home", async () => {
     await page.goto("/")
-    await expect(page.getByRole("heading", { name: /One clean system/i })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /national home for Filipino athletics/i })).toBeVisible()
   })
 
   await test.step("Search for an athlete", async () => {

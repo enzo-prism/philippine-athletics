@@ -191,7 +191,12 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                 )
 
                 return href ? (
-                  <Link key={athlete.name} href={href} className="block">
+                  <Link
+                    key={athlete.name}
+                    href={href}
+                    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+                    aria-label={`Open athlete profile for ${athlete.name}`}
+                  >
                     {content}
                   </Link>
                 ) : (
@@ -219,7 +224,12 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                 )
 
                 return href ? (
-                  <Link key={coach.name} href={href} className="block">
+                  <Link
+                    key={coach.name}
+                    href={href}
+                    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+                    aria-label={`Open coach profile for ${coach.name}`}
+                  >
                     {inner}
                   </Link>
                 ) : (

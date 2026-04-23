@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CompetitionIcon } from "@/components/icons/athletics-icons";
 import { Navigation } from "@/components/navigation";
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
 import { AppFooter, PageIntro } from "@/components/site/page-primitives";
@@ -43,9 +44,9 @@ export default async function CompetitionsPage({
 
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
-          eyebrow="Competition calendar"
-          title="Search competitions"
-          description="Track sanctioned meets, date windows, and profile entry points across the calendar."
+          eyebrow="Competition archive"
+          title="Competition profiles with event and result proof."
+          description="Track sanctioned meets, date windows, organizers, results, and profile entry points across the calendar."
           stats={[{ label: "Current view", value: statusFilter, note: "Filter upcoming, past, or all competitions" }]}
           actions={
             <div className="flex flex-wrap gap-3 text-sm">
@@ -94,9 +95,13 @@ export default async function CompetitionsPage({
                 className="directory-card"
                 data-testid="competition-item"
               >
+                <div className="directory-card-meta">
+                  <CompetitionIcon className="size-4" aria-hidden="true" />
+                  <span>{comp.type}</span>
+                </div>
                 <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0">
-                    <p className="text-lg font-semibold tracking-tight text-foreground">{comp.name}</p>
+                    <p className="text-lg font-semibold tracking-normal text-foreground">{comp.name}</p>
                     <p className="mt-2 text-sm text-muted-foreground">{comp.location}</p>
                   </div>
                   <span className="rounded-full border border-border/80 bg-background/84 px-3 py-1 text-xs text-muted-foreground">

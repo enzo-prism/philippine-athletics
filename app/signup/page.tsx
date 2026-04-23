@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { Navigation } from "@/components/navigation"
 import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { SignupPanel } from "@/components/signup/SignupPanel"
@@ -9,12 +10,14 @@ export default function SignupPage() {
 
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
-          eyebrow="Membership sign-up"
-          title="Create your account"
-          description="Join Philippine Athletics with a calmer, step-by-step sign-up experience designed for athletes, coaches, clubs, supporters, and sponsors."
+          eyebrow="Join the journey"
+          title="Start with the pathway that fits your role."
+          description="Choose the route that matches how you participate in Philippine Athletics: LGU and school lead, club operator, youth participant or parent, adult athlete, official, volunteer, supporter, or sponsor."
         />
 
-        <SignupPanel />
+        <Suspense fallback={null}>
+          <SignupPanel />
+        </Suspense>
       </main>
 
       <AppFooter />

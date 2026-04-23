@@ -1,7 +1,13 @@
 "use client"
 
 import { useEffect, useMemo, useState, type ComponentProps, type Dispatch, type SetStateAction } from "react"
-import { CheckCircle2, MapPin, Medal, ShieldCheck, User } from "lucide-react"
+import {
+  CheckIcon,
+  LocationIcon,
+  MedalIcon,
+  ProfileIcon,
+  RecognitionIcon,
+} from "@/components/icons/athletics-icons"
 import { cn } from "@/lib/utils"
 import { Navigation } from "@/components/navigation"
 import { AppFooter } from "@/components/site/page-primitives"
@@ -573,7 +579,7 @@ export default function ProfilePage() {
             <Badge variant="outline" className="border-dashed bg-muted/60 backdrop-blur">
               Preview role
             </Badge>
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-normal">
               {profile.roleLabel}
             </span>
           </div>
@@ -624,7 +630,7 @@ export default function ProfilePage() {
             <header className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
-                  <User className="w-6 h-6 text-accent" />
+                  <ProfileIcon className="w-6 h-6 text-accent" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="brand-eyebrow">{profile.roleLabel}</p>
@@ -635,7 +641,7 @@ export default function ProfilePage() {
               <p className="text-sm text-muted-foreground">{profile.headline}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <Badge variant="outline" className="gap-1 bg-muted text-foreground">
-                  <MapPin className="size-3.5 text-accent" />
+                  <LocationIcon className="size-3.5 text-accent" />
                   {profile.location}
                 </Badge>
                 {profile.tags?.map((tag) => (
@@ -659,7 +665,7 @@ export default function ProfilePage() {
                   {profile.events && profile.events.length ? (
                     <section className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <Medal className="w-4 h-4 text-accent" />
+                        <MedalIcon className="w-4 h-4 text-accent" />
                         <h2 className="text-xl font-semibold text-foreground">Events</h2>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -675,7 +681,7 @@ export default function ProfilePage() {
                   {profile.achievements && profile.achievements.length ? (
                     <section className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-accent" />
+                        <CheckIcon className="w-4 h-4 text-accent" />
                         <h2 className="text-xl font-semibold text-foreground">Highlights</h2>
                       </div>
                       <div className="space-y-2">
@@ -702,7 +708,7 @@ export default function ProfilePage() {
                     <Card className="ui-panel py-0 gap-0 border-accent/30 bg-accent/5">
                       <CardContent className="p-6 space-y-2">
                         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                          <ShieldCheck className="w-4 h-4 text-accent" />
+                          <RecognitionIcon className="w-4 h-4 text-accent" />
                           Admin Controls (concept)
                         </div>
                         <p className="text-xs text-muted-foreground">

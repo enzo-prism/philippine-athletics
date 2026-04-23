@@ -51,6 +51,11 @@ export type Sponsor = {
   note?: string
 }
 
+export type AthleteVerificationBadge = {
+  label: string
+  detail?: string
+}
+
 export type AthleteProfile = {
   id: string
   slug: string
@@ -74,6 +79,9 @@ export type AthleteProfile = {
   bio: string
   contact: Contact
   sponsors: Sponsor[]
+  pathwayStage?: "National Team" | "Developmental Team" | "Masters"
+  teamAffiliation?: string
+  verificationBadges?: AthleteVerificationBadge[]
   isStub?: boolean
 }
 
@@ -94,6 +102,9 @@ export type AthleteSummary = {
   globalRank?: string | number
   events?: string[]
   href: string
+  pathwayStage?: AthleteProfile["pathwayStage"]
+  teamAffiliation?: string
+  verificationBadges?: AthleteVerificationBadge[]
   isStub?: boolean
 }
 
@@ -227,6 +238,12 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
       email: "info@philippineathletics.ph",
     },
     sponsors: [],
+    pathwayStage: "National Team",
+    teamAffiliation: "Philippine Athletics National Team",
+    verificationBadges: [
+      { label: "Olympic roster verified", detail: "Represents the top public pathway example in the current demo pack." },
+      { label: "World Athletics evidence", detail: "Primary result evidence can be traced to World Athletics toplist data." },
+    ],
   },
   {
     id: "athlete-paolo-lim",
@@ -596,6 +613,12 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     bio: "Sprint and hurdles athlete with the Manila Striders Track Club.",
     contact: {},
     sponsors: [],
+    pathwayStage: "Masters",
+    teamAffiliation: "Manila Striders veteran leadership pool",
+    verificationBadges: [
+      { label: "Masters pathway", detail: "Used to represent the veteran athlete pathway inside the public profile layer." },
+      { label: "Mentor lane", detail: "Keeps a veteran role visible while youth records stay private elsewhere." },
+    ],
   },
   {
     id: "athlete-kristina-knott",
@@ -712,6 +735,12 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     bio: "Development pool hurdler focused on the 400m hurdles.",
     contact: {},
     sponsors: [],
+    pathwayStage: "Developmental Team",
+    teamAffiliation: "Philippine Athletics Development Pool",
+    verificationBadges: [
+      { label: "Development pool", detail: "Represents the bridge between youth pipeline work and national team selection." },
+      { label: "Federation tracked", detail: "Included as a credible public pathway example for stakeholders." },
+    ],
   },
   {
     id: "athlete-lealyn-sanita",
@@ -1510,6 +1539,9 @@ function toSummary(profile: AthleteProfile): AthleteSummary {
     globalRank: primaryEvent?.globalRank,
     events: profile.events.map((evt) => evt.name),
     href: `/athletes/${profile.slug}`,
+    pathwayStage: profile.pathwayStage,
+    teamAffiliation: profile.teamAffiliation,
+    verificationBadges: profile.verificationBadges,
     isStub: profile.isStub,
   }
 }
@@ -1571,6 +1603,9 @@ const buildStubProfile = (summary: AthleteSummary): AthleteProfile => {
     bio: "Profile coming soon. Details to be updated.",
     contact: {},
     sponsors: [],
+    pathwayStage: summary.pathwayStage,
+    teamAffiliation: summary.teamAffiliation,
+    verificationBadges: summary.verificationBadges,
     isStub: true,
   }
 }

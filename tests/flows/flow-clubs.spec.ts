@@ -6,7 +6,7 @@ test("Flow 3: Club roster", async ({ page }) => {
 
   await test.step("Open clubs", async () => {
     await page.goto("/clubs")
-    await expect(page.getByRole("heading", { name: /Search clubs/i })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /local engine of the sport/i })).toBeVisible()
   })
 
   await test.step("Open featured club", async () => {

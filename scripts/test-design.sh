@@ -28,4 +28,4 @@ if {
 fi
 
 echo "Running Playwright design tests..."
-exec pnpm exec playwright test "$@"
+exec pnpm exec playwright test tests/design.spec.ts "$@"

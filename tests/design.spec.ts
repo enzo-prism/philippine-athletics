@@ -10,6 +10,11 @@ test.describe("Desktop design snapshots", () => {
     { name: "competition-profile", path: "/competitions/2025-southeast-asian-games" },
     { name: "clubs", path: "/clubs" },
     { name: "club-profile", path: "/clubs/manila-striders-track-club" },
+    { name: "lgu-dashboard", path: "/dashboard/lgu/quezon-city?pilot=quezon-city&persona=lgu" },
+    {
+      name: "club-owner-dashboard",
+      path: "/dashboard/clubs/manila-striders-track-club?pilot=quezon-city&club=club-manila-striders&persona=club-owner",
+    },
     { name: "coaches", path: "/coaches" },
     { name: "recognition", path: "/recognition" },
     { name: "data-portal", path: "/data-portal" },
@@ -45,6 +50,11 @@ test.describe("Mobile design snapshots", () => {
     { name: "rankings-mobile", path: "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025" },
     { name: "recognition-mobile", path: "/recognition" },
     { name: "data-portal-mobile", path: "/data-portal" },
+    {
+      name: "participant-mobile",
+      path: "/participants/aira-mendoza?pilot=quezon-city&club=club-manila-striders&persona=guardian",
+    },
+    { name: "mobile-demo-mobile", path: "/demo/mobile?pilot=quezon-city&persona=guardian" },
     { name: "profile-mobile", path: "/profile" },
   ]
 

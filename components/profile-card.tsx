@@ -1,14 +1,14 @@
 import Link from "next/link"
-import {
-  ArrowUpRight,
-  CalendarDays,
-  Handshake,
-  MapPin,
-  Trophy,
-  UserRound,
-  Users,
-} from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/badge"
+import {
+  AthleteIcon,
+  ClubIcon,
+  CoachIcon,
+  CompetitionIcon,
+  LocationIcon,
+  SponsorIcon,
+} from "@/components/icons/athletics-icons"
 import { Badge as UiBadge } from "@/components/ui/badge"
 
 interface ProfileCardProps {
@@ -22,18 +22,22 @@ interface ProfileCardProps {
 }
 
 const typeConfig = {
-  athlete: { icon: Trophy, label: "Athlete" },
-  coach: { icon: UserRound, label: "Coach" },
-  club: { icon: Users, label: "Club" },
-  competition: { icon: CalendarDays, label: "Competition" },
-  sponsor: { icon: Handshake, label: "Sponsor" },
+  athlete: { icon: AthleteIcon, label: "Athlete" },
+  coach: { icon: CoachIcon, label: "Coach" },
+  club: { icon: ClubIcon, label: "Club" },
+  competition: { icon: CompetitionIcon, label: "Competition" },
+  sponsor: { icon: SponsorIcon, label: "Sponsor" },
 } as const
 
 export function ProfileCard({ name, subtitle, details, href, type, location, badges }: ProfileCardProps) {
   const Icon = typeConfig[type].icon
 
   return (
-    <Link href={href} className="block h-full">
+    <Link
+      href={href}
+      className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+      aria-label={`Open ${typeConfig[type].label.toLowerCase()} profile for ${name}`}
+    >
       <article className="directory-card group">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -46,7 +50,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
                 <Badge key={badge} text={badge} variant="accent" className="uppercase tracking-wide rounded-full" />
               ))}
             </div>
-            <h3 className="mt-3 text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            <h3 className="mt-3 text-lg font-semibold tracking-normal text-foreground transition-colors group-hover:text-primary">
               {name}
             </h3>
             {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
@@ -63,7 +67,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
               className="max-w-full whitespace-normal break-words bg-background/84 leading-tight"
               title={location}
             >
-              <MapPin className="size-3" aria-hidden="true" />
+              <LocationIcon className="size-3" aria-hidden="true" />
               <span>{location}</span>
             </UiBadge>
           </div>

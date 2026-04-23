@@ -7,6 +7,11 @@
 - `styles/` and `public/`: Global styles and static assets.
 - Path alias `@/*` maps to the repo root (set in `tsconfig.json`), so import with `@/components/...` instead of relative `../../` chains.
 
+## Design Contract
+- Read `DESIGN.md` before meaningful UI, layout, or frontend design work. It is the code-facing visual contract for the institutional athletics operating-system direction.
+- Keep `AGENTS.md` focused on operating rules; update `DESIGN.md` when visual tokens, route patterns, or sponsor-placement rules change.
+- Prefer the repo-local `.agents/skills/ui-design-system` guidance for repeated UI work.
+
 ## Build, Test, and Development Commands
 - `pnpm install`: Install dependencies.
 - `pnpm dev`: Run the Next.js dev server (Turbopack) at `http://localhost:3000`.

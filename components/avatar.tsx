@@ -6,12 +6,12 @@ interface AvatarProps {
 const colors = [
   "bg-primary",
   "bg-accent",
-  "bg-slate-700",
-  "bg-slate-600",
+  "bg-chart-3",
+  "bg-chart-1",
   "bg-emerald-700",
   "bg-red-700",
   "bg-amber-700",
-  "bg-blue-700",
+  "bg-chart-2",
 ]
 
 function hashName(name: string): number {
@@ -37,7 +37,7 @@ export function Avatar({ name, size = "md" }: AvatarProps) {
 
   return (
     <div
-      className={`${colorClass} ${sizeClasses} rounded-none flex items-center justify-center text-white font-semibold shrink-0`}
+      className={`${colorClass} ${sizeClasses} flex shrink-0 items-center justify-center rounded-lg text-white font-semibold`}
     >
       {initials}
     </div>

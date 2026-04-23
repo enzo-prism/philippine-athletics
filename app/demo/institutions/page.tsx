@@ -20,7 +20,7 @@ export default function InstitutionsDemoPage() {
           {institutionsFlow.scriptSteps.map((step, index) => (
             <Card key={step.title} className="py-0">
               <CardContent className="space-y-1 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Step {index + 1}</p>
+                <p className="text-xs font-semibold uppercase tracking-normal text-accent">Step {index + 1}</p>
                 <p className="text-sm font-semibold text-foreground">{step.title}</p>
                 <p className="text-sm text-muted-foreground">{step.detail}</p>
               </CardContent>

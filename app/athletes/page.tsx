@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { DirectoryIcon } from "@/components/icons/athletics-icons";
 import { Navigation } from "@/components/navigation";
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
 import { ProfileCard } from "@/components/profile-card";
@@ -107,7 +107,7 @@ const categoryByEvent: Record<string, string> = {
 const athletes: AthleteSummary[] = athleteSummaries;
 
 const selectClassName =
-  "h-9 w-full rounded-none border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+  "h-11 w-full rounded-lg border border-input bg-background/92 px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -398,8 +398,8 @@ export default async function AthletesPage({
       <div className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
           eyebrow="Athlete directory"
-          title="Search athletes"
-          description="Discover Filipino track and field athletes from grassroots to national champions."
+          title="Athlete bios for the Philippine athletics pathway."
+          description="Discover Filipino athletes from grassroots to national team context, with event filters, profile evidence, rankings, clubs, and sponsor connections close by."
           stats={[
             {
               label: "Showing",
@@ -423,7 +423,7 @@ export default async function AthletesPage({
                       Search
                     </label>
                     <div className="relative">
-                      <Search
+                      <DirectoryIcon
                         className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
                         aria-hidden="true"
                       />

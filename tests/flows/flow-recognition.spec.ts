@@ -6,7 +6,7 @@ test("Flow 5: Recognition", async ({ page }) => {
 
   await test.step("Open recognition", async () => {
     await page.goto("/recognition")
-    await expect(page.getByRole("heading", { name: /official & trusted/i })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /Recognition and trust signals/i })).toBeVisible()
   })
 
   await checkA11y(page, testInfo, "recognition")

@@ -1,22 +1,17 @@
+import type { ComponentType, SVGProps } from "react"
+
+import {
+  CheckIcon,
+  ClubIcon,
+  CoachIcon,
+  MedalIcon,
+  MembershipIcon,
+  RecognitionIcon,
+  SponsorIcon,
+  AthleteIcon,
+} from "@/components/icons/athletics-icons"
 import { cn } from "@/lib/utils"
 import { Badge as UiBadge } from "@/components/ui/badge"
-import {
-  Award,
-  Building2,
-  Flag,
-  Globe,
-  HeartPulse,
-  LucideIcon,
-  Medal,
-  Mountain,
-  ShieldCheck,
-  Target,
-  Timer,
-  UserCheck,
-  Users,
-  Zap,
-  Dumbbell,
-} from "lucide-react"
 
 interface BadgeProps {
   text: string
@@ -24,35 +19,36 @@ interface BadgeProps {
   variant?: "default" | "outline" | "secondary" | "accent"
 }
 
-// Map specific badge text to Lucide icons
-const badgeIcons: Record<string, LucideIcon> = {
+type BadgeIcon = ComponentType<SVGProps<SVGSVGElement>>
+
+const badgeIcons: Record<string, BadgeIcon> = {
   // Coach badges
-  "World Athletics CE Level 1": Globe,
-  "Philippine Athletics Certified Coach": Award,
-  "SafeSport Trained": ShieldCheck,
-  "Philippine Athletics Relay Clinic Facilitator": Users,
-  "Strength & Conditioning for Endurance Runners": Dumbbell,
-  "Marathon Training Specialist": Timer,
-  "Philippine Athletics Endurance Coach": Mountain,
-  "Certified Throws Coach": Target,
+  "World Athletics CE Level 1": RecognitionIcon,
+  "Philippine Athletics Certified Coach": CoachIcon,
+  "SafeSport Trained": CheckIcon,
+  "Philippine Athletics Relay Clinic Facilitator": CoachIcon,
+  "Strength & Conditioning for Endurance Runners": AthleteIcon,
+  "Marathon Training Specialist": AthleteIcon,
+  "Philippine Athletics Endurance Coach": CoachIcon,
+  "Certified Throws Coach": CoachIcon,
 
   // Recognition badges
-  "PA Recognized Club": ShieldCheck,
-  "PA Recognized Coach": ShieldCheck,
-  "SafeSport Compliant": ShieldCheck,
-  "Background Checked": ShieldCheck,
+  "PA Recognized Club": RecognitionIcon,
+  "PA Recognized Coach": RecognitionIcon,
+  "SafeSport Compliant": CheckIcon,
+  "Background Checked": CheckIcon,
   
   // Sponsor badges
-  "National Partner": Flag,
-  "Performance Nutrition": Zap,
-  "Recovery Partner": HeartPulse,
+  "National Partner": SponsorIcon,
+  "Performance Nutrition": MedalIcon,
+  "Recovery Partner": CheckIcon,
 
   // Membership badges
-  "Member Badge": UserCheck,
-  "Member Club Badge": Building2,
+  "Member Badge": MembershipIcon,
+  "Member Club Badge": ClubIcon,
 }
 
-const DefaultIcon = Medal
+const DefaultIcon = MedalIcon
 
 export function Badge({ text, className, variant = "accent" }: BadgeProps) {
   const Icon = badgeIcons[text] || DefaultIcon

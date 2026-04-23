@@ -1,8 +1,8 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useEffect, useId, useState } from "react"
-import { Search } from "lucide-react"
+import { useEffect, useState } from "react"
+import { DirectoryIcon } from "@/components/icons/athletics-icons"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +14,7 @@ type GlobalSearchFormProps = {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
   className?: string
   defaultValue?: string
+  id?: string
   inputClassName?: string
   variant?: "compact" | "hero"
 }
@@ -24,12 +25,12 @@ export function GlobalSearchForm({
   buttonVariant,
   className,
   defaultValue = "",
+  id = "global-directory-search",
   inputClassName,
   variant = "compact",
 }: GlobalSearchFormProps) {
   const router = useRouter()
   const [value, setValue] = useState(defaultValue)
-  const inputId = useId()
 
   const isCompact = variant === "compact"
   const resolvedButtonVariant = buttonVariant ?? (isCompact ? "secondary" : "default")
@@ -48,22 +49,23 @@ export function GlobalSearchForm({
   return (
     <form
       onSubmit={handleSubmit}
+      role="search"
       className={cn(
-        "flex items-center gap-2 rounded-full border border-border/80 bg-background/84 p-1.5 shadow-[var(--shadow-soft)]",
+        "flex items-center gap-2 rounded-lg border border-border bg-background/88 p-1.5 shadow-[var(--shadow-soft)]",
         className,
       )}
     >
-      <Label htmlFor={inputId} className="sr-only">
+      <Label htmlFor={id} className="sr-only">
         Search athletes, coaches, and clubs
       </Label>
       <div className="relative flex-1">
-        <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+        <DirectoryIcon className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
-          id={inputId}
+          id={id}
           type="search"
           autoComplete="off"
           inputMode="search"
-          name="query"
+          name="q"
           data-testid="global-search-input"
           value={value}
           onChange={(event) => setValue(event.target.value)}
@@ -87,7 +89,7 @@ export function GlobalSearchForm({
         aria-label="Run search"
         data-testid="global-search-submit"
       >
-        {isCompact ? actionLabel : actionLabel}
+        {actionLabel}
       </Button>
     </form>
   )

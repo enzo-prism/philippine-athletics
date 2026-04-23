@@ -44,8 +44,8 @@ export default async function ClubsPage({
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
           eyebrow="Club directory"
-          title="Search clubs"
-          description="Explore training environments, locations, and club focus areas across the Philippines."
+          title="Clubs are the local engine of the sport."
+          description="Explore recognized training environments, locations, rosters, and club focus areas across the Philippines."
           stats={[{ label: "Showing", value: `${filteredClubs.length} of ${clubs.length}`, note: "Filter by city, focus, or club name" }]}
           actions={
             <form method="get" className="flex w-full flex-col gap-3 sm:flex-row">

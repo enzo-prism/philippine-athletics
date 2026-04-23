@@ -22,6 +22,7 @@ For a concise view of what is implemented, what is demo-ready, and what gaps rem
 
 - `DemoFlows.md` — required audience demo scripts plus results-intake scope.
 - `docs/STATUS.md` — current build status, gaps, and recommended next steps.
+- `DESIGN.md` — code-facing design contract for the institutional athletics operating-system UI direction.
 - `docs/data/ranking-profile-consistency.md` — source-of-truth contract for rankings, athlete profile PB/rank cards, deep links, and normalization rules.
 - `docs/TESTING.md` — flow, design, and data-integrity verification commands.
 - `docs/research/results-intake.md` — research basis and workflow rationale for manual results ingestion.

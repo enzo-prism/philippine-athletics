@@ -39,7 +39,7 @@ const pickCreative = (slotId: string, format: DemoAdFormat, preferBannerCreative
 }
 
 const formatClassName = {
-  rail: "min-h-[74px] sm:min-h-[84px]",
+  rail: "h-[82px] sm:h-[88px]",
   spotlight: "min-h-[240px]",
   inline: "min-h-[132px]",
 }
@@ -81,7 +81,7 @@ function AdSlotCreative({
         className="relative flex h-full w-full flex-col items-center justify-center gap-1 px-4 text-center"
         data-testid={`demo-ad-text-fallback-${slotId}`}
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Sponsor Spotlight</p>
+        <p className="text-xs font-semibold uppercase tracking-normal text-primary">Sponsor Spotlight</p>
         <p className="text-[11px] text-muted-foreground">Open sponsor directory</p>
       </div>
     )
@@ -143,22 +143,23 @@ export function DemoAdSlot({
     >
       <Link
         href={href}
+        aria-label={`Open sponsor details for ${selectedCreative.name}`}
         className="flex h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/50"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.1),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.92),rgba(247,247,245,0.96))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.96),rgba(245,248,250,0.92))]" />
         <div className="relative z-10 flex h-full w-full flex-col justify-between">
           {resolvedVariant === "spotlight" ? (
             <div className="flex h-full flex-col gap-5 p-5 sm:p-6">
               <div className="space-y-2">
                 <p className="brand-eyebrow">{label}</p>
                 <div className="space-y-1">
-                  <p className="text-xl font-semibold tracking-tight text-foreground">{selectedCreative.name}</p>
+                  <p className="text-xl font-semibold tracking-normal text-foreground">{selectedCreative.name}</p>
                   <p className="text-sm text-muted-foreground">
                     Featured partner supporting athlete pathways, event delivery, and ecosystem growth.
                   </p>
                 </div>
               </div>
-              <div className="flex min-h-[156px] flex-1 items-center justify-center rounded-[1.45rem] border border-border/70 bg-background/80 p-4">
+              <div className="flex min-h-[156px] flex-1 items-center justify-center rounded-lg border border-border/70 bg-background/80 p-4">
                 <AdSlotCreative
                   key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
                   slotId={slotId}
@@ -171,10 +172,10 @@ export function DemoAdSlot({
             <div className="grid h-full w-full gap-3 p-4 sm:grid-cols-[minmax(0,0.95fr)_minmax(220px,1.05fr)] sm:p-5">
               <div className="space-y-1.5">
                 <p className="brand-eyebrow">{label}</p>
-                <p className="text-base font-semibold tracking-tight text-foreground">{selectedCreative.name}</p>
+                <p className="text-base font-semibold tracking-normal text-foreground">{selectedCreative.name}</p>
                 <p className="text-sm text-muted-foreground">Open sponsor details, supported roster, and partnership focus.</p>
               </div>
-              <div className="flex min-h-[96px] items-center justify-center rounded-[1.35rem] border border-border/70 bg-background/80 p-3">
+              <div className="flex min-h-[96px] items-center justify-center rounded-lg border border-border/70 bg-background/80 p-3">
                 <AdSlotCreative
                   key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
                   slotId={slotId}
@@ -184,13 +185,13 @@ export function DemoAdSlot({
               </div>
             </div>
           ) : (
-            <div className="grid h-full w-full items-center gap-3 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(180px,0.8fr)] sm:p-4">
+            <div className="grid h-full w-full grid-cols-[minmax(0,1fr)_minmax(112px,0.62fr)] items-center gap-3 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(220px,0.92fr)] sm:p-4">
               <div className="min-w-0 space-y-1">
                 <p className="brand-eyebrow">{label}</p>
-                <p className="truncate text-base font-semibold tracking-tight text-foreground sm:text-lg">{selectedCreative.name}</p>
-                <p className="text-sm text-muted-foreground">Explore the partner network backing Philippine Athletics.</p>
+                <p className="truncate text-base font-semibold tracking-normal text-foreground sm:text-lg">{selectedCreative.name}</p>
+                <p className="hidden text-sm text-muted-foreground sm:block">Explore the partner network backing Philippine Athletics.</p>
               </div>
-              <div className="flex h-full min-h-[56px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-background/84 p-3">
+              <div className="flex h-16 min-h-0 items-center justify-center rounded-lg border border-border/70 bg-background/84 p-0 sm:h-[68px]">
                 <AdSlotCreative
                   key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
                   slotId={slotId}

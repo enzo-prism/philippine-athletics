@@ -3,7 +3,9 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { CheckCircle2, Loader2, Mail } from "lucide-react"
+import { useSearchParams } from "next/navigation"
+import { Loader2, Mail } from "lucide-react"
+import { CheckIcon } from "@/components/icons/athletics-icons"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,6 +13,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import {
+  defaultMembershipPathwayId,
+  getMembershipPathway,
+  membershipPathways,
+  type MembershipPathwayId,
+} from "@/lib/data/membership-pathways"
 
 type SocialProviderId = "facebook" | "google" | "instagram"
 
@@ -84,13 +92,40 @@ const socialProviders: Array<{
   },
 ]
 
-const roleOptions = ["Athlete", "Coach", "Club Manager", "Fan / Supporter"] as const
+type SignupRoleId = MembershipPathwayId | "supporter-sponsor"
+
+const roleConfigs: Array<{
+  id: SignupRoleId
+  label: string
+  description: string
+  destinationHref: string
+  destinationLabel: string
+}> = [
+  ...membershipPathways.map((pathway) => ({
+    id: pathway.id,
+    label: pathway.signupRoleLabel,
+    description: pathway.summary,
+    destinationHref: pathway.completionHref,
+    destinationLabel: pathway.completionLabel,
+  })),
+  {
+    id: "supporter-sponsor",
+    label: "Supporter / Sponsor",
+    description: "Stay connected to the project story, sponsorship surface, and stakeholder-facing product direction.",
+    destinationHref: "/sponsors",
+    destinationLabel: "Open sponsor directory",
+  },
+]
+
+const roleOptions = roleConfigs.map((role) => role.id)
+
+const roleLabelById = Object.fromEntries(roleConfigs.map((role) => [role.id, role.label])) as Record<SignupRoleId, string>
 
 function Divider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
       <Separator className="flex-1 w-auto" />
-      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.24em]">{label}</p>
+      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-normal">{label}</p>
       <Separator className="flex-1 w-auto" />
     </div>
   )
@@ -139,13 +174,22 @@ function SocialSignupButton({
 }
 
 export function SignupPanel() {
+  const searchParams = useSearchParams()
+  const formId = "signup-panel"
+  const presetPathway = searchParams.get("pathway")
+  const defaultRole = (getMembershipPathway(presetPathway ?? defaultMembershipPathwayId)?.id ??
+    defaultMembershipPathwayId) as SignupRoleId
   const [social, setSocial] = useState<SocialState>({ status: "idle" })
   const [showEmail, setShowEmail] = useState(false)
   const [signupComplete, setSignupComplete] = useState(false)
-  const [role, setRole] = useState<(typeof roleOptions)[number]>("Athlete")
+  const [role, setRole] = useState<SignupRoleId>(defaultRole)
   const [location, setLocation] = useState("")
 
   const connectTimerRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    setRole(defaultRole)
+  }, [defaultRole])
 
   useEffect(() => {
     return () => {
@@ -160,6 +204,15 @@ export function SignupPanel() {
     return socialProviders.find((p) => p.id === social.provider)?.name ?? ""
   }, [social])
 
+  const activeRole = roleConfigs.find((config) => config.id === role) ?? roleConfigs[0]
+  const socialRoleId = `${formId}-social-role`
+  const socialLocationId = `${formId}-social-location`
+  const emailFirstNameId = `${formId}-email-first-name`
+  const emailLastNameId = `${formId}-email-last-name`
+  const emailAddressId = `${formId}-email-address`
+  const emailRoleId = `${formId}-email-role`
+  const emailLocationId = `${formId}-email-location`
+
   const cancelSocial = () => {
     if (connectTimerRef.current !== null) {
       window.clearTimeout(connectTimerRef.current)
@@ -172,7 +225,7 @@ export function SignupPanel() {
     cancelSocial()
     setShowEmail(false)
     setSignupComplete(false)
-    setRole("Athlete")
+    setRole(defaultRole)
     setLocation("")
   }
 
@@ -180,7 +233,7 @@ export function SignupPanel() {
     cancelSocial()
     setSignupComplete(false)
     setShowEmail(false)
-    setRole("Athlete")
+    setRole(defaultRole)
     setLocation("")
     setSocial({ status: "connecting", provider })
     connectTimerRef.current = window.setTimeout(() => {
@@ -195,17 +248,20 @@ export function SignupPanel() {
         <Card>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-accent" aria-hidden="true" />
+              <CheckIcon className="h-5 w-5 text-accent" aria-hidden="true" />
               <p className="text-sm font-semibold text-foreground">Account created</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild>
-                <Link href="/profile">Go to profile</Link>
+                <Link href={activeRole.destinationHref}>{activeRole.destinationLabel}</Link>
               </Button>
               <Button type="button" variant="outline" onClick={reset}>
                 Start over
               </Button>
             </div>
+            <p className="text-sm text-muted-foreground">
+              Signed up as <span className="font-medium text-foreground">{activeRole.label}</span>.
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -218,6 +274,12 @@ export function SignupPanel() {
     <div className="max-w-xl mx-auto">
       <Card>
         <CardContent className="space-y-6">
+          <div className="rounded-lg border border-border bg-muted/30 p-4">
+            <p className="text-xs font-semibold uppercase tracking-normal text-muted-foreground">Selected route</p>
+            <p className="mt-2 text-sm font-semibold text-foreground">{activeRole.label}</p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">{activeRole.description}</p>
+          </div>
+
           <div className="space-y-3">
           {socialProviders.map((provider) => (
             <SocialSignupButton
@@ -235,7 +297,7 @@ export function SignupPanel() {
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 {social.status === "connected" ? (
-                  <CheckCircle2 className="h-5 w-5 text-accent" aria-hidden="true" />
+                  <CheckIcon className="h-5 w-5 text-accent" aria-hidden="true" />
                 ) : (
                   <Loader2 className="h-5 w-5 text-muted-foreground animate-spin" aria-hidden="true" />
                 )}
@@ -258,27 +320,34 @@ export function SignupPanel() {
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-foreground uppercase">Role</Label>
-                    <Select value={role} onValueChange={(value) => setRole(value as (typeof roleOptions)[number])}>
-                      <SelectTrigger className="w-full">
+                    <Label htmlFor={socialRoleId} className="text-xs font-semibold text-foreground uppercase">
+                      Role
+                    </Label>
+                    <Select value={role} onValueChange={(value) => setRole(value as SignupRoleId)}>
+                      <SelectTrigger id={socialRoleId} className="w-full">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                       <SelectContent>
                         {roleOptions.map((opt) => (
                           <SelectItem key={opt} value={opt}>
-                            {opt}
+                            {roleLabelById[opt]}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-foreground uppercase">Location</Label>
+                    <Label htmlFor={socialLocationId} className="text-xs font-semibold text-foreground uppercase">
+                      Location
+                    </Label>
                     <Input
+                      id={socialLocationId}
+                      name="location"
                       value={location}
                       onChange={(event) => setLocation(event.target.value)}
                       type="text"
-                      placeholder="Quezon City"
+                      autoComplete="address-level2"
+                      placeholder="Quezon City…"
                     />
                   </div>
                 </div>
@@ -313,48 +382,71 @@ export function SignupPanel() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">First Name</Label>
+                  <Label htmlFor={emailFirstNameId} className="text-sm font-medium text-foreground">
+                    First Name
+                  </Label>
                   <Input
+                    id={emailFirstNameId}
+                    name="given-name"
                     type="text"
-                    placeholder="Maria"
+                    autoComplete="given-name"
+                    placeholder="Maria…"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">Last Name</Label>
+                  <Label htmlFor={emailLastNameId} className="text-sm font-medium text-foreground">
+                    Last Name
+                  </Label>
                   <Input
+                    id={emailLastNameId}
+                    name="family-name"
                     type="text"
-                    placeholder="Santos"
+                    autoComplete="family-name"
+                    placeholder="Santos…"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-foreground">Email</Label>
+                <Label htmlFor={emailAddressId} className="text-sm font-medium text-foreground">
+                  Email
+                </Label>
                 <Input
+                  id={emailAddressId}
+                  name="email"
                   type="email"
-                  placeholder="you@example.com"
+                  autoComplete="email"
+                  spellCheck={false}
+                  placeholder="you@example.com…"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">Role</Label>
-                  <Select defaultValue="Athlete">
-                    <SelectTrigger className="w-full">
+                  <Label htmlFor={emailRoleId} className="text-sm font-medium text-foreground">
+                    Role
+                  </Label>
+                  <Select value={role} onValueChange={(value) => setRole(value as SignupRoleId)}>
+                    <SelectTrigger id={emailRoleId} className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {roleOptions.map((opt) => (
                         <SelectItem key={opt} value={opt}>
-                          {opt}
+                          {roleLabelById[opt]}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">Location</Label>
+                  <Label htmlFor={emailLocationId} className="text-sm font-medium text-foreground">
+                    Location
+                  </Label>
                   <Input
+                    id={emailLocationId}
+                    name="location"
                     type="text"
-                    placeholder="Quezon City"
+                    autoComplete="address-level2"
+                    placeholder="Quezon City…"
                   />
                 </div>
               </div>

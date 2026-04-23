@@ -201,6 +201,16 @@ export default async function AthleteProfilePage({
               <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
                 Club: {athlete.club}
               </span>
+              {athlete.pathwayStage ? (
+                <span className="inline-flex items-center gap-1 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-semibold text-accent">
+                  {athlete.pathwayStage}
+                </span>
+              ) : null}
+              {athlete.teamAffiliation ? (
+                <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
+                  {athlete.teamAffiliation}
+                </span>
+              ) : null}
             </>
           }
           notice={isStub ? "Athlete details are coming soon. Basic placeholder shown to avoid broken links." : undefined}
@@ -223,7 +233,7 @@ export default async function AthleteProfilePage({
               <ProfileAvatar name={`${athlete.firstName} ${athlete.lastName}`} />
               <div className="space-y-1">
                 <p className="brand-eyebrow">Athlete profile</p>
-                <p className="text-lg font-semibold tracking-tight text-foreground">{fullName}</p>
+                <p className="text-lg font-semibold tracking-normal text-foreground">{fullName}</p>
                 <p className="text-sm text-muted-foreground">{athlete.specialty}</p>
               </div>
               <DemoAdSlot slotId="athlete-profile-top" format="mobile" variant="inline" />
@@ -373,6 +383,30 @@ export default async function AthleteProfilePage({
                 </div>
               </div>
             </div>
+
+            {athlete.pathwayStage || athlete.verificationBadges?.length ? (
+              <div className="detail-sidebar-card space-y-3">
+                <p className="text-xs font-semibold uppercase text-muted-foreground">Pathway status</p>
+                {athlete.pathwayStage ? (
+                  <Badge className="border-accent/25 bg-accent/8 text-accent hover:bg-accent/8">
+                    {athlete.pathwayStage}
+                  </Badge>
+                ) : null}
+                {athlete.teamAffiliation ? (
+                  <p className="text-sm text-foreground">{athlete.teamAffiliation}</p>
+                ) : null}
+                {athlete.verificationBadges?.length ? (
+                  <div className="space-y-2">
+                    {athlete.verificationBadges.map((badge) => (
+                      <div key={badge.label} className="detail-list-item bg-background/74">
+                        <p className="text-sm font-semibold text-foreground">{badge.label}</p>
+                        {badge.detail ? <p className="mt-1 text-xs text-muted-foreground">{badge.detail}</p> : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
 
             <div className="detail-sidebar-card space-y-3">
               <p className="text-xs font-semibold uppercase text-muted-foreground">Contact</p>

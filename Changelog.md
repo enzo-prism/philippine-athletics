@@ -8,6 +8,22 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-04-23 — USATF-style federation positioning pass
+- Reframed the homepage, navigation, membership, athlete, rankings, clubs, coaches, events, and sponsor copy around Philippine Athletics as the national home for Filipino athletics.
+- Added new About, Disciplines, Safe Sport, and News hub routes so the site has federation-style structure beyond directory and dashboard workflows.
+- Added a shared federation content layer for mission language, sport disciplines, Safe Sport audiences, partner categories, and story surfaces to keep future pages aligned.
+
+## 2026-04-23 — Institutional operating-system design overhaul
+- Added a durable `DESIGN.md` contract and repo-local UI skill so future frontend work stays aligned with the institutional athletics operating-system direction.
+- Reworked global tokens, shared surfaces, sponsor mastheads, navigation search, cards, forms, tables, and workflow primitives to make the app feel more modern, credible, and easier to scan.
+- Introduced a custom Philippine Athletics icon family generated from an imagegen reference sheet and implemented as reusable inline SVGs across navigation, search, directories, profiles, dashboards, and results intake.
+- Upgraded rankings, search, data intake, demo launcher, pilot dashboards, and recognition/profile link behavior with clearer task states, accessible link names, and route-safe sponsor visibility.
+
+## 2026-04-20 — Pilot dashboards and stakeholder pathways
+- Repositioned the product toward a pilot-ready stakeholder experience by adding LGU and club-owner dashboards, youth-safe participant profiles, and a phone-framed mobile walkthrough that tells the pilot-funder story clearly.
+- Rebuilt membership and signup flows around real project pathways (`LGU / School Lead`, `Club Owner / Coach`, `Youth Participant / Parent`, `Adult / Elite Athlete`, `Supporter / Sponsor`) and removed pricing-first consumer framing while routing each path to the right next surface.
+- Extended adult athlete pages with pathway-stage and verification badges, added static seeded pilot data plus URL-based pilot context continuity, and expanded Playwright coverage for pilot dashboards, signup routing, and demo guardrails.
+
 ## 2026-03-01 — Ranking/profile consistency remediation (competition evidence source)
 - Introduced a shared performance evidence engine so rankings, athlete profile cards, and directory summary PB/rank values all derive from the same competition-linked logic.
 - Added strict context deep-linking between rankings and athlete profiles (`event`, `year`, `gender`, `ageGroup`) and a profile “back to this ranking slice” affordance.

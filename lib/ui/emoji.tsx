@@ -1,30 +1,31 @@
-import type { LucideIcon } from "lucide-react"
+import type { ComponentType, SVGProps } from "react"
 import {
   ArrowLeft,
   ArrowRight,
-  BarChart3,
-  Building2,
-  CalendarDays,
-  CheckCircle2,
-  Circle,
   Flag,
-  Footprints,
-  Handshake,
   Heart,
-  House,
   Mail,
-  MapPin,
-  Medal,
   MessageCircle,
   Phone,
-  Search,
-  ShieldCheck,
-  SlidersHorizontal,
   Sparkles,
-  Trophy,
-  UserRound,
-  Users,
 } from "lucide-react"
+import {
+  CheckIcon,
+  ClubIcon,
+  CoachIcon,
+  CompetitionIcon,
+  DirectoryIcon,
+  FilterIcon,
+  HomeIcon,
+  LocationIcon,
+  MedalIcon,
+  MembershipIcon,
+  ProfileIcon,
+  RankingsIcon,
+  RecognitionIcon,
+  SponsorIcon,
+  AthleteIcon,
+} from "@/components/icons/athletics-icons"
 import { cn } from "@/lib/utils"
 
 export const emojiIcons = {
@@ -57,32 +58,34 @@ export const emojiIcons = {
 
 export type EmojiSymbol = (typeof emojiIcons)[keyof typeof emojiIcons]
 
-const iconBySymbol: Record<EmojiSymbol, LucideIcon> = {
-  home: House,
+type InlineIcon = ComponentType<SVGProps<SVGSVGElement>>
+
+const iconBySymbol: Record<EmojiSymbol, InlineIcon> = {
+  home: HomeIcon,
   back: ArrowLeft,
   forward: ArrowRight,
-  profile: UserRound,
-  location: MapPin,
-  club: Building2,
-  coach: UserRound,
-  athlete: Footprints,
-  sponsor: Handshake,
-  competitions: CalendarDays,
-  rankings: BarChart3,
-  filter: SlidersHorizontal,
-  trophy: Trophy,
-  medal: Medal,
-  shield: ShieldCheck,
+  profile: ProfileIcon,
+  location: LocationIcon,
+  club: ClubIcon,
+  coach: CoachIcon,
+  athlete: AthleteIcon,
+  sponsor: SponsorIcon,
+  competitions: CompetitionIcon,
+  rankings: RankingsIcon,
+  filter: FilterIcon,
+  trophy: RankingsIcon,
+  medal: MedalIcon,
+  shield: RecognitionIcon,
   chat: MessageCircle,
   phone: Phone,
   mail: Mail,
-  check: CheckCircle2,
+  check: CheckIcon,
   sparkles: Sparkles,
   flag: Flag,
   heart: Heart,
-  users: Users,
-  calendar: CalendarDays,
-  search: Search,
+  users: MembershipIcon,
+  calendar: CompetitionIcon,
+  search: DirectoryIcon,
 }
 
 type EmojiProps = {
@@ -93,7 +96,7 @@ type EmojiProps = {
 }
 
 export function Emoji({ symbol, label, className = "", title }: EmojiProps) {
-  const Icon = iconBySymbol[symbol] ?? Circle
+  const Icon = iconBySymbol[symbol] ?? MedalIcon
   return (
     <span title={title || label || undefined}>
       <Icon

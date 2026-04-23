@@ -1,9 +1,15 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { CheckCircle2, Clipboard, FileText, ShieldCheck, UploadCloud } from "lucide-react"
+import {
+  CheckIcon,
+  DashboardIcon,
+  DataIcon,
+  FilterIcon,
+  RecognitionIcon,
+} from "@/components/icons/athletics-icons"
 import { Navigation } from "@/components/navigation"
-import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { AppFooter, EmptyState, PageIntro, StatusAlert, Stepper } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -960,6 +966,34 @@ export default function DataPortalPage() {
       meta.type
   )
   const canPublish = canReview && metaComplete && isSanctionedEvent
+  const tabOrder = ["upload", "map", "validate", "review"]
+  const activeTabIndex = tabOrder.indexOf(activeTab)
+  const intakeSteps: Array<{
+    label: string
+    description: string
+    status: "current" | "complete" | "upcoming"
+  }> = [
+    {
+      label: "Upload",
+      description: "Load a sanctioned CSV or paste rows.",
+      status: activeTab === "upload" ? "current" : activeTabIndex > 0 ? "complete" : "upcoming",
+    },
+    {
+      label: "Map Fields",
+      description: "Match source columns to required fields.",
+      status: activeTab === "map" ? "current" : activeTabIndex > 1 ? "complete" : "upcoming",
+    },
+    {
+      label: "Validate",
+      description: "Catch blocking issues before review.",
+      status: activeTab === "validate" ? "current" : activeTabIndex > 2 ? "complete" : "upcoming",
+    },
+    {
+      label: "Review",
+      description: "Confirm metadata and local publish state.",
+      status: activeTab === "review" ? "current" : "upcoming",
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -969,7 +1003,7 @@ export default function DataPortalPage() {
         <PageIntro
           eyebrow={
             <span className="inline-flex items-center gap-2">
-              <ShieldCheck className="size-4" />
+              <RecognitionIcon className="size-4" />
               Results intake
             </span>
           }
@@ -981,6 +1015,8 @@ export default function DataPortalPage() {
             { label: "Submission log", value: submissions.length, note: "Stored in browser for this demo" },
           ]}
         />
+
+        <Stepper steps={intakeSteps} />
 
         <Card className="page-section-tight py-0 gap-0">
           <CardContent className="p-6 space-y-4">
@@ -1008,28 +1044,29 @@ export default function DataPortalPage() {
                 {role === "certified" ? "Can publish (sanctioned only)" : "Review required"}
               </Badge>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Demo note: publish actions are stored in your browser only. No durable backend publishing is included in this phase.
-            </p>
+            <StatusAlert
+              title="Local-only demo publishing"
+              description="Publish actions are stored in your browser only. No durable backend publishing is included in this phase."
+            />
           </CardContent>
         </Card>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList data-testid="intake-tabs">
             <TabsTrigger value="upload" data-testid="intake-tab-upload">
-              <UploadCloud className="size-4" />
+              <DataIcon className="size-4" />
               Upload
             </TabsTrigger>
             <TabsTrigger value="map" disabled={!canMap} data-testid="intake-tab-map">
-              <Clipboard className="size-4" />
+              <FilterIcon className="size-4" />
               Map fields
             </TabsTrigger>
             <TabsTrigger value="validate" disabled={!canValidate} data-testid="intake-tab-validate">
-              <CheckCircle2 className="size-4" />
+              <CheckIcon className="size-4" />
               Validate
             </TabsTrigger>
             <TabsTrigger value="review" disabled={!canValidate} data-testid="intake-tab-review">
-              <FileText className="size-4" />
+              <DashboardIcon className="size-4" />
               Review
             </TabsTrigger>
           </TabsList>
@@ -1050,16 +1087,12 @@ export default function DataPortalPage() {
                   />
                 </div>
                 {fileName ? <p className="text-xs text-muted-foreground">Loaded: {fileName}</p> : null}
-                {uploadError ? (
-                  <div className="rounded-none border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                    {uploadError}
-                  </div>
-                ) : null}
+                {uploadError ? <StatusAlert title="Upload needs attention" description={uploadError} tone="warning" /> : null}
                 <Separator />
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold">Paste CSV data</Label>
                   <textarea
-                    className="min-h-[180px] w-full rounded-[1.15rem] border border-input bg-background px-3 py-2 text-sm"
+                    className="min-h-[180px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                     placeholder="Paste CSV data here…"
                     data-testid="results-paste-input"
                     value={rawText}
@@ -1107,7 +1140,7 @@ export default function DataPortalPage() {
                         {field.label} {field.required ? "*" : ""}
                       </Label>
                       <select
-                        className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
+                        className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                         value={mapping[field.key]}
                         data-testid={`map-field-${field.key}`}
                         onChange={(event) =>
@@ -1154,12 +1187,12 @@ export default function DataPortalPage() {
                 </div>
                 <div className="space-y-2">
                   {validation.issues.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No issues found. You can proceed to review.</p>
+                    <StatusAlert title="No blocking issues found" description="You can proceed to review." tone="success" />
                   ) : (
                     validation.issues.slice(0, 8).map((issue, idx) => (
                       <div
                         key={`${issue.message}-${idx}`}
-                        className={`rounded-none border px-3 py-2 text-xs ${
+                        className={`rounded-lg border px-3 py-2 text-xs ${
                           issue.level === "error"
                             ? "border-red-200 bg-red-50 text-red-700"
                             : "border-amber-200 bg-amber-50 text-amber-700"
@@ -1224,7 +1257,7 @@ export default function DataPortalPage() {
                     </Label>
                     <select
                       id="meta-field-status"
-                      className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
+                      className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                       value={meta.status}
                       data-testid="meta-status"
                       onChange={(event) =>
@@ -1244,7 +1277,7 @@ export default function DataPortalPage() {
                     </Label>
                     <select
                       id="meta-field-source"
-                      className="h-9 w-full rounded-none border border-input bg-background px-3 text-sm"
+                      className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                       value={meta.source}
                       data-testid="meta-source"
                       onChange={(event) =>
@@ -1259,7 +1292,7 @@ export default function DataPortalPage() {
                     </select>
                   </div>
                 </div>
-                <div className="rounded-none border border-border bg-muted/30 p-4 space-y-2" data-testid="sanction-check">
+                <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-2" data-testid="sanction-check">
                   <p className="text-xs font-semibold uppercase text-muted-foreground">Sanction status</p>
                   {isSanctionedEvent && sanctionedEvent ? (
                     <div className="space-y-1">
@@ -1288,7 +1321,7 @@ export default function DataPortalPage() {
                   <p className="text-sm font-semibold text-foreground">Preview</p>
                   <div className="space-y-4">
                     {groupedPreview.map(([event, rows]) => (
-                      <div key={event} className="rounded-none border border-border p-4 space-y-2">
+                      <div key={event} className="rounded-lg border border-border p-4 space-y-2">
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-foreground">{event}</p>
                           <Badge variant="outline">{rows.length} entries</Badge>
@@ -1314,16 +1347,18 @@ export default function DataPortalPage() {
                     <Badge variant="outline">Year {impactPreview.year}</Badge>
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div className="rounded-none border border-border p-4 space-y-3">
+                    <div className="rounded-lg border border-border p-4 space-y-3">
                       <p className="text-sm font-semibold text-foreground">Athlete page updates</p>
                       {impactPreview.athletes.length === 0 ? (
-                        <p className="text-xs text-muted-foreground">
-                          No matching athletes found in demo data yet.
-                        </p>
+                        <EmptyState
+                          title="No athlete page changes yet"
+                          description="Mapped rows will appear here once they match athlete records."
+                          className="p-4"
+                        />
                       ) : (
                         <div className="space-y-2">
                           {impactPreview.athletes.map((athlete) => (
-                            <div key={athlete.id} className="rounded-none border border-border bg-background p-3 space-y-1">
+                            <div key={athlete.id} className="rounded-lg border border-border bg-background p-3 space-y-1">
                               <div className="flex items-center justify-between gap-2">
                                 <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
                                 <span className="text-xs text-muted-foreground">{athlete.club}</span>
@@ -1359,12 +1394,12 @@ export default function DataPortalPage() {
                         </div>
                       )}
                       {impactPreview.unknownAthletes.length > 0 ? (
-                        <div className="rounded-none border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
+                        <div className="rounded-lg border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
                           Unmatched athletes: {impactPreview.unknownAthletes.join(", ")}.
                         </div>
                       ) : null}
                     </div>
-                    <div className="rounded-none border border-border p-4 space-y-3">
+                    <div className="rounded-lg border border-border p-4 space-y-3">
                       <p className="text-sm font-semibold text-foreground">Ranking shifts</p>
                       {impactPreview.rankingImpacts.length === 0 ? (
                         <p className="text-xs text-muted-foreground">
@@ -1373,7 +1408,7 @@ export default function DataPortalPage() {
                       ) : (
                         <div className="space-y-3">
                           {impactPreview.rankingImpacts.map((impact, idx) => (
-                            <div key={`${impact.event}-${impact.gender}-${idx}`} className="rounded-none border border-border bg-background p-3 space-y-2">
+                            <div key={`${impact.event}-${impact.gender}-${idx}`} className="rounded-lg border border-border bg-background p-3 space-y-2">
                               <div className="flex items-center justify-between gap-2">
                                 <p className="text-xs font-semibold text-foreground">{impact.event}</p>
                                 <span className="text-[11px] text-muted-foreground">
@@ -1431,10 +1466,10 @@ export default function DataPortalPage() {
                     <p className="text-sm font-semibold text-foreground">Competition page preview</p>
                     <Badge variant="outline">{meta.status}</Badge>
                   </div>
-                  <div className="rounded-none border border-border bg-card p-6 space-y-6">
+                  <div className="rounded-lg border border-border bg-card p-6 space-y-6">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="space-y-2">
-                        <p className="text-xs font-semibold text-accent uppercase tracking-widest">Preview</p>
+                        <p className="text-xs font-semibold text-accent uppercase tracking-normal">Preview</p>
                         <h3 className="text-2xl font-bold text-foreground">{competitionPreview.name}</h3>
                         <p className="text-sm text-muted-foreground">
                           {meta.type || "Competition"} • {competitionPreview.location}
@@ -1453,19 +1488,19 @@ export default function DataPortalPage() {
                       </Badge>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="p-3 rounded-none border border-border bg-background">
+                      <div className="p-3 rounded-lg border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Participants</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.participantCount}</p>
                       </div>
-                      <div className="p-3 rounded-none border border-border bg-background">
+                      <div className="p-3 rounded-lg border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Events</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.events.length}</p>
                       </div>
-                      <div className="p-3 rounded-none border border-border bg-background">
+                      <div className="p-3 rounded-lg border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Results</p>
                         <p className="text-lg font-semibold text-foreground">{competitionPreview.resultCount}</p>
                       </div>
-                      <div className="p-3 rounded-none border border-border bg-background">
+                      <div className="p-3 rounded-lg border border-border bg-background">
                         <p className="text-xs text-muted-foreground uppercase font-semibold">Organizer</p>
                         <p className="text-xs font-semibold text-foreground">{meta.organizer || "TBD"}</p>
                       </div>
@@ -1480,7 +1515,7 @@ export default function DataPortalPage() {
                               key={event}
                               type="button"
                               onClick={() => setPreviewEvent(event)}
-                              className={`rounded-none border px-3 py-1 ${
+                              className={`rounded-lg border px-3 py-1 ${
                                 active ? "border-accent text-accent" : "border-border text-foreground"
                               }`}
                             >
@@ -1491,7 +1526,7 @@ export default function DataPortalPage() {
                       </div>
 
                       {meta.status === "Upcoming" ? (
-                        <div className="rounded-none border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
+                        <div className="rounded-lg border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
                           Public view hides results for upcoming competitions. Set status to “Past” to preview results.
                         </div>
                       ) : (
@@ -1502,7 +1537,7 @@ export default function DataPortalPage() {
                             {filteredPreviewBlocks.map((block) => (
                                 <div
                                   key={`${block.event}-${block.round ?? "all"}`}
-                                  className="rounded-none border border-border bg-background p-4 space-y-2"
+                                  className="rounded-lg border border-border bg-background p-4 space-y-2"
                                 >
                                   <div className="flex items-center justify-between">
                                     <p className="text-sm font-semibold text-foreground">{block.event}</p>
@@ -1660,7 +1695,7 @@ export default function DataPortalPage() {
                                 {athlete.recentResults.map((result, idx) => (
                                   <div
                                     key={`${athlete.id}-recent-${idx}`}
-                                    className={`rounded-none border px-3 py-2 text-xs ${
+                                    className={`rounded-lg border px-3 py-2 text-xs ${
                                       result.isNew
                                         ? "border-accent/40 bg-accent/5 text-foreground"
                                         : "border-border text-muted-foreground"
@@ -1712,7 +1747,7 @@ export default function DataPortalPage() {
                                 return (
                                   <div
                                     key={`${entry.id}-${entry.rank}`}
-                                    className={`rounded-none border p-3 space-y-1 ${
+                                    className={`rounded-lg border p-3 space-y-1 ${
                                       isImpacted ? "border-accent bg-accent/5" : "border-border"
                                     }`}
                                   >

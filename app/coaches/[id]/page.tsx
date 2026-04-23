@@ -65,7 +65,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
               <ProfileAvatar name={coach.name} />
               <div className="space-y-1">
                 <p className="brand-eyebrow">Coach profile</p>
-                <p className="text-lg font-semibold tracking-tight text-foreground">{coach.name}</p>
+                <p className="text-lg font-semibold tracking-normal text-foreground">{coach.name}</p>
                 <p className="text-sm text-muted-foreground">
                   Experience: {coach.experience}
                 </p>

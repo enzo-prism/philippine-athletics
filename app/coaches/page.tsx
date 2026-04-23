@@ -11,9 +11,9 @@ export default function CoachesPage() {
 
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
-          eyebrow="Coach directory"
-          title="Search coaches"
-          description="Browse coaching profiles, specialties, and club affiliations in the same visual system as the athlete and club directories."
+          eyebrow="Coaches & officials"
+          title="The people who make safe, credible competition possible."
+          description="Browse coaching profiles, specialties, credentials, and club affiliations in the same visual system as athlete and club directories."
           stats={[{ label: "Coach profiles", value: coaches.length, note: "Searchable across specialties and clubs" }]}
           aside={<DemoAdSlot slotId="coaches-inline-1" format="mrec" variant="spotlight" />}
         />

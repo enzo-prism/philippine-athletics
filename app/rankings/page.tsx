@@ -4,6 +4,14 @@ import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
   buildRankings,
   getRankingEvents,
   getRankingYears,
@@ -17,7 +25,7 @@ const genderOptions: Gender[] = ["Women", "Men"]
 const ageGroupOptions: AgeGroup[] = ["Open", "Youth"]
 
 const selectClassName =
-  "h-11 w-full rounded-[1.1rem] border border-input bg-background/92 px-4 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+  "h-11 w-full rounded-lg border border-input bg-background/92 px-4 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -100,9 +108,9 @@ export default async function RankingsPage({
 
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
-          eyebrow="Rankings workspace"
-          title="Philippine Athletics Rankings"
-          description="Filter by event, gender, age group, and year to see the best performances with ranking context preserved into athlete profiles."
+          eyebrow="Rankings & records"
+          title="National rankings with evidence attached."
+          description="Filter by event, gender, age group, and year to see the best performances with shareable state and profile context preserved."
           stats={[
             { label: "Selected event", value: selectedEvent, note: "Choose an event to load rankings" },
             { label: "Year / field", value: `${selectedYear} · ${selectedGender} · ${selectedAgeGroup}`, note: "URL state stays shareable" },
@@ -120,7 +128,7 @@ export default async function RankingsPage({
         />
 
         <section className="filter-bar sticky top-24 z-20">
-          <form method="get" className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+          <form action="/rankings" method="get" className="grid grid-cols-1 gap-4 lg:grid-cols-4">
             <div className="space-y-2">
               <label htmlFor="event" className="brand-eyebrow">
                 Event
@@ -246,7 +254,7 @@ export default async function RankingsPage({
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-lg font-semibold tracking-tight text-foreground">{entry.name}</p>
+                        <p className="text-lg font-semibold tracking-normal text-foreground">{entry.name}</p>
                         <p className="mt-1 text-sm text-muted-foreground">{entry.result}</p>
                       </div>
                       <Badge variant="outline">{formatRank(entry.rank)}</Badge>
@@ -275,65 +283,76 @@ export default async function RankingsPage({
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3" data-testid="rankings-list">
-                {rankings.map((entry) => {
-                  const isHighlighted = highlightId && entry.name.toLowerCase() === highlightId.toLowerCase()
-                  return (
-                    <Link
-                      key={`${entry.id}-${entry.rank}`}
-                      href={buildProfileContextHref({
+              <div className="mt-6 overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-soft)]" data-testid="rankings-list">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-20">Rank</TableHead>
+                      <TableHead>Athlete</TableHead>
+                      <TableHead>Result</TableHead>
+                      <TableHead className="hidden md:table-cell">Club</TableHead>
+                      <TableHead className="hidden lg:table-cell">Meet</TableHead>
+                      <TableHead className="hidden xl:table-cell">Source</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {rankings.map((entry) => {
+                      const isHighlighted = highlightId && entry.name.toLowerCase() === highlightId.toLowerCase()
+                      const profileHref = buildProfileContextHref({
                         href: entry.href,
                         event: selectedEvent,
                         year: selectedYear,
                         gender: selectedGender,
                         ageGroup: selectedAgeGroup,
                         highlight: entry.name,
-                      })}
-                      className="block"
-                      data-testid="rankings-row-link"
-                    >
-                      <article
-                        className={`directory-card ${isHighlighted ? "border-accent ring-2 ring-accent/20" : ""}`}
-                        data-testid="rankings-row"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <p
-                              className="truncate text-lg font-semibold tracking-tight text-foreground"
-                              data-testid="rankings-row-name"
+                      })
+
+                      return (
+                        <TableRow
+                          key={`${entry.id}-${entry.rank}`}
+                          className={isHighlighted ? "bg-accent/8" : undefined}
+                          data-testid="rankings-row"
+                        >
+                          <TableCell className="font-semibold" data-testid="rankings-row-rank">
+                            {formatRank(entry.rank)}
+                          </TableCell>
+                          <TableCell>
+                            <Link
+                              href={profileHref}
+                              className="font-semibold text-foreground underline-offset-4 hover:underline"
+                              data-testid="rankings-row-link"
                             >
-                              {entry.name}
-                            </p>
-                            <p className="mt-1 text-sm text-muted-foreground" data-testid="rankings-row-event">
+                              <span data-testid="rankings-row-name">{entry.name}</span>
+                            </Link>
+                            <p className="mt-1 text-xs text-muted-foreground" data-testid="rankings-row-event">
                               {entry.event}
                             </p>
-                          </div>
-                          <Badge variant="outline" data-testid="rankings-row-rank">
-                            {formatRank(entry.rank)}
-                          </Badge>
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-sm text-muted-foreground" data-testid="rankings-row-result">
-                            Best: {entry.result}
-                          </p>
-                          <p className="text-sm text-muted-foreground">{entry.club}</p>
-                          <p className="text-sm text-muted-foreground">{entry.meet}</p>
-                          <p className="text-sm text-muted-foreground">{entry.date}</p>
-                        </div>
-                        <Badge
-                          variant="outline"
-                          className={
-                            entry.source === "World Athletics"
-                              ? "border-emerald-300/60 bg-emerald-50 text-emerald-700"
-                              : undefined
-                          }
-                        >
-                          {entry.source ?? "Demo data"}
-                        </Badge>
-                      </article>
-                    </Link>
-                  )
-                })}
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-medium text-foreground" data-testid="rankings-row-result">
+                              {entry.result}
+                            </span>
+                            <p className="mt-1 text-xs text-muted-foreground">{entry.date}</p>
+                          </TableCell>
+                          <TableCell className="hidden text-muted-foreground md:table-cell">{entry.club}</TableCell>
+                          <TableCell className="hidden text-muted-foreground lg:table-cell">{entry.meet}</TableCell>
+                          <TableCell className="hidden xl:table-cell">
+                            <Badge
+                              variant="outline"
+                              className={
+                                entry.source === "World Athletics"
+                                  ? "border-emerald-300/60 bg-emerald-50 text-emerald-700"
+                                  : undefined
+                              }
+                            >
+                              {entry.source ?? "Demo data"}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
               </div>
             </div>
           </section>

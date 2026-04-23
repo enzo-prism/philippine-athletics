@@ -22,6 +22,53 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-04-23-usatf-style-federation-positioning-pass",
+    date: "2026-04-23",
+    title: "USATF-style federation positioning pass",
+    category: ["Experience", "Branding", "Membership", "Competition", "Monetization", "Data"],
+    summary:
+      "Reframed the public app around Philippine Athletics as the national home for Filipino athletics, with stronger federation messaging, hub routes, and sponsor structure.",
+    highlights: [
+      "Updated homepage, navigation, membership, athlete, rankings, clubs, coaches, events, search, signup, recognition, and sponsor copy around federation pathways.",
+      "Added About, Disciplines, Safe Sport, and News routes so the site has national-body structure beyond directories and dashboards.",
+      "Created a shared federation content layer for mission language, sport disciplines, Safe Sport audiences, partner categories, and story surfaces.",
+    ],
+    whyItMatters:
+      "Makes the app feel closer to a national athletics federation website while preserving the modern operating-system design and existing data workflows.",
+  },
+  {
+    id: "2026-04-23-institutional-operating-system-design-overhaul",
+    date: "2026-04-23",
+    title: "Institutional operating-system design overhaul",
+    category: ["Experience", "Branding", "Monetization", "Components", "Styling", "Reliability"],
+    summary:
+      "Refreshed the whole app around a modern institutional athletics operating-system direction with tighter tokens, clearer workflows, and sponsor visibility that supports rather than blocks primary tasks.",
+    highlights: [
+      "Added a root `DESIGN.md` contract and repo-local UI skill so future frontend work has a durable visual source of truth.",
+      "Expanded the shadcn/ui surface with table, alert, dialog, accordion, skeleton, tooltip, and toast primitives while keeping the configured New York style.",
+      "Introduced a custom Philippine Athletics icon family from an imagegen reference sheet and wired it through navigation, search, directories, profiles, dashboards, and results intake.",
+      "Tightened global tokens, cards, forms, navigation search, sponsor mastheads, rankings tables, data-intake workflow states, and accessible directory/profile links.",
+    ],
+    whyItMatters:
+      "Makes Philippine Athletics feel more credible, modern, and operational for athletes, clubs, LGUs, federation stakeholders, and sponsors while preserving existing demo/data contracts.",
+  },
+  {
+    id: "2026-04-20-pilot-dashboards-and-stakeholder-pathways",
+    date: "2026-04-20",
+    title: "Pilot dashboards and stakeholder pathways",
+    category: ["Experience", "Membership", "Data", "Reliability", "Components", "Styling"],
+    summary:
+      "Introduced a pilot-ready stakeholder layer with LGU and club dashboards, youth-safe profiles, mobile demo surfaces, and pathway-based membership and signup routing.",
+    highlights: [
+      "Added read-only pilot routes for LGU dashboards, club-owner dashboards, youth participant profiles, and a mobile walkthrough built on static seeded pilot data.",
+      "Reworked membership and signup around pilot pathways for LGUs, clubs, youth families, adult athletes, and sponsors instead of consumer-style package pricing.",
+      "Extended adult athlete pages with pathway-stage, team-affiliation, and verification badges while keeping public ranking and evidence logic scoped to adult and elite profiles.",
+      "Expanded Playwright coverage for pilot guardrails, stakeholder flows, signup routing, and new desktop/mobile visual snapshots.",
+    ],
+    whyItMatters:
+      "Moves the product from a polished directory demo toward a believable pilot operating surface that better supports LGU funding conversations and stakeholder buy-in.",
+  },
+  {
     id: "2026-03-01-ranking-profile-consistency-remediation-competition-evidence-source",
     date: "2026-03-01",
     title: "Ranking/profile consistency remediation (competition evidence source)",

@@ -24,8 +24,8 @@ export default function RecognitionPage() {
               Recognition
             </span>
           }
-          title="Official & Trusted"
-          description="Recognition shows who meets Philippine Athletics standards for safety, coaching, and athlete care. Parents, athletes, and staff can quickly verify which clubs and coaches are officially recognized."
+          title="Recognition and trust signals for the athletics ecosystem."
+          description="Recognition shows who meets Philippine Athletics standards for safety, coaching, and athlete care. Parents, athletes, clubs, and staff can quickly verify which clubs and coaches are officially recognized."
           stats={[
             { label: "Recognized clubs", value: recognizedClubs.length, note: "Club pathways verified against federation standards" },
             { label: "Recognized coaches", value: recognizedCoaches.length, note: "Coaching credentials and training stay visible" },
@@ -37,7 +37,7 @@ export default function RecognitionPage() {
           <CardContent className="p-6 space-y-2">
             <p className="text-sm font-semibold text-foreground">Why this matters</p>
             <p className="text-sm text-muted-foreground">
-              Verified clubs and coaches follow SafeSport guidelines, maintain documentation, and meet federation standards.
+              Verified clubs and coaches follow athlete-safety guidelines, maintain documentation, and meet federation standards.
               This protects athletes and keeps the sport fair.
             </p>
           </CardContent>
@@ -50,7 +50,12 @@ export default function RecognitionPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {recognizedClubs.map((club) => (
-              <Link key={club.id} href={`/clubs/${club.slug ?? club.id}`} className="block">
+              <Link
+                key={club.id}
+                href={`/clubs/${club.slug ?? club.id}`}
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+                aria-label={`Open recognized club ${club.name}`}
+              >
                 <Card className="py-0 gap-0 hover:border-accent transition-colors">
                   <CardContent className="p-4 space-y-3">
                     <div>
@@ -92,7 +97,12 @@ export default function RecognitionPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {recognizedCoaches.map((coach) => (
-              <Link key={coach.id} href={`/coaches/${coach.slug ?? coach.id}`} className="block">
+              <Link
+                key={coach.id}
+                href={`/coaches/${coach.slug ?? coach.id}`}
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+                aria-label={`Open recognized coach ${coach.name}`}
+              >
                 <Card className="py-0 gap-0 hover:border-accent transition-colors">
                   <CardContent className="p-4 space-y-3">
                     <div>

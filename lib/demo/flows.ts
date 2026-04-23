@@ -91,12 +91,15 @@ export const demoFlowConfigs: Record<DemoAudienceId, DemoFlowConfig> = {
   lgus: {
     audienceId: "lgus",
     label: "LGUs",
-    description: "Local outreach, youth registration, and recruitment discovery.",
+    description: "Pilot-funder dashboard, youth pathway visibility, and club handoff proof.",
     entryRoute: "/demo/lgus",
     fallbackRoute: "/demo/lgus",
     allowedRoutePrefixes: [
       ...commonAllowedRoutes,
       "/demo/lgus",
+      "/demo/mobile",
+      "/dashboard",
+      "/participants",
       "/signup",
       "/clubs",
       "/athletes",
@@ -106,16 +109,16 @@ export const demoFlowConfigs: Record<DemoAudienceId, DemoFlowConfig> = {
     ],
     scriptSteps: [
       {
-        title: "Open local program onboarding",
-        detail: "Highlight LGU-friendly registration routes and membership tiers.",
+        title: "Open the LGU pilot dashboard",
+        detail: "Start on the pilot overview, then move into the selected city dashboard with funding, activity, and qualification proof.",
       },
       {
-        title: "Identify athletes and clubs",
-        detail: "Search local athletes, inspect clubs, and show coach/roster connections.",
+        title: "Follow a youth participant into the club layer",
+        detail: "Open a youth-safe participant record, then show how the club-owner dashboard picks up the same roster and compliance story.",
       },
       {
-        title: "End on outreach continuity",
-        detail: "Connect sanctioned events and safe sport messaging to local youth recruitment.",
+        title: "Close on mobile and fallback coverage",
+        detail: "Use the mobile demo and payment fallback UI to show how the pilot still works when LGU coverage is partial.",
       },
     ],
   },
@@ -141,4 +144,3 @@ export const isRouteAllowedForFlow = (flow: DemoFlowConfig, pathname: string) =>
     return normalized === normalizedPrefix || normalized.startsWith(`${normalizedPrefix}/`)
   })
 }
-

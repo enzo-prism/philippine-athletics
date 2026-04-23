@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { cookies } from "next/headers"
-import { Search } from "lucide-react"
+import { DirectoryIcon } from "@/components/icons/athletics-icons"
 import { Navigation } from "@/components/navigation"
 import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
 import { ProfileCard } from "@/components/profile-card"
-import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { AppFooter, EmptyState, PageIntro } from "@/components/site/page-primitives"
 import { demoAthleteSpotlights, demoAthleteSummaries } from "@/lib/data/demo-athletes"
 import { DEMO_FLOW_COOKIE, getDemoFlowConfig } from "@/lib/demo/flows"
 import { Badge } from "@/components/ui/badge"
@@ -146,8 +146,8 @@ export default async function SearchPage({
       <main className="page-shell page-stack py-6 sm:py-8">
         <PageIntro
           eyebrow="Directory workspace"
-          title="Search"
-          description="Find athletes, coaches, and clubs in one place. Search supports full names, club names, and athlete membership numbers."
+          title="Find the people and organizations behind Philippine athletics."
+          description="Search athletes, coaches, clubs, and IDs in one place, then move into bios, rankings, recognition, and membership context."
           stats={[
             { label: "Athletes", value: athleteSource.length, note: "Search by name or membership ID" },
             { label: "Coaches", value: isDemoMode ? "Guided flow" : coaches.length, note: "Search by coach name" },
@@ -156,7 +156,7 @@ export default async function SearchPage({
           actions={
             <div className="flex w-full flex-col gap-3">
               {isDemoMode ? (
-                <div className="rounded-[1.2rem] border border-border/80 bg-background/74 px-4 py-3 text-sm text-foreground">
+                <div className="rounded-lg border border-border bg-background/74 px-4 py-3 text-sm text-foreground">
                   <p className="font-medium">Demo flow active: {activeDemoFlow?.label}</p>
                   <p className="mt-1 text-muted-foreground">
                     Search is limited to five curated athletes for this guided flow.
@@ -166,7 +166,7 @@ export default async function SearchPage({
 
               <form method="get" className="flex w-full flex-col gap-3 sm:flex-row">
                 <div className="relative flex-1">
-                  <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                  <DirectoryIcon className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
                   <Input
                     type="text"
                     name="q"
@@ -212,9 +212,10 @@ export default async function SearchPage({
                     key={athlete.id}
                     href={`/search?q=${encodeURIComponent(athlete.membershipNumber)}`}
                     className="directory-card"
+                    aria-label={`Search for ${athlete.name} by membership number`}
                   >
                     <div>
-                      <p className="text-lg font-semibold tracking-tight text-foreground">{athlete.name}</p>
+                      <p className="text-lg font-semibold tracking-normal text-foreground">{athlete.name}</p>
                       <p className="mt-2 text-sm text-muted-foreground">{athlete.membershipNumber}</p>
                     </div>
                     <p className="text-sm text-muted-foreground">{spotlight?.eventCategory ?? athlete.specialty}</p>
@@ -225,10 +226,15 @@ export default async function SearchPage({
             </div>
           </section>
         ) : !hasResults ? (
-          <section className="page-section text-sm text-muted-foreground">
-            {isDemoMode
-              ? `No results found for "${query}" in the current demo pack. Try one of the curated athlete membership numbers.`
-              : `No results found for "${query}". Try another name or membership number.`}
+          <section className="page-section">
+            <EmptyState
+              title={`No results for “${query}”`}
+              description={
+                isDemoMode
+                  ? "Try one of the curated athlete membership numbers in this guided demo pack."
+                  : "Try another name, club, coach, focus area, or membership number."
+              }
+            />
           </section>
         ) : (
           <section className="section-stack" data-testid="search-results">

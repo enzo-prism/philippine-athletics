@@ -6,7 +6,7 @@ test("Flow 4: Competition results", async ({ page }) => {
 
   await test.step("Open competitions", async () => {
     await page.goto("/competitions?status=Past")
-    await expect(page.getByRole("heading", { name: /competitions/i })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /competition profiles/i })).toBeVisible()
   })
 
   await test.step("Open a competition", async () => {

@@ -1,7 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { CalendarDays, Clock, FileText, Filter, Search, Sparkles } from "lucide-react"
+import { Clock, Sparkles } from "lucide-react"
+import { CompetitionIcon, DataIcon, DirectoryIcon, FilterIcon } from "@/components/icons/athletics-icons"
 import { Navigation } from "@/components/navigation"
 import { AppFooter, PageIntro } from "@/components/site/page-primitives"
 import { Badge } from "@/components/ui/badge"
@@ -119,7 +120,7 @@ export default function ChangelogPage() {
         <PageIntro
           eyebrow={
             <span className="inline-flex items-center gap-2">
-              <FileText className="size-4" />
+              <DataIcon className="size-4" />
               Updates
             </span>
           }
@@ -137,7 +138,7 @@ export default function ChangelogPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Label className="text-xs font-semibold uppercase">Search</Label>
               <div className="relative flex-1 min-w-[240px]">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
+                <DirectoryIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden="true" />
                 <Input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
@@ -152,7 +153,7 @@ export default function ChangelogPage() {
               <button
                 type="button"
                 onClick={() => setViewMode("highlights")}
-                className={`rounded-none border px-3 py-1 ${
+                className={`rounded-lg border px-3 py-1 ${
                   viewMode === "highlights" ? "border-accent text-accent" : "border-border text-foreground"
                 }`}
               >
@@ -161,7 +162,7 @@ export default function ChangelogPage() {
               <button
                 type="button"
                 onClick={() => setViewMode("commits")}
-                className={`rounded-none border px-3 py-1 ${
+                className={`rounded-lg border px-3 py-1 ${
                   viewMode === "commits" ? "border-accent text-accent" : "border-border text-foreground"
                 }`}
               >
@@ -170,7 +171,7 @@ export default function ChangelogPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-              <Filter className="size-3" />
+              <FilterIcon className="size-3" />
               {categoryOptions.map((category) => {
                 const active = category === activeCategory
                 return (
@@ -178,7 +179,7 @@ export default function ChangelogPage() {
                     key={category}
                     type="button"
                     onClick={() => setActiveCategory(category)}
-                    className={`rounded-none border px-3 py-1 ${
+                    className={`rounded-lg border px-3 py-1 ${
                       active ? "border-accent text-accent" : "border-border text-foreground"
                     }`}
                   >
@@ -205,7 +206,7 @@ export default function ChangelogPage() {
                     <div className="space-y-3">
                       <CardTitle className="text-2xl leading-tight sm:text-3xl">{update.title}</CardTitle>
                       <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CalendarDays className="size-4" />
+                        <CompetitionIcon className="size-4" />
                         {formatDay(update.date)}
                       </p>
                     </div>
@@ -225,7 +226,7 @@ export default function ChangelogPage() {
                     <ul className="space-y-3 text-sm leading-relaxed text-muted-foreground">
                       {update.highlights.map((point) => (
                         <li key={`${update.id}-${point}`} className="flex gap-3">
-                          <span className="mt-2 size-1.5 shrink-0 rounded-none bg-accent" aria-hidden="true" />
+                          <span className="mt-2 size-1.5 shrink-0 rounded-lg bg-accent" aria-hidden="true" />
                           <span>{point}</span>
                         </li>
                       ))}
@@ -267,7 +268,7 @@ export default function ChangelogPage() {
                   <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <span>{commit.author}</span>
                     <span>•</span>
-                    <CalendarDays className="size-3" />
+                    <CompetitionIcon className="size-3" />
                     <span>{formatDate(commit.date)}</span>
                     <span>•</span>
                     <Clock className="size-3" />
@@ -280,7 +281,7 @@ export default function ChangelogPage() {
                       </Badge>
                     ))}
                   </div>
-                  <div className="flex flex-wrap items-center gap-2 rounded-none border border-border bg-muted/40 p-2 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/40 p-2 text-xs text-muted-foreground">
                     <Sparkles className="size-3 text-accent" />
                     <span>
                       Commit changed {commit.stats.files} file{commit.stats.files === 1 ? "" : "s"} and touched{" "}
