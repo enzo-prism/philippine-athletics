@@ -1,11 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
+import { PartnerLogoMark } from "@/components/icons/brand-mark"
 import {
   getDemoAdCreativesForFormat,
-  getFallbackCreativeForFormat,
-  sponsorLogoFallbackDataUri,
   type DemoAdCreative,
   type DemoAdFormat,
 } from "@/lib/data/demo-ad-creatives"
@@ -44,63 +43,19 @@ const formatClassName = {
   inline: "min-h-[132px]",
 }
 
-const ultimateFallbackCreative: DemoAdCreative = {
-  name: "Sponsor Fallback",
-  imageUrl: sponsorLogoFallbackDataUri,
-  alt: "Fallback sponsor logo",
-  fit: "contain",
-}
-
 function AdSlotCreative({
   slotId,
-  primaryCreative,
-  fallbackCreative,
+  creative,
 }: {
   slotId: string
-  primaryCreative: DemoAdCreative
-  fallbackCreative: DemoAdCreative
+  creative: DemoAdCreative
 }) {
-  const [activeCreative, setActiveCreative] = useState(primaryCreative)
-  const [textFallback, setTextFallback] = useState(false)
-
-  const handleImageError = () => {
-    if (activeCreative.imageUrl !== fallbackCreative.imageUrl) {
-      setActiveCreative(fallbackCreative)
-      return
-    }
-    if (activeCreative.imageUrl !== ultimateFallbackCreative.imageUrl) {
-      setActiveCreative(ultimateFallbackCreative)
-      return
-    }
-    setTextFallback(true)
-  }
-
-  if (textFallback) {
-    return (
-      <div
-        className="relative flex h-full w-full flex-col items-center justify-center gap-1 px-4 text-center"
-        data-testid={`demo-ad-text-fallback-${slotId}`}
-      >
-        <p className="text-xs font-semibold uppercase tracking-normal text-primary">Sponsor Spotlight</p>
-        <p className="text-[11px] text-muted-foreground">Open sponsor directory</p>
-      </div>
-    )
-  }
-
   return (
     <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
-      <img
-        src={activeCreative.imageUrl}
-        alt={activeCreative.alt}
-        loading="lazy"
-        decoding="async"
-        width="640"
-        height="320"
-        onError={handleImageError}
-        className="h-auto w-auto max-h-full max-w-full object-contain transition duration-300 group-hover:scale-[1.01]"
-        style={{ objectFit: activeCreative.fit ?? "contain", objectPosition: "center center" }}
-        draggable={false}
-        data-testid={`demo-ad-image-${slotId}`}
+      <PartnerLogoMark
+        name={creative.name}
+        className="max-h-full max-w-full transition duration-300 group-hover:scale-[1.01]"
+        data-testid={`demo-ad-icon-${slotId}`}
       />
     </div>
   )
@@ -121,7 +76,6 @@ export function DemoAdSlot({
     [creativeOverride, slotId, format, preferBannerCreative],
   )
 
-  const fallbackCreative = useMemo(() => getFallbackCreativeForFormat(format), [format])
   const resolvedVariant = (() => {
     if (variant === "feature") return "spotlight"
     if (variant === "inlinePanel") return "inline"
@@ -161,10 +115,9 @@ export function DemoAdSlot({
               </div>
               <div className="flex min-h-[156px] flex-1 items-center justify-center rounded-lg border border-border/70 bg-background/80 p-4">
                 <AdSlotCreative
-                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  key={`${slotId}:${format}:${selectedCreative.name}`}
                   slotId={slotId}
-                  primaryCreative={selectedCreative}
-                  fallbackCreative={fallbackCreative}
+                  creative={selectedCreative}
                 />
               </div>
             </div>
@@ -177,10 +130,9 @@ export function DemoAdSlot({
               </div>
               <div className="flex min-h-[96px] items-center justify-center rounded-lg border border-border/70 bg-background/80 p-3">
                 <AdSlotCreative
-                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  key={`${slotId}:${format}:${selectedCreative.name}`}
                   slotId={slotId}
-                  primaryCreative={selectedCreative}
-                  fallbackCreative={fallbackCreative}
+                  creative={selectedCreative}
                 />
               </div>
             </div>
@@ -193,10 +145,9 @@ export function DemoAdSlot({
               </div>
               <div className="flex h-16 min-h-0 items-center justify-center rounded-lg border border-border/70 bg-background/84 p-0 sm:h-[68px]">
                 <AdSlotCreative
-                  key={`${slotId}:${format}:${selectedCreative.imageUrl}`}
+                  key={`${slotId}:${format}:${selectedCreative.name}`}
                   slotId={slotId}
-                  primaryCreative={selectedCreative}
-                  fallbackCreative={fallbackCreative}
+                  creative={selectedCreative}
                 />
               </div>
             </div>

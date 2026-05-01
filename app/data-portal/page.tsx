@@ -33,12 +33,6 @@ import {
 import { normalizeKey } from "@/lib/data/utils"
 
 const SAMPLE_CSV = `competition,event,round,athleteName,membershipNumber,athleteId,result,place,wind,note
-2025 Southeast Asian Games,400m hurdles,Final,Lauren Hoffman,PA-LAURENHOFF,athlete-lauren-hoffman,56.80,3,+1.2,PB
-2025 Southeast Asian Games,400m hurdles,Final,Nguyen Thi Lan,EXT-SEA-400H-01,,55.92,1,+1.2,
-2025 Southeast Asian Games,400m hurdles,Final,Siti Aisyah,EXT-SEA-400H-02,,56.40,2,+1.2,
-2025 Southeast Asian Games,200m,Final,Kristina Knott,PA-KRISTINAKN,athlete-kristina-knott,23.45,3,+1.7,
-2025 Southeast Asian Games,200m,Final,Suphawadee Thongchai,EXT-SEA-200M-01,,23.10,1,+1.7,
-2025 Southeast Asian Games,200m,Final,Nguyen Minh Anh,EXT-SEA-200M-02,,23.32,2,+1.7,
 `
 
 const STORAGE_KEY = "philippine-athletics:results-intake"

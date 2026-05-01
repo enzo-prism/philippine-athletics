@@ -2,61 +2,37 @@ export type LogoAsset = {
   name: string
   url: string
   alt: string
-  category: "federation" | "program" | "symbol"
+  category: "federation" | "program" | "symbol" | "partner"
 }
 
-const cloudinaryBase = "https://res.cloudinary.com/dhqpqfw6w/image/upload"
+const appMarkPath = "/icon.svg"
 
 export const logoAssets: LogoAsset[] = [
   {
-    name: "PATAFA + PSC",
-    alt: "PATAFA and Philippine Sports Commission combined logo",
+    name: "Philippine Athletics Shield",
+    alt: "Philippine Athletics shield mark",
     category: "federation",
-    url: `${cloudinaryBase}/v1770697128/PATAFA_PSC_LOGO_xzerkv.jpg`,
+    url: appMarkPath,
   },
   {
-    name: "PSC",
-    alt: "Philippine Sports Commission logo",
-    category: "federation",
-    url: `${cloudinaryBase}/v1770697127/PSC_LOGO_jzlpsy.jpg`,
+    name: "Philippine Athletics App Icon",
+    alt: "Philippine Athletics app icon",
+    category: "program",
+    url: appMarkPath,
   },
   {
-    name: "POA",
-    alt: "Philippine Olympic affiliate logo",
-    category: "federation",
-    url: `${cloudinaryBase}/v1770697125/POA_LOGO_ccstcl.jpg`,
+    name: "Partner System Mark",
+    alt: "Minimal partner system mark",
+    category: "partner",
+    url: appMarkPath,
   },
   {
-    name: "Olympic Rings",
-    alt: "Olympic rings logo",
+    name: "Athlete Pathway Symbol",
+    alt: "Minimal athlete pathway symbol",
     category: "symbol",
-    url: `${cloudinaryBase}/v1770697127/OLYMPIC_RINGS_LOGO_rxfgkr.jpg`,
-  },
-  {
-    name: "Philippine Flag",
-    alt: "Philippine flag",
-    category: "symbol",
-    url: `${cloudinaryBase}/v1770697123/PHI_FLAG_fgdort.jpg`,
-  },
-  {
-    name: "Philippine Athletics Mark",
-    alt: "Philippine athletics symbol mark",
-    category: "program",
-    url: `${cloudinaryBase}/v1770697127/PHI_LOGO_xnkkxv.jpg`,
-  },
-  {
-    name: "FAS Primary",
-    alt: "FAS primary logo",
-    category: "program",
-    url: `${cloudinaryBase}/v1770697126/FAS_LOGO_plwr8m.jpg`,
-  },
-  {
-    name: "FAS Square",
-    alt: "FAS square logo",
-    category: "program",
-    url: `${cloudinaryBase}/v1770697125/FAS_LOGO_SQUARE_cttltw.jpg`,
+    url: appMarkPath,
   },
 ]
 
-export const headerLogos = logoAssets.slice(0, 5)
+export const headerLogos = logoAssets.slice(0, 2)
 export const footerLogos = logoAssets

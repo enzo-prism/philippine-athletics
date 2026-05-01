@@ -53,7 +53,7 @@ export default async function SearchPage({
   const athleteSource = isDemoMode ? demoAthleteSummaries : athleteSummaries
   const suggestionLinks = isDemoMode
     ? demoAthleteSummaries.map((athlete) => athlete.membershipNumber).slice(0, 3)
-    : ["Lauren Hoffman", "Mia Santos", "PA-JCDELACRUZ"]
+    : athleteSummaries.map((athlete) => athlete.membershipNumber || athlete.name).slice(0, 3)
 
   let topResult: SearchResult | null = null
   let grouped: { athletes: SearchResult[]; coaches: SearchResult[]; clubs: SearchResult[] } = {

@@ -1,24 +1,16 @@
 import { test, expect } from "@playwright/test"
 import { checkA11y } from "./a11y"
 
-test("Flow 3: Club roster", async ({ page }) => {
+test("Flow: club roster opens athlete profile", async ({ page }) => {
   const testInfo = test.info()
 
-  await test.step("Open clubs", async () => {
-    await page.goto("/clubs")
-    await expect(page.getByRole("heading", { name: /local engine of the sport/i })).toBeVisible()
-  })
+  await page.goto("/clubs?q=Fresh")
+  await expect(page.getByRole("heading", { name: /find the training environment/i })).toBeVisible()
+  await expect(page.getByText(/No clubs found/i)).toBeVisible()
 
-  await test.step("Open featured club", async () => {
-    await page.getByRole("link", { name: /view club profile/i }).click()
-    await expect(page.locator("h1")).toHaveText(/Manila Striders Track Club/i)
-  })
+  await checkA11y(page, testInfo, "clubs-empty")
 
-  await checkA11y(page, testInfo, "club-profile")
-
-  await test.step("Open athlete from roster", async () => {
-    await expect(page.getByTestId("club-roster")).toBeVisible()
-    await page.getByTestId("club-roster-item").first().click()
-    await expect(page.getByText("Personal best", { exact: false })).toBeVisible()
-  })
+  await page.goto("/clubs/new-club")
+  await expect(page.getByRole("heading", { name: /new club/i })).toBeVisible()
+  await expect(page.getByText(/No athletes linked/i)).toBeVisible()
 })

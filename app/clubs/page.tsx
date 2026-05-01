@@ -1,12 +1,13 @@
 import Link from "next/link"
+import { Search } from "lucide-react"
+
 import { Navigation } from "@/components/navigation"
-import { ProfileCard } from "@/components/profile-card"
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
-import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { clubs } from "@/lib/data/clubs"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -24,100 +25,70 @@ export default async function ClubsPage({
 }) {
   const resolvedSearchParams = await searchParams
   const query = getParam(resolvedSearchParams, "q").trim()
-  const featuredClub = clubs.find((club) => club.slug === "manila-striders-track-club") ?? clubs[0]
-
-  const filteredClubs = (() => {
-    const term = query.toLowerCase()
-    if (!term) return clubs
-    return clubs.filter(
-      (club) =>
-        club.name.toLowerCase().includes(term) ||
-        club.focus.toLowerCase().includes(term) ||
-        club.location.toLowerCase().includes(term),
-    )
-  })()
+  const term = query.toLowerCase()
+  const filteredClubs = term
+    ? clubs.filter((club) =>
+        [club.name, club.focus, club.location, String(club.founded), String(club.spots)]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(term)),
+      )
+    : clubs
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="page-shell page-stack py-6 sm:py-8">
-        <PageIntro
-          eyebrow="Club directory"
-          title="Clubs are the local engine of the sport."
-          description="Explore recognized training environments, locations, rosters, and club focus areas across the Philippines."
-          stats={[{ label: "Showing", value: `${filteredClubs.length} of ${clubs.length}`, note: "Filter by city, focus, or club name" }]}
-          actions={
-            <form method="get" className="flex w-full flex-col gap-3 sm:flex-row">
-              <div className="relative w-full sm:max-w-md">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base text-muted-foreground" aria-hidden>
-                  <Emoji symbol={emojiIcons.search} className="text-base" />
-                </span>
-                <Input
-                  type="text"
-                  name="q"
-                  defaultValue={query}
-                  autoComplete="off"
-                  placeholder="Search by club, city, or focus…"
-                  className="pl-11"
-                />
-              </div>
-              <Button type="submit" size="lg">
-                Search
-              </Button>
+      <main className="core-main">
+        <CoreHero
+          eyebrow="Clubs"
+          title="Find the training environment."
+          description="Search recognized clubs by name, city, event focus, or capacity."
+          stats={[{ label: "Showing", value: `${filteredClubs.length} of ${clubs.length}` }]}
+        />
+
+        <form method="get" className="core-filter-bar">
+          <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+            <Field>
+              <FieldLabel htmlFor="club-query" className="sr-only">
+                Search clubs
+              </FieldLabel>
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search aria-hidden="true" />
+                </InputGroupAddon>
+                <InputGroupInput id="club-query" name="q" type="search" defaultValue={query} placeholder="Search clubs" />
+              </InputGroup>
+            </Field>
+            <ButtonGroup className="w-full sm:w-fit">
+              <Button type="submit">Search</Button>
               {query ? (
-                <Button asChild variant="ghost" className="sm:self-center">
+                <Button asChild variant="ghost">
                   <Link href="/clubs">Reset</Link>
                 </Button>
               ) : null}
-            </form>
-          }
-          aside={<DemoAdSlot slotId="clubs-inline-1" format="mrec" variant="spotlight" />}
-        />
+            </ButtonGroup>
+          </FieldGroup>
+        </form>
 
-        {featuredClub ? (
-          <section className="page-section-tight">
-            <div className="section-toolbar">
-              <div>
-                <p className="brand-eyebrow">Featured club</p>
-                <h2 className="section-title">{featuredClub.name}</h2>
-              </div>
-              <div className="flex flex-wrap gap-2 text-sm">
-                <span className="rounded-full border border-border/80 bg-background/84 px-3 py-1">{featuredClub.location}</span>
-                <span className="rounded-full border border-border/80 bg-background/84 px-3 py-1">Founded: {featuredClub.founded}</span>
-                <span className="rounded-full border border-border/80 bg-background/84 px-3 py-1">Athlete spots: {featuredClub.spots}</span>
-              </div>
+        <CoreSection title="Club results">
+          {filteredClubs.length ? (
+            <div className="core-list">
+              {filteredClubs.map((club) => (
+                <CoreResultRow
+                  key={club.id}
+                  href={`/clubs/${club.slug ?? club.id}`}
+                  eyebrow={club.isRecognized ? "Recognized club" : "Club"}
+                  title={club.name}
+                  description={club.focus}
+                  facts={[club.location, `Founded ${club.founded}`, `${club.spots} spots`]}
+                  meta="Open club"
+                />
+              ))}
             </div>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">{featuredClub.focus}</p>
-            <div className="mt-5">
-              <Button asChild>
-                <Link href={`/clubs/${featuredClub.slug ?? featuredClub.id}`}>View club profile</Link>
-              </Button>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="page-section">
-          <div className="section-toolbar">
-            <div>
-              <p className="brand-eyebrow">Results</p>
-              <h2 className="section-title">Clubs</h2>
-            </div>
-          </div>
-          <div className="mt-6 results-grid">
-            {filteredClubs.map((club) => (
-              <ProfileCard
-                key={club.id}
-                name={club.name}
-                subtitle=""
-                location={club.location}
-                details={[`Athlete Spots: ${club.spots}`]}
-                href={`/clubs/${club.slug ?? club.id}`}
-                type="club"
-              />
-            ))}
-          </div>
-        </section>
+          ) : (
+            <EmptyState title="No clubs found" description="Try a different city, event focus, club name, or capacity term." />
+          )}
+        </CoreSection>
       </main>
 
       <AppFooter />

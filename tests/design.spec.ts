@@ -4,21 +4,13 @@ test.describe("Desktop design snapshots", () => {
   const routes = [
     { name: "home", path: "/" },
     { name: "athletes", path: "/athletes" },
-    { name: "athlete-profile", path: "/athletes/athlete-lauren-hoffman" },
-    { name: "rankings", path: "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025" },
-    { name: "competitions", path: "/competitions" },
-    { name: "competition-profile", path: "/competitions/2025-southeast-asian-games" },
+    { name: "athlete-profile", path: "/athletes/new-athlete" },
     { name: "clubs", path: "/clubs" },
-    { name: "club-profile", path: "/clubs/manila-striders-track-club" },
-    { name: "lgu-dashboard", path: "/dashboard/lgu/quezon-city?pilot=quezon-city&persona=lgu" },
-    {
-      name: "club-owner-dashboard",
-      path: "/dashboard/clubs/manila-striders-track-club?pilot=quezon-city&club=club-manila-striders&persona=club-owner",
-    },
+    { name: "club-profile", path: "/clubs/new-club" },
     { name: "coaches", path: "/coaches" },
-    { name: "recognition", path: "/recognition" },
-    { name: "data-portal", path: "/data-portal" },
-    { name: "changelog", path: "/changelog" },
+    { name: "coach-profile", path: "/coaches/new-coach" },
+    { name: "events", path: "/events" },
+    { name: "event-profile", path: "/events/new-event" },
   ]
 
   for (const route of routes) {
@@ -45,17 +37,14 @@ test.describe("Desktop design snapshots", () => {
 test.describe("Mobile design snapshots", () => {
   const routes = [
     { name: "home-mobile", path: "/" },
-    { name: "search-mobile", path: "/search" },
-    { name: "athlete-profile-mobile", path: "/athletes/athlete-lauren-hoffman" },
-    { name: "rankings-mobile", path: "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025" },
-    { name: "recognition-mobile", path: "/recognition" },
-    { name: "data-portal-mobile", path: "/data-portal" },
-    {
-      name: "participant-mobile",
-      path: "/participants/aira-mendoza?pilot=quezon-city&club=club-manila-striders&persona=guardian",
-    },
-    { name: "mobile-demo-mobile", path: "/demo/mobile?pilot=quezon-city&persona=guardian" },
-    { name: "profile-mobile", path: "/profile" },
+    { name: "athletes-mobile", path: "/athletes" },
+    { name: "athlete-profile-mobile", path: "/athletes/new-athlete" },
+    { name: "clubs-mobile", path: "/clubs" },
+    { name: "club-profile-mobile", path: "/clubs/new-club" },
+    { name: "coaches-mobile", path: "/coaches" },
+    { name: "coach-profile-mobile", path: "/coaches/new-coach" },
+    { name: "events-mobile", path: "/events" },
+    { name: "event-profile-mobile", path: "/events/new-event" },
   ]
 
   for (const route of routes) {

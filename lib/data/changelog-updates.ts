@@ -22,6 +22,112 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-01-global-athletics-event-calendar",
+    date: "2026-05-01",
+    title: "Global athletics event calendar",
+    category: ["Data", "Experience", "Competition", "Reliability"],
+    summary:
+      "Added a sourced 2026 global athletics calendar for the major World Athletics, Diamond League, Continental Tour, regional championship, and road-running events through November.",
+    highlights: [
+      "Added event records for World Relays, every 2026 Diamond League stop, remaining Continental Tour Gold meets, the Ultimate Championship, Copenhagen road worlds, World U20s, Commonwealth athletics, European Championships, and late-year World Marathon Majors.",
+      "Expanded event profiles with tier labels, watch rationale, official source links, source confidence, and date-discrepancy notes including the Diamond League Doha June 19 correction.",
+      "Upgraded the events directory with category filtering and flow coverage around World Relays and Diamond League event discovery.",
+    ],
+    whyItMatters:
+      "Turns the Events surface into a useful global athletics watch calendar while keeping every date and category tied to auditable official or organizer-level evidence.",
+  },
+  {
+    id: "2026-05-01-national-team-coach-profiles",
+    date: "2026-05-01",
+    title: "National team coach profiles",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Added sourced coach profiles for the publicly visible Philippine national-team coaching group with evidence confidence and source links.",
+    highlights: [
+      "Added coach records for Dario De Rosas, Jeoffrey Chua, Isidro Del Prado, Sean Guevarra, Emerson Obiena, Karl Francisco, Roselyn Hamero, Bonifacio Loraña, Saturnino Salazar, Eduardo Buenavista, and Djundi Biñas.",
+      "Expanded coach profiles with profile facts, evidence notes, source lists, and confidence labels so roster claims remain honest where PATAFA has not published a clean current staff page.",
+      "Updated coach directory search and flow coverage so the new records are discoverable by name, role, specialty, alias, and evidence level.",
+    ],
+    whyItMatters:
+      "Turns the coach directory into a credible national-team reference while avoiding false certainty about names that are only visible through social snippets or delegation coverage.",
+  },
+  {
+    id: "2026-05-01-national-team-athlete-profiles",
+    date: "2026-05-01",
+    title: "National team athlete profiles",
+    category: ["Data", "Experience", "Competition", "Reliability"],
+    summary:
+      "Added sourced athlete profiles for Lauren Hoffman and Yacine Guermali with official performance evidence and visible profile proof.",
+    highlights: [
+      "Added detailed athlete records, personal bests, recent results, and verification notes for Lauren Hoffman and Yacine Guermali.",
+      "Expanded athlete profile pages with overview copy, verified facts, highlights, and source links so public records can be audited in-context.",
+      "Updated athlete search and legacy ranking-flow coverage around the new national-team profiles.",
+    ],
+    whyItMatters:
+      "Turns the clean athlete directory back into a useful elite-athlete discovery surface while keeping every headline stat tied to official evidence.",
+  },
+  {
+    id: "2026-05-01-fresh-sample-data-reset",
+    date: "2026-05-01",
+    title: "Fresh sample data reset",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Cleared the active athletes, clubs, coaches, and events data so the app is ready for a clean replacement sample set.",
+    highlights: [
+      "Reset the core athlete, club, coach, and event arrays to zero records while preserving the TypeScript types and helper functions.",
+      "Removed stale demo athlete spotlights, sanctioned-event examples, sponsor roster links, and intake fixture rows tied to the old sample records.",
+      "Updated flow tests and visual snapshots around empty directory states.",
+    ],
+    whyItMatters:
+      "Gives the next data import a clean baseline with no old demo records leaking into the public directory experience.",
+  },
+  {
+    id: "2026-05-01-shadcn-core-component-refresh",
+    date: "2026-05-01",
+    title: "Shadcn core component refresh",
+    category: ["Experience", "Components", "Styling", "Reliability"],
+    summary:
+      "Refreshed the focused public app around the latest shadcn composition patterns while preserving the core Home, Athletes, Clubs, Coaches, and Events route model.",
+    highlights: [
+      "Added Field, Input Group, Native Select, Button Group, Empty, Item, Breadcrumb, and Command primitives without overwriting local button/input styling.",
+      "Reworked the shell command launcher, homepage jump control, directory filters, empty states, result rows, and detail breadcrumbs around shadcn components.",
+      "Added Playwright flow coverage for the command launcher search handoff into the athlete directory.",
+    ],
+    whyItMatters:
+      "Makes the app feel more current, premium, and maintainable while keeping the newest public UX narrow and directory-focused.",
+  },
+  {
+    id: "2026-05-01-standard-icon-pack-refresh",
+    date: "2026-05-01",
+    title: "Standard icon pack refresh",
+    category: ["Branding", "Styling", "Components", "Experience"],
+    summary:
+      "Moved the app icon system from custom-drawn Philippine Athletics glyphs to a Lucide-backed standard icon pack for a cleaner premium interface.",
+    highlights: [
+      "Replaced the custom product icon implementation with a compatibility wrapper that maps app concepts to `lucide-react` icons.",
+      "Updated the shell mark, favicon SVGs, Open Graph mark, and partner placeholder marks to use the same clean-line icon language.",
+      "Updated the root design contract so future UI work treats Lucide as the canonical icon system.",
+    ],
+    whyItMatters:
+      "Gives the app a more familiar, modern, and cohesive visual language while preserving existing imports and route behavior.",
+  },
+  {
+    id: "2026-05-01-minimal-core-app-redesign",
+    date: "2026-05-01",
+    title: "Minimal core app redesign",
+    category: ["Experience", "Branding", "Competition", "Reliability", "Styling"],
+    summary:
+      "Rebuilt the public app around a sparse core directory experience focused only on Home, Athletes, Clubs, Coaches, and Events.",
+    highlights: [
+      "Simplified the shell and homepage into a minimal command hub with core navigation, search jump behavior, and subtle partner support.",
+      "Converted athlete, club, coach, and event directories plus their detail pages into a consistent dense-list and compact-detail pattern.",
+      "Added canonical `/events/[id]` pages and redirected retired public routes into the closest core destination.",
+      "Updated flow tests and visual snapshots around the new core pages, representative detail pages, search/jump behavior, and redirects.",
+    ],
+    whyItMatters:
+      "Keeps the newest app version focused on the surfaces users actually need while preserving existing data and route continuity behind a cleaner UX.",
+  },
+  {
     id: "2026-04-23-usatf-style-federation-positioning-pass",
     date: "2026-04-23",
     title: "USATF-style federation positioning pass",

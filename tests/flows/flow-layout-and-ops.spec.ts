@@ -2,48 +2,60 @@ import { expect, test } from "@playwright/test"
 
 const layoutRoutes = [
   "/",
-  "/search",
-  "/athletes/athlete-lauren-hoffman",
-  "/rankings?event=100m&gender=Women&ageGroup=Open&year=2025",
-  "/recognition",
-  "/data-portal",
-  "/profile",
+  "/athletes",
+  "/athletes/new-athlete",
+  "/clubs",
+  "/clubs/new-club",
+  "/coaches",
+  "/coaches/new-coach",
+  "/events",
+  "/events/new-event",
 ]
 
-test("Flow: public surfaces keep sponsor visibility, sticky behavior, and no horizontal overflow", async ({
-  page,
-}) => {
+const legacyRedirects = [
+  { from: "/competitions", to: /\/events\?status=All/ },
+  { from: "/competitions/new-event?event=100m", to: /\/events\/new-event\?event=100m/ },
+  { from: "/search?q=Fresh", to: /\/athletes\?q=Fresh/ },
+  { from: "/rankings?event=100m", to: /\/athletes\?event=100m/ },
+  { from: "/membership", to: /\/$/ },
+  { from: "/dashboard/lgu/quezon-city", to: /\/$/ },
+  { from: "/participants/aira-mendoza", to: /\/$/ },
+]
+
+test("Flow: core public surfaces stay minimal and avoid horizontal overflow", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
 
   for (const route of layoutRoutes) {
     await page.goto(route, { waitUntil: "networkidle" })
-    await expect(page.locator('[data-testid^="demo-ad-global-top"]').first()).toBeVisible()
+
+    await expect(page.getByRole("navigation").first()).toBeVisible()
+    await expect(page.locator('[data-testid^="demo-ad-"]')).toHaveCount(0)
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
     expect(overflow, `${route} has horizontal overflow`).toBeLessThanOrEqual(1)
   }
-
-  await page.goto("/rankings?event=100m&gender=Women&ageGroup=Open&year=2025", { waitUntil: "networkidle" })
-  const filterBar = page.locator(".filter-bar").first()
-  await expect(filterBar).toBeVisible()
-
-  await page.evaluate(() => {
-    window.scrollBy({ top: 1600, behavior: "instant" })
-  })
-  const box = await filterBar.boundingBox()
-  expect(box?.y ?? 999).toBeLessThanOrEqual(140)
 })
 
-test("Flow: data portal sample import and profile settings remain usable", async ({ page }) => {
-  await page.goto("/data-portal", { waitUntil: "networkidle" })
-  await page.getByTestId("results-sample").click()
-  await page.getByTestId("intake-tab-review").click()
-  await expect(page.getByTestId("impact-preview")).toBeVisible()
-  await expect(page.getByTestId("submission-log")).toBeVisible()
+test("Flow: legacy public routes redirect into the core app", async ({ page }) => {
+  for (const redirect of legacyRedirects) {
+    await page.goto(redirect.from, { waitUntil: "networkidle" })
+    await expect(page).toHaveURL(redirect.to)
+    await expect(page.getByRole("navigation").first()).toBeVisible()
+  }
+})
 
-  await page.goto("/profile", { waitUntil: "networkidle" })
-  await page.getByRole("button", { name: /Account Settings/i }).click()
-  await expect(page.getByRole("heading", { name: /Account Settings/i })).toBeVisible()
-  await page.getByRole("button", { name: /Notifications/i }).click()
-  await expect(page.getByRole("heading", { name: /Notifications/i })).toBeVisible()
+test("Flow: shell navigation stays link-only without search launcher", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("/", { waitUntil: "networkidle" })
+
+  const nav = page.getByRole("navigation").first()
+  await expect(nav.getByRole("link", { name: "Home", exact: true })).toBeVisible()
+  await expect(nav.getByRole("link", { name: "Athletes", exact: true })).toBeVisible()
+  await expect(nav.getByRole("button", { name: /jump|search/i })).toHaveCount(0)
+  await expect(page.getByRole("button", { name: /jump/i })).toHaveCount(0)
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.reload({ waitUntil: "networkidle" })
+  await page.getByRole("button", { name: /open navigation/i }).click()
+  await expect(page.getByRole("dialog").getByRole("button", { name: /jump|search/i })).toHaveCount(0)
 })

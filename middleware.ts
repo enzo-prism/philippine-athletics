@@ -1,11 +1,4 @@
 import { NextRequest, NextResponse } from "next/server"
-import { DEMO_FLOW_COOKIE, getDemoFlowConfig, isRouteAllowedForFlow, type DemoAudienceId } from "@/lib/demo/flows"
-
-const entryRouteToFlow: Record<string, DemoAudienceId> = {
-  "/demo/governance": "governance",
-  "/demo/institutions": "institutions",
-  "/demo/lgus": "lgus",
-}
 
 const normalizePath = (pathname: string) =>
   pathname !== "/" && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname
@@ -17,6 +10,19 @@ const shouldBypass = (pathname: string) => {
   return false
 }
 
+const redirectTo = (request: NextRequest, pathname: string) => {
+  const redirectUrl = request.nextUrl.clone()
+  redirectUrl.pathname = pathname
+  return NextResponse.redirect(redirectUrl)
+}
+
+const redirectToRoot = (request: NextRequest) => {
+  const redirectUrl = request.nextUrl.clone()
+  redirectUrl.pathname = "/"
+  redirectUrl.search = ""
+  return NextResponse.redirect(redirectUrl)
+}
+
 export function middleware(request: NextRequest) {
   const pathname = normalizePath(request.nextUrl.pathname)
 
@@ -24,39 +30,52 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  if (pathname === "/demo") {
-    const response = NextResponse.next()
-    response.cookies.delete(DEMO_FLOW_COOKIE)
-    return response
+  if (pathname === "/competitions") {
+    const redirectUrl = request.nextUrl.clone()
+    redirectUrl.pathname = "/events"
+    redirectUrl.searchParams.set("status", "All")
+    return NextResponse.redirect(redirectUrl)
   }
 
-  const entryFlow = entryRouteToFlow[pathname]
-  if (entryFlow) {
-    const response = NextResponse.next()
-    response.cookies.set(DEMO_FLOW_COOKIE, entryFlow, {
-      path: "/",
-      sameSite: "lax",
-    })
-    return response
+  if (pathname.startsWith("/competitions/")) {
+    return redirectTo(request, pathname.replace(/^\/competitions/, "/events"))
   }
 
-  const flow = getDemoFlowConfig(request.cookies.get(DEMO_FLOW_COOKIE)?.value)
-  if (!flow) {
-    return NextResponse.next()
+  if (pathname === "/search") {
+    return redirectTo(request, "/athletes")
   }
 
-  if (isRouteAllowedForFlow(flow, pathname)) {
-    return NextResponse.next()
+  if (pathname === "/rankings") {
+    return redirectTo(request, "/athletes")
   }
 
-  const redirectUrl = request.nextUrl.clone()
-  redirectUrl.pathname = "/demo/off-script"
-  redirectUrl.searchParams.set("flow", flow.audienceId)
-  redirectUrl.searchParams.set("next", `${request.nextUrl.pathname}${request.nextUrl.search}`)
-  return NextResponse.redirect(redirectUrl)
+  if (
+    [
+      "/about",
+      "/changelog",
+      "/data-portal",
+      "/demo",
+      "/disciplines",
+      "/how-it-works",
+      "/membership",
+      "/news",
+      "/profile",
+      "/recognition",
+      "/safe-sport",
+      "/signup",
+      "/sponsors",
+    ].some((legacyPath) => pathname === legacyPath || pathname.startsWith(`${legacyPath}/`)) ||
+    pathname === "/dashboard" ||
+    pathname.startsWith("/dashboard/") ||
+    pathname === "/participants" ||
+    pathname.startsWith("/participants/")
+  ) {
+    return redirectToRoot(request)
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {
   matcher: ["/:path*"],
 }
-

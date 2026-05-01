@@ -1,588 +1,219 @@
-import Link from "next/link";
-import { DirectoryIcon } from "@/components/icons/athletics-icons";
-import { Navigation } from "@/components/navigation";
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot";
-import { ProfileCard } from "@/components/profile-card";
-import { AppFooter, PageIntro } from "@/components/site/page-primitives";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { AthleteSummary, athleteSummaries } from "@/lib/data/athletes";
+import Link from "next/link"
+import { Search } from "lucide-react"
 
-const eventOptions = [
-  { label: "All events", value: "All" },
-  { label: "Sprints", value: "Sprints" },
-  { label: "100m", value: "100m" },
-  { label: "200m", value: "200m" },
-  { label: "400m", value: "400m" },
-  { label: "Middle Distance", value: "Middle Distance" },
-  { label: "800m", value: "800m" },
-  { label: "1500m", value: "1500m" },
-  { label: "Long Distance", value: "Long Distance" },
-  { label: "5000m", value: "5000m" },
-  { label: "10,000m", value: "10,000m" },
-  { label: "Hurdles", value: "Hurdles" },
-  { label: "110m hurdles (men)", value: "110m hurdles (men)" },
-  { label: "100m hurdles", value: "100m hurdles" },
-  { label: "100m hurdles (women)", value: "100m hurdles (women)" },
-  { label: "400m hurdles", value: "400m hurdles" },
-  { label: "Steeplechase", value: "Steeplechase" },
-  { label: "3000m steeplechase", value: "3000m steeplechase" },
-  { label: "Relays", value: "Relays" },
-  { label: "4×100m relay", value: "4×100m relay" },
-  { label: "4×400m relay", value: "4×400m relay" },
-  { label: "Jumps", value: "Jumps" },
-  { label: "High jump", value: "High jump" },
-  { label: "Pole vault", value: "Pole vault" },
-  { label: "Long jump", value: "Long jump" },
-  { label: "Triple jump", value: "Triple jump" },
-  { label: "Throws", value: "Throws" },
-  { label: "Shot put", value: "Shot put" },
-  { label: "Discus throw", value: "Discus throw" },
-  { label: "Hammer throw", value: "Hammer throw" },
-  { label: "Javelin throw", value: "Javelin throw" },
-  { label: "Combined Events", value: "Combined Events" },
-  { label: "Decathlon (men)", value: "Decathlon (men)" },
-  { label: "Heptathlon (women)", value: "Heptathlon (women)" },
-  { label: "Road Events", value: "Road Events" },
-  { label: "Marathon", value: "Marathon" },
-];
+import { Navigation } from "@/components/navigation"
+import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
+import { athleteSummaries, type AthleteSummary } from "@/lib/data/athletes"
 
-const regionOptions = [
-  { label: "All locations", value: "All" },
-  { label: "Metro Manila", value: "Metro Manila" },
-  { label: "Luzon", value: "Luzon" },
-  { label: "Visayas", value: "Visayas" },
-  { label: "Mindanao", value: "Mindanao" },
-];
-
+const regionOptions = ["All", "Metro Manila", "Luzon", "Visayas", "Mindanao"] as const
 const sortOptions = [
   { label: "Relevance", value: "relevance" },
-  { label: "National Rank", value: "national_rank" },
-  { label: "Asian Rank", value: "asian_rank" },
-  { label: "Global Rank", value: "global_rank" },
-  { label: "Personal Best", value: "personal_best" },
-  { label: "Name (A-Z)", value: "name" },
-];
+  { label: "National rank", value: "national_rank" },
+  { label: "Personal best", value: "personal_best" },
+  { label: "Name", value: "name" },
+] as const
 
-const categoryByEvent: Record<string, string> = {
-  Sprints: "Sprints",
-  "100m": "Sprints",
-  "200m": "Sprints",
-  "400m": "Sprints",
-  "Middle Distance": "Middle Distance",
-  "800m": "Middle Distance",
-  "1500m": "Middle Distance",
-  "Long Distance": "Long Distance",
-  "5000m": "Long Distance",
-  "10,000m": "Long Distance",
-  Hurdles: "Hurdles",
-  "110m hurdles (men)": "Hurdles",
-  "100m hurdles": "Hurdles",
-  "100m hurdles (women)": "Hurdles",
-  "400m hurdles": "Hurdles",
-  Steeplechase: "Steeplechase",
-  "3000m steeplechase": "Steeplechase",
-  Relays: "Relays",
-  "4×100m relay": "Relays",
-  "4×400m relay": "Relays",
-  Jumps: "Jumps",
-  "High jump": "Jumps",
-  "Pole vault": "Jumps",
-  "Long jump": "Jumps",
-  "Triple jump": "Jumps",
-  Throws: "Throws",
-  "Shot put": "Throws",
-  "Discus throw": "Throws",
-  "Hammer throw": "Throws",
-  "Javelin throw": "Throws",
-  "Combined Events": "Combined Events",
-  "Decathlon (men)": "Combined Events",
-  "Heptathlon (women)": "Combined Events",
-  "Road Events": "Road Events",
-  Marathon: "Road Events",
-};
-
-const athletes: AthleteSummary[] = athleteSummaries;
-
-const selectClassName =
-  "h-11 w-full rounded-lg border border-input bg-background/92 px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+const eventOptions = [
+  "All",
+  ...Array.from(new Set(athleteSummaries.flatMap((athlete) => athlete.events ?? [athlete.specialty]))).sort(),
+]
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
   key: string,
 ) => {
-  const value = searchParams?.[key];
-  if (Array.isArray(value)) return value[0] ?? "";
-  return value ?? "";
-};
-
-const isValidOption = (value: string, options: { value: string }[]) =>
-  Boolean(value) && options.some((opt) => opt.value === value);
-
-const normalizeEvents = (events: string[]) =>
-  Array.from(new Set(events.filter(Boolean).map((e) => e.trim())));
-
-const deriveEventsFromSpecialty = (specialty: string): string[] => {
-  const lower = specialty.toLowerCase();
-  const events: string[] = [];
-
-  if (lower.includes("110m hurdle")) events.push("110m hurdles (men)");
-  if (lower.includes("100m hurdle") && !lower.includes("110m"))
-    events.push("100m hurdles");
-  if (lower.includes("400m hurdle")) events.push("400m hurdles");
-  if (lower.includes("steeple"))
-    events.push("3000m steeplechase", "Steeplechase");
-
-  if (lower.includes("4x100") || lower.includes("4×100"))
-    events.push("4×100m relay");
-  if (lower.includes("4x400") || lower.includes("4×400"))
-    events.push("4×400m relay");
-  if (lower.includes("relay")) events.push("Relays");
-
-  if (lower.includes("100m") && !lower.includes("hurdle")) events.push("100m");
-  if (lower.includes("200m") && !lower.includes("hurdle")) events.push("200m");
-  if (lower.includes("400m") && !lower.includes("hurdle")) events.push("400m");
-  if (lower.includes("sprinter")) events.push("Sprints");
-
-  if (lower.includes("1500")) events.push("1500m");
-  if (lower.includes("800")) events.push("800m");
-  if (lower.includes("middle")) events.push("Middle Distance");
-
-  if (lower.includes("5000")) events.push("5000m");
-  if (
-    lower.includes("10,000") ||
-    lower.includes("10000") ||
-    lower.includes("10k")
-  )
-    events.push("10,000m");
-  if (lower.includes("marathon")) events.push("Marathon", "Road Events");
-  if (
-    lower.includes("distance") ||
-    lower.includes("endurance") ||
-    lower.includes("walk")
-  )
-    events.push("Long Distance");
-
-  if (lower.includes("pole vault") || lower.includes("vault"))
-    events.push("Pole vault");
-  if (lower.includes("high jump")) events.push("High jump");
-  if (lower.includes("triple jump")) events.push("Triple jump");
-  if (lower.includes("long jump")) events.push("Long jump");
-  if (lower.includes("jump")) events.push("Jumps");
-
-  if (lower.includes("shot put") || lower.includes("shot"))
-    events.push("Shot put");
-  if (lower.includes("discus")) events.push("Discus throw");
-  if (lower.includes("hammer")) events.push("Hammer throw");
-  if (lower.includes("javelin")) events.push("Javelin throw");
-  if (lower.includes("throw")) events.push("Throws");
-
-  if (lower.includes("decathlon"))
-    events.push("Decathlon (men)", "Combined Events");
-  if (lower.includes("heptathlon"))
-    events.push("Heptathlon (women)", "Combined Events");
-  if (lower.includes("multi")) events.push("Combined Events");
-
-  return normalizeEvents(events.length ? events : ["Other"]);
-};
-
-const getDisplayEvents = (athlete: AthleteSummary) => {
-  const base =
-    athlete.events && athlete.events.length
-      ? athlete.events
-      : deriveEventsFromSpecialty(athlete.specialty);
-  return normalizeEvents(base);
-};
-
-const getEventTags = (athlete: AthleteSummary) => {
-  const events = getDisplayEvents(athlete);
-  const tags = new Set(events);
-  events.forEach((evt) => {
-    const category = categoryByEvent[evt];
-    if (category) tags.add(category);
-  });
-  return Array.from(tags);
-};
+  const value = searchParams?.[key]
+  if (Array.isArray(value)) return value[0] ?? ""
+  return value ?? ""
+}
 
 const classifyRegion = (location: string) => {
-  const metroManila = [
-    "manila",
-    "quezon city",
-    "makati",
-    "taguig",
-    "bonifacio global city",
-    "bgc",
-    "pasay",
-    "pasig",
-    "mandaluyong",
-    "san juan",
-    "parañaque",
-    "las piñas",
-    "marikina",
-    "caloocan",
-    "valenzuela",
-    "malabon",
-    "navotas",
-    "muntinlupa",
-  ];
-  const visayas = [
-    "cebu",
-    "iloilo",
-    "bacolod",
-    "mactan",
-    "aklan",
-    "capiz",
-    "tacloban",
-    "ormoc",
-    "bohol",
-    "mandaue",
-  ];
-  const mindanao = [
-    "davao",
-    "cagayan de oro",
-    "iligan",
-    "tagum",
-    "digos",
-    "general santos",
-    "koronadal",
-    "zamboanga",
-    "dipolog",
-    "pagadian",
-    "surigao",
-    "butuan",
-    "siargao",
-  ];
-
-  const lower = location.toLowerCase();
-  if (metroManila.some((city) => lower.includes(city))) return "Metro Manila";
-  if (visayas.some((city) => lower.includes(city))) return "Visayas";
-  if (mindanao.some((city) => lower.includes(city))) return "Mindanao";
-  return "Luzon";
-};
+  const lower = location.toLowerCase()
+  if (["manila", "pasig", "quezon city", "ncr", "makati", "taguig"].some((city) => lower.includes(city))) {
+    return "Metro Manila"
+  }
+  if (["cebu", "iloilo", "visayas"].some((city) => lower.includes(city))) return "Visayas"
+  if (["davao", "mindanao", "cagayan de oro"].some((city) => lower.includes(city))) return "Mindanao"
+  return "Luzon"
+}
 
 const parseRank = (rank: string | number | undefined) => {
-  if (rank === undefined || rank === null || rank === "")
-    return Number.POSITIVE_INFINITY;
-  if (typeof rank === "number") return rank;
-  const match = rank.match(/#(\d+)/);
-  return match ? parseInt(match[1], 10) : Number.POSITIVE_INFINITY;
-};
+  if (rank === undefined || rank === null || rank === "") return Number.POSITIVE_INFINITY
+  if (typeof rank === "number") return rank
+  const match = rank.match(/#?(\d+)/)
+  return match ? Number.parseInt(match[1], 10) : Number.POSITIVE_INFINITY
+}
 
 const formatRank = (rank?: string | number) => {
-  if (rank === undefined || rank === null || rank === "") return "—";
-  if (typeof rank === "number") return `#${rank}`;
-  const trimmed = rank.trim();
-  return trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
-};
+  if (rank === undefined || rank === null || rank === "") return "Unranked"
+  const value = typeof rank === "number" ? String(rank) : rank.replace("#", "")
+  return `#${value}`
+}
 
-const parsePerformance = (perf: string | undefined) => {
-  if (!perf) return { value: Number.POSITIVE_INFINITY, higherIsBetter: false };
-  const lower = perf.toLowerCase();
-  const hasColon = lower.includes(":");
-  const endsWithSeconds = /\ds\b/.test(lower) || lower.endsWith("s");
-  const isTime = hasColon || endsWithSeconds;
-
-  if (isTime) {
-    if (hasColon) {
-      const parts = perf.split(":").map((p) => parseFloat(p));
-      const [first, second = 0, third = 0] = parts;
-      const totalSeconds =
-        parts.length === 3
-          ? first * 3600 + second * 60 + third
-          : first * 60 + second;
-      return { value: totalSeconds, higherIsBetter: false };
-    }
-    return { value: parseFloat(perf), higherIsBetter: false };
+const parsePerformance = (value: string | undefined) => {
+  if (!value) return Number.POSITIVE_INFINITY
+  const cleaned = value.toLowerCase().replace("s", "")
+  if (cleaned.includes(":")) {
+    const parts = cleaned.split(":").map((part) => Number.parseFloat(part))
+    return parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] : parts[0] * 60 + parts[1]
   }
+  return Number.parseFloat(cleaned) || Number.POSITIVE_INFINITY
+}
 
-  const numeric = parseFloat(perf);
-  const higherIsBetter =
-    lower.includes("m") || lower.includes("pt") || lower.includes("pts");
-  return { value: numeric, higherIsBetter };
-};
+const filterAthletes = ({
+  query,
+  region,
+  event,
+  sort,
+}: {
+  query: string
+  region: string
+  event: string
+  sort: string
+}) => {
+  const term = query.toLowerCase()
+  const filtered = athleteSummaries.filter((athlete) => {
+    const events = athlete.events ?? []
+    const matchesQuery =
+      !term ||
+      [athlete.name, athlete.specialty, athlete.club, athlete.coach, athlete.location, athlete.membershipNumber]
+        .filter(Boolean)
+        .some((value) => value?.toLowerCase().includes(term)) ||
+      events.some((item) => item.toLowerCase().includes(term))
+
+    const matchesRegion = region === "All" || classifyRegion(athlete.location) === region
+    const matchesEvent = event === "All" || events.includes(event)
+    return matchesQuery && matchesRegion && matchesEvent
+  })
+
+  if (sort === "name") return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
+  if (sort === "national_rank") return [...filtered].sort((a, b) => parseRank(a.nationalRank) - parseRank(b.nationalRank))
+  if (sort === "personal_best") return [...filtered].sort((a, b) => parsePerformance(a.pb) - parsePerformance(b.pb))
+  return filtered
+}
+
+const athleteFacts = (athlete: AthleteSummary) =>
+  [
+    athlete.pb ? `PB ${athlete.pb}` : null,
+    athlete.nationalRank ? `PH ${formatRank(athlete.nationalRank)}` : null,
+    athlete.events?.[0],
+  ].filter(Boolean) as string[]
 
 export default async function AthletesPage({
   searchParams,
 }: {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const resolvedSearchParams = await searchParams;
-  const query = getParam(resolvedSearchParams, "q").trim();
-  const regionParam = getParam(resolvedSearchParams, "region");
-  const eventParam = getParam(resolvedSearchParams, "event");
-  const sortParam = getParam(resolvedSearchParams, "sort");
-
-  const regionFilter = isValidOption(regionParam, regionOptions)
-    ? regionParam
-    : "All";
-  const eventFilter = isValidOption(eventParam, eventOptions)
-    ? eventParam
-    : "All";
-  const sortOption = isValidOption(sortParam, sortOptions)
-    ? sortParam
-    : "relevance";
-  const sortLabel =
-    sortOptions.find((opt) => opt.value === sortOption)?.label ?? "Relevance";
-
-  let filteredAthletes = athletes.filter((athlete) => {
-    const events = getDisplayEvents(athlete);
-    const term = query.toLowerCase();
-    const matchesSearch =
-      !term ||
-      athlete.name.toLowerCase().includes(term) ||
-      athlete.specialty.toLowerCase().includes(term) ||
-      athlete.club.toLowerCase().includes(term) ||
-      athlete.location.toLowerCase().includes(term) ||
-      events.some((evt) => evt.toLowerCase().includes(term));
-
-    const region = classifyRegion(athlete.location);
-    const eventTags = getEventTags(athlete);
-    const matchesRegion = regionFilter === "All" || region === regionFilter;
-    const matchesEvent =
-      eventFilter === "All" || eventTags.includes(eventFilter);
-
-    return matchesSearch && matchesRegion && matchesEvent;
-  });
-
-  const sorter = (
-    a: (typeof athletes)[number],
-    b: (typeof athletes)[number],
-  ) => {
-    switch (sortOption) {
-      case "national_rank":
-        return parseRank(a.nationalRank) - parseRank(b.nationalRank);
-      case "asian_rank":
-        return parseRank(a.asianRank) - parseRank(b.asianRank);
-      case "global_rank":
-        return parseRank(a.globalRank) - parseRank(b.globalRank);
-      case "name":
-        return a.name.localeCompare(b.name);
-      case "personal_best": {
-        const perfA = parsePerformance(a.pb);
-        const perfB = parsePerformance(b.pb);
-        if (perfA.higherIsBetter !== perfB.higherIsBetter) return 0;
-        if (perfA.higherIsBetter) {
-          return perfB.value - perfA.value;
-        }
-        return perfA.value - perfB.value;
-      }
-      default:
-        return 0;
-    }
-  };
-
-  filteredAthletes =
-    sortOption === "relevance"
-      ? filteredAthletes
-      : [...filteredAthletes].sort(sorter);
-
-  const hasActiveFilters =
-    Boolean(query) ||
-    regionFilter !== "All" ||
-    eventFilter !== "All" ||
-    sortOption !== "relevance";
-
-  const activeFilterLabels = [
-    query ? `Search: ${query}` : null,
-    regionFilter !== "All" ? `Region: ${regionFilter}` : null,
-    eventFilter !== "All" ? `Event: ${eventFilter}` : null,
-    sortOption !== "relevance" ? `Sort: ${sortLabel}` : null,
-  ].filter(Boolean) as string[];
+  const resolvedSearchParams = await searchParams
+  const query = getParam(resolvedSearchParams, "q").trim()
+  const region = regionOptions.includes(getParam(resolvedSearchParams, "region") as (typeof regionOptions)[number])
+    ? getParam(resolvedSearchParams, "region")
+    : "All"
+  const event = eventOptions.includes(getParam(resolvedSearchParams, "event")) ? getParam(resolvedSearchParams, "event") : "All"
+  const sort = sortOptions.some((option) => option.value === getParam(resolvedSearchParams, "sort"))
+    ? getParam(resolvedSearchParams, "sort")
+    : "relevance"
+  const athletes = filterAthletes({ query, region, event, sort })
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="page-shell page-stack py-6 sm:py-8">
-        <PageIntro
-          eyebrow="Athlete directory"
-          title="Athlete bios for the Philippine athletics pathway."
-          description="Discover Filipino athletes from grassroots to national team context, with event filters, profile evidence, rankings, clubs, and sponsor connections close by."
-          stats={[
-            {
-              label: "Showing",
-              value: `${filteredAthletes.length} of ${athletes.length}`,
-              note: "Filter by search, region, event, or ranking context",
-            },
-          ]}
-          aside={<DemoAdSlot slotId="athletes-inline-1" format="mrec" variant="spotlight" />}
+      <main className="core-main">
+        <CoreHero
+          eyebrow="Athletes"
+          title="Find the athlete record."
+          description="Search by name, event, club, coach, membership number, or location."
+          stats={[{ label: "Showing", value: `${athletes.length} of ${athleteSummaries.length}` }]}
         />
 
-        <div className="sticky top-[7.2rem] z-30 space-y-2">
-          <Card className="ui-panel py-0 gap-0">
-            <CardContent className="p-3 sm:p-4 space-y-4">
-              <form method="get" className="space-y-3">
-                <div className="athlete-filter-grid items-end">
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="athlete-search"
-                      className="ui-section-label"
-                    >
-                      Search
-                    </label>
-                    <div className="relative">
-                      <DirectoryIcon
-                        className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                      <Input
-                        id="athlete-search"
-                        type="search"
-                        inputMode="search"
-                        name="q"
-                        placeholder="Search name, club, event…"
-                        defaultValue={query}
-                        autoComplete="off"
-                        className="pl-9"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label htmlFor="athlete-sort" className="ui-section-label">
-                      Sort
-                    </label>
-                    <select
-                      id="athlete-sort"
-                      name="sort"
-                      defaultValue={sortOption}
-                      className={selectClassName}
-                    >
-                      {sortOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="athlete-region"
-                      className="ui-section-label"
-                    >
-                      Region
-                    </label>
-                    <select
-                      id="athlete-region"
-                      name="region"
-                      defaultValue={regionFilter}
-                      className={selectClassName}
-                    >
-                      {regionOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label htmlFor="athlete-event" className="ui-section-label">
-                      Event
-                    </label>
-                    <select
-                      id="athlete-event"
-                      name="event"
-                      defaultValue={eventFilter}
-                      className={selectClassName}
-                    >
-                      {eventOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="flex items-end gap-2">
-                    <Button type="submit">
-                      Apply Filters
-                    </Button>
-                    {hasActiveFilters ? (
-                      <Button
-                        asChild
-                        variant="link"
-                        className="h-auto p-0 text-accent"
-                      >
-                        <Link href="/athletes">Reset</Link>
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-              </form>
-
-              {activeFilterLabels.length ? (
-                <div className="flex flex-wrap gap-2">
-                  {activeFilterLabels.map((label) => (
-                    <Badge
-                      key={label}
-                      variant="outline"
-                      className="bg-muted text-foreground"
-                    >
-                      {label}
-                    </Badge>
-                  ))}
-                </div>
+        <form method="get" className="core-filter-bar">
+          <FieldGroup className="core-filter-grid !grid">
+            <Field>
+              <FieldLabel htmlFor="athlete-query" className="sr-only">
+                Search athletes
+              </FieldLabel>
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search aria-hidden="true" />
+                </InputGroupAddon>
+                <InputGroupInput id="athlete-query" name="q" type="search" defaultValue={query} placeholder="Search athletes" />
+              </InputGroup>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="athlete-event" className="sr-only">
+                Event
+              </FieldLabel>
+              <NativeSelect id="athlete-event" name="event" defaultValue={event} aria-label="Event">
+              {eventOptions.map((option) => (
+                <NativeSelectOption key={option} value={option}>
+                  {option}
+                </NativeSelectOption>
+              ))}
+              </NativeSelect>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="athlete-region" className="sr-only">
+                Region
+              </FieldLabel>
+              <NativeSelect id="athlete-region" name="region" defaultValue={region} aria-label="Region">
+              {regionOptions.map((option) => (
+                <NativeSelectOption key={option} value={option}>
+                  {option}
+                </NativeSelectOption>
+              ))}
+              </NativeSelect>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="athlete-sort" className="sr-only">
+                Sort
+              </FieldLabel>
+              <NativeSelect id="athlete-sort" name="sort" defaultValue={sort} aria-label="Sort">
+              {sortOptions.map((option) => (
+                <NativeSelectOption key={option.value} value={option.value}>
+                  {option.label}
+                </NativeSelectOption>
+              ))}
+              </NativeSelect>
+            </Field>
+            <ButtonGroup className="w-full md:w-fit">
+              <Button type="submit">Apply</Button>
+              {query || region !== "All" || event !== "All" || sort !== "relevance" ? (
+                <Button asChild variant="ghost">
+                  <Link href="/athletes">Reset</Link>
+                </Button>
               ) : null}
-            </CardContent>
-          </Card>
+            </ButtonGroup>
+          </FieldGroup>
+        </form>
 
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>
-              Showing {filteredAthletes.length} of {athletes.length} athletes
-            </span>
-          </div>
-        </div>
-
-        {filteredAthletes.length === 0 ? (
-          <Card className="shadow-soft py-0 gap-0">
-            <CardContent className="p-6 text-sm text-muted-foreground">
-              No athletes match your filters. Try adjusting search, region, or
-              event.
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="results-grid">
-            <div className="sm:col-span-2 xl:col-span-3">
-              <DemoAdSlot slotId="athletes-inline-break" format="leaderboard" variant="inline" />
-            </div>
-            {filteredAthletes.map((athlete) => {
-              const badges = getEventTags(athlete).slice(0, 3);
-              const rankLabel = [
-                athlete.nationalRank,
-                athlete.asianRank,
-                athlete.globalRank,
-              ]
-                .filter(Boolean)
-                .map((rank) => formatRank(rank))
-                .join(" · ");
-              const details = [
-                `Club: ${athlete.club}`,
-                athlete.pb ? `PB: ${athlete.pb}` : undefined,
-                rankLabel ? `Ranks: ${rankLabel}` : undefined,
-              ].filter(Boolean) as string[];
-
-              return (
-                <ProfileCard
+        <CoreSection title="Athlete results">
+          {athletes.length ? (
+            <div className="core-list">
+              {athletes.map((athlete) => (
+                <CoreResultRow
                   key={athlete.id}
-                  name={athlete.name}
-                  subtitle={athlete.specialty}
-                  location={athlete.location}
-                  badges={badges}
-                  details={details}
                   href={athlete.href}
-                  type="athlete"
+                  eyebrow={athlete.pathwayStage ?? "Athlete"}
+                  title={athlete.name}
+                  description={`${athlete.specialty} · ${athlete.club}`}
+                  facts={athleteFacts(athlete)}
+                  meta={athlete.location}
                 />
-              );
-            })}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="No athletes found" description="Adjust the search, event, region, or sort filter to widen the result set." />
+          )}
+        </CoreSection>
+      </main>
 
       <AppFooter />
     </div>
-  );
+  )
 }

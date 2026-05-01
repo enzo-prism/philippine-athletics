@@ -4,9 +4,9 @@
 
 Philippine Athletics should feel like a modern institutional athletics operating system: credible enough for federation and LGU stakeholders, fast enough for daily operators, clear enough for athletes and parents, and polished enough for sponsors to trust the surface.
 
-The product is not a marketing landing page. It is a public discovery layer plus an operations workspace. Every screen should help someone answer one of these questions quickly:
+The current public product is not a marketing landing page. It is a sparse discovery layer centered on five core surfaces: Home, Athletes, Clubs, Coaches, and Events. Every public screen should help someone answer one of these questions quickly:
 
-- Who is this athlete, club, coach, event, or sponsor?
+- Who is this athlete, club, coach, or event?
 - What proof supports this record?
 - What action or pathway comes next?
 - How does this connect to the broader Philippine Athletics ecosystem?
@@ -17,20 +17,20 @@ The product is not a marketing landing page. It is a public discovery layer plus
 - Cards and panels use an 8px default radius. Larger radii are reserved for app shell surfaces, dialogs, and phone frames.
 - Use strong institutional contrast: warm white backgrounds, deep navy/ink foregrounds, Philippine flag accents, and restrained success/warning colors.
 - Avoid generic gray card spam. Use tables, grouped lists, sidebars, and metric strips when they scan better than repeated cards.
-- Keep sponsor visibility high, but task-aware: masthead, side rail, inline proof moments, and sponsor directory depth.
+- Keep sponsor visibility subtle in the core public app: footer or shell note only, never ad-style cards that compete with directories or profile proof.
 - Typography should be compact and operational on utility pages. Hero-scale type is only for true landing/overview moments.
 
 ## Icon System
 
-- Use the custom Philippine Athletics icon family in `components/icons/athletics-icons.tsx` for product concepts: directory, athlete, rankings, competition, club, coach, recognition, sponsor, data, membership, dashboards, mobile, profile, location, filters, medals, and checks.
-- The icon family was art-directed with the generated reference sheet at `output/imagegen/philippine-athletics-icon-system-flat.png`, then implemented as crisp inline SVGs for accessibility, theming, and layout stability.
-- Icons should be compact, line-based, and multi-accented with Philippine athletics colors from `--pa-icon-blue`, `--pa-icon-red`, `--pa-icon-gold`, and `--pa-icon-green`.
-- Use lucide for universal controls only, such as arrows, close buttons, menus, loading states, and platform/social glyphs. Product navigation and page meaning should use the custom icons.
+- Use `lucide-react` as the standard product icon pack for the app. It is the canonical source for navigation, directory concepts, proof badges, partner placeholders, controls, and utility glyphs.
+- Keep `components/icons/athletics-icons.tsx` as the compatibility wrapper for product concepts, but its internals should map to Lucide icons rather than custom-drawn SVGs.
+- Icons should be compact, single-stroke, and calm. Use semantic foreground/accent colors from the design tokens instead of multi-accent custom illustration.
+- Use the `/icon.svg` Philippine Athletics logo asset for the app icon and shell logo so the brand mark stays consistent across browser chrome and the top navigation.
 
 ## Layout Rules
 
-- Every route uses the same app shell: navigation, compact sponsor masthead, main content, and footer.
-- Core content comes before secondary sponsor or proof modules on mobile.
+- Every core public route uses the same app shell: navigation, main content, and footer partner note.
+- Core content comes before secondary proof modules on mobile.
 - Directory and ranking pages should expose filters, counts, active state, and results without forcing excessive scrolling.
 - Profile pages should lead with summary, proof, relationships, and next actions; avoid isolated stat blocks that do not explain what to do next.
 - Pilot dashboards are denser than public pages but must share the same tokens, spacing, and status language.
@@ -38,7 +38,8 @@ The product is not a marketing landing page. It is a public discovery layer plus
 
 ## Interaction Rules
 
-- Use `Button`, `Input`, `Label`, `Select`, `Tabs`, `Table`, `Alert`, `Dialog`, `Tooltip`, and `Sonner` before raw controls.
+- Use `Button`, `Field`, `InputGroup`, `NativeSelect`, `ButtonGroup`, `Item`, `Empty`, `Breadcrumb`, `Command`, `Tabs`, `Table`, `Alert`, `Dialog`, `Tooltip`, and `Sonner` before raw controls.
+- Keep top navigation link-only: Home, Athletes, Clubs, Coaches, and Events. Search/jump controls belong in page content, not the shell.
 - Links must have accessible names. Directory cards should expose the entity name in the link label.
 - Filters and tab state should stay URL-addressable when they affect shareable product state.
 - Use clear empty states and inline error/validation messages. Do not leave blank panels.
@@ -47,13 +48,14 @@ The product is not a marketing landing page. It is a public discovery layer plus
 
 ## Route Patterns
 
-- Homepage: ecosystem command center, not a splash page. Make search, rankings, competitions, membership, data intake, and sponsor proof obvious.
-- Search and directories: task-first filter toolbar, active chips, useful result density, and named result links.
-- Rankings: table-first results with top performer context, preserved query params, and visible source trust.
-- Results Intake: stepper workflow with upload, map fields, validate, and review. Use alerts and tables for errors.
-- Membership and signup: pathway selection comes before generic account creation.
-- Pilot dashboards: decision-maker proof first, then operational detail, then related actions.
-- Sponsor surfaces: premium, visible, and contextual without blocking primary tasks.
+- Homepage: minimal command hub, not a splash page. Lead with one headline, compact search/jump, core path links, and only the most useful next-event context.
+- Athlete, club, coach, and event directories: compact header, URL-addressable filters, count, empty state, and dense named result rows.
+- Detail pages: shared pattern of back link, compact hero, 2-4 key facts, then the highest-value sections only.
+- Athlete details: performance proof, results timeline, club relationship, and coach relationship.
+- Club details: roster, coaches, schedule/location, and contact.
+- Coach details: credentials, athletes coached, club relationship, and contact.
+- Event details: event facts, event list, results, and athlete deep links.
+- Legacy public routes such as rankings, competitions, membership, signup, sponsors, demos, dashboards, search, recognition, data portal, profile, and changelog redirect into the closest core route.
 
 ## Verification Expectations
 

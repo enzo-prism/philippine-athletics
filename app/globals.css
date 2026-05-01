@@ -177,6 +177,10 @@
     @apply space-y-8 sm:space-y-10;
   }
 
+  .core-main {
+    @apply mx-auto w-full max-w-[1440px] space-y-5 px-4 py-5 sm:px-6 sm:py-7 lg:px-8;
+  }
+
   .section-stack {
     @apply space-y-5 sm:space-y-6;
   }
@@ -195,6 +199,122 @@
 
   .shell-partner-rail {
     @apply border-b border-border/70 bg-background/88 backdrop-blur-xl;
+  }
+
+  .core-hero {
+    @apply rounded-lg border border-border bg-card px-5 py-6 shadow-[var(--shadow-soft)] sm:px-6 sm:py-7 lg:px-8;
+  }
+
+  .core-title {
+    @apply max-w-4xl text-3xl font-semibold tracking-normal text-foreground text-balance sm:text-4xl lg:text-5xl;
+  }
+
+  .core-copy {
+    @apply max-w-2xl text-sm leading-6 text-muted-foreground sm:text-[15px];
+  }
+
+  .core-actions {
+    @apply mt-5 flex flex-wrap items-center gap-3;
+  }
+
+  .core-stats {
+    @apply mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  .core-stat {
+    @apply rounded-lg border border-border bg-background/78 px-3 py-3;
+  }
+
+  .core-stat-label {
+    @apply text-[11px] font-medium uppercase tracking-normal text-muted-foreground;
+  }
+
+  .core-stat-value {
+    @apply mt-1 text-lg font-semibold tracking-normal text-foreground;
+  }
+
+  .core-stat-note {
+    @apply mt-1 text-xs leading-5 text-muted-foreground;
+  }
+
+  .core-filter-bar {
+    @apply rounded-lg border border-border bg-card/96 p-3 shadow-[var(--shadow-soft)];
+  }
+
+  .core-filter-grid {
+    @apply grid gap-3 md:grid-cols-[minmax(180px,1fr)_repeat(3,minmax(130px,0.55fr))_auto];
+  }
+
+  .core-select {
+    @apply h-10 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px];
+  }
+
+  .core-section {
+    @apply rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-5;
+  }
+
+  .core-section-header {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between;
+  }
+
+  .core-section-title {
+    @apply text-lg font-semibold tracking-normal text-foreground sm:text-xl;
+  }
+
+  .core-section-copy {
+    @apply mt-1 max-w-2xl text-sm leading-6 text-muted-foreground;
+  }
+
+  .core-list {
+    @apply grid gap-2;
+  }
+
+  .core-row {
+    @apply grid gap-3 rounded-lg border border-border bg-background/76 p-4 text-left shadow-[var(--shadow-soft)] transition-[border-color,background-color,transform] duration-200 hover:-translate-y-px hover:border-accent/35 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 md:grid-cols-[minmax(0,1fr)_auto];
+  }
+
+  .core-row-title {
+    @apply text-base font-semibold tracking-normal text-foreground transition-colors group-hover:text-primary sm:text-lg;
+  }
+
+  .core-row-eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-normal text-muted-foreground;
+  }
+
+  .core-row-copy {
+    @apply max-w-3xl text-sm leading-6 text-muted-foreground;
+  }
+
+  .core-row-side {
+    @apply flex min-w-0 flex-col gap-2 md:min-w-[220px] md:items-end md:text-right;
+  }
+
+  .core-row-meta {
+    @apply inline-flex items-center gap-1 text-xs font-medium text-muted-foreground;
+  }
+
+  .core-facts {
+    @apply flex flex-wrap gap-2 md:justify-end;
+  }
+
+  .core-fact {
+    @apply rounded-full border border-border/80 bg-card px-2.5 py-1 text-xs font-medium text-foreground;
+  }
+
+  .core-detail-grid {
+    @apply grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)];
+  }
+
+  .core-detail-card {
+    @apply rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-5;
+  }
+
+  .core-mini-list {
+    @apply grid gap-2;
+  }
+
+  .core-mini-item {
+    @apply rounded-lg border border-border bg-background/76 px-3 py-3 text-sm text-foreground;
   }
 
   .workspace-shell {
@@ -302,6 +422,37 @@
 
   .home-action-icon {
     @apply flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-muted text-foreground transition-[background-color] duration-200 group-hover:bg-background;
+  }
+
+  .home-path-section {
+    @apply overflow-hidden;
+  }
+
+  .home-path-grid {
+    @apply grid grid-cols-2 gap-2 lg:grid-cols-4;
+  }
+
+  .home-path-card {
+    @apply flex min-h-[164px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-border/75 bg-background/76 p-4 text-center shadow-[var(--shadow-soft)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-px focus-visible:outline-none sm:min-h-[190px] sm:p-5;
+    --home-path-stroke: color-mix(in oklab, var(--pa-icon-blue) 42%, white);
+    --home-path-stroke-glow: color-mix(in oklab, var(--pa-icon-blue) 22%, transparent);
+    border-width: 2px !important;
+  }
+
+  .home-path-card:is(:hover, :focus-visible) {
+    border-color: var(--home-path-stroke) !important;
+    background-color: color-mix(in oklab, var(--background) 76%, transparent) !important;
+    box-shadow:
+      0 0 0 3px var(--home-path-stroke-glow),
+      var(--shadow-soft) !important;
+  }
+
+  .home-path-icon {
+    @apply flex size-[112px] shrink-0 items-center justify-center border-0 bg-transparent text-foreground shadow-none sm:size-[132px];
+  }
+
+  .home-path-title {
+    @apply text-base font-semibold tracking-normal text-foreground sm:text-lg;
   }
 
   .athletics-icon-tile {

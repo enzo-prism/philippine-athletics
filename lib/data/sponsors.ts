@@ -29,11 +29,7 @@ export const sponsors: Sponsor[] = [
     location: "Makati",
     details: ["Performance kits", "Spikes & relay gear", "Athlete activation support"],
     badges: ["National Partner"],
-    roster: [
-      { id: "athlete-jc-dela-cruz", type: "athlete" },
-      { id: "athlete-mia-santos", type: "athlete" },
-      { id: "club-manila-striders", type: "club" },
-    ],
+    roster: [],
   },
   {
     id: "2",
@@ -43,12 +39,7 @@ export const sponsors: Sponsor[] = [
     location: "Taguig (BGC)",
     details: ["Hydration program", "Electrolytes & gels", "Travel kits"],
     badges: ["Performance Nutrition"],
-    roster: [
-      { id: "athlete-erika-villarin", type: "athlete" },
-      { id: "athlete-carlo-mendoza", type: "athlete" },
-      { id: "athlete-nico-uy", type: "athlete" },
-      { id: "club-cebu-distance-project", type: "club" },
-    ],
+    roster: [],
   },
   {
     id: "3",
@@ -58,11 +49,7 @@ export const sponsors: Sponsor[] = [
     location: "Quezon City",
     details: ["Physio support", "Soft-tissue & strength plans", "Travel coverage"],
     badges: ["Recovery Partner"],
-    roster: [
-      { id: "athlete-rico-navarro", type: "athlete" },
-      { id: "athlete-leah-dominguez", type: "athlete" },
-      { id: "coach-ramon-castillo", type: "coach" },
-    ],
+    roster: [],
   },
 ]
 

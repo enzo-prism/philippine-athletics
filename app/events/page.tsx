@@ -1,43 +1,18 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { CalendarDays, Search } from "lucide-react"
 
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
-import { AthleticsIcon, CompetitionIcon, type AthleticsIconName } from "@/components/icons/athletics-icons"
 import { Navigation } from "@/components/navigation"
-import { AppFooter, PageIntro } from "@/components/site/page-primitives"
+import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { competitions } from "@/lib/data/competitions"
 
 const statusOptions = ["Upcoming", "Past", "All"] as const
-
-const eventResources = [
-  {
-    title: "Find a sanctioned event",
-    description: "Use the calendar to move from discovery to competition profiles, dates, locations, and results.",
-    href: "/events",
-    icon: "competition",
-  },
-  {
-    title: "Recent events & results",
-    description: "Open completed competitions and keep performance proof linked to athlete profiles and rankings.",
-    href: "/events?status=Past",
-    icon: "rankings",
-  },
-  {
-    title: "Submit results",
-    description: "Upload, map, validate, and review event data through the local intake workflow.",
-    href: "/data-portal",
-    icon: "data",
-  },
-  {
-    title: "Membership pathway",
-    description: "Help athletes, clubs, LGUs, and supporters choose the right operating route.",
-    href: "/membership",
-    icon: "membership",
-  },
-] satisfies Array<{ title: string; description: string; href: string; icon: AthleticsIconName }>
-
 type StatusFilter = (typeof statusOptions)[number]
+const typeOptions = ["All", ...Array.from(new Set(competitions.map((competition) => competition.type))).sort()] as const
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -51,135 +26,142 @@ const getParam = (
 const normalizeStatus = (value: string): StatusFilter =>
   statusOptions.includes(value as StatusFilter) ? (value as StatusFilter) : "Upcoming"
 
+const normalizeType = (value: string) => (typeOptions.includes(value) ? value : "All")
+
 export default async function EventsPage({
   searchParams,
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
   const resolvedSearchParams = await searchParams
-  const statusFilter = normalizeStatus(getParam(resolvedSearchParams, "status"))
-  const filtered =
-    statusFilter === "All" ? competitions : competitions.filter((competition) => competition.status === statusFilter)
+  const query = getParam(resolvedSearchParams, "q").trim()
+  const status = normalizeStatus(getParam(resolvedSearchParams, "status"))
+  const type = normalizeType(getParam(resolvedSearchParams, "type"))
+  const term = query.toLowerCase()
+
+  const filtered = competitions.filter((competition) => {
+    const matchesStatus = status === "All" || competition.status === status
+    const matchesType = type === "All" || competition.type === type
+    const matchesQuery =
+      !term ||
+      [
+        competition.name,
+        competition.type,
+        competition.location,
+        competition.organizer,
+        competition.dateLabel,
+        competition.series,
+        competition.tier,
+        competition.watchReason,
+        competition.evidenceNotes,
+        ...competition.events,
+      ]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(term))
+    return matchesStatus && matchesType && matchesQuery
+  })
+
+  const mustWatchCount = competitions.filter((competition) => competition.tier === "Must-watch").length
+  const worldLevelCount = competitions.filter((competition) => competition.isWorldLevel).length
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="page-shell page-stack py-6 sm:py-8">
-        <PageIntro
-          eyebrow="Events calendar"
-          title="Events, results, and sanctioned competition context."
-          description="Browse upcoming and completed athletics events from the same official surface used for rankings, athlete bios, and results intake."
+      <main className="core-main">
+        <CoreHero
+          eyebrow="Events"
+          title="Track the world athletics calendar."
+          description="Search the verified 2026 global athletics watch list, from World Athletics Series championships to Diamond League, Continental Tour Gold, and road majors."
           stats={[
-            { label: "Current view", value: statusFilter, note: "Filter upcoming, past, or all events" },
-            { label: "Events shown", value: filtered.length, note: "Live calendar entries in this route" },
+            { label: "Current view", value: status },
+            { label: "Showing", value: `${filtered.length} of ${competitions.length}` },
+            { label: "Must-watch", value: mustWatchCount },
+            { label: "World-level", value: worldLevelCount },
           ]}
-          actions={
-            <>
-              <div className="flex flex-wrap gap-3 text-sm">
-                {statusOptions.map((status) => {
-                  const active = statusFilter === status
-                  const href = status === "Upcoming" ? "/events" : `/events?status=${encodeURIComponent(status)}`
-
-                  return (
-                    <Button
-                      key={status}
-                      asChild
-                      type="button"
-                      variant={active ? "secondary" : "outline"}
-                      size="sm"
-                      className="font-semibold"
-                    >
-                      <Link href={href}>{status}</Link>
-                    </Button>
-                  )
-                })}
-              </div>
-              <Button asChild size="sm" variant="ghost">
-                <Link href="/competitions">
-                  Open competitions
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
-            </>
-          }
-          aside={<DemoAdSlot slotId="events-inline-leaderboard-1" format="mrec" variant="spotlight" />}
         />
 
-        <section className="page-section">
-          <div className="section-toolbar">
-            <div className="space-y-2">
-              <p className="brand-eyebrow">Resources</p>
-              <h2 className="section-title">Competition support lanes</h2>
+        <form method="get" className="core-filter-bar">
+          <FieldGroup className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_190px_170px_auto]">
+            <Field>
+              <FieldLabel htmlFor="event-query" className="sr-only">
+                Search events
+              </FieldLabel>
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search aria-hidden="true" />
+                </InputGroupAddon>
+                <InputGroupInput id="event-query" name="q" type="search" defaultValue={query} placeholder="Search events" />
+              </InputGroup>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="event-status" className="sr-only">
+                Status
+              </FieldLabel>
+              <NativeSelect id="event-status" name="status" defaultValue={status} aria-label="Status">
+                {statusOptions.map((option) => (
+                  <NativeSelectOption key={option} value={option}>
+                    {option}
+                  </NativeSelectOption>
+                ))}
+              </NativeSelect>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="event-type" className="sr-only">
+                Type
+              </FieldLabel>
+              <NativeSelect id="event-type" name="type" defaultValue={type} aria-label="Type">
+                {typeOptions.map((option) => (
+                  <NativeSelectOption key={option} value={option}>
+                    {option}
+                  </NativeSelectOption>
+                ))}
+              </NativeSelect>
+            </Field>
+            <ButtonGroup className="w-full sm:w-fit">
+              <Button type="submit">Apply</Button>
+              {query || status !== "Upcoming" || type !== "All" ? (
+                <Button asChild variant="ghost">
+                  <Link href="/events">Reset</Link>
+                </Button>
+              ) : null}
+            </ButtonGroup>
+          </FieldGroup>
+        </form>
+
+        <CoreSection
+          title="Event calendar"
+          description="Dates are held to official or organizer-level sources wherever possible; each profile shows the source trail."
+        >
+          {filtered.length ? (
+            <div className="core-list" data-testid="events-list">
+              {filtered.map((competition) => (
+                <CoreResultRow
+                  key={competition.id}
+                  href={`/events/${competition.slug}`}
+                  eyebrow={`${competition.status} · ${competition.tier ?? competition.type}`}
+                  title={competition.name}
+                  description={`${competition.location} · ${competition.organizer}`}
+                  facts={[
+                    <span key="date" className="inline-flex items-center gap-1">
+                      <CalendarDays aria-hidden="true" className="size-3" />
+                      {competition.dateLabel}
+                    </span>,
+                    competition.type,
+                    competition.evidenceLevel ?? "Source linked",
+                  ]}
+                  meta="Open event"
+                >
+                  {competition.watchReason ? (
+                    <p className="mt-2 text-xs leading-5 text-muted-foreground">{competition.watchReason}</p>
+                  ) : null}
+                </CoreResultRow>
+              ))}
             </div>
-            <p className="section-copy">
-              USATF makes events useful by pairing the calendar with resources for sanctions, bids, broadcasts, and
-              results. This route now does the same at pilot scale.
-            </p>
-          </div>
-
-          <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {eventResources.map((resource) => (
-              <Link key={resource.title} href={resource.href} className="directory-card group">
-                <div className="directory-card-meta">
-                  <AthleticsIcon name={resource.icon} className="size-4" aria-hidden="true" />
-                  <span>Event resource</span>
-                </div>
-                <h3 className="text-base font-semibold tracking-normal text-foreground group-hover:text-primary">
-                  {resource.title}
-                </h3>
-                <p className="text-sm leading-6 text-muted-foreground">{resource.description}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="page-section">
-          <div className="section-toolbar">
-            <div className="space-y-2">
-              <p className="brand-eyebrow">Event list</p>
-              <h2 className="section-title">Calendar view</h2>
-            </div>
-            <p className="section-copy">
-              Filter by upcoming, completed, or all competitions while keeping registration and details within reach.
-            </p>
-          </div>
-
-          <div className="mt-6 grid gap-3" data-testid="events-list">
-            {filtered.map((competition) => (
-              <Link
-                key={competition.id}
-                href={`/competitions/${competition.slug}`}
-                className="directory-card"
-                aria-label={competition.name}
-              >
-                <div className="directory-card-meta">
-                  <CompetitionIcon className="size-4" aria-hidden="true" />
-                  <span>{competition.type}</span>
-                  <span>{competition.status}</span>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold tracking-normal text-foreground">{competition.name}</h3>
-                  <p className="text-sm text-muted-foreground">{competition.location}</p>
-                </div>
-                <div className="mt-auto flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <span>{competition.dateLabel}</span>
-                  <span>{competition.organizer}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            <DemoAdSlot slotId="events-inline-mrec-1" format="mrec" variant="inline" />
-            <DemoAdSlot
-              slotId="events-inline-mrec-2"
-              format="mrec"
-              variant="inline"
-              className="hidden sm:block"
-            />
-          </div>
-        </section>
+          ) : (
+            <EmptyState title="No events found" description="Try a broader search term or switch the status filter to All." />
+          )}
+        </CoreSection>
       </main>
 
       <AppFooter />

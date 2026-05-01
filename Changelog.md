@@ -8,6 +8,41 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-05-01 — Global athletics event calendar
+- Added a researched 2026 event calendar covering World Athletics Series championships, the full Wanda Diamond League season, remaining Continental Tour Gold meets, major regional championships, and late-year World Marathon Majors.
+- Expanded event profiles with tier labels, watch rationale, source confidence, official source links, and source notes so date claims stay auditable.
+- Upgraded `/events` with category filtering and flow coverage around World Relays and the Diamond League Doha date correction.
+
+## 2026-05-01 — National team coach profiles
+- Added sourced coach profiles for Dario De Rosas, Jeoffrey Chua, Isidro Del Prado, Sean Guevarra, Emerson Obiena, Karl Francisco, Roselyn Hamero, Bonifacio Loraña, Saturnino Salazar, Eduardo Buenavista, and Djundi Biñas.
+- Expanded coach profile pages with evidence confidence, profile facts, evidence notes, and source links so public staff claims stay auditable.
+- Updated coach directory search and flow coverage around the new evidence-backed records.
+
+## 2026-05-01 — National team athlete profiles
+- Added researched public profiles for Lauren Hoffman and Yacine Guermali with official World Athletics, Philippine Athletics, Duke, and Gonzaga source context.
+- Expanded athlete detail pages with profile overview, verified facts, highlights, and source links so elite records are easier to audit from the app.
+- Updated athlete search/ranking flow coverage so the directory reflects the new national-team records instead of the previous empty-data assumptions.
+
+## 2026-05-01 — Fresh sample data reset
+- Cleared the active athlete, club, coach, and event seed datasets so the core app starts from zero records.
+- Removed stale demo athlete spotlights, sanctioned-event examples, sponsor roster links, and intake fixture rows that pointed at the old sample records.
+- Updated flow tests and design snapshots around empty directory states so the app is ready for the next clean data set.
+
+## 2026-05-01 — Shadcn core component refresh
+- Added the latest shadcn Field, Input Group, Native Select, Button Group, Empty, Item, Breadcrumb, and Command primitives without overwriting the local button/input styling.
+- Reworked the core shell, homepage jump, filters, empty states, dense result rows, and detail breadcrumbs to use shadcn composition instead of custom one-off markup.
+- Added command-launcher flow coverage so the app’s newest quick-jump/search handoff remains verified across the core directory experience.
+
+## 2026-05-01 — Standard icon pack refresh
+- Replaced the custom Philippine Athletics icon implementation with a Lucide-backed product icon wrapper so the app uses a modern, standard, premium-feeling icon set.
+- Updated the shell mark, app icon SVGs, Open Graph mark, and partner placeholder marks to match the Lucide shield/check and clean-line icon language.
+- Updated `DESIGN.md` so future UI work treats `lucide-react` as the canonical icon system instead of returning to custom-drawn glyphs.
+
+## 2026-05-01 — Minimal core app redesign
+- Rebuilt the public app around the core Home, Athletes, Clubs, Coaches, and Events surfaces so users land in a sparse directory experience instead of a broad federation portal.
+- Added the canonical `/events/[id]` detail route and redirected legacy public routes into the closest core destination, keeping older product lanes hidden from the shell.
+- Updated browser flow coverage and visual snapshots around core directories, representative detail pages, homepage search/jump behavior, and legacy-route redirects.
+
 ## 2026-04-23 — USATF-style federation positioning pass
 - Reframed the homepage, navigation, membership, athlete, rankings, clubs, coaches, events, and sponsor copy around Philippine Athletics as the national home for Filipino athletics.
 - Added new About, Disciplines, Safe Sport, and News hub routes so the site has federation-style structure beyond directory and dashboard workflows.

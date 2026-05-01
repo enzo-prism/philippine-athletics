@@ -1,189 +1,165 @@
 import Link from "next/link"
+import { ExternalLink } from "lucide-react"
+
 import { Navigation } from "@/components/navigation"
-import { DemoAdSlot } from "@/components/ads/DemoAdSlot"
-import { ProfileAvatar } from "@/components/ProfileAvatar"
-import { AppFooter, DetailHero } from "@/components/site/page-primitives"
+import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
-import { Button } from "@/components/ui/button"
 import { decodeIdParam } from "@/lib/data/utils"
-import { Emoji, emojiIcons } from "@/lib/ui/emoji"
-import { Badge } from "@/components/badge"
 
 export default async function CoachProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
   const coach = getCoachOrStub(id)
-  const coachedAthletes = getAthletesByCoach(coach.name || coach.id)
-  const isStub = coach.isStub
+  const coachAliases = [coach.name, coach.id, coach.slug, ...(coach.alsoKnownAs ?? [])].filter(Boolean)
+  const coachedAthletes = Array.from(
+    new Map(coachAliases.flatMap((alias) => getAthletesByCoach(alias)).map((athlete) => [athlete.id, athlete])).values(),
+  )
+  const profileFacts = coach.profileFacts?.length
+    ? coach.profileFacts
+    : [
+        { label: "Role", value: coach.role ?? "Coach profile" },
+        { label: "Specialty", value: coach.specialty },
+        { label: "Location", value: coach.location },
+        { label: "Experience", value: coach.experience },
+      ]
+  const contactEmail = coach.contact?.email ?? "patafa_nsa@yahoo.com"
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="page-shell page-stack py-6 sm:py-8">
-        <Link href="/coaches" className="flex items-center gap-2 text-accent hover:text-accent/80 w-fit">
-          <Emoji symbol={emojiIcons.back} className="text-base" label="Back" />
-          Back to Coaches
-        </Link>
+      <main className="core-main">
+        <CoreBreadcrumb items={[{ label: "Coaches", href: "/coaches" }, { label: coach.name }]} />
 
-        <DetailHero
-          eyebrow="Coach"
+        <CoreHero
+          eyebrow={coach.isRecognized ? "Recognized coach" : "Coach"}
           title={coach.name}
           description={coach.specialty}
-          chips={
-            <>
-              <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
-                <Emoji symbol={emojiIcons.location} className="text-sm" />
-                {coach.location}
-              </span>
-              {coach.clubId ? (
-                <Link
-                  href={`/clubs/${coach.clubId}`}
-                  className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-accent"
-                >
-                  Club: {coach.club}
-                </Link>
-              ) : (
-                <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-3 py-1 text-xs font-medium text-foreground">
-                  Club: {coach.club}
-                </span>
-              )}
-              {coach.badges?.map((badge) => (
-                <Badge key={badge} text={badge} variant="accent" />
-              ))}
-            </>
-          }
-          notice={
-            isStub ? "Coach details are coming soon. Basic placeholder shown to avoid broken links." : undefined
-          }
           stats={[
-            { label: "Experience", value: coach.experience, note: "Visible in roster and directory contexts" },
-            { label: "Athletes coached", value: coachedAthletes.length, note: "Linked from club and coach profiles" },
+            { label: "Role", value: coach.role ?? "Coach" },
+            { label: "Evidence", value: coach.evidenceLevel ?? (coach.isStub ? "Profile pending" : "Profile") },
+            { label: "Athletes", value: coachedAthletes.length },
+            { label: "Location", value: coach.location },
           ]}
-          aside={
-            <div className="detail-sidebar-card space-y-4">
-              <ProfileAvatar name={coach.name} />
-              <div className="space-y-1">
-                <p className="brand-eyebrow">Coach profile</p>
-                <p className="text-lg font-semibold tracking-normal text-foreground">{coach.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  Experience: {coach.experience}
-                </p>
-              </div>
-              <DemoAdSlot slotId="coach-profile-top" format="mobile" variant="inline" />
-            </div>
-          }
         />
 
-        <div className="detail-layout">
-          <div className="detail-stack">
-        {!isStub && coach.bio ? (
-          <div className="page-section-tight space-y-2">
-            <p className="text-sm text-foreground leading-relaxed">{coach.bio}</p>
-            {coach.contact ? (
-              <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                {coach.contact.email ? (
-                  <Link href={`mailto:${coach.contact.email}`} className="inline-flex items-center gap-1 text-accent hover:text-accent/80">
-                    <Emoji symbol={emojiIcons.mail} className="text-sm" />
-                    {coach.contact.email}
-                  </Link>
-                ) : null}
-                {coach.contact.phone ? (
-                  <Link href={`tel:${coach.contact.phone.replace(/[^\\d+]/g, "")}`} className="inline-flex items-center gap-1 text-foreground hover:text-accent">
-                    <Emoji symbol={emojiIcons.phone} className="text-sm" />
-                    {coach.contact.phone}
-                  </Link>
-                ) : null}
-              </div>
+        <div className="core-detail-grid">
+          <div className="space-y-5">
+            {coach.bio ? (
+              <CoreSection title="About">
+                <p className="text-sm leading-6 text-foreground">{coach.bio}</p>
+              </CoreSection>
+            ) : null}
+
+            <CoreSection title="Athletes coached" description={`${coachedAthletes.length} linked athlete records.`}>
+              {coachedAthletes.length ? (
+                <div className="core-list">
+                  {coachedAthletes.map((athlete) => (
+                    <CoreResultRow
+                      key={athlete.id}
+                      href={athlete.href}
+                      eyebrow="Athlete"
+                      title={athlete.name}
+                      description={athlete.specialty}
+                      facts={[athlete.pb ? `PB ${athlete.pb}` : "Profile", athlete.events?.[0] ?? "Event"]}
+                      meta="Open athlete"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState title="No athletes linked" description="Athlete records will appear here when they are connected to this coach." />
+              )}
+            </CoreSection>
+
+            {coach.achievements?.length ? (
+              <CoreSection title="Highlights">
+                <div className="core-mini-list">
+                  {coach.achievements.map((achievement) => (
+                    <div key={achievement} className="core-mini-item">
+                      {achievement}
+                    </div>
+                  ))}
+                </div>
+              </CoreSection>
+            ) : null}
+
+            {coach.evidenceNotes?.length ? (
+              <CoreSection title="Evidence notes" description="How this profile was classified from public sources.">
+                <div className="core-mini-list">
+                  {coach.evidenceNotes.map((note) => (
+                    <div key={note} className="core-mini-item">
+                      {note}
+                    </div>
+                  ))}
+                </div>
+              </CoreSection>
             ) : null}
           </div>
-        ) : isStub ? (
-          null
-        ) : null}
 
-        {coach.recognitions && coach.recognitions.length ? (
-          <div className="page-section-tight space-y-3">
-            <div className="flex items-center gap-2">
-              <Emoji symbol={emojiIcons.shield} className="text-base" />
-              <h2 className="text-lg font-semibold text-foreground">Recognition</h2>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {coach.recognitions.map((item) => (
-                <Badge key={item} text={item} variant="accent" />
-              ))}
-            </div>
-            {coach.recognitionDetails && coach.recognitionDetails.length ? (
-              <div className="grid gap-2 sm:grid-cols-2 text-sm text-muted-foreground">
-                {coach.recognitionDetails.map((detail) => (
-                  <div key={`${detail.label}-${detail.issuer}`} className="rounded-md border border-border bg-muted/40 px-3 py-2">
-                    <p className="font-semibold text-foreground">{detail.label}</p>
-                    <p className="text-xs text-muted-foreground">Issuer: {detail.issuer}</p>
-                    {detail.validThrough ? (
-                      <p className="text-xs text-muted-foreground">Valid through {detail.validThrough}</p>
-                    ) : null}
+          <aside className="space-y-5">
+            <CoreSection title="Profile details">
+              <div className="core-mini-list">
+                {profileFacts.map((fact) => (
+                  <div key={`${fact.label}-${fact.value}`} className="core-mini-item">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{fact.label}</p>
+                    <p className="mt-1 font-semibold text-foreground">{fact.value}</p>
+                    {fact.detail ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{fact.detail}</p> : null}
                   </div>
                 ))}
               </div>
-            ) : null}
-            {coach.certifications && coach.certifications.length ? (
-              <div className="flex flex-wrap gap-2">
-                {coach.certifications.map((item) => (
-                  <Badge key={item} text={item} variant="outline" />
+            </CoreSection>
+
+            <CoreSection title="Credentials">
+              <div className="core-mini-list">
+                {(coach.certifications?.length ? coach.certifications : coach.badges ?? ["Credential details coming soon"]).map((item) => (
+                  <div key={item} className="core-mini-item">
+                    {item}
+                  </div>
                 ))}
               </div>
-            ) : null}
-            <p className="text-sm text-muted-foreground">
-              Recognition and certifications show a coach is verified and trained under Philippine Athletics standards.
-            </p>
-          </div>
-        ) : null}
+            </CoreSection>
 
-        {coach.achievements && coach.achievements.length ? (
-          <div className="page-section-tight space-y-2">
-            <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
-            <div className="space-y-2">
-              {coach.achievements.map((item, idx) => (
-                <div key={idx} className="p-3 rounded-lg border border-accent/20 bg-accent/5 text-sm text-foreground">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
+            <CoreSection title="Club">
+              <CoreResultRow
+                href={coach.clubId ? `/clubs/${coach.clubId}` : "/clubs"}
+                eyebrow="Club"
+                title={coach.club}
+                description={coach.location}
+                meta="Open club"
+              />
+            </CoreSection>
 
-        {coachedAthletes.length ? (
-          <div className="page-section-tight space-y-2">
-            <h2 className="text-lg font-semibold text-foreground">Athletes coached</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {coachedAthletes.map((athlete) => {
-                const href = athlete.slug ? `/athletes/${athlete.slug}` : `/athletes/${athlete.id}`
-                return (
-                  <Link
-                    key={athlete.id}
-                    href={href}
-                    className="p-3 rounded-lg border border-border bg-card text-sm text-foreground hover:border-accent transition-colors"
-                  >
-                    {athlete.name} — {athlete.specialty}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        ) : null}
-          </div>
-
-          <aside className="detail-stack">
-            <div className="detail-sidebar-card space-y-3">
-              <p className="text-xs font-semibold uppercase text-muted-foreground">Contact</p>
-              <p className="text-sm text-muted-foreground">
-                Reach this coach directly when contact information is available, or route through the coach desk.
-              </p>
-              <Button asChild>
-                <Link href={coach.contact?.email ? `mailto:${coach.contact.email}` : "mailto:coaches@philippineathletics.ph"}>
-                  Contact
+            <CoreSection title="Contact">
+              <div className="core-mini-item">
+                <p className="font-semibold">{coach.contact?.email ? "Coach contact" : "Federation contact"}</p>
+                <Link href={`mailto:${contactEmail}`} className="mt-1 block text-sm text-accent">
+                  {contactEmail}
                 </Link>
-              </Button>
-            </div>
+                {coach.contact?.phone ? <p className="mt-1 text-xs text-muted-foreground">{coach.contact.phone}</p> : null}
+              </div>
+            </CoreSection>
+
+            {coach.researchSources?.length ? (
+              <CoreSection title="Sources">
+                <div className="core-mini-list">
+                  {coach.researchSources.map((source) => (
+                    <a
+                      key={source.url}
+                      href={source.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="core-mini-item block transition-colors hover:border-accent/40 hover:text-accent"
+                    >
+                      <span className="flex items-center gap-2 font-semibold">
+                        {source.label}
+                        <ExternalLink className="size-3.5" aria-hidden="true" />
+                      </span>
+                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">{source.description}</span>
+                    </a>
+                  ))}
+                </div>
+              </CoreSection>
+            ) : null}
           </aside>
         </div>
       </main>

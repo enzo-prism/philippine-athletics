@@ -1,7 +1,33 @@
-import type { ReactNode } from "react"
-import { AlertCircle, Info } from "lucide-react"
+import { Fragment, type ReactNode } from "react"
+import Link from "next/link"
+import { AlertCircle, ArrowRight, Info } from "lucide-react"
 import { CheckIcon } from "@/components/icons/athletics-icons"
 
+import { Badge } from "@/components/ui/badge"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@/components/ui/item"
 import { cn } from "@/lib/utils"
 
 type IntroStat = {
@@ -67,6 +93,159 @@ type StatusAlertProps = {
 type StepperProps = {
   steps: Array<{ label: string; description?: ReactNode; status?: "current" | "complete" | "upcoming" }>
   className?: string
+}
+
+type CoreStat = {
+  label: ReactNode
+  value: ReactNode
+  note?: ReactNode
+}
+
+type CoreHeroProps = {
+  eyebrow?: ReactNode
+  title: ReactNode
+  description?: ReactNode
+  actions?: ReactNode
+  stats?: CoreStat[]
+  className?: string
+}
+
+type CoreResultRowProps = {
+  eyebrow?: ReactNode
+  title: ReactNode
+  description?: ReactNode
+  href: string
+  facts?: ReactNode[]
+  meta?: ReactNode
+  className?: string
+  children?: ReactNode
+}
+
+type CoreSectionProps = {
+  title: ReactNode
+  description?: ReactNode
+  actions?: ReactNode
+  children: ReactNode
+  className?: string
+}
+
+type CoreBreadcrumbItem = {
+  label: ReactNode
+  href?: string
+}
+
+type CoreBreadcrumbProps = {
+  items: CoreBreadcrumbItem[]
+  className?: string
+}
+
+export function CoreHero({ eyebrow, title, description, actions, stats, className }: CoreHeroProps) {
+  return (
+    <Card className={cn("core-hero", className)}>
+      <CardHeader className="p-0">
+        {eyebrow ? <p className="brand-eyebrow">{eyebrow}</p> : null}
+        <h1 className="core-title">{title}</h1>
+        {description ? <CardDescription className="core-copy">{description}</CardDescription> : null}
+      </CardHeader>
+
+      <CardContent className="p-0">
+        {actions ? <div className="core-actions">{actions}</div> : null}
+
+        {stats?.length ? (
+          <ItemGroup className="core-stats !grid">
+            {stats.map((stat) => (
+              <Item key={String(stat.label)} role="listitem" variant="outline" className="core-stat">
+                <ItemContent>
+                  <p className="core-stat-label">{stat.label}</p>
+                  <div className="core-stat-value">{stat.value}</div>
+                  {stat.note ? <p className="core-stat-note">{stat.note}</p> : null}
+                </ItemContent>
+              </Item>
+            ))}
+          </ItemGroup>
+        ) : null}
+      </CardContent>
+    </Card>
+  )
+}
+
+export function CoreSection({ title, description, actions, children, className }: CoreSectionProps) {
+  return (
+    <Card className={cn("core-section", className)}>
+      <CardHeader className="core-section-header p-0">
+        <div>
+          <h2 className="core-section-title">{title}</h2>
+          {description ? <CardDescription className="core-section-copy">{description}</CardDescription> : null}
+        </div>
+        {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
+      </CardHeader>
+      <CardContent className="mt-4 p-0">{children}</CardContent>
+    </Card>
+  )
+}
+
+export function CoreResultRow({ eyebrow, title, description, href, facts, meta, className, children }: CoreResultRowProps) {
+  return (
+    <Item asChild variant="outline" className={cn("core-row group !grid", className)}>
+      <Link href={href}>
+        <ItemContent className="min-w-0">
+          {eyebrow ? <p className="core-row-eyebrow">{eyebrow}</p> : null}
+          <ItemTitle className="core-row-title">{title}</ItemTitle>
+          {description ? <ItemDescription className="core-row-copy">{description}</ItemDescription> : null}
+          {children}
+        </ItemContent>
+        <ItemActions className="core-row-side">
+          {facts?.length ? (
+            <div className="core-facts">
+              {facts.map((fact, index) => (
+                <Badge key={index} variant="outline" className="core-fact">
+                  {fact}
+                </Badge>
+              ))}
+            </div>
+          ) : null}
+          {meta ? (
+            <div className="core-row-meta">
+              {meta}
+              <ArrowRight aria-hidden="true" />
+            </div>
+          ) : null}
+        </ItemActions>
+      </Link>
+    </Item>
+  )
+}
+
+export function CoreBreadcrumb({ items, className }: CoreBreadcrumbProps) {
+  return (
+    <Breadcrumb className={className}>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link href="/">Home</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1
+
+          return (
+            <Fragment key={`${String(item.label)}-${index}`}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {item.href && !isLast ? (
+                  <BreadcrumbLink asChild>
+                    <Link href={item.href}>{item.label}</Link>
+                  </BreadcrumbLink>
+                ) : (
+                  <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                )}
+              </BreadcrumbItem>
+            </Fragment>
+          )
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
 }
 
 export function PageIntro({
@@ -201,11 +380,13 @@ export function MetricTile({ label, value, note, tone = "default", className }: 
 
 export function EmptyState({ title, description, action, className }: EmptyStateProps) {
   return (
-    <div className={cn("rounded-lg border border-dashed border-border bg-card/72 p-6 text-center", className)}>
-      <p className="text-base font-semibold text-foreground">{title}</p>
-      {description ? <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-muted-foreground">{description}</p> : null}
-      {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
-    </div>
+    <Empty className={cn("border border-border bg-card/72", className)}>
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+        {description ? <EmptyDescription>{description}</EmptyDescription> : null}
+      </EmptyHeader>
+      {action ? <EmptyContent>{action}</EmptyContent> : null}
+    </Empty>
   )
 }
 
@@ -271,7 +452,10 @@ export function AppFooter({ className }: { className?: string }) {
   return (
     <footer className={cn("page-footer", className)}>
       <div className="page-shell">
-        <p className="brand-subtext">© 2025 Philippine Athletics</p>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="brand-subtext">© 2026 Philippine Athletics</p>
+          <p className="brand-subtext">Built with partner support for athletes, clubs, coaches, and events.</p>
+        </div>
       </div>
     </footer>
   )
