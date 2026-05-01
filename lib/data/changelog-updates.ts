@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-01-athlete-headshots",
+    date: "2026-05-01",
+    title: "Athlete headshots",
+    category: ["Experience", "Branding", "Data"],
+    summary:
+      "Added supplied headshot photos for Lauren Hoffman and Yacine Guermali on their athlete profile pages.",
+    highlights: [
+      "Stored Lauren Hoffman and Yacine Guermali's supplied AVIF images as stable public athlete assets.",
+      "Added a typed athlete headshot field so profile media is part of the durable athlete data model.",
+      "Updated the core profile hero to support restrained institutional profile media without changing the directory-first app structure.",
+    ],
+    whyItMatters:
+      "Makes the national-team athlete profiles feel more complete and trustworthy while keeping the visual treatment aligned with the Philippine Athletics operating-system design.",
+  },
+  {
     id: "2026-05-01-ed-lasquete-coach-profile",
     date: "2026-05-01",
     title: "Ed Lasquete coach profile",

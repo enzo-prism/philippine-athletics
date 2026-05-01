@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { ExternalLink } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
@@ -59,6 +60,26 @@ export default async function AthleteProfilePage({
           eyebrow={athlete.pathwayStage ?? "Athlete"}
           title={fullName}
           description={athlete.specialty}
+          visual={
+            athlete.headshot ? (
+              <figure className="athlete-headshot-panel">
+                <div className="athlete-headshot-frame">
+                  <Image
+                    src={athlete.headshot.src}
+                    alt={athlete.headshot.alt}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 320px, (min-width: 640px) 292px, 260px"
+                    style={{ objectPosition: athlete.headshot.position ?? "center" }}
+                  />
+                </div>
+                <figcaption className="athlete-headshot-caption">
+                  <strong>{fullName}</strong>
+                  <span>{athlete.teamAffiliation ?? athlete.club}</span>
+                </figcaption>
+              </figure>
+            ) : undefined
+          }
           stats={[
             { label: "Primary event", value: primaryEvent?.name ?? "Event" },
             { label: "Personal best", value: primaryEvent?.personalBest ?? "TBD" },

@@ -107,6 +107,7 @@ type CoreHeroProps = {
   description?: ReactNode
   actions?: ReactNode
   stats?: CoreStat[]
+  visual?: ReactNode
   className?: string
 }
 
@@ -139,32 +140,38 @@ type CoreBreadcrumbProps = {
   className?: string
 }
 
-export function CoreHero({ eyebrow, title, description, actions, stats, className }: CoreHeroProps) {
+export function CoreHero({ eyebrow, title, description, actions, stats, visual, className }: CoreHeroProps) {
   return (
     <Card className={cn("core-hero", className)}>
-      <CardHeader className="p-0">
-        {eyebrow ? <p className="brand-eyebrow">{eyebrow}</p> : null}
-        <h1 className="core-title">{title}</h1>
-        {description ? <CardDescription className="core-copy">{description}</CardDescription> : null}
-      </CardHeader>
+      <div className={cn("core-hero-layout", visual && "core-hero-layout-with-visual")}>
+        <div className="min-w-0">
+          <CardHeader className="p-0">
+            {eyebrow ? <p className="brand-eyebrow">{eyebrow}</p> : null}
+            <h1 className="core-title">{title}</h1>
+            {description ? <CardDescription className="core-copy">{description}</CardDescription> : null}
+          </CardHeader>
 
-      <CardContent className="p-0">
-        {actions ? <div className="core-actions">{actions}</div> : null}
+          <CardContent className="p-0">
+            {actions ? <div className="core-actions">{actions}</div> : null}
 
-        {stats?.length ? (
-          <ItemGroup className="core-stats !grid">
-            {stats.map((stat) => (
-              <Item key={String(stat.label)} role="listitem" variant="outline" className="core-stat">
-                <ItemContent>
-                  <p className="core-stat-label">{stat.label}</p>
-                  <div className="core-stat-value">{stat.value}</div>
-                  {stat.note ? <p className="core-stat-note">{stat.note}</p> : null}
-                </ItemContent>
-              </Item>
-            ))}
-          </ItemGroup>
-        ) : null}
-      </CardContent>
+            {stats?.length ? (
+              <ItemGroup className="core-stats !grid">
+                {stats.map((stat) => (
+                  <Item key={String(stat.label)} role="listitem" variant="outline" className="core-stat">
+                    <ItemContent>
+                      <p className="core-stat-label">{stat.label}</p>
+                      <div className="core-stat-value">{stat.value}</div>
+                      {stat.note ? <p className="core-stat-note">{stat.note}</p> : null}
+                    </ItemContent>
+                  </Item>
+                ))}
+              </ItemGroup>
+            ) : null}
+          </CardContent>
+        </div>
+
+        {visual ? <div className="core-hero-visual">{visual}</div> : null}
+      </div>
     </Card>
   )
 }

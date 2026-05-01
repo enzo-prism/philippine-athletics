@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-05-01 — Athlete headshots
+- Added supplied headshot photos for Lauren Hoffman and Yacine Guermali on their athlete profile pages.
+- Updated the core athlete hero layout so profile media appears as a restrained institutional visual, not a social-card treatment.
+- Stored the images as stable public app assets so profile pages do not depend on Desktop-local files.
+
 ## 2026-05-01 — Ed Lasquete coach profile
 - Added Ed Lasquete as a sourced coach/operator profile tied to FilAm Sports as owner / co-founder.
 - Documented his Philippine National Track and Field Team pole-vault background, 1992 Barcelona Olympic appearance, SEA Games pole-vault medals, and FilAm Sports recruitment/logistics role.

@@ -67,6 +67,12 @@ export type AthleteResearchSource = {
   note?: string
 }
 
+export type AthleteHeadshot = {
+  src: string
+  alt: string
+  position?: string
+}
+
 export type AthleteProfile = {
   id: string
   slug: string
@@ -95,6 +101,7 @@ export type AthleteProfile = {
   pathwayStage?: "National Team" | "Developmental Team" | "Masters"
   teamAffiliation?: string
   verificationBadges?: AthleteVerificationBadge[]
+  headshot?: AthleteHeadshot
   isStub?: boolean
 }
 
@@ -118,6 +125,7 @@ export type AthleteSummary = {
   pathwayStage?: AthleteProfile["pathwayStage"]
   teamAffiliation?: string
   verificationBadges?: AthleteVerificationBadge[]
+  headshot?: AthleteHeadshot
   isStub?: boolean
 }
 
@@ -134,6 +142,10 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     club: "FilAm Sports",
     clubId: "club-filam-sports",
     coach: "No publicly listed coach",
+    headshot: {
+      src: "/athletes/lauren-hoffman.avif",
+      alt: "Lauren Hoffman headshot",
+    },
     events: [
       {
         name: "400 Metres Hurdles",
@@ -426,6 +438,10 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     club: "FilAm Sports",
     clubId: "club-filam-sports",
     coach: "No publicly listed coach",
+    headshot: {
+      src: "/athletes/yacine-guermali.avif",
+      alt: "Yacine Guermali headshot",
+    },
     events: [
       {
         name: "5000 Metres",
@@ -776,6 +792,7 @@ function toSummary(profile: AthleteProfile): AthleteSummary {
     pathwayStage: profile.pathwayStage,
     teamAffiliation: profile.teamAffiliation,
     verificationBadges: profile.verificationBadges,
+    headshot: profile.headshot,
     isStub: profile.isStub,
   }
 }

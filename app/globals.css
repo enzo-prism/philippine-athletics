@@ -324,6 +324,18 @@
     @apply rounded-lg border border-border bg-card px-5 py-6 shadow-[var(--shadow-soft)] sm:px-6 sm:py-7 lg:px-8;
   }
 
+  .core-hero-layout {
+    @apply grid gap-6;
+  }
+
+  .core-hero-layout-with-visual {
+    @apply lg:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] lg:items-start;
+  }
+
+  .core-hero-visual {
+    @apply min-w-0 lg:justify-self-end;
+  }
+
   .core-title {
     @apply max-w-4xl text-3xl font-semibold tracking-normal text-foreground text-balance sm:text-4xl lg:text-5xl;
   }
@@ -422,6 +434,26 @@
 
   .core-detail-grid {
     @apply grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)];
+  }
+
+  .athlete-headshot-panel {
+    @apply grid gap-2;
+  }
+
+  .athlete-headshot-frame {
+    @apply relative mx-auto aspect-square w-full max-w-[260px] overflow-hidden rounded-lg border border-border bg-muted sm:max-w-[292px] lg:max-w-[320px];
+  }
+
+  .athlete-headshot-frame img {
+    @apply object-cover;
+  }
+
+  .athlete-headshot-caption {
+    @apply mx-auto flex w-full max-w-[260px] flex-col gap-1 px-1 text-xs leading-5 text-muted-foreground sm:max-w-[292px] lg:max-w-[320px];
+  }
+
+  .athlete-headshot-caption strong {
+    @apply font-semibold text-foreground;
   }
 
   .core-detail-card {
