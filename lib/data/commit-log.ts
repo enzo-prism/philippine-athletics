@@ -29,9 +29,112 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-01T18:13:52.629Z"
+export const commitLogUpdatedAt = "2026-05-01T18:25:32.663Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "5a8945cfa71b7bcf8e369a3075beba945fe1c20e",
+    "shortHash": "5a8945c",
+    "subject": "style: simplify coach directory rows",
+    "author": "enzo-prism",
+    "date": "2026-05-01T11:25:23-07:00",
+    "stats": {
+      "files": 5,
+      "insertions": 61,
+      "deletions": 33,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data",
+      "other"
+    ],
+    "tags": [
+      "Coaches",
+      "App Pages",
+      "Components",
+      "Demo Data"
+    ],
+    "summary": "Polished Core screens, Shared interface, Sample data, General updates.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Polished coach profiles, core screens, and shared interface pieces.",
+    "plainNotes": [
+      "Made coaching details easier to understand.",
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Helps athletes find qualified coaching. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "app/coaches/[id]/page.tsx",
+        "additions": 7,
+        "deletions": 7
+      },
+      {
+        "path": "app/coaches/page.tsx",
+        "additions": 9,
+        "deletions": 9
+      },
+      {
+        "path": "components/site/page-primitives.tsx",
+        "additions": 21,
+        "deletions": 17
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 13,
+        "deletions": 0
+      },
+      {
+        "path": "tests/flows/flow-club-operator.spec.ts",
+        "additions": 11,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "adb98d1afd6d89d9688f35a15db006f611ea4c7a",
+    "shortHash": "adb98d1",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-01T11:14:03-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 199,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 199,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "f57c62cfaf723b79d592278923111e9f6d269eee",
     "shortHash": "f57c62c",
