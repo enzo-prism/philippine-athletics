@@ -29,9 +29,129 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-01T15:42:34.359Z"
+export const commitLogUpdatedAt = "2026-05-01T15:51:48.283Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "789882e5602b679b21419d78f4906253153c7659",
+    "shortHash": "789882e",
+    "subject": "feat: add athlete profile headshots",
+    "author": "enzo-prism",
+    "date": "2026-05-01T08:51:42-07:00",
+    "stats": {
+      "files": 8,
+      "insertions": 120,
+      "deletions": 23,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data",
+      "public"
+    ],
+    "tags": [
+      "Athletes",
+      "App Pages",
+      "Components",
+      "Demo Data",
+      "Assets"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data, Images & media.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added athlete profiles, core screens, and shared interface pieces.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved core screens and layouts.",
+      "Refined shared UI pieces for consistency.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 21,
+        "deletions": 0
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 32,
+        "deletions": 0
+      },
+      {
+        "path": "components/site/page-primitives.tsx",
+        "additions": 30,
+        "deletions": 23
+      },
+      {
+        "path": "lib/data/athletes.ts",
+        "additions": 17,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      },
+      {
+        "path": "public/athletes/lauren-hoffman.avif",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/athletes/yacine-guermali.avif",
+        "additions": null,
+        "deletions": null
+      }
+    ]
+  },
+  {
+    "hash": "12c6c1b96ef0e9c49990a403550b755f89b54ba7",
+    "shortHash": "12c6c1b",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-01T08:42:52-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 260,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 260,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "3ea6a8ad46da9cdee2096bd5fbf6ed0c9d31305b",
     "shortHash": "3ea6a8a",
