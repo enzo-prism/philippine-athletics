@@ -1,5 +1,26 @@
 import Link from "next/link"
-import { ExternalLink } from "lucide-react"
+import type { ReactNode } from "react"
+import {
+  Activity,
+  Building2,
+  CalendarDays,
+  ExternalLink,
+  FileCheck2,
+  Globe2,
+  Handshake,
+  Layers,
+  Link2,
+  ListChecks,
+  MapPin,
+  Medal,
+  Radio,
+  ShieldCheck,
+  Sparkles,
+  Ticket,
+  Trophy,
+  Users,
+  type LucideIcon,
+} from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreSection, EmptyState } from "@/components/site/page-primitives"
@@ -8,6 +29,20 @@ import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
 import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
+
+type EventIconLabelProps = {
+  icon: LucideIcon
+  children: ReactNode
+}
+
+function EventIconLabel({ icon: Icon, children }: EventIconLabelProps) {
+  return (
+    <span className="event-icon-label">
+      <Icon aria-hidden="true" />
+      <span>{children}</span>
+    </span>
+  )
+}
 
 export default async function EventProfilePage({
   params,
@@ -31,6 +66,15 @@ export default async function EventProfilePage({
   const countryLabel = competition.countries ? competition.countries.toLocaleString() : "TBD"
   const dateRangeLabel =
     competition.startDate === competition.endDate ? competition.startDate : `${competition.startDate} - ${competition.endDate}`
+  const eventFacts: Array<{ label: string; value: ReactNode; icon: LucideIcon }> = [
+    { label: "Dates", value: dateRangeLabel, icon: CalendarDays },
+    { label: "Series", value: competition.series ?? competition.type, icon: Layers },
+    { label: "Organizer", value: competition.organizer, icon: Building2 },
+    { label: "Participants", value: participantLabel, icon: Users },
+    { label: "Countries", value: countryLabel, icon: Globe2 },
+    { label: "Ticket info", value: competition.ticketInfo, icon: Ticket },
+    { label: "Partner support", value: competition.sponsor, icon: Handshake },
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -63,22 +107,25 @@ export default async function EventProfilePage({
 
         <div className="core-detail-grid">
           <div className="space-y-5">
-            <CoreSection title="About">
+            <CoreSection title={<EventIconLabel icon={MapPin}>About</EventIconLabel>}>
               <p className="text-sm leading-6 text-foreground">{competition.about}</p>
             </CoreSection>
 
             {competition.watchReason ? (
-              <CoreSection title="Why it matters">
+              <CoreSection title={<EventIconLabel icon={Trophy}>Why it matters</EventIconLabel>}>
                 <p className="text-sm leading-6 text-foreground">{competition.watchReason}</p>
               </CoreSection>
             ) : null}
 
-            <CoreSection title="Events">
+            <CoreSection title={<EventIconLabel icon={ListChecks}>Events</EventIconLabel>}>
               {competition.events.length ? (
                 <div className="flex flex-wrap gap-2">
                   {competition.events.map((event) => (
                     <Badge key={event} variant="outline" className="core-fact">
-                      {event}
+                      <span className="event-programme-chip">
+                        <Activity aria-hidden="true" />
+                        <span>{event}</span>
+                      </span>
                     </Badge>
                   ))}
                 </div>
@@ -88,7 +135,7 @@ export default async function EventProfilePage({
             </CoreSection>
 
             <CoreSection
-              title="Results"
+              title={<EventIconLabel icon={Radio}>Results</EventIconLabel>}
               description={competition.status === "Upcoming" ? "Results will appear after the event." : "Open an athlete result to jump into the linked athlete profile."}
               actions={
                 results.length ? (
@@ -117,24 +164,47 @@ export default async function EventProfilePage({
                   {filteredResults.map((eventBlock) => (
                     <div key={eventBlock.event} className="core-detail-card space-y-3">
                       <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <h3 className="text-base font-semibold text-foreground">{eventBlock.event}</h3>
-                          {eventBlock.round ? <p className="text-xs text-muted-foreground">{eventBlock.round}</p> : null}
+                        <div className="event-scan-row">
+                          <span className="event-row-icon" aria-hidden="true">
+                            <ListChecks />
+                          </span>
+                          <div className="min-w-0">
+                            <h3 className="text-base font-semibold text-foreground">{eventBlock.event}</h3>
+                            {eventBlock.round ? (
+                              <p className="event-inline-meta">
+                                <Activity aria-hidden="true" />
+                                <span>{eventBlock.round}</span>
+                              </p>
+                            ) : null}
+                          </div>
                         </div>
                         <Badge variant="outline">{eventBlock.entries.length} results</Badge>
                       </div>
                       <div className="core-mini-list">
                         {eventBlock.entries.map((entry, index) => {
                           const content = (
-                            <div className="flex items-center justify-between gap-3">
-                              <div>
-                                <p className="font-semibold">{entry.athleteName}</p>
-                                <p className="text-xs text-muted-foreground">{entry.place}</p>
-                                {entry.source ? <p className="text-[11px] text-muted-foreground">{entry.source}</p> : null}
-                              </div>
-                              <div className="text-right">
-                                <p className="font-semibold">{entry.result}</p>
-                                {entry.note ? <p className="text-xs text-muted-foreground">{entry.note}</p> : null}
+                            <div className="event-scan-row sm:items-center">
+                              <span className="event-row-icon" aria-hidden="true">
+                                <Medal />
+                              </span>
+                              <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="min-w-0">
+                                  <p className="font-semibold">{entry.athleteName}</p>
+                                  <p className="event-inline-meta">
+                                    <Trophy aria-hidden="true" />
+                                    <span>{entry.place}</span>
+                                  </p>
+                                  {entry.source ? (
+                                    <p className="event-inline-meta">
+                                      <ShieldCheck aria-hidden="true" />
+                                      <span>{entry.source}</span>
+                                    </p>
+                                  ) : null}
+                                </div>
+                                <div className="text-sm font-semibold text-foreground sm:text-right">
+                                  <p>{entry.result}</p>
+                                  {entry.note ? <p className="text-xs font-normal text-muted-foreground">{entry.note}</p> : null}
+                                </div>
                               </div>
                             </div>
                           )
@@ -168,61 +238,70 @@ export default async function EventProfilePage({
           </div>
 
           <aside className="space-y-5">
-            <CoreSection title="Event facts">
+            <CoreSection title={<EventIconLabel icon={FileCheck2}>Event facts</EventIconLabel>}>
               <div className="core-mini-list">
-                <div className="core-mini-item">
-                  <p className="font-semibold">Dates</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{dateRangeLabel}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Series</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{competition.series ?? competition.type}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Organizer</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{competition.organizer}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Participants</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{participantLabel}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Countries</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{countryLabel}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Ticket info</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{competition.ticketInfo}</p>
-                </div>
-                <div className="core-mini-item">
-                  <p className="font-semibold">Partner support</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{competition.sponsor}</p>
-                </div>
+                {eventFacts.map((fact) => {
+                  const FactIcon = fact.icon
+
+                  return (
+                    <div key={fact.label} className="core-mini-item">
+                      <div className="event-scan-row">
+                        <span className="event-row-icon" aria-hidden="true">
+                          <FactIcon />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-semibold">{fact.label}</p>
+                          <p className="mt-1 text-xs leading-5 text-muted-foreground">{fact.value}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </CoreSection>
 
-            <CoreSection title="Source confidence">
+            <CoreSection title={<EventIconLabel icon={ShieldCheck}>Source confidence</EventIconLabel>}>
               <div className="core-mini-list">
                 <div className="core-mini-item">
-                  <p className="font-semibold">{competition.evidenceLevel ?? "Linked source"}</p>
-                  {competition.sourceUpdated ? (
-                    <p className="mt-1 text-xs text-muted-foreground">{competition.sourceUpdated}</p>
-                  ) : null}
+                  <div className="event-scan-row">
+                    <span className="event-row-icon" aria-hidden="true">
+                      <ShieldCheck />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-semibold">{competition.evidenceLevel ?? "Linked source"}</p>
+                      {competition.sourceUpdated ? (
+                        <p className="event-inline-meta">
+                          <CalendarDays aria-hidden="true" />
+                          <span>{competition.sourceUpdated}</span>
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
                 {competition.evidenceNotes ? (
                   <div className="core-mini-item">
-                    <p className="text-xs leading-5 text-muted-foreground">{competition.evidenceNotes}</p>
+                    <div className="event-scan-row">
+                      <span className="event-row-icon" aria-hidden="true">
+                        <FileCheck2 />
+                      </span>
+                      <p className="min-w-0 text-xs leading-5 text-muted-foreground">{competition.evidenceNotes}</p>
+                    </div>
                   </div>
                 ) : null}
               </div>
             </CoreSection>
 
-            <CoreSection title="Highlights">
+            <CoreSection title={<EventIconLabel icon={Sparkles}>Highlights</EventIconLabel>}>
               {competition.highlights.length ? (
                 <div className="core-mini-list">
                   {competition.highlights.slice(0, 4).map((highlight) => (
                     <div key={highlight} className="core-mini-item">
-                      {highlight}
+                      <div className="event-scan-row">
+                        <span className="event-row-icon" aria-hidden="true">
+                          <Sparkles />
+                        </span>
+                        <span className="min-w-0 leading-6">{highlight}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -232,7 +311,7 @@ export default async function EventProfilePage({
             </CoreSection>
 
             {competition.sourceLinks?.length ? (
-              <CoreSection title="Sources">
+              <CoreSection title={<EventIconLabel icon={Link2}>Sources</EventIconLabel>}>
                 <div className="core-mini-list">
                   {competition.sourceLinks.map((source) => (
                     <a
@@ -242,8 +321,18 @@ export default async function EventProfilePage({
                       rel="noreferrer"
                       className="core-mini-item block transition-[background-color,border-color,box-shadow]"
                     >
-                      <p className="font-semibold">{source.label}</p>
-                      <p className="mt-1 text-xs leading-5 text-muted-foreground">{source.note}</p>
+                      <span className="event-scan-row">
+                        <span className="event-row-icon" aria-hidden="true">
+                          <Link2 />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center gap-2 font-semibold">
+                            {source.label}
+                            <ExternalLink className="size-3.5 shrink-0" aria-hidden="true" />
+                          </span>
+                          <span className="mt-1 block text-xs leading-5 text-muted-foreground">{source.note}</span>
+                        </span>
+                      </span>
                     </a>
                   ))}
                 </div>

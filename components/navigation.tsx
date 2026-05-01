@@ -118,7 +118,6 @@ export function Navigation() {
 
                   <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4" aria-label="Core navigation">
                     <div className="space-y-2">
-                      <p className="brand-eyebrow">Core navigation</p>
                       <div className="grid gap-2">
                         {coreLinks.map((link) => {
                           const Icon = link.icon

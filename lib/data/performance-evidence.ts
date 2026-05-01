@@ -46,7 +46,21 @@ export type RankingEntry = {
 
 export const toCanonicalEventKey = (event: string): CanonicalEventKey => normalizeEventKey(event)
 
-export const parsePerformanceValue = (performance?: string): PerformanceValue | null => {
+const higherIsBetterEventKeys = new Set([
+  "high jump",
+  "long jump",
+  "triple jump",
+  "pole vault",
+  "shot put",
+  "discus throw",
+  "javelin throw",
+  "hammer throw",
+])
+
+const isHigherIsBetterEvent = (eventKey?: CanonicalEventKey) =>
+  !!eventKey && higherIsBetterEventKeys.has(toCanonicalEventKey(eventKey))
+
+export const parsePerformanceValue = (performance?: string, eventKey?: CanonicalEventKey): PerformanceValue | null => {
   if (!performance) return null
   const raw = performance.trim()
   if (!raw || raw === "—") return null
@@ -72,7 +86,7 @@ export const parsePerformanceValue = (performance?: string): PerformanceValue | 
 
   const numeric = parseFloat(raw)
   if (Number.isNaN(numeric)) return null
-  const higherIsBetter = lower.includes("m") || lower.includes("pt") || lower.includes("pts")
+  const higherIsBetter = isHigherIsBetterEvent(eventKey) || lower.includes("m") || lower.includes("pt") || lower.includes("pts")
   return { value: numeric, higherIsBetter }
 }
 
@@ -157,7 +171,7 @@ export const getEventEvidence = ({
       return competitionYear !== null && competitionYear === year
     })
     .map((competition) => {
-      const parsed = parsePerformanceValue(competition.result)
+      const parsed = parsePerformanceValue(competition.result, eventKey)
       if (!parsed) return null
       return {
         athleteId: athlete.id,
@@ -250,10 +264,24 @@ export const buildRankingsForAthletes = ({
     return perfA.value - perfB.value
   })
 
-  return sorted.map((entry, index) => {
-    const { _parsed, ...rest } = entry as RankingEntry & { _parsed: PerformanceValue }
-    return { ...rest, rank: index + 1 }
-  })
+  return sorted.map(
+    (entry, index): RankingEntry => ({
+      id: entry.id,
+      name: entry.name,
+      event: entry.event,
+      result: entry.result,
+      date: entry.date,
+      meet: entry.meet,
+      location: entry.location,
+      club: entry.club,
+      href: entry.href,
+      gender: entry.gender,
+      ageGroup: entry.ageGroup,
+      year: entry.year,
+      rank: index + 1,
+      source: entry.source,
+    }),
+  )
 }
 
 export const getRankingEntryForAthlete = ({

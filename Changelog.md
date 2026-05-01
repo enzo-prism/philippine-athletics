@@ -8,6 +8,16 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-05-01 — Daniella Daynata athlete profile
+- Added a sourced Daniella Daynata profile with FilAm Sports linkage, World Athletics throws evidence, Asian competition results, and a local profile image.
+- Preserved the public FilAm spelling as Daniella Daynata while documenting the World Athletics spelling Daniela DAYNATA in the source facts.
+- Linked Daynata to FilAm Sports and Ed Lasquete's club-operator relationship so the athlete, club, and coach views reflect the public roster.
+
+## 2026-05-01 — Bernalyn Bejoy athlete profile
+- Added a sourced Bernalyn Bejoy profile with FilAm Sports linkage, World Athletics evidence, SEA Games context, and a local profile image.
+- Linked Bejoy to FilAm Sports and Ed Lasquete's club-operator relationship so the athlete, club, and coach views stay connected.
+- Kept her 2023 SEA Games 800m fourth-place result separate from the reported 2025 SEA Games 800m bronze for cleaner evidence history.
+
 ## 2026-05-01 — Athlete headshots
 - Added supplied headshot photos for Lauren Hoffman and Yacine Guermali on their athlete profile pages.
 - Updated the core athlete hero layout so profile media appears as a restrained institutional visual, not a social-card treatment.

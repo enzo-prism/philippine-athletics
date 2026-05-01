@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
-import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
+import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -125,12 +125,7 @@ export default async function AthletesPage({
       <Navigation />
 
       <main className="core-main">
-        <CoreHero
-          eyebrow="Athletes"
-          title="Find the athlete record."
-          description="Search by name, event, club, coach, membership number, or location."
-          stats={[{ label: "Showing", value: `${athletes.length} of ${athleteSummaries.length}` }]}
-        />
+        <CoreDirectoryHeader title="Athletes" count={athletes.length} total={athleteSummaries.length} />
 
         <form method="get" className="core-filter-bar">
           <FieldGroup className="core-filter-grid !grid">

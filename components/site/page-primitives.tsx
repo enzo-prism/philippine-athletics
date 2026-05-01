@@ -130,6 +130,13 @@ type CoreSectionProps = {
   className?: string
 }
 
+type CoreDirectoryHeaderProps = {
+  title: ReactNode
+  count: number
+  total: number
+  className?: string
+}
+
 type CoreBreadcrumbItem = {
   label: ReactNode
   href?: string
@@ -173,6 +180,19 @@ export function CoreHero({ eyebrow, title, description, actions, stats, visual, 
         {visual ? <div className="core-hero-visual">{visual}</div> : null}
       </div>
     </Card>
+  )
+}
+
+export function CoreDirectoryHeader({ title, count, total, className }: CoreDirectoryHeaderProps) {
+  const countLabel = count === total ? String(total) : `${count}/${total}`
+
+  return (
+    <header className={cn("core-directory-header", className)}>
+      <h1 className="core-directory-title">{title}</h1>
+      <span className="core-directory-count" aria-label={`${count} of ${total} shown`}>
+        {countLabel}
+      </span>
+    </header>
   )
 }
 

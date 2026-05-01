@@ -2,7 +2,7 @@ import Link from "next/link"
 import { CalendarDays, Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
-import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
+import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -61,25 +61,12 @@ export default async function EventsPage({
     return matchesStatus && matchesType && matchesQuery
   })
 
-  const mustWatchCount = competitions.filter((competition) => competition.tier === "Must-watch").length
-  const worldLevelCount = competitions.filter((competition) => competition.isWorldLevel).length
-
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="core-main">
-        <CoreHero
-          eyebrow="Events"
-          title="Track the world athletics calendar."
-          description="Search the verified 2026 global athletics watch list, from World Athletics Series championships to Diamond League, Continental Tour Gold, and road majors."
-          stats={[
-            { label: "Current view", value: status },
-            { label: "Showing", value: `${filtered.length} of ${competitions.length}` },
-            { label: "Must-watch", value: mustWatchCount },
-            { label: "World-level", value: worldLevelCount },
-          ]}
-        />
+        <CoreDirectoryHeader title="Events" count={filtered.length} total={competitions.length} />
 
         <form method="get" className="core-filter-bar">
           <FieldGroup className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_190px_170px_auto]">

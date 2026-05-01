@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
-import { AppFooter, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
+import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -39,12 +39,7 @@ export default async function ClubsPage({
       <Navigation />
 
       <main className="core-main">
-        <CoreHero
-          eyebrow="Clubs"
-          title="Find the training environment."
-          description="Search recognized clubs by name, city, event focus, or capacity."
-          stats={[{ label: "Showing", value: `${filteredClubs.length} of ${clubs.length}` }]}
-        />
+        <CoreDirectoryHeader title="Clubs" count={filteredClubs.length} total={clubs.length} />
 
         <form method="get" className="core-filter-bar">
           <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">

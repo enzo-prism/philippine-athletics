@@ -58,10 +58,12 @@ export const clubs: Club[] = [
     founded: "Not publicly listed",
     spots: "Selective",
     bio:
-      "FilAm Sports is a Filipino-heritage athlete support organization and public athlete roster focused on helping athletes with Filipino roots navigate representation, competition planning, resources, sponsorship opportunities, and the pathway to represent the Philippines. Ed Lasquete is modeled as the owner / co-founder and linked coach-operator for this club profile. Its public athletes page lists Lauren Hoffman as a National Team Member and 2024 Paris Olympian in the 400m hurdles, and Yacine Guermali as a National Team Member in track and field middle distance. The club profile is modeled here as an athlete-support club because the app's club layer is the right place to connect public athlete relationships, operator contacts, and source evidence without replacing national-team status.",
+      "FilAm Sports is a Filipino-heritage athlete support organization and public athlete roster focused on helping athletes with Filipino roots navigate representation, competition planning, resources, sponsorship opportunities, and the pathway to represent the Philippines. Ed Lasquete is modeled as the owner / co-founder and linked coach-operator for this club profile. Its public athletes page lists Lauren Hoffman as a National Team Member and 2024 Paris Olympian in the 400m hurdles, Yacine Guermali as a National Team Member in track and field middle distance, Bernalyn Bejoy as a National Team Member in track and field 800 Meter, and Daniella Daynata as a National Team Member in track and field throws. The club profile is modeled here as an athlete-support club because the app's club layer is the right place to connect public athlete relationships, operator contacts, and source evidence without replacing national-team status.",
     achievements: [
       "Public roster includes Lauren Hoffman as a National Team Member, 2024 Paris Olympian, and 400m hurdles athlete.",
       "Public roster includes Yacine Guermali as a National Team Member in track and field middle distance.",
+      "Public roster includes Bernalyn Bejoy as a National Team Member in track and field 800 Meter.",
+      "Public roster includes Daniella Daynata as a National Team Member in track and field throws.",
       "FilAm Sports says its work covers representation and government affairs for athletes seeking to represent the Philippines.",
       "FilAm Sports describes support across competition scheduling, training, mental health, strategy, logistics, endorsements, NIL, opportunities, and talent acquisition.",
       "Ed Lasquete is linked as the owner / co-founder coach-operator profile for FilAm Sports.",
@@ -96,7 +98,7 @@ export const clubs: Club[] = [
       {
         label: "FilAm Sports athletes",
         href: "https://www.filamsports.com/athletes",
-        note: "Public roster listing Lauren Hoffman and Yacine Guermali as National Team Members.",
+        note: "Public roster listing Lauren Hoffman, Yacine Guermali, Bernalyn Bejoy, and Daniella Daynata as National Team Members.",
       },
       {
         label: "FilAm Sports mission / What We Do",

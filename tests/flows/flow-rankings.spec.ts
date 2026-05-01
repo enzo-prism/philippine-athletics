@@ -6,11 +6,11 @@ test("Flow: rankings redirect to athlete filters", async ({ page }) => {
 
   await page.goto("/rankings")
   await expect(page).toHaveURL(/\/athletes$/)
-  await expect(page.getByRole("heading", { name: /find the athlete record/i })).toBeVisible()
+  await expect(page.getByRole("heading", { name: /^Athletes$/i })).toBeVisible()
 
   await checkA11y(page, testInfo, "athletes-from-rankings")
 
   await page.goto("/rankings?event=100m")
   await expect(page).toHaveURL(/\/athletes\?event=100m/)
-  await expect(page.getByRole("heading", { name: /find the athlete record/i })).toBeVisible()
+  await expect(page.getByRole("heading", { name: /^Athletes$/i })).toBeVisible()
 })

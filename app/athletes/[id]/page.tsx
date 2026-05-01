@@ -1,5 +1,23 @@
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
+import type { ReactNode } from "react"
+import {
+  Activity,
+  Award,
+  Building2,
+  CalendarDays,
+  ClipboardCheck,
+  ExternalLink,
+  FileCheck2,
+  Flag,
+  Link2,
+  MapPin,
+  Medal,
+  ShieldCheck,
+  Timer,
+  Trophy,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
@@ -15,6 +33,46 @@ const formatRank = (rank?: string | number) => {
   if (rank === undefined || rank === null || rank === "") return "Unranked"
   const value = typeof rank === "number" ? String(rank) : rank.replace("#", "")
   return `#${value}`
+}
+
+const getHeroRankStat = (event?: { nationalRank?: string | number; globalRank?: string | number }) => {
+  if (event?.nationalRank) return { label: "PH rank", value: formatRank(event.nationalRank) }
+  if (event?.globalRank) return { label: "World rank", value: formatRank(event.globalRank) }
+  return { label: "Rank", value: "Unranked" }
+}
+
+const factIconMap: Record<string, LucideIcon> = {
+  "World Athletics ID": ShieldCheck,
+  Born: CalendarDays,
+  Hometown: MapPin,
+  Team: Flag,
+  Club: Building2,
+  Coach: ClipboardCheck,
+  "Coach / operator": ClipboardCheck,
+  "Primary event": Activity,
+  "Primary range": Activity,
+  "All-time PB": Timer,
+  "National records": Trophy,
+  "SEA Games proof": Medal,
+  "Philippine record note": Award,
+} satisfies Record<string, LucideIcon>
+
+type IconLabelProps = {
+  icon: LucideIcon
+  children: ReactNode
+}
+
+function IconLabel({ icon: Icon, children }: IconLabelProps) {
+  return (
+    <span className="athlete-icon-label">
+      <Icon aria-hidden="true" />
+      <span>{children}</span>
+    </span>
+  )
+}
+
+function getFactIcon(label: string) {
+  return factIconMap[label] ?? FileCheck2
 }
 
 export default async function AthleteProfilePage({
@@ -39,6 +97,7 @@ export default async function AthleteProfilePage({
     ? sortedResults.filter((result) => normalizeKey(result.event) === requestedEventKey)
     : sortedResults
   const latestResult = visibleResults[0] ?? sortedResults[0]
+  const heroRankStat = getHeroRankStat(primaryEvent)
   const profileFacts =
     athlete.profileFacts?.length
       ? athlete.profileFacts
@@ -83,30 +142,41 @@ export default async function AthleteProfilePage({
           stats={[
             { label: "Primary event", value: primaryEvent?.name ?? "Event" },
             { label: "Personal best", value: primaryEvent?.personalBest ?? "TBD" },
-            { label: "PH rank", value: formatRank(primaryEvent?.nationalRank) },
+            heroRankStat,
             { label: "Club", value: athlete.club },
           ]}
         />
 
         <div className="core-detail-grid">
           <div className="space-y-5">
-            <CoreSection title="Profile overview">
+            <CoreSection title={<IconLabel icon={UserRound}>Profile overview</IconLabel>}>
               <p className="text-sm leading-7 text-muted-foreground">{athlete.bio}</p>
             </CoreSection>
 
-            <CoreSection title="Performance">
+            <CoreSection title={<IconLabel icon={Activity}>Performance</IconLabel>}>
               <div className="core-list">
                 {athlete.events.map((event) => (
                   <div key={event.name} className="core-mini-item">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="font-semibold">{event.name}</p>
-                        {event.seasonBest ? <p className="text-xs text-muted-foreground">Season best {event.seasonBest}</p> : null}
-                      </div>
-                      <div className="core-facts sm:justify-end">
-                        <Badge variant="outline" className="core-fact">PB {event.personalBest}</Badge>
-                        <Badge variant="outline" className="core-fact">PH {formatRank(event.nationalRank)}</Badge>
-                        {event.asianRank ? <Badge variant="outline" className="core-fact">Asia {formatRank(event.asianRank)}</Badge> : null}
+                    <div className="athlete-scan-row sm:items-center">
+                      <span className="athlete-row-icon" aria-hidden="true">
+                        <Activity />
+                      </span>
+                      <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="min-w-0">
+                          <p className="font-semibold">{event.name}</p>
+                          {event.seasonBest ? (
+                            <p className="athlete-inline-meta">
+                              <Timer aria-hidden="true" />
+                              <span>Season best {event.seasonBest}</span>
+                            </p>
+                          ) : null}
+                        </div>
+                        <div className="core-facts sm:justify-end">
+                          <Badge variant="outline" className="core-fact">PB {event.personalBest}</Badge>
+                          {event.nationalRank ? <Badge variant="outline" className="core-fact">PH {formatRank(event.nationalRank)}</Badge> : null}
+                          {!event.nationalRank && event.globalRank ? <Badge variant="outline" className="core-fact">World {formatRank(event.globalRank)}</Badge> : null}
+                          {event.asianRank ? <Badge variant="outline" className="core-fact">Asia {formatRank(event.asianRank)}</Badge> : null}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -115,22 +185,33 @@ export default async function AthleteProfilePage({
             </CoreSection>
 
             <CoreSection
-              title={requestedEvent ? `${formatEventLabel(requestedEvent)} results` : "Results"}
+              title={<IconLabel icon={Timer}>{requestedEvent ? `${formatEventLabel(requestedEvent)} results` : "Results"}</IconLabel>}
               description={latestResult ? `${latestResult.meet} is the latest visible result.` : undefined}
             >
               {visibleResults.length ? (
                 <div className="core-list">
                   {visibleResults.map((result) => (
                     <div key={`${result.meet}-${result.date}-${result.event}-${result.result}`} className="core-mini-item">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                          <p className="font-semibold">{formatEventLabel(result.event)}</p>
-                          <p className="text-xs text-muted-foreground">{result.meet} · {result.date}</p>
-                          <p className="text-xs text-muted-foreground">{result.location}</p>
-                        </div>
-                        <div className="text-sm font-semibold text-foreground sm:text-right">
-                          <p>{result.result}</p>
-                          <p className="text-xs font-normal text-muted-foreground">{result.place}</p>
+                      <div className="athlete-scan-row sm:items-center">
+                        <span className="athlete-row-icon" aria-hidden="true">
+                          <Timer />
+                        </span>
+                        <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="min-w-0">
+                            <p className="font-semibold">{formatEventLabel(result.event)}</p>
+                            <p className="athlete-inline-meta">
+                              <CalendarDays aria-hidden="true" />
+                              <span>{result.meet} · {result.date}</span>
+                            </p>
+                            <p className="athlete-inline-meta">
+                              <MapPin aria-hidden="true" />
+                              <span>{result.location}</span>
+                            </p>
+                          </div>
+                          <div className="text-sm font-semibold text-foreground sm:text-right">
+                            <p>{result.result}</p>
+                            <p className="text-xs font-normal text-muted-foreground">{result.place}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -143,29 +224,40 @@ export default async function AthleteProfilePage({
           </div>
 
           <aside className="space-y-5">
-            <CoreSection title="Profile details">
+            <CoreSection title={<IconLabel icon={FileCheck2}>Profile details</IconLabel>}>
               <div className="core-mini-list">
-                {profileFacts.map((fact) => (
-                  <div key={fact.label} className="core-mini-item">
-                    <p className="text-[11px] font-medium uppercase tracking-normal text-muted-foreground">{fact.label}</p>
-                    <p className="mt-1 font-semibold leading-6">{fact.value}</p>
-                  </div>
-                ))}
+                {profileFacts.map((fact) => {
+                  const FactIcon = getFactIcon(fact.label)
+
+                  return (
+                    <div key={fact.label} className="core-mini-item">
+                      <div className="athlete-scan-row">
+                        <span className="athlete-row-icon" aria-hidden="true">
+                          <FactIcon />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-[11px] font-medium uppercase tracking-normal text-muted-foreground">{fact.label}</p>
+                          <p className="mt-1 font-semibold leading-6">{fact.value}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </CoreSection>
 
-            <CoreSection title="Relationships">
+            <CoreSection title={<IconLabel icon={Link2}>Relationships</IconLabel>}>
               <div className="core-list">
                 <CoreResultRow
                   href={athlete.clubId ? `/clubs/${athlete.clubId}` : "/clubs"}
-                  eyebrow="Club"
+                  eyebrow={<IconLabel icon={Building2}>Club</IconLabel>}
                   title={athlete.club}
                   description={athlete.location}
                   meta="Open club"
                 />
                 <CoreResultRow
                   href={athlete.coachId ? `/coaches/${athlete.coachId}` : "/coaches"}
-                  eyebrow="Coach"
+                  eyebrow={<IconLabel icon={ClipboardCheck}>Coach</IconLabel>}
                   title={athlete.coach}
                   description="Linked coaching record"
                   meta="Open coach"
@@ -173,27 +265,46 @@ export default async function AthleteProfilePage({
               </div>
             </CoreSection>
 
-            <CoreSection title="Proof">
+            <CoreSection title={<IconLabel icon={ShieldCheck}>Proof</IconLabel>}>
               <div className="core-mini-list">
                 {athlete.verificationBadges?.length ? (
                   athlete.verificationBadges.map((badge) => (
                     <div key={badge.label} className="core-mini-item">
-                      <p className="font-semibold">{badge.label}</p>
-                      {badge.detail ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{badge.detail}</p> : null}
+                      <div className="athlete-scan-row">
+                        <span className="athlete-row-icon" aria-hidden="true">
+                          <ShieldCheck />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-semibold">{badge.label}</p>
+                          {badge.detail ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{badge.detail}</p> : null}
+                        </div>
+                      </div>
                     </div>
                   ))
                 ) : (
-                  <div className="core-mini-item">{athlete.isStub ? "Profile details are coming soon." : "Competition results and club links are visible in this profile."}</div>
+                  <div className="core-mini-item">
+                    <div className="athlete-scan-row">
+                      <span className="athlete-row-icon" aria-hidden="true">
+                        <ShieldCheck />
+                      </span>
+                      <span>{athlete.isStub ? "Profile details are coming soon." : "Competition results and club links are visible in this profile."}</span>
+                    </div>
+                  </div>
                 )}
               </div>
             </CoreSection>
 
             {athlete.achievements.length ? (
-              <CoreSection title="Highlights">
+              <CoreSection title={<IconLabel icon={Medal}>Highlights</IconLabel>}>
                 <div className="core-mini-list">
                   {athlete.achievements.map((item) => (
                     <div key={item} className="core-mini-item">
-                      {item}
+                      <div className="athlete-scan-row">
+                        <span className="athlete-row-icon" aria-hidden="true">
+                          <Medal />
+                        </span>
+                        <span className="min-w-0 leading-6">{item}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -201,7 +312,7 @@ export default async function AthleteProfilePage({
             ) : null}
 
             {athlete.researchSources?.length ? (
-              <CoreSection title="Sources">
+              <CoreSection title={<IconLabel icon={Link2}>Sources</IconLabel>}>
                 <div className="core-mini-list">
                   {athlete.researchSources.map((source) => (
                     <a
@@ -211,12 +322,15 @@ export default async function AthleteProfilePage({
                       rel="noreferrer"
                       className="core-mini-item block transition-[background-color,border-color,box-shadow]"
                     >
-                      <span className="flex items-start justify-between gap-3">
-                        <span>
+                      <span className="athlete-scan-row">
+                        <span className="athlete-row-icon" aria-hidden="true">
+                          <Link2 />
+                        </span>
+                        <span className="min-w-0 flex-1">
                           <span className="block font-semibold">{source.label}</span>
                           {source.note ? <span className="mt-1 block text-xs leading-5 text-muted-foreground">{source.note}</span> : null}
                         </span>
-                        <ExternalLink aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                        <ExternalLink aria-hidden="true" className="mt-1 size-4 shrink-0 text-muted-foreground" />
                       </span>
                     </a>
                   ))}

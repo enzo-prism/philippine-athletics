@@ -5,7 +5,7 @@ test("Flow: coach profile opens linked athlete and club", async ({ page }) => {
   const testInfo = test.info()
 
   await page.goto("/coaches?q=Fresh")
-  await expect(page.getByRole("heading", { name: /find the coach record/i })).toBeVisible()
+  await expect(page.getByRole("heading", { name: /^Coaches$/i })).toBeVisible()
   await expect(page.getByText(/No coaches found/i)).toBeVisible()
 
   await checkA11y(page, testInfo, "coaches-empty")
@@ -26,6 +26,12 @@ test("Flow: coach profile opens linked athlete and club", async ({ page }) => {
   await page.goto("/coaches/new-coach")
   await expect(page.getByRole("heading", { name: /new coach/i })).toBeVisible()
   await expect(page.getByRole("heading", { name: /athletes coached/i })).toBeVisible()
+
+  await page.goto("/clubs/filam-sports")
+  await expect(page.getByRole("heading", { name: /FilAm Sports/i })).toBeVisible()
+  await expect(page.getByText(/^4$/).first()).toBeVisible()
+  await expect(page.getByRole("link", { name: /Athlete Bernalyn Bejoy 800m/i })).toBeVisible()
+  await expect(page.getByRole("link", { name: /Athlete Daniella Daynata Throws/i })).toBeVisible()
 
   await checkA11y(page, testInfo, "coach-profile")
 })

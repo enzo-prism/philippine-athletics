@@ -22,6 +22,36 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-01-daniella-daynata-profile",
+    date: "2026-05-01",
+    title: "Daniella Daynata athlete profile",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Added a sourced Daniella Daynata athlete profile with FilAm Sports linkage, World Athletics throws evidence, Asian competition results, and a local profile image.",
+    highlights: [
+      "Added Daynata as a Philippine National Team / FilAm Sports throws athlete with discus, javelin, and shot put personal-best evidence.",
+      "Preserved the public FilAm spelling as Daniella Daynata while documenting the World Athletics spelling Daniela DAYNATA in the source facts.",
+      "Linked her to FilAm Sports and Ed Lasquete's club-operator relationship so the athlete, club, and coach views reflect the current public roster.",
+    ],
+    whyItMatters:
+      "Expands the live athlete graph with a source-backed national-team throws profile while keeping name variants, club support, and result claims auditable.",
+  },
+  {
+    id: "2026-05-01-bernalyn-bejoy-profile",
+    date: "2026-05-01",
+    title: "Bernalyn Bejoy athlete profile",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Added a sourced Bernalyn Bejoy athlete profile with FilAm Sports linkage, World Athletics evidence, SEA Games context, and a local profile image.",
+    highlights: [
+      "Added Bejoy as a Philippine National Team / FilAm Sports athlete with an 800m-focused profile, local headshot asset, facts, verification badges, and source links.",
+      "Linked Bejoy to FilAm Sports and Ed Lasquete's club-operator relationship so she appears in the club and coach relationship graph.",
+      "Separated her 2023 SEA Games 800m fourth-place result from the reported 2025 SEA Games 800m bronze so the record stays accurate.",
+    ],
+    whyItMatters:
+      "Expands the live athlete record set with a deeply sourced national-team 800m athlete while keeping every club and medal claim auditable.",
+  },
+  {
     id: "2026-05-01-athlete-headshots",
     date: "2026-05-01",
     title: "Athlete headshots",

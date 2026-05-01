@@ -48,7 +48,7 @@ export default function Home() {
           actions={<CoreSearchJump />}
         />
 
-        <CoreSection title="Core paths" className="home-path-section">
+        <CoreSection title="Browse Live Records" className="home-path-section">
           <div className="home-path-grid">
             {pathways.map((pathway) => {
               const Icon = pathway.icon
