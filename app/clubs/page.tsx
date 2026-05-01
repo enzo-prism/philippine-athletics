@@ -28,8 +28,17 @@ export default async function ClubsPage({
   const term = query.toLowerCase()
   const filteredClubs = term
     ? clubs.filter((club) =>
-        [club.name, club.focus, club.location, String(club.founded), String(club.spots)]
-          .filter(Boolean)
+        [
+          club.name,
+          club.focus,
+          club.location,
+          String(club.founded),
+          String(club.spots),
+          club.website?.label,
+          club.website?.href,
+          ...(club.socialLinks?.flatMap((link) => [link.platform, link.handle, link.href]) ?? []),
+        ]
+          .filter((value): value is string => Boolean(value))
           .some((value) => value.toLowerCase().includes(term)),
       )
     : clubs

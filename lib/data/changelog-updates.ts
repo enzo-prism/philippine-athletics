@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-01-club-online-links",
+    date: "2026-05-01",
+    title: "Club online links",
+    category: ["Experience", "Data", "Reliability"],
+    summary:
+      "Added first-class club website and social-link fields so external websites are no longer mislabeled as map links.",
+    highlights: [
+      "Added typed club website and social-link data fields for official websites, Instagram, Facebook, and future external channels.",
+      "Updated the FilAm Sports profile with its official website and Instagram link in a dedicated Online section.",
+      "Expanded club search and flow coverage so website/social profile data remains discoverable and verified.",
+    ],
+    whyItMatters:
+      "Keeps club contact and discovery links cleanly separated from location data, making profile pages easier to scan and less misleading.",
+  },
+  {
     id: "2026-05-01-daniella-daynata-profile",
     date: "2026-05-01",
     title: "Daniella Daynata athlete profile",

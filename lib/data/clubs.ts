@@ -11,6 +11,22 @@ export type ScheduleSession = {
   notes?: string
 }
 
+export type ClubWebsiteLink = {
+  label?: string
+  href: string
+  note?: string
+}
+
+export type ClubSocialPlatform = "Instagram" | "Facebook" | "X" | "YouTube" | "TikTok" | "Other"
+
+export type ClubSocialLink = {
+  platform: ClubSocialPlatform
+  href: string
+  handle?: string
+  label?: string
+  note?: string
+}
+
 export type Club = {
   id: string
   slug: string
@@ -32,6 +48,8 @@ export type Club = {
     phone?: string
     people?: { name: string; role: string; email?: string; phone?: string }[]
   }
+  website?: ClubWebsiteLink
+  socialLinks?: ClubSocialLink[]
   locationDetail?: {
     name?: string
     address: string
@@ -82,10 +100,22 @@ export const clubs: Club[] = [
         { name: "Johann Nool", role: "FilAm Sports team", email: "johann@filamsports.com", phone: "(408) 690-8465" },
       ],
     },
+    website: {
+      label: "Official website",
+      href: "https://www.filamsports.com/",
+      note: "Roster, news, mission, contact, and athlete-support information.",
+    },
+    socialLinks: [
+      {
+        platform: "Instagram",
+        href: "https://www.instagram.com/filamsports/",
+        handle: "@filamsports",
+        note: "Linked from the official FilAm Sports website.",
+      },
+    ],
     locationDetail: {
       name: "FilAm Sports",
       address: "United States and Philippines",
-      mapUrl: "https://www.filamsports.com",
       notes:
         "FilAm Sports describes operations in both the U.S. and the Philippines and serves Filipino-heritage athletes across the globe.",
     },

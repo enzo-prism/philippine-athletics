@@ -8,7 +8,9 @@ import {
   ClipboardList,
   Clock3,
   ExternalLink,
+  Facebook,
   Globe2,
+  Instagram,
   Link2,
   Mail,
   MapPin,
@@ -22,7 +24,7 @@ import {
 
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
-import { getClubAthletes, getClubByIdOrStub, getClubCoaches } from "@/lib/data/clubs"
+import { getClubAthletes, getClubByIdOrStub, getClubCoaches, type Club, type ClubSocialPlatform } from "@/lib/data/clubs"
 import { decodeIdParam } from "@/lib/data/utils"
 
 type ClubIconLabelProps = {
@@ -39,12 +41,43 @@ function ClubIconLabel({ icon: Icon, children }: ClubIconLabelProps) {
   )
 }
 
+const clubSocialIconMap: Partial<Record<ClubSocialPlatform, LucideIcon>> = {
+  Instagram,
+  Facebook,
+}
+
+const getClubOnlineLinks = (club: Club) => [
+  ...(club.website
+    ? [
+        {
+          key: `website-${club.website.href}`,
+          label: club.website.label ?? "Website",
+          href: club.website.href,
+          detail: club.website.note,
+          icon: Globe2,
+        },
+      ]
+    : []),
+  ...(club.socialLinks?.map((link) => {
+    const detail = [link.handle, link.note].filter(Boolean).join(" · ")
+
+    return {
+      key: `${link.platform}-${link.href}`,
+      label: link.label ?? link.platform,
+      href: link.href,
+      detail,
+      icon: clubSocialIconMap[link.platform] ?? Link2,
+    }
+  }) ?? []),
+]
+
 export default async function ClubProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
   const club = getClubByIdOrStub(id)
   const roster = getClubAthletes(club.id || club.name)
   const staff = getClubCoaches(club.id || club.name)
+  const onlineLinks = getClubOnlineLinks(club)
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,6 +178,39 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
           </div>
 
           <aside className="space-y-5">
+            {onlineLinks.length ? (
+              <CoreSection title={<ClubIconLabel icon={Globe2}>Online</ClubIconLabel>}>
+                <div className="core-mini-list">
+                  {onlineLinks.map((link) => {
+                    const LinkIcon = link.icon
+
+                    return (
+                      <a
+                        key={link.key}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="core-mini-item block transition-[background-color,border-color,box-shadow,color]"
+                      >
+                        <span className="club-scan-row">
+                          <span className="club-row-icon" aria-hidden="true">
+                            <LinkIcon />
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="flex items-center gap-2 font-semibold">
+                              {link.label}
+                              <ExternalLink className="size-3.5 shrink-0" aria-hidden="true" />
+                            </span>
+                            {link.detail ? <span className="mt-1 block text-xs leading-5 text-muted-foreground">{link.detail}</span> : null}
+                          </span>
+                        </span>
+                      </a>
+                    )
+                  })}
+                </div>
+              </CoreSection>
+            ) : null}
+
             <CoreSection title={<ClubIconLabel icon={MapPinned}>Location</ClubIconLabel>}>
               <div className="core-mini-list">
                 <div className="core-mini-item">
