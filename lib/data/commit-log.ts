@@ -29,9 +29,207 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-01T15:51:48.283Z"
+export const commitLogUpdatedAt = "2026-05-01T18:13:52.629Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "f57c62cfaf723b79d592278923111e9f6d269eee",
+    "shortHash": "f57c62c",
+    "subject": "feat: refresh athlete records and profiles",
+    "author": "enzo-prism",
+    "date": "2026-05-01T11:13:46-07:00",
+    "stats": {
+      "files": 23,
+      "insertions": 1303,
+      "deletions": 231,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data",
+      "public"
+    ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Navigation",
+      "Components",
+      "Demo Data",
+      "Assets"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data, Images & media.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added athlete profiles, club pages, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Made coaching details easier to understand."
+    ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Helps families evaluate clubs and training options.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 10,
+        "deletions": 0
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 157,
+        "deletions": 43
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 2,
+        "deletions": 7
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 152,
+        "deletions": 45
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 2,
+        "deletions": 7
+      },
+      {
+        "path": "app/coaches/[id]/page.tsx",
+        "additions": 149,
+        "deletions": 31
+      },
+      {
+        "path": "app/coaches/page.tsx",
+        "additions": 2,
+        "deletions": 7
+      },
+      {
+        "path": "app/events/[id]/page.tsx",
+        "additions": 147,
+        "deletions": 58
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 2,
+        "deletions": 15
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 169,
+        "deletions": 0
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 0,
+        "deletions": 1
+      },
+      {
+        "path": "components/site/page-primitives.tsx",
+        "additions": 20,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/athletes.ts",
+        "additions": 385,
+        "deletions": 2
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 30,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 4,
+        "deletions": 2
+      },
+      {
+        "path": "lib/data/performance-evidence.ts",
+        "additions": 35,
+        "deletions": 7
+      },
+      {
+        "path": "public/athletes/bernalyn-bejoy.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "public/athletes/daniella-daynata.jpg",
+        "additions": null,
+        "deletions": null
+      },
+      {
+        "path": "tests/flows/flow-athlete-search.spec.ts",
+        "additions": 26,
+        "deletions": 1
+      },
+      {
+        "path": "tests/flows/flow-club-operator.spec.ts",
+        "additions": 7,
+        "deletions": 1
+      },
+      {
+        "path": "tests/flows/flow-ranking-profile-consistency.spec.ts",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "tests/flows/flow-rankings.spec.ts",
+        "additions": 2,
+        "deletions": 2
+      }
+    ]
+  },
+  {
+    "hash": "d5a58611b5da0cf3310f1b51b51c248d5bad4bb4",
+    "shortHash": "d5a5861",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-01T08:52:04-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 121,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 121,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "789882e5602b679b21419d78f4906253153c7659",
     "shortHash": "789882e",
