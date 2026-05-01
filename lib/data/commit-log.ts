@@ -29,9 +29,268 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-01T15:01:30.786Z"
+export const commitLogUpdatedAt = "2026-05-01T15:42:34.359Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "3ea6a8ad46da9cdee2096bd5fbf6ed0c9d31305b",
+    "shortHash": "3ea6a8a",
+    "subject": "feat: expand profiles and refine hover states",
+    "author": "enzo-prism",
+    "date": "2026-05-01T08:42:27-07:00",
+    "stats": {
+      "files": 35,
+      "insertions": 493,
+      "deletions": 74,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Accounts",
+      "Recognition",
+      "Components",
+      "Search",
+      "Navigation",
+      "Demo Data"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added athlete profiles, club pages, and core screens.",
+    "plainNotes": [
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts.",
+      "Made coaching details easier to understand."
+    ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Helps families evaluate clubs and training options.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 10,
+        "deletions": 0
+      },
+      {
+        "path": "DESIGN.md",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 54,
+        "deletions": 2
+      },
+      {
+        "path": "app/coaches/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/dashboard/clubs/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "app/dashboard/lgu/[id]/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/demo/governance/page.tsx",
+        "additions": 5,
+        "deletions": 1
+      },
+      {
+        "path": "app/demo/lgus/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/events/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 132,
+        "deletions": 9
+      },
+      {
+        "path": "app/profile/page.tsx",
+        "additions": 6,
+        "deletions": 4
+      },
+      {
+        "path": "app/recognition/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/sponsors/[id]/page.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ads/DemoAdSlot.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/global-search.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/home/OfficialPartnersPanel.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 4,
+        "deletions": 3
+      },
+      {
+        "path": "components/profile-card.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/badge.tsx",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "components/ui/button.tsx",
+        "additions": 5,
+        "deletions": 5
+      },
+      {
+        "path": "components/ui/command.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/dialog.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/dropdown-menu.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "components/ui/item.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/native-select.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/select.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "components/ui/sheet.tsx",
+        "additions": 4,
+        "deletions": 1
+      },
+      {
+        "path": "components/ui/table.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "components/weekly-schedule.tsx",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/athletes.ts",
+        "additions": 47,
+        "deletions": 10
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 30,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/clubs.ts",
+        "additions": 69,
+        "deletions": 1
+      },
+      {
+        "path": "lib/data/coaches.ts",
+        "additions": 88,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/validate.ts",
+        "additions": 1,
+        "deletions": 1
+      }
+    ]
+  },
+  {
+    "hash": "dd57828ba0c6b066a6bf1372361d46949d923943",
+    "shortHash": "dd57828",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-01T08:01:39-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 582,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 582,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "641e43a84cd10b210dbd8c6fed628481a43b8de4",
     "shortHash": "641e43a",
