@@ -40,7 +40,7 @@ export const validateDataIntegrity = (): ValidationIssue[] => {
     if (clubAthletes.length === 0) {
       issues.push({ kind: "warning", message: `Club ${club.name} has no mapped athletes` })
     }
-    if (clubCoaches.length === 0) {
+    if (club.expectsCoachRoster !== false && clubCoaches.length === 0) {
       issues.push({ kind: "warning", message: `Club ${club.name} has no mapped coaches` })
     }
     if (club.isRecognized && (!club.recognitions || club.recognitions.length === 0)) {

@@ -8,6 +8,16 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-05-01 — Ed Lasquete coach profile
+- Added Ed Lasquete as a sourced coach/operator profile tied to FilAm Sports as owner / co-founder.
+- Documented his Philippine National Track and Field Team pole-vault background, 1992 Barcelona Olympic appearance, SEA Games pole-vault medals, and FilAm Sports recruitment/logistics role.
+- Updated FilAm Sports so Ed appears as the linked club coach-operator instead of only a contact name.
+
+## 2026-05-01 — FilAm Sports club linkage
+- Added FilAm Sports as a sourced club/support-organization profile with mission, contact, operating focus, and public source links.
+- Linked Lauren Hoffman and Yacine Guermali to FilAm Sports while preserving their National Team pathway status and Philippine National Team affiliation.
+- Expanded club profile pages with operating-focus and source sections so external club/support relationships stay auditable.
+
 ## 2026-05-01 — Global athletics event calendar
 - Added a researched 2026 event calendar covering World Athletics Series championships, the full Wanda Diamond League season, remaining Continental Tour Gold meets, major regional championships, and late-year World Marathon Majors.
 - Expanded event profiles with tier labels, watch rationale, source confidence, official source links, and source notes so date claims stay auditable.

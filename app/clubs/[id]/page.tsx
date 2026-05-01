@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ExternalLink } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
@@ -9,8 +10,8 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
   const club = getClubByIdOrStub(id)
-  const roster = getClubAthletes(club.name || club.id)
-  const staff = getClubCoaches(club.name || club.id)
+  const roster = getClubAthletes(club.id || club.name)
+  const staff = getClubCoaches(club.id || club.name)
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,6 +37,23 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
             {club.bio ? (
               <CoreSection title="About">
                 <p className="text-sm leading-6 text-foreground">{club.bio}</p>
+              </CoreSection>
+            ) : null}
+
+            {club.achievements?.length || club.safety?.length ? (
+              <CoreSection title="Operating focus" description="Publicly visible role, support model, and verification notes.">
+                <div className="core-mini-list">
+                  {club.achievements?.map((item) => (
+                    <div key={item} className="core-mini-item">
+                      {item}
+                    </div>
+                  ))}
+                  {club.safety?.map((item) => (
+                    <div key={item} className="core-mini-item">
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </CoreSection>
             ) : null}
 
@@ -126,8 +144,42 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                   </Link>
                   {club.contact?.phone ? <p className="mt-1 text-xs text-muted-foreground">{club.contact.phone}</p> : null}
                 </div>
+                {club.contact?.people?.map((person) => (
+                  <div key={`${person.name}-${person.email ?? person.phone ?? person.role}`} className="core-mini-item">
+                    <p className="font-semibold">{person.name}</p>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">{person.role}</p>
+                    {person.email ? (
+                      <Link href={`mailto:${person.email}`} className="mt-1 block text-sm text-accent">
+                        {person.email}
+                      </Link>
+                    ) : null}
+                    {person.phone ? <p className="mt-1 text-xs text-muted-foreground">{person.phone}</p> : null}
+                  </div>
+                ))}
               </div>
             </CoreSection>
+
+            {club.researchSources?.length ? (
+              <CoreSection title="Sources">
+                <div className="core-mini-list">
+                  {club.researchSources.map((source) => (
+                    <a
+                      key={source.href}
+                      href={source.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="core-mini-item block transition-[background-color,border-color,box-shadow,color]"
+                    >
+                      <span className="flex items-center gap-2 font-semibold">
+                        {source.label}
+                        <ExternalLink className="size-3.5" aria-hidden="true" />
+                      </span>
+                      {source.note ? <span className="mt-1 block text-xs leading-5 text-muted-foreground">{source.note}</span> : null}
+                    </a>
+                  ))}
+                </div>
+              </CoreSection>
+            ) : null}
           </aside>
         </div>
       </main>

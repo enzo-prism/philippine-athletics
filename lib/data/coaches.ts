@@ -46,6 +46,94 @@ export type Coach = {
 
 export const coaches: Coach[] = [
   {
+    id: "coach-ed-lasquete",
+    slug: "ed-lasquete",
+    name: "Ed Lasquete",
+    alsoKnownAs: ["Edward Lasquete", "Edward Lasquette"],
+    role: "Owner / co-founder, FilAm Sports",
+    specialty: "Pole vault, Filipino-heritage athlete representation, recruitment, planning, and logistics",
+    location: "San Jose, California / Philippines pathway",
+    club: "FilAm Sports",
+    clubId: "club-filam-sports",
+    experience:
+      "Former Philippine national team pole vaulter, 1992 Barcelona Olympian, SEA Games pole vault champion, coach, and FilAm Sports operator with more than three decades in Philippine sports.",
+    evidenceLevel: "High",
+    evidenceNotes: [
+      "FilAm Sports' official Ed Lasquete bio says he co-founded FilAm Sports with Bo Navarro and is responsible for player recruitment, planning, representation, and day-to-day logistics of FilAm Sports athletes worldwide.",
+      "Philippine Olympians lists Edward Lasquete as a Philippine athletics Olympian, born 31 Dec 1971 in San Jose, California, and identifies his event as pole vault.",
+      "Philippine Olympians and FilAm Sports both describe him as a 1992 Barcelona Olympian who cleared 5.0m in the pole vault and won SEA Games pole vault gold in 1991, 1993, and 1995.",
+      "The app labels him Owner / co-founder because the user supplied the owner designation while public source wording most cleanly documents co-founder/co-head/operator responsibilities.",
+    ],
+    profileFacts: [
+      { label: "Club role", value: "Owner / co-founder, FilAm Sports", detail: "Public bio says he co-founded FilAm Sports with Bo Navarro." },
+      { label: "National team background", value: "Philippine National Track and Field Team", detail: "Competed internationally for the Philippines in pole vault." },
+      { label: "Olympic team", value: "1992 Barcelona", detail: "Philippine Olympians lists him as a 1992 Summer Olympics athletics competitor." },
+      { label: "Event", value: "Pole vault", detail: "Former national record holder and first Southeast Asian / Asian to break 5.0m according to public sources." },
+      { label: "SEA Games record", value: "Gold in 1991, 1993, 1995; silver in 1997", detail: "Reported by FilAm Sports and Philippine Olympians." },
+      { label: "FilAm Sports responsibilities", value: "Recruitment, planning, representation, logistics", detail: "FilAm Sports bio lists his day-to-day athlete-support responsibilities." },
+    ],
+    badges: ["FilAm Sports owner", "1992 Olympian", "Pole vault", "SEA Games champion"],
+    isRecognized: true,
+    recognitions: [
+      "FilAm Sports owner / co-founder",
+      "Philippine Olympian",
+      "Former Philippine national team pole vaulter",
+      "SEA Games pole vault champion",
+    ],
+    certifications: [
+      "Former Philippine National Track and Field Team member",
+      "1992 Barcelona Olympic team member",
+      "NCAA All-American at Cal Poly San Luis Obispo",
+    ],
+    achievements: [
+      "Co-founded FilAm Sports with Bo Navarro to support athletes of Filipino descent navigating the Philippine sports system.",
+      "Represented the Philippines in men's pole vault at the 1992 Barcelona Olympics.",
+      "Cleared 5.0m in pole vault at the 1992 Olympics, a Philippine record that stood until EJ Obiena broke it in 2014.",
+      "Won Southeast Asian Games pole vault gold medals in 1991, 1993, and 1995, plus silver in 1997.",
+      "Won the 1990 California State Championship after attending Mt. Pleasant High School in San Jose, California.",
+      "Earned NCAA All-American recognition at Cal Poly San Luis Obispo.",
+      "Handles player recruitment, planning, representation, and day-to-day logistics for FilAm Sports athletes worldwide.",
+    ],
+    bio:
+      "Ed Lasquete is the owner / co-founder of FilAm Sports, a former Philippine National Track and Field Team pole vaulter, and a 1992 Barcelona Olympian. His profile is both an operator record and an athlete legacy record: FilAm Sports describes him as an athlete, coach, and player personnel leader with more than three decades in Philippine sports, while Philippine Olympians documents his Olympic pole-vault appearance, 5.0m national-record jump, and Southeast Asian Games medal history. In the app, Ed anchors FilAm Sports as the club/operator relationship for Filipino-heritage athletes while preserving his own national-team pole-vault lineage.",
+    contact: {
+      email: "ed@filamsports.com",
+      phone: "(408) 391-8136",
+    },
+    researchSources: [
+      {
+        label: "FilAm Sports Ed Lasquete bio",
+        url: "https://www.filamsports.com/edlasquete",
+        description: "Official FilAm Sports bio covering his co-founder role, athlete history, recruitment/planning/logistics responsibilities, and pole-vault achievements.",
+      },
+      {
+        label: "FilAm Sports home / team section",
+        url: "https://www.filamsports.com/",
+        description: "Lists Ed Lasquete in the FilAm Sports team section with phone, email, and bio link.",
+      },
+      {
+        label: "Philippine Olympians profile",
+        url: "https://www.philippineolympians.org/oly/1992-olympics-barcelona-athletics-lasquete-edward",
+        description: "Documents Edward Lasquete as a Philippine athletics Olympian, his birthdate, hometown, Olympic pole-vault event, 5.0m national record, and SEA Games medals.",
+      },
+      {
+        label: "Olympedia profile",
+        url: "https://www.olympedia.org/athletes/74538",
+        description: "Independent Olympic database listing Edward Lasquette for the Philippines in the 1992 Olympic men's pole vault.",
+      },
+      {
+        label: "Philstar Obiena record report",
+        url: "https://www.philstar.com/sports/2014/07/21/1348815/obiena-breaks-22-year-old-phl-pole-vault-record",
+        description: "Reports EJ Obiena breaking the 22-year-old Philippine pole vault record previously set by Ed Lasquete at the 1992 Barcelona Olympics.",
+      },
+      {
+        label: "FilAm Sports / Malaya Naomi Cesar report",
+        url: "https://www.filamsports.com/post/fil-am-runner-has-what-it-takes",
+        description: "Names Ed Lasquete as former three-time SEA Games pole vault champion, 1992 Barcelona Olympian, and FilAm Sports co-head.",
+      },
+    ],
+  },
+  {
     id: "coach-dario-de-rosas",
     slug: "dario-de-rosas",
     name: "Dario De Rosas",

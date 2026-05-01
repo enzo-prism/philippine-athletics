@@ -22,6 +22,36 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-01-ed-lasquete-coach-profile",
+    date: "2026-05-01",
+    title: "Ed Lasquete coach profile",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Added Ed Lasquete as a sourced coach/operator profile tied to FilAm Sports as owner / co-founder and former Philippine national-team pole vaulter.",
+    highlights: [
+      "Added Ed Lasquete to the coach directory with FilAm Sports ownership/co-founder role, contact details, source links, and evidence notes.",
+      "Documented his Philippine National Track and Field Team pole-vault background, 1992 Barcelona Olympic appearance, 5.0m national-record jump, and SEA Games pole-vault medal history.",
+      "Updated FilAm Sports so Ed appears as the linked club coach-operator rather than only a contact person.",
+    ],
+    whyItMatters:
+      "Connects the FilAm Sports club profile to its key operator and makes Ed's athlete-to-coach lineage visible in the same relationship graph as Lauren Hoffman and Yacine Guermali.",
+  },
+  {
+    id: "2026-05-01-filam-sports-club-linkage",
+    date: "2026-05-01",
+    title: "FilAm Sports club linkage",
+    category: ["Data", "Experience", "Reliability"],
+    summary:
+      "Added FilAm Sports as a sourced club/support-organization profile and linked Lauren Hoffman and Yacine Guermali while preserving their National Team status.",
+    highlights: [
+      "Added a FilAm Sports club record with mission, operating focus, contact people, public website link, and source evidence.",
+      "Updated Lauren Hoffman and Yacine Guermali so their club is FilAm Sports while their pathway and team affiliation remain National Team / Philippine National Team.",
+      "Expanded club detail pages with operating-focus and source-link sections so external support relationships can be audited in context.",
+    ],
+    whyItMatters:
+      "Makes the app model more realistic: elite athletes can belong to a club/support organization and still represent the Philippine National Team without those relationships overwriting each other.",
+  },
+  {
     id: "2026-05-01-global-athletics-event-calendar",
     date: "2026-05-01",
     title: "Global athletics event calendar",

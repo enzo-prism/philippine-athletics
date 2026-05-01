@@ -143,7 +143,7 @@ export default async function EventProfilePage({
                             <Link
                               key={`${entry.athleteName}-${index}`}
                               href={`/athletes/${entry.athleteId}?event=${encodeURIComponent(eventBlock.event)}`}
-                              className="core-mini-item block transition-colors hover:border-accent"
+                              className="core-mini-item block transition-[background-color,border-color,box-shadow]"
                               data-testid="competition-result-entry"
                             >
                               {content}
@@ -240,7 +240,7 @@ export default async function EventProfilePage({
                       href={source.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="core-mini-item block transition-colors hover:border-accent"
+                      className="core-mini-item block transition-[background-color,border-color,box-shadow]"
                     >
                       <p className="font-semibold">{source.label}</p>
                       <p className="mt-1 text-xs leading-5 text-muted-foreground">{source.note}</p>

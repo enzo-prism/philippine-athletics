@@ -106,10 +106,10 @@ export default async function LgusDemoPage({
                     pilot: lgu.slug,
                     persona: context.persona,
                   })}
-                  className={`rounded-lg border p-4 transition-colors ${
+                  className={`rounded-lg border p-4 transition-[background-color,border-color,box-shadow] ${
                     active
                       ? "border-accent/25 bg-accent/5"
-                      : "border-border/90 bg-card hover:border-accent/20 hover:bg-muted/30"
+                      : "hover-stroke-surface border-border/90 bg-card"
                   }`}
                 >
                   <div className="space-y-2">
@@ -157,7 +157,7 @@ export default async function LgusDemoPage({
                   club: participant.clubId,
                   persona: "guardian",
                 })}
-                className="rounded-lg border border-border/90 bg-card p-4 transition-colors hover:border-accent/25 hover:bg-muted/30"
+                className="hover-stroke-surface rounded-lg border border-border/90 bg-card p-4 transition-[background-color,border-color,box-shadow]"
               >
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-2">

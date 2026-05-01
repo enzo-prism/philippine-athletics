@@ -41,6 +41,7 @@ The current public product is not a marketing landing page. It is a sparse disco
 - Use `Button`, `Field`, `InputGroup`, `NativeSelect`, `ButtonGroup`, `Item`, `Empty`, `Breadcrumb`, `Command`, `Tabs`, `Table`, `Alert`, `Dialog`, `Tooltip`, and `Sonner` before raw controls.
 - Keep top navigation link-only: Home, Athletes, Clubs, Coaches, and Events. Search/jump controls belong in page content, not the shell.
 - Links must have accessible names. Directory cards should expose the entity name in the link label.
+- Bordered interactive surfaces hover and focus with the shared light-blue stroke/ring treatment, not aqua or accent-filled backgrounds. Reserve filled backgrounds for selected/current states.
 - Filters and tab state should stay URL-addressable when they affect shareable product state.
 - Use clear empty states and inline error/validation messages. Do not leave blank panels.
 - Icon-only controls require `aria-label`; decorative icons require `aria-hidden`.

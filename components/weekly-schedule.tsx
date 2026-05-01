@@ -37,7 +37,7 @@ function SessionCard({ session, compact = false }: { session: ScheduleSession; c
 
   return (
     <div
-      className={`rounded-lg border p-2 ${style} ${compact ? "space-y-0.5" : "space-y-1"} transition-colors hover:border-accent/50`}
+      className={`rounded-lg border p-2 ${style} ${compact ? "space-y-0.5" : "space-y-1"} transition-[border-color,box-shadow] hover:border-[var(--pa-hover-stroke)] hover:shadow-[0_0_0_3px_var(--pa-hover-stroke-glow)]`}
     >
       <p className={`font-medium text-foreground ${compact ? "text-xs" : "text-sm"}`}>{session.title}</p>
       <p className={`text-muted-foreground ${compact ? "text-[10px]" : "text-xs"}`}>

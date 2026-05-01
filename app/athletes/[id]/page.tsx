@@ -188,7 +188,7 @@ export default async function AthleteProfilePage({
                       href={source.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="core-mini-item block transition-colors hover:border-accent/60"
+                      className="core-mini-item block transition-[background-color,border-color,box-shadow]"
                     >
                       <span className="flex items-start justify-between gap-3">
                         <span>

@@ -81,12 +81,13 @@ export function Navigation() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      data-slot="nav-link"
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-[color,background-color]",
+                        "inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color,box-shadow]",
                         active
-                          ? "bg-secondary text-foreground"
-                          : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground",
+                          ? "border-border/70 bg-secondary text-foreground"
+                          : "border-transparent bg-transparent text-muted-foreground hover:text-foreground",
                       )}
                     >
                       <Icon className="size-4" aria-hidden="true" />

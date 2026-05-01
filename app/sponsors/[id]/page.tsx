@@ -76,7 +76,7 @@ export default async function SponsorPage({ params }: { params: Promise<{ id: st
                   <Link
                     key={`${entity.type}-${entity.id}`}
                     href={entity.href}
-                    className="detail-list-item hover:border-accent transition-colors"
+                    className="detail-list-item transition-[background-color,border-color,box-shadow]"
                   >
                     <div className="flex items-center gap-2">
                       <Emoji

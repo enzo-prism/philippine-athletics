@@ -83,7 +83,7 @@ export function GlobalSearchForm({
         variant={resolvedButtonVariant}
         className={cn(
           isCompact ? "min-w-[5rem] px-3" : "px-6",
-          resolvedButtonVariant === "outline" && "text-muted-foreground hover:text-accent-foreground",
+          resolvedButtonVariant === "outline" && "text-muted-foreground hover:text-foreground",
           buttonClassName,
         )}
         aria-label="Run search"

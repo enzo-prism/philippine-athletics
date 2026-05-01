@@ -171,12 +171,13 @@ const PreviewRoleButtons = ({
         type="button"
         variant="outline"
         size={buttonSize}
+        data-active={selectedRole === opt.value ? "true" : undefined}
         onClick={() => onSelectRole(opt.value)}
         className={cn(
-          "font-semibold hover:bg-muted hover:text-foreground",
+          "font-semibold hover:text-foreground",
           buttonClassName,
           selectedRole === opt.value &&
-            "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground",
+            "border-accent bg-accent text-accent-foreground hover:text-accent-foreground",
         )}
       >
         {opt.label}
@@ -610,10 +611,11 @@ export default function ProfilePage() {
                         key={tab.value}
                         type="button"
                         variant="outline"
+                        data-active={active ? "true" : undefined}
                         onClick={() => setSelectedTab(tab.value)}
-                        className={`w-full justify-start hover:bg-muted hover:text-foreground ${
+                        className={`w-full justify-start hover:text-foreground ${
                           active
-                            ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90 hover:text-accent-foreground"
+                            ? "border-accent bg-accent text-accent-foreground hover:text-accent-foreground"
                             : ""
                         }`}
                       >

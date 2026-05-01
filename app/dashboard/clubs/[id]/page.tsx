@@ -182,7 +182,7 @@ export default async function ClubOwnerDashboardPage({
                   club: dashboard.club.id,
                   persona: "guardian",
                 })}
-                className="rounded-lg border border-border/90 bg-card p-4 transition-colors hover:border-accent/25 hover:bg-muted/30"
+                className="hover-stroke-surface rounded-lg border border-border/90 bg-card p-4 transition-[background-color,border-color,box-shadow]"
               >
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-2">

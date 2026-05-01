@@ -86,7 +86,7 @@ export function DemoAdSlot({
   return (
     <div
       className={cn(
-        "partner-module group relative transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-px hover:border-foreground/12",
+        "partner-module group relative transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-px",
         formatClassName[resolvedVariant],
         className,
       )}

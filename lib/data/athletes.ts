@@ -129,9 +129,10 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     lastName: "Hoffman",
     gender: "Women",
     specialty: "400m hurdles",
-    location: "Philippine National Team",
+    location: "Philippine National Team / FilAm Sports",
     hometown: "Haymarket, Virginia, USA",
-    club: "Philippine National Team",
+    club: "FilAm Sports",
+    clubId: "club-filam-sports",
     coach: "No publicly listed coach",
     events: [
       {
@@ -343,14 +344,15 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
       },
     ],
     upcoming: [],
-    bio: "Lauren Hoffman is a Philippine national team hurdler and 2024 Paris Olympian specializing in the 400m hurdles. Her profile sits at the intersection of elite NCAA development and Philippine senior-team performance: she became one of Duke's best 400m hurdlers, later became eligible to represent the Philippines in national representative competitions, and has since added Olympic, Asian Games, Philippine Championships, and Southeast Asian Games results to her record.",
+    bio: "Lauren Hoffman is a Philippine national team hurdler, FilAm Sports athlete, and 2024 Paris Olympian specializing in the 400m hurdles. Her profile sits at the intersection of elite NCAA development, FilAm Sports' Filipino-heritage athlete support network, and Philippine senior-team performance: she became one of Duke's best 400m hurdlers, later became eligible to represent the Philippines in national representative competitions, and has since added Olympic, Asian Games, Philippine Championships, and Southeast Asian Games results to her record.",
     contact: {},
     sponsors: [],
     profileFacts: [
       { label: "World Athletics ID", value: "14649944" },
       { label: "Born", value: "30 Mar 1999" },
       { label: "Hometown", value: "Haymarket, Virginia, USA" },
-      { label: "Team", value: "Philippines" },
+      { label: "Team", value: "Philippine National Team" },
+      { label: "Club", value: "FilAm Sports" },
       { label: "Primary event", value: "400m hurdles" },
       { label: "All-time PB", value: "55.47, NCAA Outdoor Championships, 9 Jun 2022" },
       { label: "Philippine record note", value: "PATAFA public record page lists 55.84 at the 2024 USATF LA Grand Prix" },
@@ -376,10 +378,24 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
         href: "https://goduke.com/news/2024/7/31/track-field-wrapped-in-a-new-flag.aspx",
         note: "Duke career context and Paris Olympic qualification story.",
       },
+      {
+        label: "FilAm Sports athletes roster",
+        href: "https://www.filamsports.com/athletes",
+        note: "FilAm Sports lists Hoffman as a National Team Member, 2024 Paris Olympian, and 400m hurdles athlete.",
+      },
+      {
+        label: "BusinessWorld FilAm Sports coverage",
+        href: "https://www.bworldonline.com/sports/2024/05/09/593976/filam-sports-athletes-eye-paris-slots-in-national-open/",
+        note: "Independent coverage describes Hoffman as part of the FilAm Sports stable during the Paris qualification window.",
+      },
     ],
     pathwayStage: "National Team",
-    teamAffiliation: "Philippines",
+    teamAffiliation: "Philippine National Team",
     verificationBadges: [
+      {
+        label: "FilAm Sports roster verified",
+        detail: "FilAm Sports' public athletes page lists Hoffman as a National Team Member, 2024 Paris Olympian, and 400m hurdles athlete.",
+      },
       {
         label: "World Athletics verified",
         detail: "WA profile lists Hoffman as Philippines, born 30 Mar 1999, current women's 400m hurdles world ranking, and eligible for PHI national representative competitions from 1 Oct 2023.",
@@ -405,9 +421,10 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
     lastName: "Guermali",
     gender: "Men",
     specialty: "Middle distance / 1500m-5000m",
-    location: "Philippine National Team",
+    location: "Philippine National Team / FilAm Sports",
     hometown: "Vancouver, Washington, USA",
-    club: "Philippine National Team",
+    club: "FilAm Sports",
+    clubId: "club-filam-sports",
     coach: "No publicly listed coach",
     events: [
       {
@@ -611,14 +628,15 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
       },
     ],
     upcoming: [],
-    bio: "Yacine Guermali is a Philippine national team middle-distance and distance athlete whose profile is built around record-level 1500m, 3000m, and 5000m performances. A Gonzaga alumnus from Vancouver, Washington, he moved from high-level NCAA distance running into Philippine representative competition in 2024 and quickly established national-standard marks, then added a double-silver SEA Games campaign and a World Cross Country appearance for the Philippines.",
+    bio: "Yacine Guermali is a Philippine national team middle-distance and distance athlete and FilAm Sports athlete whose profile is built around record-level 1500m, 3000m, and 5000m performances. A Gonzaga alumnus from Vancouver, Washington, he moved from high-level NCAA distance running into Philippine representative competition in 2024 and quickly established national-standard marks, then added a double-silver SEA Games campaign and a World Cross Country appearance for the Philippines.",
     contact: {},
     sponsors: [],
     profileFacts: [
       { label: "World Athletics ID", value: "14697159" },
       { label: "Born", value: "26 Jul 1999" },
       { label: "Hometown", value: "Vancouver, Washington, USA" },
-      { label: "Team", value: "Philippines" },
+      { label: "Team", value: "Philippine National Team" },
+      { label: "Club", value: "FilAm Sports" },
       { label: "Primary range", value: "1500m, 3000m, 5000m" },
       { label: "National records", value: "1500m 3:40.87, 3000m 7:51.19, 5000m 13:28.40" },
       { label: "SEA Games proof", value: "2025 silver in 5000m and 10,000m" },
@@ -644,10 +662,29 @@ const rawAthleteProfiles: Omit<AthleteProfile, "membershipNumber">[] = [
         href: "https://gozags.com/sports/track-and-field/roster/yacine-guermali/2803",
         note: "College background, school records, NCAA qualifications, and hometown.",
       },
+      {
+        label: "FilAm Sports athletes roster",
+        href: "https://www.filamsports.com/athletes",
+        note: "FilAm Sports lists Guermali as a National Team Member in track and field middle distance.",
+      },
+      {
+        label: "FilAm Sports Yacine Guermali profile",
+        href: "https://www.filamsports.com/post/introducing-yacine-guermali",
+        note: "FilAm Sports announced Guermali to the Fil-Am Sports team and summarized his Gonzaga background and Filipino roots.",
+      },
+      {
+        label: "FilAm Sports national-team announcement",
+        href: "https://www.filamsports.com/post/yacine-guermali-named-to-philippine-national-team",
+        note: "FilAm Sports announced Guermali as a Philippine National Track and Field Team member.",
+      },
     ],
     pathwayStage: "National Team",
-    teamAffiliation: "Philippines",
+    teamAffiliation: "Philippine National Team",
     verificationBadges: [
+      {
+        label: "FilAm Sports roster verified",
+        detail: "FilAm Sports' public athletes page lists Guermali as a National Team Member in track and field middle distance.",
+      },
       {
         label: "World Athletics verified",
         detail: "WA profile lists Guermali as Philippines, born 26 Jul 1999, eligible for PHI national representative competitions from 4 Jun 2024, and ranked in the men's 5000m.",

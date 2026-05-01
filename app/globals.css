@@ -36,6 +36,10 @@
   --pa-icon-red: oklch(0.55 0.2 28);
   --pa-icon-gold: oklch(0.76 0.13 86);
   --pa-icon-green: oklch(0.56 0.12 150);
+  --pa-hover-stroke: color-mix(in oklab, var(--pa-icon-blue) 42%, white);
+  --pa-hover-stroke-strong: color-mix(in oklab, var(--pa-icon-blue) 58%, white);
+  --pa-hover-stroke-glow: color-mix(in oklab, var(--pa-icon-blue) 22%, transparent);
+  --pa-hover-surface: color-mix(in oklab, var(--background) 76%, transparent);
   --radius: 0.5rem;
   --sidebar: oklch(0.996 0.004 88);
   --sidebar-foreground: oklch(0.2 0.045 258);
@@ -76,6 +80,10 @@
   --pa-icon-red: oklch(0.66 0.12 28);
   --pa-icon-gold: oklch(0.8 0.11 86);
   --pa-icon-green: oklch(0.72 0.09 150);
+  --pa-hover-stroke: color-mix(in oklab, var(--pa-icon-blue) 56%, white);
+  --pa-hover-stroke-strong: color-mix(in oklab, var(--pa-icon-blue) 70%, white);
+  --pa-hover-stroke-glow: color-mix(in oklab, var(--pa-icon-blue) 30%, transparent);
+  --pa-hover-surface: color-mix(in oklab, var(--background) 82%, transparent);
   --sidebar: oklch(0.17 0.006 95);
   --sidebar-foreground: oklch(0.965 0.002 95);
   --sidebar-primary: oklch(0.965 0.002 95);
@@ -201,6 +209,117 @@
     @apply border-b border-border/70 bg-background/88 backdrop-blur-xl;
   }
 
+  .hover-stroke-surface {
+    @apply transition-[border-color,box-shadow,background-color,color,transform] duration-200;
+    --pa-hover-shadow-base: var(--shadow-soft);
+  }
+
+  :where(
+    [data-slot="button"]:not([data-variant="link"]),
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="tabs-trigger"]:not([data-state="active"]),
+    [data-slot="sheet-trigger"],
+    [data-slot="dialog-trigger"],
+    [data-slot="dropdown-menu-trigger"],
+    [data-slot="sheet-close"],
+    [data-slot="dialog-close"],
+    a[data-slot="item"],
+    a[data-slot="badge"]:not([data-variant="link"]),
+    [data-slot="nav-link"],
+    .core-row,
+    .directory-card,
+    .home-action-card,
+    .home-path-card,
+    .core-mini-item,
+    .detail-list-item,
+    .partner-module,
+    .hover-stroke-surface
+  ) {
+    --pa-hover-shadow-base: var(--shadow-soft);
+  }
+
+  :where(
+    [data-slot="button"]:not([data-variant="link"]),
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="tabs-trigger"]:not([data-state="active"]),
+    [data-slot="sheet-trigger"],
+    [data-slot="dialog-trigger"],
+    [data-slot="dropdown-menu-trigger"],
+    [data-slot="sheet-close"],
+    [data-slot="dialog-close"],
+    a[data-slot="item"],
+    a[data-slot="badge"]:not([data-variant="link"]),
+    [data-slot="nav-link"],
+    .core-row,
+    .directory-card,
+    .home-action-card,
+    .home-path-card,
+    .core-mini-item,
+    .detail-list-item,
+    .partner-module,
+    .hover-stroke-surface
+  ):is(:hover, :focus-visible),
+  :where(
+    [data-slot="command-item"],
+    [data-slot="select-item"],
+    [data-slot="dropdown-menu-item"],
+    [data-slot="dropdown-menu-checkbox-item"],
+    [data-slot="dropdown-menu-radio-item"],
+    [data-slot="dropdown-menu-sub-trigger"]
+  ):is(:focus, [data-highlighted], [data-selected="true"], [data-state="open"]),
+  .group:hover .group-hover-stroke-surface {
+    border-color: var(--pa-hover-stroke) !important;
+    box-shadow:
+      0 0 0 3px var(--pa-hover-stroke-glow),
+      var(--pa-hover-shadow-base, var(--shadow-soft)) !important;
+  }
+
+  :where(
+    [data-slot="button"][data-variant="outline"]:not([data-active="true"]),
+    [data-slot="button"][data-variant="ghost"]:not([data-active="true"]),
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="tabs-trigger"]:not([data-state="active"]),
+    [data-slot="sheet-trigger"],
+    [data-slot="dialog-trigger"],
+    [data-slot="dropdown-menu-trigger"],
+    [data-slot="sheet-close"],
+    [data-slot="dialog-close"],
+    a[data-slot="item"],
+    a[data-slot="badge"]:not([data-variant="link"]),
+    [data-slot="nav-link"]:not([aria-current="page"]),
+    .core-row,
+    .directory-card,
+    .home-action-card,
+    .home-path-card,
+    .core-mini-item,
+    .detail-list-item,
+    .hover-stroke-surface
+  ):is(:hover, :focus-visible),
+  :where(
+    [data-slot="command-item"],
+    [data-slot="select-item"],
+    [data-slot="dropdown-menu-item"],
+    [data-slot="dropdown-menu-checkbox-item"],
+    [data-slot="dropdown-menu-radio-item"],
+    [data-slot="dropdown-menu-sub-trigger"]
+  ):is(:focus, [data-highlighted], [data-selected="true"], [data-state="open"]),
+  .group:hover .group-hover-stroke-surface {
+    background-color: var(--pa-hover-surface) !important;
+    color: var(--foreground) !important;
+  }
+
+  [data-slot="table-row"] {
+    @apply transition-[background-color,border-color,box-shadow] duration-200;
+  }
+
+  [data-slot="table-row"]:is(:hover, [data-state="selected"], [aria-expanded="true"]) {
+    background-color: transparent !important;
+    box-shadow: inset 3px 0 0 var(--pa-hover-stroke) !important;
+  }
+
   .core-hero {
     @apply rounded-lg border border-border bg-card px-5 py-6 shadow-[var(--shadow-soft)] sm:px-6 sm:py-7 lg:px-8;
   }
@@ -270,7 +389,7 @@
   }
 
   .core-row {
-    @apply grid gap-3 rounded-lg border border-border bg-background/76 p-4 text-left shadow-[var(--shadow-soft)] transition-[border-color,background-color,transform] duration-200 hover:-translate-y-px hover:border-accent/35 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 md:grid-cols-[minmax(0,1fr)_auto];
+    @apply grid gap-3 rounded-lg border border-border bg-background/76 p-4 text-left shadow-[var(--shadow-soft)] transition-[border-color,background-color,box-shadow,transform] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 md:grid-cols-[minmax(0,1fr)_auto];
   }
 
   .core-row-title {
@@ -362,7 +481,7 @@
   }
 
   .directory-card {
-    @apply flex h-full flex-col gap-3 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-soft)] transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-px hover:border-accent/35 hover:shadow-[0_18px_44px_-34px_rgba(7,28,58,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40;
+    @apply flex h-full flex-col gap-3 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-soft)] transition-[border-color,background-color,transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40;
   }
 
   .directory-card-meta {
@@ -417,11 +536,16 @@
   }
 
   .home-action-card {
-    @apply flex items-center gap-3 rounded-lg border border-border bg-background/82 px-4 py-4 text-left transition-[border-color,background-color] duration-200 hover:border-accent/35 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply flex items-center gap-3 rounded-lg border border-border bg-background/82 px-4 py-4 text-left transition-[border-color,background-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
   .home-action-icon {
-    @apply flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-muted text-foreground transition-[background-color] duration-200 group-hover:bg-background;
+    @apply flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-muted text-foreground transition-[background-color,border-color] duration-200;
+  }
+
+  .group:hover .home-action-icon {
+    border-color: var(--pa-hover-stroke) !important;
+    background-color: var(--background) !important;
   }
 
   .home-path-section {
@@ -434,16 +558,15 @@
 
   .home-path-card {
     @apply flex min-h-[164px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-border/75 bg-background/76 p-4 text-center shadow-[var(--shadow-soft)] transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-px focus-visible:outline-none sm:min-h-[190px] sm:p-5;
-    --home-path-stroke: color-mix(in oklab, var(--pa-icon-blue) 42%, white);
-    --home-path-stroke-glow: color-mix(in oklab, var(--pa-icon-blue) 22%, transparent);
+    --pa-hover-shadow-base: var(--shadow-soft);
     border-width: 2px !important;
   }
 
   .home-path-card:is(:hover, :focus-visible) {
-    border-color: var(--home-path-stroke) !important;
-    background-color: color-mix(in oklab, var(--background) 76%, transparent) !important;
+    border-color: var(--pa-hover-stroke) !important;
+    background-color: var(--pa-hover-surface) !important;
     box-shadow:
-      0 0 0 3px var(--home-path-stroke-glow),
+      0 0 0 3px var(--pa-hover-stroke-glow),
       var(--shadow-soft) !important;
   }
 

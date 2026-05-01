@@ -56,7 +56,7 @@ export default function RecognitionPage() {
                 className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                 aria-label={`Open recognized club ${club.name}`}
               >
-                <Card className="py-0 gap-0 hover:border-accent transition-colors">
+                <Card className="hover-stroke-surface gap-0 py-0 transition-[background-color,border-color,box-shadow]">
                   <CardContent className="p-4 space-y-3">
                     <div>
                       <p className="text-sm font-semibold text-foreground">{club.name}</p>
@@ -103,7 +103,7 @@ export default function RecognitionPage() {
                 className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                 aria-label={`Open recognized coach ${coach.name}`}
               >
-                <Card className="py-0 gap-0 hover:border-accent transition-colors">
+                <Card className="hover-stroke-surface gap-0 py-0 transition-[background-color,border-color,box-shadow]">
                   <CardContent className="p-4 space-y-3">
                     <div>
                       <p className="text-sm font-semibold text-foreground">{coach.name}</p>

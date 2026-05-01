@@ -55,7 +55,7 @@ export function ProfileCard({ name, subtitle, details, href, type, location, bad
             </h3>
             {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
           </div>
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/84 text-muted-foreground transition-[color,border-color] group-hover:border-foreground/15 group-hover:text-foreground">
+          <span className="group-hover-stroke-surface flex size-8 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/84 text-muted-foreground transition-[background-color,border-color,box-shadow,color] group-hover:text-foreground">
             <ArrowUpRight className="size-4" aria-hidden="true" />
           </span>
         </div>

@@ -36,7 +36,11 @@ export default function GovernanceDemoPage() {
             {demoAthleteSummaries.map((athlete) => {
               const spotlight = demoAthleteSpotlights.find((item) => item.id === athlete.id)
               return (
-                <Link key={athlete.id} href={athlete.href} className="border border-border bg-card p-4 transition-colors hover:bg-muted/40">
+                <Link
+                  key={athlete.id}
+                  href={athlete.href}
+                  className="hover-stroke-surface border border-border bg-card p-4 transition-[background-color,border-color,box-shadow]"
+                >
                   <p className="text-sm font-semibold text-foreground">{athlete.name}</p>
                   <p className="text-xs text-muted-foreground">{athlete.membershipNumber}</p>
                   <p className="text-xs text-muted-foreground">{spotlight?.eventCategory ?? athlete.specialty}</p>

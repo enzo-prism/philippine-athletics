@@ -148,7 +148,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
                       href={source.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="core-mini-item block transition-colors hover:border-accent/40 hover:text-accent"
+                      className="core-mini-item block transition-[background-color,border-color,box-shadow,color]"
                     >
                       <span className="flex items-center gap-2 font-semibold">
                         {source.label}
