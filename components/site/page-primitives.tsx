@@ -212,6 +212,8 @@ export function CoreSection({ title, description, actions, children, className }
 }
 
 export function CoreResultRow({ eyebrow, title, description, href, facts, meta, className, children }: CoreResultRowProps) {
+  const hasSideContent = Boolean(facts?.length || meta)
+
   return (
     <Item asChild variant="outline" className={cn("core-row group !grid", className)}>
       <Link href={href}>
@@ -221,23 +223,25 @@ export function CoreResultRow({ eyebrow, title, description, href, facts, meta, 
           {description ? <ItemDescription className="core-row-copy">{description}</ItemDescription> : null}
           {children}
         </ItemContent>
-        <ItemActions className="core-row-side">
-          {facts?.length ? (
-            <div className="core-facts">
-              {facts.map((fact, index) => (
-                <Badge key={index} variant="outline" className="core-fact">
-                  {fact}
-                </Badge>
-              ))}
-            </div>
-          ) : null}
-          {meta ? (
-            <div className="core-row-meta">
-              {meta}
-              <ArrowRight aria-hidden="true" />
-            </div>
-          ) : null}
-        </ItemActions>
+        {hasSideContent ? (
+          <ItemActions className="core-row-side">
+            {facts?.length ? (
+              <div className="core-facts">
+                {facts.map((fact, index) => (
+                  <Badge key={index} variant="outline" className="core-fact">
+                    {fact}
+                  </Badge>
+                ))}
+              </div>
+            ) : null}
+            {meta ? (
+              <div className="core-row-meta">
+                {meta}
+                <ArrowRight aria-hidden="true" />
+              </div>
+            ) : null}
+          </ItemActions>
+        ) : null}
       </Link>
     </Item>
   )

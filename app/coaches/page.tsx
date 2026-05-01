@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
-import { coaches } from "@/lib/data/coaches"
+import { cleanCoachPublicText, coaches, getCoachPublicRole } from "@/lib/data/coaches"
 
 const getParam = (
   searchParams: Record<string, string | string[] | undefined> | undefined,
@@ -30,15 +30,18 @@ export default async function CoachesPage({
     ? coaches.filter((coach) =>
         [
           coach.name,
-          coach.role,
+          getCoachPublicRole(coach),
           coach.specialty,
           coach.location,
           coach.club,
-          coach.experience,
-          coach.evidenceLevel,
+          cleanCoachPublicText(coach.experience),
           ...(coach.alsoKnownAs ?? []),
           ...(coach.badges ?? []),
-          ...(coach.profileFacts?.flatMap((fact) => [fact.label, fact.value, fact.detail]) ?? []),
+          ...(coach.profileFacts?.flatMap((fact) => [
+            cleanCoachPublicText(fact.label),
+            cleanCoachPublicText(fact.value),
+            cleanCoachPublicText(fact.detail),
+          ]) ?? []),
         ]
           .filter((value): value is string => Boolean(value))
           .some((value) => value.toLowerCase().includes(term)),
@@ -83,11 +86,8 @@ export default async function CoachesPage({
                 <CoreResultRow
                   key={coach.id}
                   href={`/coaches/${coach.slug ?? coach.id}`}
-                  eyebrow={coach.isRecognized ? "Recognized coach" : "Coach"}
                   title={coach.name}
-                  description={`${coach.role ?? coach.specialty} · ${coach.club}`}
-                  facts={[coach.location, coach.evidenceLevel ? `${coach.evidenceLevel} evidence` : coach.badges?.[0] ?? "Credentialed"]}
-                  meta="Open coach"
+                  description={`${getCoachPublicRole(coach)} · ${coach.club}`}
                 />
               ))}
             </div>

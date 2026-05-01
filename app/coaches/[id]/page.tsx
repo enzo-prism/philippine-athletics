@@ -25,7 +25,7 @@ import {
 
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
-import { getAthletesByCoach, getCoachOrStub } from "@/lib/data/coaches"
+import { cleanCoachPublicText, getAthletesByCoach, getCoachOrStub, getCoachPublicRole } from "@/lib/data/coaches"
 import { decodeIdParam } from "@/lib/data/utils"
 
 const coachFactIconMap: Record<string, LucideIcon> = {
@@ -82,6 +82,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
   const { id: rawId } = await params
   const id = decodeIdParam(rawId)
   const coach = getCoachOrStub(id)
+  const coachPublicRole = getCoachPublicRole(coach)
   const coachAliases = [coach.name, coach.id, coach.slug, ...(coach.alsoKnownAs ?? [])].filter(Boolean)
   const coachedAthletes = Array.from(
     new Map(coachAliases.flatMap((alias) => getAthletesByCoach(alias)).map((athlete) => [athlete.id, athlete])).values(),
@@ -89,7 +90,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
   const profileFacts = coach.profileFacts?.length
     ? coach.profileFacts
     : [
-        { label: "Role", value: coach.role ?? "Coach profile" },
+        { label: "Role", value: coachPublicRole || "Coach profile" },
         { label: "Specialty", value: coach.specialty },
         { label: "Location", value: coach.location },
         { label: "Experience", value: coach.experience },
@@ -108,8 +109,7 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
           title={coach.name}
           description={coach.specialty}
           stats={[
-            { label: "Role", value: coach.role ?? "Coach" },
-            { label: "Evidence", value: coach.evidenceLevel ?? (coach.isStub ? "Profile pending" : "Profile") },
+            { label: "Role", value: coachPublicRole || "Coach" },
             { label: "Athletes", value: coachedAthletes.length },
             { label: "Location", value: coach.location },
           ]}
@@ -191,9 +191,9 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
                           <FactIcon />
                         </span>
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{fact.label}</p>
-                          <p className="mt-1 font-semibold text-foreground">{fact.value}</p>
-                          {fact.detail ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{fact.detail}</p> : null}
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{cleanCoachPublicText(fact.label)}</p>
+                          <p className="mt-1 font-semibold text-foreground">{cleanCoachPublicText(fact.value)}</p>
+                          {fact.detail ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{cleanCoachPublicText(fact.detail)}</p> : null}
                         </div>
                       </div>
                     </div>

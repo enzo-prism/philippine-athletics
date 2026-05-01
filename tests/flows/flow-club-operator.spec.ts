@@ -12,10 +12,21 @@ test("Flow: coach profile opens linked athlete and club", async ({ page }) => {
 
   await page.goto("/coaches?q=Guevarra")
   await expect(page.getByRole("link", { name: /Sean Guevarra/i })).toBeVisible()
+  await expect(page.getByText(/High evidence/i)).toHaveCount(0)
+  await expect(page.getByText(/Medium evidence/i)).toHaveCount(0)
+
+  await page.goto("/coaches")
+  await expect(page.getByRole("heading", { name: /Coach results/i })).toBeVisible()
+  await expect(page.getByText(/\bevidence\b/i)).toHaveCount(0)
+  await expect(page.getByText(/^Recognized coach$/i)).toHaveCount(0)
+  await expect(page.getByText(/^Coach$/i)).toHaveCount(0)
+  await expect(page.getByText(/^Open coach$/i)).toHaveCount(0)
+  await expect(page.getByText(/San Jose, California \/ Philippines pathway/i)).toHaveCount(0)
 
   await page.goto("/coaches/dario-de-rosas")
   await expect(page.getByRole("heading", { name: /Dario De Rosas/i })).toBeVisible()
   await expect(page.getByText(/National track and field head coach/i)).toBeVisible()
+  await expect(page.getByText(/High evidence/i)).toHaveCount(0)
   await expect(page.getByRole("heading", { name: /sources/i })).toBeVisible()
 
   await page.goto("/coaches/karl-francisco")

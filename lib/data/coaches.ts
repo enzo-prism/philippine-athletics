@@ -44,6 +44,19 @@ export type Coach = {
   }
 }
 
+export const cleanCoachPublicText = (value: string | undefined) =>
+  (value ?? "")
+    .replace(/\bevidence needs roster confirmation\b/gi, "")
+    .replace(/\bevidence\b/gi, "")
+    .replace(/\bhead-coach\b/gi, "head coach")
+    .replace(/\bdeputy-coach\b/gi, "deputy coach")
+    .replace(/\s+\/\s+/g, " / ")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:])/g, "$1")
+    .trim()
+
+export const getCoachPublicRole = (coach: Pick<Coach, "role" | "specialty">) => cleanCoachPublicText(coach.role ?? coach.specialty)
+
 export const coaches: Coach[] = [
   {
     id: "coach-ed-lasquete",
