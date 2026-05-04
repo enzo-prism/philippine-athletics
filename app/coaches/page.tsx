@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
+import { CoreFilterDisclosure } from "@/components/site/core-filter-disclosure"
 import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
@@ -47,6 +48,7 @@ export default async function CoachesPage({
           .some((value) => value.toLowerCase().includes(term)),
       )
     : coaches
+  const activeFilterSummary = query ? [`Search: ${query}`] : []
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,29 +57,34 @@ export default async function CoachesPage({
       <main className="core-main">
         <CoreDirectoryHeader title="Coaches" count={filteredCoaches.length} total={coaches.length} />
 
-        <form method="get" className="core-filter-bar">
-          <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-            <Field>
-              <FieldLabel htmlFor="coach-query" className="sr-only">
-                Search coaches
-              </FieldLabel>
-              <InputGroup>
-                <InputGroupAddon>
-                  <Search aria-hidden="true" />
-                </InputGroupAddon>
-                <InputGroupInput id="coach-query" name="q" type="search" defaultValue={query} placeholder="Search coaches" />
-              </InputGroup>
-            </Field>
-            <ButtonGroup className="w-full sm:w-fit">
-              <Button type="submit">Search</Button>
-              {query ? (
-                <Button asChild variant="ghost">
-                  <Link href="/coaches">Reset</Link>
-                </Button>
-              ) : null}
-            </ButtonGroup>
-          </FieldGroup>
-        </form>
+        <CoreFilterDisclosure
+          summary={activeFilterSummary.length ? activeFilterSummary.join(" · ") : "Search by name, specialty, club, credential"}
+          activeCount={activeFilterSummary.length}
+        >
+          <form method="get" className="core-filter-bar">
+            <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+              <Field>
+                <FieldLabel htmlFor="coach-query" className="sr-only">
+                  Search coaches
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon>
+                    <Search aria-hidden="true" />
+                  </InputGroupAddon>
+                  <InputGroupInput id="coach-query" name="q" type="search" defaultValue={query} placeholder="Search coaches" />
+                </InputGroup>
+              </Field>
+              <ButtonGroup className="w-full sm:w-fit" aria-label="Coach filter actions">
+                <Button type="submit">Search</Button>
+                {query ? (
+                  <Button asChild variant="ghost">
+                    <Link href="/coaches">Reset</Link>
+                  </Button>
+                ) : null}
+              </ButtonGroup>
+            </FieldGroup>
+          </form>
+        </CoreFilterDisclosure>
 
         <CoreSection title="Coach results">
           {filteredCoaches.length ? (

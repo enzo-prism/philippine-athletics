@@ -24,7 +24,7 @@ import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyS
 import { Badge } from "@/components/ui/badge"
 import { getAthleteProfileOrStub } from "@/lib/data/athletes"
 import { getMergedCompetitionResults } from "@/lib/data/performance-evidence"
-import { decodeIdParam, formatEventLabel, normalizeKey, parseDateToTimestamp } from "@/lib/data/utils"
+import { decodeIdParam, formatAthleteSpecialty, formatEventLabel, normalizeKey, parseDateToTimestamp } from "@/lib/data/utils"
 
 export const dynamic = "force-dynamic"
 export const dynamicParams = true
@@ -118,7 +118,7 @@ export default async function AthleteProfilePage({
         <CoreHero
           eyebrow={athlete.pathwayStage ?? "Athlete"}
           title={fullName}
-          description={athlete.specialty}
+          description={formatAthleteSpecialty(athlete.specialty)}
           visual={
             athlete.headshot ? (
               <figure className="athlete-headshot-panel">
@@ -140,7 +140,7 @@ export default async function AthleteProfilePage({
             ) : undefined
           }
           stats={[
-            { label: "Primary event", value: primaryEvent?.name ?? "Event" },
+            { label: "Primary event", value: primaryEvent?.name ? formatEventLabel(primaryEvent.name) : "Event" },
             { label: "Personal best", value: primaryEvent?.personalBest ?? "TBD" },
             heroRankStat,
             { label: "Club", value: athlete.club },
@@ -163,7 +163,7 @@ export default async function AthleteProfilePage({
                       </span>
                       <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div className="min-w-0">
-                          <p className="font-semibold">{event.name}</p>
+                          <p className="font-semibold">{formatEventLabel(event.name)}</p>
                           {event.seasonBest ? (
                             <p className="athlete-inline-meta">
                               <Timer aria-hidden="true" />

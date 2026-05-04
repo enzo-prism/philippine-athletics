@@ -26,7 +26,7 @@ import {
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { cleanCoachPublicText, getAthletesByCoach, getCoachOrStub, getCoachPublicRole } from "@/lib/data/coaches"
-import { decodeIdParam } from "@/lib/data/utils"
+import { decodeIdParam, formatAthleteSpecialty, formatEventLabel } from "@/lib/data/utils"
 
 const coachFactIconMap: Record<string, LucideIcon> = {
   "Club role": Handshake,
@@ -132,8 +132,8 @@ export default async function CoachProfilePage({ params }: { params: Promise<{ i
                       href={athlete.href}
                       eyebrow={<CoachIconLabel icon={Activity}>Athlete</CoachIconLabel>}
                       title={athlete.name}
-                      description={athlete.specialty}
-                      facts={[athlete.pb ? `PB ${athlete.pb}` : "Profile", athlete.events?.[0] ?? "Event"]}
+                      description={formatAthleteSpecialty(athlete.specialty)}
+                      facts={[athlete.pb ? `PB ${athlete.pb}` : "Profile", athlete.events?.[0] ? formatEventLabel(athlete.events[0]) : "Event"]}
                       meta="Open athlete"
                     />
                   ))}

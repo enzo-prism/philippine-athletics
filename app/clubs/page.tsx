@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
+import { CoreFilterDisclosure } from "@/components/site/core-filter-disclosure"
 import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
@@ -42,6 +43,7 @@ export default async function ClubsPage({
           .some((value) => value.toLowerCase().includes(term)),
       )
     : clubs
+  const activeFilterSummary = query ? [`Search: ${query}`] : []
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,29 +52,34 @@ export default async function ClubsPage({
       <main className="core-main">
         <CoreDirectoryHeader title="Clubs" count={filteredClubs.length} total={clubs.length} />
 
-        <form method="get" className="core-filter-bar">
-          <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-            <Field>
-              <FieldLabel htmlFor="club-query" className="sr-only">
-                Search clubs
-              </FieldLabel>
-              <InputGroup>
-                <InputGroupAddon>
-                  <Search aria-hidden="true" />
-                </InputGroupAddon>
-                <InputGroupInput id="club-query" name="q" type="search" defaultValue={query} placeholder="Search clubs" />
-              </InputGroup>
-            </Field>
-            <ButtonGroup className="w-full sm:w-fit">
-              <Button type="submit">Search</Button>
-              {query ? (
-                <Button asChild variant="ghost">
-                  <Link href="/clubs">Reset</Link>
-                </Button>
-              ) : null}
-            </ButtonGroup>
-          </FieldGroup>
-        </form>
+        <CoreFilterDisclosure
+          summary={activeFilterSummary.length ? activeFilterSummary.join(" · ") : "Search by club, city, focus, capacity"}
+          activeCount={activeFilterSummary.length}
+        >
+          <form method="get" className="core-filter-bar">
+            <FieldGroup className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+              <Field>
+                <FieldLabel htmlFor="club-query" className="sr-only">
+                  Search clubs
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon>
+                    <Search aria-hidden="true" />
+                  </InputGroupAddon>
+                  <InputGroupInput id="club-query" name="q" type="search" defaultValue={query} placeholder="Search clubs" />
+                </InputGroup>
+              </Field>
+              <ButtonGroup className="w-full sm:w-fit" aria-label="Club filter actions">
+                <Button type="submit">Search</Button>
+                {query ? (
+                  <Button asChild variant="ghost">
+                    <Link href="/clubs">Reset</Link>
+                  </Button>
+                ) : null}
+              </ButtonGroup>
+            </FieldGroup>
+          </form>
+        </CoreFilterDisclosure>
 
         <CoreSection title="Club results">
           {filteredClubs.length ? (

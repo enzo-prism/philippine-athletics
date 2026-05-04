@@ -25,7 +25,7 @@ import {
 import { Navigation } from "@/components/navigation"
 import { AppFooter, CoreBreadcrumb, CoreHero, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { getClubAthletes, getClubByIdOrStub, getClubCoaches, type Club, type ClubSocialPlatform } from "@/lib/data/clubs"
-import { decodeIdParam } from "@/lib/data/utils"
+import { decodeIdParam, formatAthleteSpecialty, formatEventLabel } from "@/lib/data/utils"
 
 type ClubIconLabelProps = {
   icon: LucideIcon
@@ -145,8 +145,8 @@ export default async function ClubProfilePage({ params }: { params: Promise<{ id
                       href={athlete.href}
                       eyebrow={<ClubIconLabel icon={Activity}>Athlete</ClubIconLabel>}
                       title={athlete.name}
-                      description={athlete.specialty}
-                      facts={[athlete.pb ? `PB ${athlete.pb}` : "Profile", athlete.events?.[0] ?? "Event"]}
+                      description={formatAthleteSpecialty(athlete.specialty)}
+                      facts={[athlete.pb ? `PB ${athlete.pb}` : "Profile", athlete.events?.[0] ? formatEventLabel(athlete.events[0]) : "Event"]}
                       meta="Open athlete"
                     />
                   ))}

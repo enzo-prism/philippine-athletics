@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Search } from "lucide-react"
 
 import { Navigation } from "@/components/navigation"
+import { CoreFilterDisclosure } from "@/components/site/core-filter-disclosure"
 import { AppFooter, CoreDirectoryHeader, CoreResultRow, CoreSection, EmptyState } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
@@ -9,6 +10,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { athleteSummaries, type AthleteSummary } from "@/lib/data/athletes"
+import { formatAthleteSpecialty, formatEventLabel } from "@/lib/data/utils"
 
 const regionOptions = ["All", "Metro Manila", "Luzon", "Visayas", "Mindanao"] as const
 const sortOptions = [
@@ -20,7 +22,9 @@ const sortOptions = [
 
 const eventOptions = [
   "All",
-  ...Array.from(new Set(athleteSummaries.flatMap((athlete) => athlete.events ?? [athlete.specialty]))).sort(),
+  ...Array.from(new Set(athleteSummaries.flatMap((athlete) => athlete.events ?? [athlete.specialty]))).sort((a, b) =>
+    formatEventLabel(a).localeCompare(formatEventLabel(b)),
+  ),
 ]
 
 const getParam = (
@@ -84,7 +88,8 @@ const filterAthletes = ({
       [athlete.name, athlete.specialty, athlete.club, athlete.coach, athlete.location, athlete.membershipNumber]
         .filter(Boolean)
         .some((value) => value?.toLowerCase().includes(term)) ||
-      events.some((item) => item.toLowerCase().includes(term))
+      formatAthleteSpecialty(athlete.specialty).toLowerCase().includes(term) ||
+      events.some((item) => item.toLowerCase().includes(term) || formatEventLabel(item).toLowerCase().includes(term))
 
     const matchesRegion = region === "All" || classifyRegion(athlete.location) === region
     const matchesEvent = event === "All" || events.includes(event)
@@ -101,7 +106,7 @@ const athleteFacts = (athlete: AthleteSummary) =>
   [
     athlete.pb ? `PB ${athlete.pb}` : null,
     athlete.nationalRank ? `PH ${formatRank(athlete.nationalRank)}` : null,
-    athlete.events?.[0],
+    athlete.events?.[0] ? formatEventLabel(athlete.events[0]) : null,
   ].filter(Boolean) as string[]
 
 export default async function AthletesPage({
@@ -119,6 +124,13 @@ export default async function AthletesPage({
     ? getParam(resolvedSearchParams, "sort")
     : "relevance"
   const athletes = filterAthletes({ query, region, event, sort })
+  const sortLabel = sortOptions.find((option) => option.value === sort)?.label
+  const activeFilterSummary = [
+    query ? `Search: ${query}` : null,
+    event !== "All" ? formatEventLabel(event) : null,
+    region !== "All" ? region : null,
+    sort !== "relevance" && sortLabel ? `Sort: ${sortLabel}` : null,
+  ].filter(Boolean) as string[]
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,76 +139,81 @@ export default async function AthletesPage({
       <main className="core-main">
         <CoreDirectoryHeader title="Athletes" count={athletes.length} total={athleteSummaries.length} />
 
-        <form method="get" className="core-filter-bar">
-          <FieldGroup className="core-filter-grid !grid">
-            <Field>
-              <FieldLabel htmlFor="athlete-query" className="sr-only">
-                Search athletes
-              </FieldLabel>
-              <InputGroup>
-                <InputGroupAddon>
-                  <Search aria-hidden="true" />
-                </InputGroupAddon>
-                <InputGroupInput id="athlete-query" name="q" type="search" defaultValue={query} placeholder="Search athletes" />
-              </InputGroup>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="athlete-event" className="sr-only">
-                Event
-              </FieldLabel>
-              <NativeSelect id="athlete-event" name="event" defaultValue={event} aria-label="Event">
-              {eventOptions.map((option) => (
-                <NativeSelectOption key={option} value={option}>
-                  {option}
-                </NativeSelectOption>
-              ))}
-              </NativeSelect>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="athlete-region" className="sr-only">
-                Region
-              </FieldLabel>
-              <NativeSelect id="athlete-region" name="region" defaultValue={region} aria-label="Region">
-              {regionOptions.map((option) => (
-                <NativeSelectOption key={option} value={option}>
-                  {option}
-                </NativeSelectOption>
-              ))}
-              </NativeSelect>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="athlete-sort" className="sr-only">
-                Sort
-              </FieldLabel>
-              <NativeSelect id="athlete-sort" name="sort" defaultValue={sort} aria-label="Sort">
-              {sortOptions.map((option) => (
-                <NativeSelectOption key={option.value} value={option.value}>
-                  {option.label}
-                </NativeSelectOption>
-              ))}
-              </NativeSelect>
-            </Field>
-            <ButtonGroup className="w-full md:w-fit">
-              <Button type="submit">Apply</Button>
-              {query || region !== "All" || event !== "All" || sort !== "relevance" ? (
-                <Button asChild variant="ghost">
-                  <Link href="/athletes">Reset</Link>
-                </Button>
-              ) : null}
-            </ButtonGroup>
-          </FieldGroup>
-        </form>
+        <CoreFilterDisclosure
+          summary={activeFilterSummary.length ? activeFilterSummary.join(" · ") : "Search, event, region, sort"}
+          activeCount={activeFilterSummary.length}
+        >
+          <form method="get" className="core-filter-bar">
+            <FieldGroup className="core-filter-grid !grid">
+              <Field>
+                <FieldLabel htmlFor="athlete-query" className="sr-only">
+                  Search athletes
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon>
+                    <Search aria-hidden="true" />
+                  </InputGroupAddon>
+                  <InputGroupInput id="athlete-query" name="q" type="search" defaultValue={query} placeholder="Search athletes" />
+                </InputGroup>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="athlete-event" className="sr-only">
+                  Event
+                </FieldLabel>
+                <NativeSelect id="athlete-event" name="event" defaultValue={event} aria-label="Event">
+                  {eventOptions.map((option) => (
+                    <NativeSelectOption key={option} value={option}>
+                      {option === "All" ? "All events" : formatEventLabel(option)}
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="athlete-region" className="sr-only">
+                  Region
+                </FieldLabel>
+                <NativeSelect id="athlete-region" name="region" defaultValue={region} aria-label="Region">
+                  {regionOptions.map((option) => (
+                    <NativeSelectOption key={option} value={option}>
+                      {option}
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="athlete-sort" className="sr-only">
+                  Sort
+                </FieldLabel>
+                <NativeSelect id="athlete-sort" name="sort" defaultValue={sort} aria-label="Sort">
+                  {sortOptions.map((option) => (
+                    <NativeSelectOption key={option.value} value={option.value}>
+                      {option.label}
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
+              </Field>
+              <ButtonGroup className="w-full md:w-fit" aria-label="Athlete filter actions">
+                <Button type="submit">Apply</Button>
+                {query || region !== "All" || event !== "All" || sort !== "relevance" ? (
+                  <Button asChild variant="ghost">
+                    <Link href="/athletes">Reset</Link>
+                  </Button>
+                ) : null}
+              </ButtonGroup>
+            </FieldGroup>
+          </form>
+        </CoreFilterDisclosure>
 
         <CoreSection title="Athlete results">
           {athletes.length ? (
-            <div className="core-list">
+            <div className="core-list" data-testid="athlete-results-list">
               {athletes.map((athlete) => (
                 <CoreResultRow
                   key={athlete.id}
                   href={athlete.href}
                   eyebrow={athlete.pathwayStage ?? "Athlete"}
                   title={athlete.name}
-                  description={`${athlete.specialty} · ${athlete.club}`}
+                  description={`${formatAthleteSpecialty(athlete.specialty)} · ${athlete.club}`}
                   facts={athleteFacts(athlete)}
                   meta={athlete.location}
                 />

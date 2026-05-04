@@ -35,22 +35,31 @@ const eventDisplayMap: Record<string, string> = {
   "3000m steeplechase": "3000m steeplechase",
 }
 
-const toTitleCase = (value: string) =>
+const compactEventUnits = (value: string) =>
+  value
+    .replace(/\b(\d[\d,]*)\s*(?:metres|meters)\b/g, "$1m")
+    .replace(/\b(\d[\d,]*)\s*(?:kilometres|kilometers)\b/g, "$1km")
+
+const toEventSentenceCase = (value: string) =>
   value
     .split(" ")
     .filter(Boolean)
-    .map((part) => {
+    .map((part, index) => {
       if (/^\d/.test(part)) return part
+      if (/^u\d+$/i.test(part)) return part.toUpperCase()
+      if (index > 0) return part
       return part.charAt(0).toUpperCase() + part.slice(1)
     })
     .join(" ")
 
 export const normalizeEventKey = (value: string) => {
-  const base = normalizeKey(value)
-    .replace(/×/g, "x")
-    .replace(/\s+/g, " ")
-    .replace(/\s*,\s*/g, ",")
-    .trim()
+  const base = compactEventUnits(
+    normalizeKey(value)
+      .replace(/×/g, "x")
+      .replace(/\s+/g, " ")
+      .replace(/\s*,\s*/g, ",")
+      .trim(),
+  )
 
   if (!base) return ""
 
@@ -69,8 +78,20 @@ export const formatEventLabel = (value: string) => {
   const normalized = normalizeEventKey(value)
   if (!normalized) return ""
   if (eventDisplayMap[normalized]) return eventDisplayMap[normalized]
-  return toTitleCase(normalized)
+  return toEventSentenceCase(normalized)
 }
+
+const toInlineSpecialtyLabel = (value: string) =>
+  formatEventLabel(value)
+    .replace(/^([A-Z])(?=[a-z])/, (match) => match.toLowerCase())
+    .replace(/(\d+(?:,\d+)?m)-(\d+(?:,\d+)?m)/g, "$1 to $2")
+
+export const formatAthleteSpecialty = (value: string) =>
+  value
+    .split(/\s*\/\s*/)
+    .map((part) => part.split(/\s*,\s*/).map(toInlineSpecialtyLabel).filter(Boolean).join(", "))
+    .filter(Boolean)
+    .join(" · ")
 
 export const parseDateToTimestamp = (value?: string) => {
   if (!value) return null

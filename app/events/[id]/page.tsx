@@ -28,7 +28,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { getCompetitionByIdOrStub } from "@/lib/data/competitions"
-import { decodeIdParam, normalizeKey } from "@/lib/data/utils"
+import { decodeIdParam, formatEventLabel, normalizeKey } from "@/lib/data/utils"
 
 type EventIconLabelProps = {
   icon: LucideIcon
@@ -124,7 +124,7 @@ export default async function EventProfilePage({
                     <Badge key={event} variant="outline" className="core-fact">
                       <span className="event-programme-chip">
                         <Activity aria-hidden="true" />
-                        <span>{event}</span>
+                        <span>{formatEventLabel(event)}</span>
                       </span>
                     </Badge>
                   ))}
