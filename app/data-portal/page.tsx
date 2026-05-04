@@ -30,6 +30,7 @@ import {
   type Gender,
   type RankingEntry,
 } from "@/lib/data/performance-evidence"
+import { getCompetitionStatus, type CompetitionStatus } from "@/lib/data/competition-status"
 import { normalizeKey } from "@/lib/data/utils"
 
 const SAMPLE_CSV = `competition,event,round,athleteName,membershipNumber,athleteId,result,place,wind,note
@@ -46,7 +47,7 @@ type CompetitionMeta = {
   endDate: string
   organizer: string
   type: string
-  status: "Past" | "Upcoming"
+  status: CompetitionStatus
   source: "Demo data" | "World Athletics"
 }
 
@@ -155,9 +156,14 @@ const defaultMeta: CompetitionMeta = {
   endDate: "",
   organizer: "",
   type: "National",
-  status: "Past",
+  status: "Upcoming",
   source: "Demo data",
 }
+
+const withDerivedCompetitionStatus = (meta: CompetitionMeta): CompetitionMeta => ({
+  ...meta,
+  status: getCompetitionStatus(meta),
+})
 
 const normalizeHeader = (value: string) =>
   value
@@ -927,7 +933,7 @@ export default function DataPortalPage() {
       status: role === "certified" ? "published" : "pending",
       submittedAt: new Date().toISOString(),
       submittedBy: role,
-      competition: meta,
+      competition: withDerivedCompetitionStatus(meta),
       rows: mappedRows,
       issues: validation.issues,
     }
@@ -1236,12 +1242,13 @@ export default function DataPortalPage() {
                         id={`meta-field-${field.key}`}
                         value={meta[field.key as keyof CompetitionMeta] as string}
                         data-testid={`meta-${field.key}`}
-                        onChange={(event) =>
-                          setMeta((prev) => ({
-                            ...prev,
-                            [field.key]: event.target.value,
-                          }))
-                        }
+                        onChange={(event) => {
+                          const key = field.key as keyof CompetitionMeta
+                          setMeta((prev) => {
+                            const next = { ...prev, [key]: event.target.value }
+                            return key === "startDate" || key === "endDate" ? withDerivedCompetitionStatus(next) : next
+                          })
+                        }}
                       />
                     </div>
                   ))}
@@ -1249,21 +1256,12 @@ export default function DataPortalPage() {
                     <Label htmlFor="meta-field-status" className="text-xs font-semibold uppercase">
                       Status
                     </Label>
-                    <select
+                    <Input
                       id="meta-field-status"
-                      className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                       value={meta.status}
                       data-testid="meta-status"
-                      onChange={(event) =>
-                        setMeta((prev) => ({
-                          ...prev,
-                          status: event.target.value as CompetitionMeta["status"],
-                        }))
-                      }
-                    >
-                      <option value="Past">Past</option>
-                      <option value="Upcoming">Upcoming</option>
-                    </select>
+                      readOnly
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="meta-field-source" className="text-xs font-semibold uppercase">
@@ -1521,7 +1519,7 @@ export default function DataPortalPage() {
 
                       {meta.status === "Upcoming" ? (
                         <div className="rounded-lg border border-dashed border-border bg-muted/40 p-3 text-xs text-muted-foreground">
-                          Public view hides results for upcoming competitions. Set status to “Past” to preview results.
+                          Public view hides results until the event has ended.
                         </div>
                       ) : (
                         filteredPreviewBlocks.length === 0 ? (

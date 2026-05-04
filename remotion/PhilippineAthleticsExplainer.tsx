@@ -12,7 +12,7 @@ import {
 import {athleteSummaries} from "../lib/data/athletes";
 import {clubs} from "../lib/data/clubs";
 import {coaches} from "../lib/data/coaches";
-import {competitions} from "../lib/data/competitions";
+import {getCompetitions} from "../lib/data/competitions";
 import {demoFlowConfigs} from "../lib/demo/flows";
 
 const SCENE_DURATIONS = {
@@ -46,6 +46,7 @@ const recognizedClubs = clubs.filter(
 const recognizedCoaches = coaches.filter(
   (coach) => coach.isRecognized || (coach.recognitions?.length ?? 0) > 0,
 ).length;
+const competitions = getCompetitions();
 
 const introStats = [
   {label: "Athletes", value: athleteSummaries.length},

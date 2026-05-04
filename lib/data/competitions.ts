@@ -1,4 +1,14 @@
+import { getCompetitionStatus, getCurrentCompetitionDateKey } from "./competition-status"
+import type { CompetitionStatus } from "./competition-status"
 import { matchesIdOrSlug, slugify } from "./utils"
+
+export {
+  competitionStatusOptions,
+  getCompetitionStatus,
+  getCurrentCompetitionDateKey,
+  sortCompetitionsForStatus,
+} from "./competition-status"
+export type { CompetitionStatus, CompetitionStatusFilter } from "./competition-status"
 
 export type CompetitionSource = {
   label: string
@@ -47,7 +57,7 @@ export type Competition = {
   medalists: string[]
   ticketInfo: string
   sponsor: string
-  status: "Upcoming" | "Past"
+  status: CompetitionStatus
   dateLabel: string
   series?: string
   tier?: CompetitionTier
@@ -62,6 +72,11 @@ export type Competition = {
 }
 
 const sourceUpdated = "Verified May 1, 2026"
+
+const applyCurrentCompetitionStatus = (competition: Competition, currentDateKey = getCurrentCompetitionDateKey()): Competition => ({
+  ...competition,
+  status: getCompetitionStatus(competition, currentDateKey),
+})
 
 const worldRelaysSource: CompetitionSource = {
   label: "World Athletics Relays Gaborone 26",
@@ -829,7 +844,7 @@ const marathonMajors: Competition[] = [
   }),
 ]
 
-export const competitions: Competition[] = [
+const baseCompetitions: Competition[] = [
   ...championshipEvents.slice(0, 1),
   ...diamondLeagueMeets,
   ...continentalGoldMeets,
@@ -842,11 +857,14 @@ export const competitions: Competition[] = [
   ...marathonMajors.slice(1),
 ].sort((a, b) => a.startDate.localeCompare(b.startDate) || a.name.localeCompare(b.name))
 
-export const getCompetitionById = (idOrSlug: string) =>
-  competitions.find((competition) => matchesIdOrSlug(competition, idOrSlug))
+export const getCompetitions = (currentDateKey = getCurrentCompetitionDateKey()) =>
+  baseCompetitions.map((competition) => applyCurrentCompetitionStatus(competition, currentDateKey))
+
+export const getCompetitionById = (idOrSlug: string, currentDateKey = getCurrentCompetitionDateKey()) =>
+  getCompetitions(currentDateKey).find((competition) => matchesIdOrSlug(competition, idOrSlug))
 
 export const getCompetitionResultsByAthleteId = (athleteId: string) =>
-  competitions.flatMap((competition) =>
+  baseCompetitions.flatMap((competition) =>
     (competition.results ?? []).flatMap((eventBlock) =>
       eventBlock.entries
         .filter((entry) => entry.athleteId === athleteId)
@@ -862,8 +880,8 @@ export const getCompetitionResultsByAthleteId = (athleteId: string) =>
     ),
   )
 
-export const getCompetitionByIdOrStub = (idOrSlug: string): Competition => {
-  const competition = getCompetitionById(idOrSlug)
+export const getCompetitionByIdOrStub = (idOrSlug: string, currentDateKey = getCurrentCompetitionDateKey()): Competition => {
+  const competition = getCompetitionById(idOrSlug, currentDateKey)
   if (competition) return competition
   const name = idOrSlug.replace(/-/g, " ") || "Competition"
   return {

@@ -205,6 +205,98 @@
     @apply grid min-h-[4.15rem] grid-cols-[auto_1fr_auto] items-center gap-3 lg:gap-5;
   }
 
+  .shell-brand {
+    @apply relative -ml-2 flex min-w-0 items-center gap-3 rounded-xl px-2 py-1.5 outline-none transition-[background-color,box-shadow,transform] duration-200;
+  }
+
+  .shell-brand::after {
+    content: "";
+    position: absolute;
+    right: 0.625rem;
+    bottom: 0.28rem;
+    left: 4rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--pa-icon-blue), var(--pa-icon-red), var(--pa-icon-gold));
+    opacity: 0;
+    transform: scaleX(0.42);
+    transform-origin: left;
+    transition: opacity 180ms ease, transform 220ms ease;
+  }
+
+  .shell-brand:is(:hover, :focus-visible) {
+    background-color: color-mix(in oklab, var(--card) 80%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--pa-hover-stroke) 44%, transparent),
+      var(--shadow-soft);
+    transform: translateY(-1px);
+  }
+
+  .shell-brand:is(:hover, :focus-visible)::after {
+    opacity: 0.82;
+    transform: scaleX(1);
+  }
+
+  .shell-brand-mark {
+    @apply relative flex size-11 shrink-0 items-center justify-center rounded-full transition-[box-shadow,transform] duration-200;
+  }
+
+  .shell-brand-mark::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    opacity: 0;
+    transform: scale(0.88);
+    transition: border-color 180ms ease, box-shadow 200ms ease, opacity 180ms ease, transform 220ms ease;
+  }
+
+  .shell-brand-seal {
+    @apply relative flex size-11 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-white p-0.5 shadow-[var(--shadow-soft)] transition-[border-color,box-shadow] duration-200;
+  }
+
+  .shell-brand-image {
+    @apply h-full w-full object-contain transition-[filter,transform] duration-200;
+  }
+
+  .shell-brand-title {
+    @apply block truncate text-sm font-semibold tracking-normal text-foreground transition-colors duration-200;
+  }
+
+  .shell-brand-subtitle {
+    @apply hidden text-[11px] text-muted-foreground transition-colors duration-200 sm:block;
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-mark {
+    transform: scale(1.035);
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-mark::before {
+    border-color: var(--pa-hover-stroke-strong);
+    box-shadow: 0 0 0 3px var(--pa-hover-stroke-glow);
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-seal {
+    border-color: color-mix(in oklab, var(--pa-hover-stroke-strong) 74%, var(--border));
+    box-shadow: 0 18px 38px -28px rgba(7, 28, 58, 0.48);
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-image {
+    filter: saturate(1.08) contrast(1.04);
+    transform: scale(1.055) rotate(-2deg);
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-title {
+    color: var(--primary);
+  }
+
+  .shell-brand:is(:hover, :focus-visible) .shell-brand-subtitle {
+    color: color-mix(in oklab, var(--foreground) 76%, var(--muted-foreground));
+  }
+
   .shell-partner-rail {
     @apply border-b border-border/70 bg-background/88 backdrop-blur-xl;
   }
@@ -318,6 +410,102 @@
   [data-slot="table-row"]:is(:hover, [data-state="selected"], [aria-expanded="true"]) {
     background-color: transparent !important;
     box-shadow: inset 3px 0 0 var(--pa-hover-stroke) !important;
+  }
+
+  .shell-nav-cluster {
+    @apply flex items-center gap-1 rounded-lg border border-border bg-background/76 p-1;
+  }
+
+  .shell-nav-link {
+    @apply relative isolate inline-flex items-center gap-2 overflow-hidden rounded-md border px-3 py-2 text-sm font-medium outline-none transition-[background-color,border-color,box-shadow,color,transform] duration-200;
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--muted-foreground);
+  }
+
+  .shell-nav-link::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: calc(var(--radius) - 1px);
+    background:
+      radial-gradient(circle at 22% 0%, color-mix(in oklab, var(--pa-icon-blue) 18%, transparent), transparent 42%),
+      linear-gradient(180deg, color-mix(in oklab, var(--card) 72%, transparent), transparent);
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 180ms ease, transform 220ms ease;
+  }
+
+  .shell-nav-link::after {
+    content: "";
+    position: absolute;
+    right: 0.65rem;
+    bottom: 0.3rem;
+    left: 0.65rem;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--pa-icon-blue), var(--pa-icon-red), var(--pa-icon-gold));
+    opacity: 0;
+    transform: scaleX(0.35);
+    transform-origin: left;
+    transition: opacity 180ms ease, transform 220ms ease;
+  }
+
+  .shell-nav-icon {
+    @apply relative z-10 flex size-5 items-center justify-center rounded-full transition-[background-color,box-shadow,color,transform] duration-200;
+  }
+
+  .shell-nav-label {
+    @apply relative z-10 transition-colors duration-200;
+  }
+
+  .shell-nav-link[data-active="true"] {
+    border-color: color-mix(in oklab, var(--border) 82%, transparent);
+    background-color: var(--secondary);
+    color: var(--foreground);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--card) 54%, transparent);
+  }
+
+  .shell-nav-link[data-active="true"]::after {
+    opacity: 0.48;
+    transform: scaleX(0.72);
+  }
+
+  .shell-nav-link[data-active="true"] .shell-nav-icon {
+    color: var(--primary);
+    background-color: color-mix(in oklab, var(--card) 72%, transparent);
+  }
+
+  .shell-nav-link:is(:hover, :focus-visible) {
+    border-color: var(--pa-hover-stroke-strong) !important;
+    background-color: color-mix(in oklab, var(--card) 80%, transparent) !important;
+    color: var(--foreground) !important;
+    box-shadow:
+      0 0 0 3px var(--pa-hover-stroke-glow),
+      0 14px 30px -26px rgba(7, 28, 58, 0.42) !important;
+    transform: translateY(-1px);
+  }
+
+  .shell-nav-link:is(:hover, :focus-visible)::before {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .shell-nav-link:is(:hover, :focus-visible)::after {
+    opacity: 0.84;
+    transform: scaleX(1);
+  }
+
+  .shell-nav-link:is(:hover, :focus-visible) .shell-nav-icon {
+    color: var(--primary);
+    background-color: color-mix(in oklab, var(--pa-hover-stroke) 18%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--pa-hover-stroke-glow) 72%, transparent);
+    transform: translateY(-1px) scale(1.08);
+  }
+
+  .shell-nav-link:is(:hover, :focus-visible) .shell-nav-label {
+    color: var(--primary);
   }
 
   .core-hero {
@@ -1028,6 +1216,30 @@
   @media (prefers-reduced-motion: reduce) {
     .background-video {
       display: none;
+    }
+
+    .shell-brand,
+    .shell-brand::after,
+    .shell-brand-mark,
+    .shell-brand-mark::before,
+    .shell-brand-seal,
+    .shell-brand-image,
+    .shell-brand-title,
+    .shell-brand-subtitle,
+    .shell-nav-link,
+    .shell-nav-link::before,
+    .shell-nav-link::after,
+    .shell-nav-icon,
+    .shell-nav-label {
+      transition-duration: 0ms;
+    }
+
+    .shell-brand:is(:hover, :focus-visible),
+    .shell-brand:is(:hover, :focus-visible) .shell-brand-mark,
+    .shell-brand:is(:hover, :focus-visible) .shell-brand-image,
+    .shell-nav-link:is(:hover, :focus-visible),
+    .shell-nav-link:is(:hover, :focus-visible) .shell-nav-icon {
+      transform: none;
     }
   }
 }

@@ -66,6 +66,13 @@ export default async function EventProfilePage({
   const countryLabel = competition.countries ? competition.countries.toLocaleString() : "TBD"
   const dateRangeLabel =
     competition.startDate === competition.endDate ? competition.startDate : `${competition.startDate} - ${competition.endDate}`
+  const isUpcoming = competition.status === "Upcoming"
+  const emptyResultsTitle = isUpcoming ? "Results pending" : selectedEventKey ? "No results found" : "Results not linked yet"
+  const emptyResultsDescription = isUpcoming
+    ? "Results will be posted after the event."
+    : selectedEventKey
+      ? "No results match this filter."
+      : "This event has ended, but result blocks have not been attached to this profile yet."
   const eventFacts: Array<{ label: string; value: ReactNode; icon: LucideIcon }> = [
     { label: "Dates", value: dateRangeLabel, icon: CalendarDays },
     { label: "Series", value: competition.series ?? competition.type, icon: Layers },
@@ -136,7 +143,7 @@ export default async function EventProfilePage({
 
             <CoreSection
               title={<EventIconLabel icon={Radio}>Results</EventIconLabel>}
-              description={competition.status === "Upcoming" ? "Results will appear after the event." : "Open an athlete result to jump into the linked athlete profile."}
+              description={isUpcoming ? "Results will appear after the event." : "Open an athlete result to jump into the linked athlete profile."}
               actions={
                 results.length ? (
                   <ButtonGroup className="flex-wrap">
@@ -230,8 +237,8 @@ export default async function EventProfilePage({
                 </div>
               ) : (
                 <EmptyState
-                  title={competition.status === "Upcoming" ? "Results pending" : "No results found"}
-                  description={competition.status === "Upcoming" ? "Results will be posted after the event." : "No results match this filter."}
+                  title={emptyResultsTitle}
+                  description={emptyResultsDescription}
                 />
               )}
             </CoreSection>

@@ -5,18 +5,27 @@ test("Flow: events list opens event detail and athlete result", async ({ page })
   const testInfo = test.info()
 
   await page.goto("/events?status=All&q=Fresh")
-  await expect(page.getByRole("heading", { name: /track the world athletics calendar/i })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Events" })).toBeVisible()
   await expect(page.getByText(/No events found/i)).toBeVisible()
 
   await checkA11y(page, testInfo, "events-empty")
 
-  await page.goto("/events?status=Upcoming&q=Doha")
+  await page.goto("/events")
+  await expect(page.getByRole("link", { name: /world athletics relays gaborone 26/i })).toHaveCount(0)
+
+  await page.goto("/events?status=Past")
+  await expect(page.getByRole("link", { name: /world athletics relays gaborone 26/i })).toBeVisible()
+  await expect(page.getByText(/Past · Must-watch/i)).toBeVisible()
+
+  await page.goto("/events?status=All&q=Doha")
   await expect(page.getByRole("link", { name: /wanda diamond league doha/i })).toBeVisible()
   await expect(page.getByText(/19 June 2026/i)).toBeVisible()
 
   await page.goto("/events/world-athletics-relays-gaborone-2026")
   await expect(page.getByRole("heading", { name: /world athletics relays gaborone 26/i })).toBeVisible()
-  await expect(page.getByText(/Mixed 4x100m relay/i)).toBeVisible()
+  await expect(page.getByText(/^Past$/i)).toBeVisible()
+  await expect(page.getByText(/4.100m relay/i).first()).toBeVisible()
+  await expect(page.getByText(/Results not linked yet/i)).toBeVisible()
   await expect(page.getByText(/World Athletics Relays key information/i)).toBeVisible()
 
   await page.goto("/events/wanda-diamond-league-doha-2026")

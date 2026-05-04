@@ -6,7 +6,9 @@ import { CoreHero, CoreResultRow, CoreSection, EmptyState, AppFooter } from "@/c
 import { CoreSearchJump } from "@/components/site/core-search-jump"
 import { LordIcon } from "@/components/site/lord-icon"
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item"
-import { competitions } from "@/lib/data/competitions"
+import { getCompetitions, sortCompetitionsForStatus } from "@/lib/data/competitions"
+
+export const dynamic = "force-dynamic"
 
 const pathways = [
   {
@@ -36,7 +38,10 @@ const pathways = [
 ]
 
 export default function Home() {
-  const upcoming = competitions.filter((competition) => competition.status === "Upcoming")
+  const upcoming = sortCompetitionsForStatus(
+    getCompetitions().filter((competition) => competition.status === "Upcoming"),
+    "Upcoming",
+  )
 
   return (
     <div className="min-h-screen bg-background text-foreground">

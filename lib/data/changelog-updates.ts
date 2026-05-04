@@ -22,6 +22,21 @@ export type ProductUpdateEntry = {
 
 export const productUpdates: ProductUpdateEntry[] = [
   {
+    id: "2026-05-04-automatic-event-status",
+    date: "2026-05-04",
+    title: "Automatic event status",
+    category: ["Competition", "Data", "Reliability"],
+    summary:
+      "Added date-aware event status calculation so public event surfaces automatically separate past and upcoming competitions.",
+    highlights: [
+      "Derives Upcoming/Past from each event's start and end date at render time instead of trusting static labels in the data file.",
+      "Updated event lists, event profiles, homepage cards, news cards, and results-intake preview state to stay in sync with the current date.",
+      "Changed past-event empty-result messaging so completed events without attached results no longer read like future pending events.",
+    ],
+    whyItMatters:
+      "Keeps the calendar useful without manual maintenance and prevents stale labels from confusing users when an event has already ended.",
+  },
+  {
     id: "2026-05-01-club-online-links",
     date: "2026-05-01",
     title: "Club online links",

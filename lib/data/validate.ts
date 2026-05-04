@@ -1,7 +1,7 @@
 import { athleteProfiles, athleteSummaries } from "./athletes"
 import { clubs } from "./clubs"
 import { coaches } from "./coaches"
-import { competitions } from "./competitions"
+import { getCompetitions } from "./competitions"
 import { buildRankingsForAthletes, getAgeGroup, getBestResultForEvent, getRankingYearsFromAthletes, toCanonicalEventKey } from "./performance-evidence"
 import { resolveRoster, sponsors } from "./sponsors"
 import { formatEventLabel, normalizeEventKey } from "./utils"
@@ -15,6 +15,7 @@ const normalizeRank = (rank?: string | number) => {
 
 export const validateDataIntegrity = (): ValidationIssue[] => {
   const issues: ValidationIssue[] = []
+  const competitions = getCompetitions()
 
   // Athlete references
   athleteSummaries.forEach((athlete) => {

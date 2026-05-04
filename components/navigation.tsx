@@ -51,29 +51,31 @@ export function Navigation() {
       <nav className="shell-surface">
         <div className="page-shell">
           <div className="shell-inner">
-            <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Philippine Athletics home">
-              <span className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-white p-0.5 shadow-[var(--shadow-soft)]">
-                <Image
-                  src="/brand/philippine-athletics-seal.png"
-                  alt=""
-                  width={44}
-                  height={42}
-                  priority
-                  className="h-full w-full object-contain"
-                />
+            <Link href="/" className="shell-brand group" aria-label="Philippine Athletics home">
+              <span className="shell-brand-mark" aria-hidden="true">
+                <span className="shell-brand-seal">
+                  <Image
+                    src="/brand/philippine-athletics-seal.png"
+                    alt=""
+                    width={44}
+                    height={42}
+                    priority
+                    className="shell-brand-image"
+                  />
+                </span>
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold tracking-normal text-foreground">
+                <span className="shell-brand-title">
                   Philippine Athletics
                 </span>
-                <span className="hidden text-[11px] text-muted-foreground sm:block">
+                <span className="shell-brand-subtitle">
                   Athletes, clubs, coaches, events
                 </span>
               </span>
             </Link>
 
             <div className="hidden min-w-0 items-center justify-center md:flex" aria-label="Primary">
-              <div className="flex items-center gap-1 rounded-lg border border-border bg-background/76 p-1">
+              <div className="shell-nav-cluster">
                 {coreLinks.map((link) => {
                   const Icon = link.icon
                   const active = isActive(pathname, link.href)
@@ -82,16 +84,14 @@ export function Navigation() {
                       key={link.href}
                       href={link.href}
                       data-slot="nav-link"
+                      data-active={active ? "true" : undefined}
                       aria-current={active ? "page" : undefined}
-                      className={cn(
-                        "inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-[color,background-color,border-color,box-shadow]",
-                        active
-                          ? "border-border/70 bg-secondary text-foreground"
-                          : "border-transparent bg-transparent text-muted-foreground hover:text-foreground",
-                      )}
+                      className={cn("shell-nav-link", active && "is-active")}
                     >
-                      <Icon className="size-4" aria-hidden="true" />
-                      {link.label}
+                      <span className="shell-nav-icon" aria-hidden="true">
+                        <Icon className="size-4" />
+                      </span>
+                      <span className="shell-nav-label">{link.label}</span>
                     </Link>
                   )
                 })}

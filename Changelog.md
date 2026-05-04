@@ -8,6 +8,11 @@ Template (copy/paste for new entries):
 - Change 2 (what changed + why it matters).
 - Change 3 (optional).
 
+## 2026-05-04 — Automatic event status
+- Added date-aware event status calculation so event listings, event profiles, homepage cards, and news cards automatically move events from Upcoming to Past after their end date.
+- Updated past-event result messaging so completed events without attached results no longer read like future events.
+- Made the results-intake preview derive status from event dates instead of relying on a manual stale dropdown.
+
 ## 2026-05-01 — Club online links
 - Added first-class club website and social-link fields so external websites are no longer mislabeled as map links.
 - Updated the FilAm Sports profile with its official website and Instagram link in a dedicated Online section.

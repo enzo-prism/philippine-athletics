@@ -6,12 +6,19 @@ import { Navigation } from "@/components/navigation"
 import { AppFooter, PageIntro, PageSection } from "@/components/site/page-primitives"
 import { Button } from "@/components/ui/button"
 import { athleteSummaries } from "@/lib/data/athletes"
-import { competitions } from "@/lib/data/competitions"
+import { getCompetitions, sortCompetitionsForStatus } from "@/lib/data/competitions"
 import { federationStories } from "@/lib/data/federation"
+
+export const dynamic = "force-dynamic"
 
 export default function NewsPage() {
   const featuredAthlete = athleteSummaries[0]
-  const upcomingEvent = competitions.find((competition) => competition.status === "Upcoming") ?? competitions[0]
+  const competitions = getCompetitions()
+  const upcomingEvent =
+    sortCompetitionsForStatus(
+      competitions.filter((competition) => competition.status === "Upcoming"),
+      "Upcoming",
+    )[0] ?? competitions[0]
 
   return (
     <div className="min-h-screen bg-background">
