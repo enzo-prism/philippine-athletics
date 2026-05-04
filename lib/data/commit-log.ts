@@ -29,9 +29,149 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-01T19:35:25.519Z"
+export const commitLogUpdatedAt = "2026-05-04T16:02:11.964Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "57758140da9eeb568717656db12b02d305fb9d82",
+    "shortHash": "5775814",
+    "subject": "fix: align mobile directory filters and event labels",
+    "author": "enzo-prism",
+    "date": "2026-05-04T09:02:03-07:00",
+    "stats": {
+      "files": 12,
+      "insertions": 405,
+      "deletions": 178,
+      "summary": ""
+    },
+    "areas": [
+      "app",
+      "components",
+      "data",
+      "other"
+    ],
+    "tags": [
+      "Athletes",
+      "Clubs",
+      "App Pages",
+      "Coaches",
+      "Components",
+      "Demo Data"
+    ],
+    "summary": "Fixed Core screens, Shared interface, Sample data, General updates.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Fixed athlete profiles, club pages, and core screens.",
+    "plainNotes": [
+      "Focused on reliability and reducing friction.",
+      "Made athlete profiles clearer and easier to browse.",
+      "Improved club pages and roster visibility.",
+      "Improved core screens and layouts."
+    ],
+    "plainImpact": "Makes athlete profiles clearer and easier to share. Helps families evaluate clubs and training options.",
+    "files": [
+      {
+        "path": "app/athletes/[id]/page.tsx",
+        "additions": 4,
+        "deletions": 4
+      },
+      {
+        "path": "app/athletes/page.tsx",
+        "additions": 81,
+        "deletions": 64
+      },
+      {
+        "path": "app/clubs/[id]/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/clubs/page.tsx",
+        "additions": 30,
+        "deletions": 23
+      },
+      {
+        "path": "app/coaches/[id]/page.tsx",
+        "additions": 3,
+        "deletions": 3
+      },
+      {
+        "path": "app/coaches/page.tsx",
+        "additions": 30,
+        "deletions": 23
+      },
+      {
+        "path": "app/events/[id]/page.tsx",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 58,
+        "deletions": 47
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 48,
+        "deletions": 1
+      },
+      {
+        "path": "components/site/core-filter-disclosure.tsx",
+        "additions": 66,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/utils.ts",
+        "additions": 29,
+        "deletions": 8
+      },
+      {
+        "path": "tests/flows/flow-layout-and-ops.spec.ts",
+        "additions": 51,
+        "deletions": 0
+      }
+    ]
+  },
+  {
+    "hash": "d92db8800c715586c838d317076cf8cf9a78afd1",
+    "shortHash": "d92db88",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-01T12:35:31-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 105,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 105,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "85a6791c7339c72d94e3004d47a99e754b2df859",
     "shortHash": "85a6791",
