@@ -29,9 +29,157 @@ export type CommitLogEntry = {
   files: CommitFile[]
 }
 
-export const commitLogUpdatedAt = "2026-05-04T16:02:11.964Z"
+export const commitLogUpdatedAt = "2026-05-04T16:28:25.788Z"
 
 export const commitLog: CommitLogEntry[] = [
+  {
+    "hash": "f7a0deeb5929abdbbb6369d8b385967a52cdcc84",
+    "shortHash": "f7a0dee",
+    "subject": "feat: automate event status and polish nav hovers",
+    "author": "enzo-prism",
+    "date": "2026-05-04T09:28:20-07:00",
+    "stats": {
+      "files": 14,
+      "insertions": 437,
+      "deletions": 94,
+      "summary": ""
+    },
+    "areas": [
+      "other",
+      "app",
+      "components",
+      "data"
+    ],
+    "tags": [
+      "Results Intake",
+      "App Pages",
+      "Navigation",
+      "Demo Data"
+    ],
+    "summary": "Added General updates, Core screens, Shared interface, Sample data.",
+    "notes": [
+      "Updated core screens and key flows.",
+      "Refined shared UI pieces for consistency.",
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Added result submissions, core screens, and navigation.",
+    "plainNotes": [
+      "Refined the result submission and preview flow.",
+      "Improved core screens and layouts.",
+      "Made navigation easier to follow.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Helps capture official results even without external feeds. Improves discoverability of key areas.",
+    "files": [
+      {
+        "path": "Changelog.md",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "app/data-portal/page.tsx",
+        "additions": 20,
+        "deletions": 22
+      },
+      {
+        "path": "app/events/[id]/page.tsx",
+        "additions": 10,
+        "deletions": 3
+      },
+      {
+        "path": "app/events/page.tsx",
+        "additions": 38,
+        "deletions": 32
+      },
+      {
+        "path": "app/globals.css",
+        "additions": 212,
+        "deletions": 0
+      },
+      {
+        "path": "app/news/page.tsx",
+        "additions": 9,
+        "deletions": 2
+      },
+      {
+        "path": "app/page.tsx",
+        "additions": 7,
+        "deletions": 2
+      },
+      {
+        "path": "components/navigation.tsx",
+        "additions": 21,
+        "deletions": 21
+      },
+      {
+        "path": "lib/data/changelog-updates.ts",
+        "additions": 15,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/competition-status.ts",
+        "additions": 59,
+        "deletions": 0
+      },
+      {
+        "path": "lib/data/competitions.ts",
+        "additions": 25,
+        "deletions": 7
+      },
+      {
+        "path": "lib/data/validate.ts",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "remotion/PhilippineAthleticsExplainer.tsx",
+        "additions": 2,
+        "deletions": 1
+      },
+      {
+        "path": "tests/flows/flow-competitions.spec.ts",
+        "additions": 12,
+        "deletions": 3
+      }
+    ]
+  },
+  {
+    "hash": "15a878f7aab74f03e72d12f881a96e086c177ffb",
+    "shortHash": "15a878f",
+    "subject": "chore: sync changelog commit log snapshot",
+    "author": "enzo-prism",
+    "date": "2026-05-04T09:02:12-07:00",
+    "stats": {
+      "files": 1,
+      "insertions": 141,
+      "deletions": 1,
+      "summary": ""
+    },
+    "areas": [
+      "data"
+    ],
+    "tags": [
+      "Changelog",
+      "Demo Data"
+    ],
+    "summary": "Updated Sample data.",
+    "notes": [
+      "Improved the sample data used in the demo."
+    ],
+    "plainSummary": "Refreshed update timeline and sample data.",
+    "plainNotes": [
+      "Improved how updates are shared in plain language.",
+      "Refreshed sample data for more realistic browsing."
+    ],
+    "plainImpact": "Keeps everyone aligned on progress. Makes the demo feel more complete and realistic.",
+    "files": [
+      {
+        "path": "lib/data/commit-log.ts",
+        "additions": 141,
+        "deletions": 1
+      }
+    ]
+  },
   {
     "hash": "57758140da9eeb568717656db12b02d305fb9d82",
     "shortHash": "5775814",
